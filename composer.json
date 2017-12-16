@@ -1,0 +1,21 @@
+{
+	"name": "Projeto MVC",
+	"require": {
+		"php": ">=5.3"
+	},
+	"authors": [
+		{
+			"name": "Lucas da Silva Rosa",
+			"email": "lucas.tarta@hotmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"App\\" : "app/",
+			"ProjetoMvc\\" : "vendor/projetoMvc"
+		}
+	},
+	"config": {
+		"bin-dir": "vendor/bin"
+	}
+}
