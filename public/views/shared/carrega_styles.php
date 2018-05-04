@@ -5,4 +5,4 @@ if (! defined('ABSPATH')){
 }
 ?>
 
-<link href="/public/css/estilo.css" rel="stylesheet" type="text/css" />
+<link href="<?= URL_CSS ?>estilo.css" rel="stylesheet" type="text/css" />

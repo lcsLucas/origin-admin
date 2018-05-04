@@ -8,14 +8,17 @@ if (! defined('ABSPATH')){
 
 date_default_timezone_set("Brazil/East");
 
+//configura para o cookie da sessão ser acessado somente por HTTP
+//impedindo acesso via javascript
+ini_set('default_charset','UTF-8');    
+ini_set('session.cookie_httponly',1);
+ini_set('session.use_only_cookies',1);
+
 /*inicia sessão*/
 session_name(md5('seg' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 session_start();
 
-//configura para o cookie da sessão ser acessado somente por HTTP
-//impedindo acesso via javascript
-ini_set('session.cookie_httponly',1);
-ini_set('session.use_only_cookies',1);
+
 
 /*configura debug*/
 if (! defined('DEBUG') || DEBUG === false ) :

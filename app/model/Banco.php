@@ -58,19 +58,18 @@ class Banco{
         $this->con->beginTransaction();
     }
 
-    public function rollBack()
-    {
-        $this->con->rollBack();
-    }
-
     public function getLastInsertId()
     {
         return $this->con->lastInsertId();
     }
 
-    public function commit()
+    public function commitar($resp)
     {
-        $this->con->commit();
+        if ($resp) {
+            return $this->con->commit();
+        } else {
+            return $this->con->rollBack();
+        }        
     }
 
     public function desconectar()

@@ -4,6 +4,12 @@ if (! defined('ABSPATH')){
     exit();
 }
 ?>
-<footer class="container" id="rodape">
+            <footer class="container" id="rodape">
 
-</footer>
+            </footer>
+        </div>
+
+        <?php include_once PATH_VIEWS.'shared/carrega_scripts.php'; ?>
+        <?= $this->renderJs(); //renderiza o js incorporado da pagina?>
+    </body>
+</html>
