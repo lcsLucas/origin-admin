@@ -11,10 +11,6 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
         array (
             'ProjetoMvc\\' => 11,
         ),
-        'F' => 
-        array (
-            'Faker\\' => 6,
-        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -24,36 +20,12 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
     public static $prefixDirsPsr4 = array (
         'ProjetoMvc\\' => 
         array (
-            0 => __DIR__ . '/..' . '/ProjetoMvc',
-        ),
-        'Faker\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/fzaninotto/Faker/src',
+            0 => __DIR__ . '/..' . '/projetoMvc',
         ),
         'App\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/App',
+            0 => __DIR__ . '/../..' . '/app',
         ),
-    );
-
-    public static $classMap = array (
-        'App\\Controllers\\ClienteController' => __DIR__ . '/../..' . '/App/Controllers/ClienteController.php',
-        'App\\Controllers\\HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
-        'App\\Controllers\\PedidoController' => __DIR__ . '/../..' . '/App/Controllers/PedidoController.php',
-        'App\\Controllers\\ProdutoController' => __DIR__ . '/../..' . '/App/Controllers/ProdutoController.php',
-        'App\\Controllers\\UsuarioController' => __DIR__ . '/../..' . '/App/Controllers/UsuarioController.php',
-        'App\\Init' => __DIR__ . '/../..' . '/App/Init.php',
-        'App\\Util\\Banco' => __DIR__ . '/../..' . '/App/Util/Banco.php',
-        'App\\dao\\ClienteDAO' => __DIR__ . '/../..' . '/App/dao/ClienteDAO.php',
-        'App\\dao\\PedidoDAO' => __DIR__ . '/../..' . '/App/dao/PedidoDAO.php',
-        'App\\dao\\ProdutoDAO' => __DIR__ . '/../..' . '/App/dao/ProdutoDAO.php',
-        'App\\dao\\UsuarioDAO' => __DIR__ . '/../..' . '/App/dao/UsuarioDAO.php',
-        'App\\model\\Cliente' => __DIR__ . '/../..' . '/App/model/Cliente.php',
-        'App\\model\\Pedido' => __DIR__ . '/../..' . '/App/model/Pedido.php',
-        'App\\model\\Produto' => __DIR__ . '/../..' . '/App/model/Produto.php',
-        'App\\model\\Retorno' => __DIR__ . '/../..' . '/App/model/Retorno.php',
-        'App\\model\\Usuario' => __DIR__ . '/../..' . '/App/model/Usuario.php',
-        'ProjetoMvc\\Render\\Action' => __DIR__ . '/..' . '/ProjetoMvc/Render/Action.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -61,7 +33,6 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d::$classMap;
 
         }, null, ClassLoader::class);
     }

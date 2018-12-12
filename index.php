@@ -4,10 +4,10 @@
  */
 require_once 'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 /*
- *Seta alguns configuraÃ§Ãµes do site
+ * configurações do sistema
  */
 require_once 'app'.DIRECTORY_SEPARATOR.'util'.DIRECTORY_SEPARATOR.'config.php';
 /*
- * Instancia a aplicaÃ§Ã£o
+ * Instancia a a aplicação
  */
 $init = new \App\init();

@@ -18,9 +18,7 @@ ini_set('session.use_only_cookies',1);
 session_name(md5('seg' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 session_start();
 
-
-
-/*configura debug*/
+/*configuração debug*/
 if (! defined('DEBUG') || DEBUG === false ) :
 	 // Esconde todos os erros
 	 error_reporting(0);

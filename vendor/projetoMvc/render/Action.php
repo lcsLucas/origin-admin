@@ -53,14 +53,10 @@ abstract class Action
      * estancia a classe genérica do PHP para a propriedade dados
      * propriedade 'param' recebe os parametros passados pela url(se houver).
      */
-    public function __construct($param = null)
+    public function __construct()
     {
         $this->dados = new \stdClass;
         $this->param = [];
-
-        foreach ($param as $key => $value) {
-            $this->param[$key] = $value;
-        }
     }
 
     /**

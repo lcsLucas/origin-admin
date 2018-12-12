@@ -3,7 +3,7 @@
 define("SUBDOMINIO", TRUE); // quando o site tem subdominio, obs: isso tbm serve para localhost que geramente os arquivos ficam em pasta a qual o acesso não é direto pela URL: EX:http://localhost/sistema_delivery/
 
 if (SUBDOMINIO) {
-    define("URI","esqueleto_mvc");
+    define("URI","projeto_php_mvc");
     define( 'ABSPATH', $_SERVER['DOCUMENT_ROOT'] . "/" . URI . "/");
 } else {
     define( 'ABSPATH', $_SERVER['DOCUMENT_ROOT'] . "/");
@@ -21,7 +21,7 @@ define( 'URL_JS', URL."public/js/");
 
 define('DB_HOST','localhost');
 
-define('DB_NAME','inclusao');
+define('DB_NAME','projeto_mvc');
 
 define('DB_USER','root');
 
@@ -29,7 +29,7 @@ define('DB_PASSWORD','');
 
 define('DB_CHARSET', 'utf8' );
 
-define('TOKEN_SESSAO', password_hash(filter_input(INPUT_SERVER, 'REMOTE_ADDR') . filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'), PASSWORD_DEFAULT));
+define('TOKEN_SESSAO', password_hash("seg" . filter_input(INPUT_SERVER, 'REMOTE_ADDR') . filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'), PASSWORD_DEFAULT));
 
 define('DEBUG', true );
 

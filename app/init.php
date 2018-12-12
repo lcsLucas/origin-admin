@@ -13,7 +13,7 @@ class Init extends Bootstrap
 {
     /**
      * metodo que inicia todas as rotas pré definidas do site
-     *'route' = rota esperada.
+     *'exp_reg' = expressão regular que compatibilize com a rota passada
      *'method' = metodo da onde a rota virá, podendo ser 'GET' ou 'POST'.
      *'controller' = controller que atenderá a rota recebida.
      *'action' = Action dessa controller que será executada.
@@ -23,19 +23,17 @@ class Init extends Bootstrap
     {
         //Rotas de Home
         $array[] = array(
-            'route' => '',
+            'exp_reg' => '/^$/',
             'method' => 'GET',
             'controller' => 'home',
-            'action' => 'pageIndex',
-            'param' => []
+            'action' => 'pageIndex'
         );
         
         $array[] = array(
-            'route' => 'teste',
+            'exp_reg' => '/^teste\/?$/',
             'method' => 'GET',
             'controller' => 'home',
-            'action' => 'pageTeste',
-            'param' => ["id","nome"]
+            'action' => 'pageIndex'
         );
         
         /*Setando na propriedades as rotas definidas à cima.*/

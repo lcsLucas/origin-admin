@@ -13,9 +13,9 @@ if (! defined('ABSPATH')){
 
 class HomeController extends Action
 {
-    public function __construct($param)
+    public function __construct()
     {
-        parent::__construct($param);
+        parent::__construct();
         /**
          * caminho com o arquivo do layout padrão que todasas paginas dessa controller poderá usar
          */
@@ -33,7 +33,7 @@ class HomeController extends Action
 
     /**
      * chama a view dashboard, passando o titulo da página
-     * @return sem retorno
+     * @return void
      */
     public function pageDashboard()
     {
