@@ -49,6 +49,7 @@ class HomeController extends Action
     public function pageError404()
     {
             $this->dados->title = "Página Não Encontrada";
+            http_response_code(404);
             $this->render('error404');
     }
 
