@@ -15,6 +15,8 @@ define( 'URL', filter_input(INPUT_SERVER, 'REQUEST_SCHEME') . "://" . filter_inp
 
 define( 'PATH_VIEWS', ABSPATH ."public/views/");
 
+define( 'URL_PUBLIC', URL ."public/");
+
 define( 'URL_CSS', URL."public/css/");
 
 define( 'URL_JS', URL."public/js/");

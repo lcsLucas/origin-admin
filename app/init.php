@@ -30,10 +30,10 @@ class Init extends Bootstrap
         );
         
         $array[] = array(
-            'exp_reg' => '/^teste\/?$/',
+            'exp_reg' => '/^login\/?$/',
             'method' => 'GET',
             'controller' => 'home',
-            'action' => 'pageIndex'
+            'action' => 'pageLogin'
         );
         
         /*Setando na propriedades as rotas definidas à cima.*/

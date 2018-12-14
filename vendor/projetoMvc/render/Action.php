@@ -72,8 +72,9 @@ abstract class Action
         $this->layout = $layout;
         if($template && !$layoutPadrao && file_exists($this->layoutPadrao.".php"))
             include_once $this->layoutPadrao.".php";
-        else
-        	$this->content();
+        else {
+            $this->content();
+        }
     }
 
     /*
@@ -118,10 +119,10 @@ abstract class Action
          * verifica se o arquivo existe na pasta views, senao inclui o arquivo
          * na pasta Admin dentro de View.
          */
-        if (file_exists(PATH_VIEWS.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout.".php"))) :
-            include_once PATH_VIEWS.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout.".php");
-        elseif (file_exists(PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout.".php"))) :
-            include_once PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout.".php");
+        if (file_exists(PATH_VIEWS.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout))) :
+            include_once PATH_VIEWS.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout);
+        elseif (file_exists(PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout))) :
+            include_once PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout);
         endif;
     }
 }

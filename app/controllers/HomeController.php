@@ -60,7 +60,7 @@ class HomeController extends Action
             $this->render('recuperar-senha');
     }
 
-    public function pageLogin()
+    /*public function pageLogin()
     {
         if (isset($_SESSION['usuario-codigo'])) :
             header('Location: /Area-Administrativa/Dashboard/');
@@ -70,6 +70,18 @@ class HomeController extends Action
             $this->css = "partial-login";
             $this->render('login');
         endif;
+    }*/
+
+    public function pageLogin() {
+
+        if (!empty($_SESSION["_usuariocodigo"])) {
+            header('Location: /Area-Administrativa/Dashboard/');
+            exit();
+        } else {
+            $this->dados->title = "Página de login";
+            $this->render('login.php', false);
+        }
+
     }
 
     public function login()
