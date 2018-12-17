@@ -35,6 +35,13 @@ class Init extends Bootstrap
             'controller' => 'home',
             'action' => 'pageLogin'
         );
+
+        $array[] = array(
+            'exp_reg' => '/^fazer_login\/?$/',
+            'method' => 'POST',
+            'controller' => 'home',
+            'action' => 'login'
+        );
         
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);

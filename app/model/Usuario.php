@@ -10,100 +10,174 @@ if (! defined('ABSPATH')){
 }
 
 class Usuario {
-	private $id;
-	private $dtCad;
-	private $login;
-	private $nome;
-	private $senha;
-	private $status;
-	private $ativo;
-	private $retorno;
+    private $id;
+    private $data_cadastro;
+    private $nome;
+    private $login;
+    private $senha;
+    private $email;
+    private $ativo;
+    private $tipo;
 
-	public function __construct($id = 0, $dtCad = null, $login = "", $nome = "", $senha = "", $status = "", $ativo = "")
-	{
-		$this->id = $id;
-		$this->dtCad = $dtCad;
-		$this->login = $login;
-		$this->nome = $nome;
-		$this->senha = $senha;
-		$this->status = $status;
-		$this->ativo = $ativo;
-		$this->retorno = new Retorno();
-	}
-
-	public function getId(){
-		return $this->id;
-	}
-
-	public function setId(int $id){
-		$this->id = $id;
-	}
-
-	public function getDtCad(){
-		return $this->dtCad;
-	}
-
-	public function setDtCad($dtCad){
-		$this->dtCad = $dtCad;
-	}
-
-	public function getLogin(){
-		return $this->login;
-	}
-
-	public function setLogin($login){
-		$this->login = $login;
-	}
-
-	public function getNome(){
-		return $this->nome;
-	}
-
-	public function setNome($nome){
-		$this->nome = $nome;
-	}
-
-	public function getSenha(){
-		return $this->senha;
-	}
-
-	public function setSenha($senha){
-		$this->senha = $senha;
-	}
-
-	public function getStatus(){
-		return $this->status;
-	}
-
-	public function setStatus($status){
-		$this->status = $status;
-	}
-
-	public function getAtivo(){
-		return $this->ativo;
-	}
-
-	public function setAtivo($ativo){
-		$this->ativo = $ativo;
-	}
-
-    public function getRetorno() {
-        return $this->retorno;
+    /**
+     * Usuario constructor.
+     * @param $data_cadastro
+     * @param $nome
+     * @param $login
+     * @param $senha
+     * @param $email
+     * @param $ativo
+     * @param $tipo
+     */
+    public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = null, $tipo = null)
+    {
+        $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date("Y-m-d");
+        $this->nome = $nome;
+        $this->login = $login;
+        $this->senha = $senha;
+        $this->email = $email;
+        $this->ativo = $ativo;
+        $this->tipo = $tipo;
     }
 
-    public function setRetorno($codigo = 0, $tp = 0, $msg = ""){
-        $this->retorno->setRetorno( $codigo , $tp , $msg );
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return false|string
+     */
+    public function getDataCadastro()
+    {
+        return $this->data_cadastro;
+    }
+
+    /**
+     * @param false|string $data_cadastro
+     */
+    public function setDataCadastro($data_cadastro)
+    {
+        $this->data_cadastro = $data_cadastro;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
+     * @param mixed $nome
+     */
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @param mixed $login
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * @param mixed $senha
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * @param mixed $ativo
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
     }
 
     public function Login($usuario, $senha, $token)
     {
     	$ok = false;
+    	$token_verifica = "seg" . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
 
     	/*Validação das entradas*/
 		if (!empty($usuario)) :
 			if (!empty($senha)) :
 				/*validando se o login está sendo feito pelo formulário*/
-				if (password_verify($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'], $token)) :
+				if (password_verify($token_verifica, $token)) :
                     $usuDao = new UsuarioDao();
                     $usu_retorno = $usuDao->login($usuario);
 

@@ -82,9 +82,9 @@ abstract class Action
     */
     public function renderCss()
     {
-        if (!empty($this->css) && file_exists(PATH_CSS.$this->css.".css")) {
+        if (!empty($this->css) && file_exists(URL_CSS.$this->css.".css")) {
             echo "<style type=\"text/css\">";
-            include_once PATH_CSS.$this->css.".css";
+            include_once URL_CSS.$this->css.".css";
             echo "</style>";
         }
     }
@@ -94,9 +94,9 @@ abstract class Action
     */
     public function renderJS()
     {
-        if (!empty($this->js) && file_exists(PATH_JS.$this->js.".js")) {
+        if (!empty($this->js) && file_exists(URL_JS.$this->js.".js")) {
             echo "<script type=\"text/javascript\">";
-            include_once PATH_JS.$this->js.".js";
+            include_once URL_JS.$this->js.".js";
             echo "</script>";
         }
     }

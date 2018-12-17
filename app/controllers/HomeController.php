@@ -2,9 +2,11 @@
 
 namespace App\controllers;
 
+use JsonSchema\Validator;
 use ProjetoMvc\render\Action;
 use App\model\Usuario;
 use App\model\Retorno;
+use App\Validator\Data_Validator;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -27,8 +29,13 @@ class HomeController extends Action
      */
     public function pageIndex()
     {
-		$this->dados->title = "Página Principal";
-		$this->render('index');
+        if (isset($_SESSION['usuario-codigo'])) :
+            header('Location: '. URL .'/Area-Administrativa/Dashboard/');
+        else :
+            $this->dados->title = "Página de login";
+            header('Location: '. URL .'login');
+        endif;
+        exit();
     }
 
     /**
@@ -60,18 +67,6 @@ class HomeController extends Action
             $this->render('recuperar-senha');
     }
 
-    /*public function pageLogin()
-    {
-        if (isset($_SESSION['usuario-codigo'])) :
-            header('Location: /Area-Administrativa/Dashboard/');
-            exit();
-        else :
-            $this->dados->title = "Área Restrita";
-            $this->css = "partial-login";
-            $this->render('login');
-        endif;
-    }*/
-
     public function pageLogin() {
 
         if (!empty($_SESSION["_usuariocodigo"])) {
@@ -86,23 +81,48 @@ class HomeController extends Action
 
     public function login()
     {
+        $usu = new Usuario();
+        $retorno = new Retorno();
+        $validate = new Data_Validator();
+
         if (filter_has_var(INPUT_POST, 'btnLogar')) :
-            $usuario = trim(filter_input(INPUT_POST, 'txtUsuario', FILTER_SANITIZE_SPECIAL_CHARS));
-            $senha = trim(filter_input(INPUT_POST, 'txtSenha', FILTER_SANITIZE_SPECIAL_CHARS));
-            $token = trim(filter_input(INPUT_POST, 'txtToken', FILTER_SANITIZE_SPECIAL_CHARS));
+            $login = trim(filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS));
+            $senha = trim(filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_SPECIAL_CHARS));
+            $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
-            $usu = new Usuario();
-            $retorno = new Retorno();
+            $login = $senha = $token = "";
 
-            if (!empty($usu->login($usuario, $senha, $token))) :
-                $retorno->setRetorno(0,1,"OK");
-                echo json_encode($retorno->toArray());
-            else :
-                $retorno->setRetorno($usu->getRetorno()->getCodigo(),$usu->getRetorno()->getTipo(),$usu->getRetorno()->getMensagem());
-                echo json_encode($retorno->toArray());
-            endif;
+            $validate
+                ->set("login", $login)->is_required()
+                ->set("senha", $senha)->is_required()
+                ->set("token", $token)->is_required();
+
+            if ($validate->validate()) {
+
+                /*if (!empty($usu->login($usuario, $senha, $token))) :
+                    $retorno->setRetorno(0,1,"OK");
+                    echo json_encode($retorno->toArray());
+                else :
+                    $retorno->setRetorno($usu->getRetorno()->getCodigo(),$usu->getRetorno()->getTipo(),$usu->getRetorno()->getMensagem());
+                    echo json_encode($retorno->toArray());
+                endif;*/
+
+            } else {
+
+                var_dump($validate->get_errors());
+
+            }
+
+            /*if (filter_var($login, FILTER_VALIDATE_EMAIL))
+                $usu->setEmail($login);
+            else
+                $usu->setLogin($login);*/
+
+            //validando entradas
+
+
         else :
-            header('Location: /Area-Administrativa/Fazer-Login/');
+            header('Location: '. URL .'login');
             exit();
         endif;
     }
