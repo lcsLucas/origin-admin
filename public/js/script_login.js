@@ -20,8 +20,6 @@ $(document).ready(function() {
         submitHandler: function (form) {
             var dados = $(form).serialize();
 
-            console.log($(form));
-
             $.ajax({
                 type: 'POST',
                 url: $(form).prop("action"),
@@ -34,7 +32,20 @@ $(document).ready(function() {
                     $('#btnEnviarUsu').prop("disabled",true);
                 }
             }).done(function (retorno) {
-                $(form).find("button").html("ENTRAR").prop("disabled",false);
+
+                const alert = $("#retorno-erro");
+
+                alert.removeClass("alert-danger alert-success");
+
+                if(retorno.status) {
+
+                } else {
+                    alert.addClass("alert-danger");
+                    alert.html(retorno.mensagem);
+
+                    $(form).find("button").html("ENTRAR").prop("disabled",false);
+                }
+
             }).fail(function () {
                 $(form).find("button").html("ENTRAR").prop("disabled",false);
             });

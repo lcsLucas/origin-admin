@@ -10,6 +10,8 @@
  */
 namespace ProjetoMvc\render;
 
+use App\model\Retorno;
+
 if (! defined('ABSPATH')){
     header("Location: /");
     exit();
@@ -49,6 +51,8 @@ abstract class Action
     */
     protected $layoutPadrao;
 
+    protected $retorno;
+
     /**
      * estancia a classe genérica do PHP para a propriedade dados
      * propriedade 'param' recebe os parametros passados pela url(se houver).
@@ -57,6 +61,7 @@ abstract class Action
     {
         $this->dados = new \stdClass;
         $this->param = [];
+        $this->retorno = new Retorno();
     }
 
     /**
@@ -75,6 +80,28 @@ abstract class Action
         else {
             $this->content();
         }
+    }
+
+    /**
+     * define o retorno da requisição
+     * @param  string $mensagem = mensagem do retorno
+     * @param  boolean $flag_exibir = flag que diz se é pra ser mostrado ao usuario a mensagem
+     * @param  boolean $flag_status = flag que diz se o retono é um erro ou não
+     * @return sem retorno.
+     */
+    public function setRetorno($mensagem, $flag_exibir, $flag_status) {
+        $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
+    }
+
+    /**
+     * @return array
+     */
+    public function getRetorno() {
+        return $this->retorno->getRetorno();
+    }
+
+    public function setExtra($nome, $extra) {
+        $this->retorno->setExtra($nome, $extra);
     }
 
     /*

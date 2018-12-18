@@ -1,7 +1,8 @@
 {
 	"name": "Projeto MVC",
 	"require": {
-		"php": ">=7.0"
+		"php": ">=7.0",
+		"Ext-json": "*"
 	},
 	"authors": [
 		{

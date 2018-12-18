@@ -8,52 +8,51 @@ if (! defined('ABSPATH')){
 }
 
 class Retorno {
-    private $codigo;
+    /*private $codigo;
     private $tipo;//tipo 1 = Sucesso, tipo 2 = Banco, tipo 3 = Erro Usuario
+    private $mensagem;*/
+
     private $mensagem;
+    private $exibir;
+    private $status;
+    private $extra;
 
-    public function Retorno(){
-        $this->codigo = 0;
-        $this->tipo = 0;
-        $this->mensagem = "";
+    /**
+     * Retorno constructor.
+     * @param $mensagem
+     * @param $exibir
+     * @param $status
+     * @param $extra
+     */
+    public function __construct($mensagem="", $exibir=false, $status=false, $extra = array())
+    {
+        $this->mensagem = $mensagem;
+        $this->exibir = $exibir;
+        $this->status = $status;
+        $this->extra = $extra;
     }
 
-    public function setRetorno($cod = 0, $tp, $msg){
-        $this->Retorno();
-        $this->codigo = $cod;
-        $this->tipo = $tp;
-        $this->mensagem = $msg;
+
+    public function setRetorno($mensagem, $exibir, $status, $extra=array()){
+        $this->mensagem = $mensagem;
+        $this->exibir = $exibir;
+        $this->status = $status;
+        $this->extra = $extra;
     }
 
-    public function toArray(){
-        return [
-            'Codigo' => $this->codigo,
-            'Tipo' => $this->tipo,
-            'Mensagem' => $this->mensagem
-        ];
+    public function setExtra($nome, $extra) {
+        $this->extra = array($nome => $extra);
     }
 
-    public function getCodigo(){
-        return $this->codigo;
+    public function getRetorno(){
+
+        return array(
+            "status" => $this->status,
+            "mensagem" => $this->mensagem,
+            "exibir" => $this->exibir,
+            "extra" => json_encode($this->extra)
+        );
+
     }
 
-    public function setCodigo($valor){
-        $this->codigo = $valor;
-    }
-
-    public function getMensagem(){
-        return $this->mensagem;
-    }
-
-    public function setMensagem($valor){
-        $this->mensagem = $valor;
-    }
-
-    public function getTipo(){
-        return $this->tipo;
-    }
-
-    public function setTipo($valor){
-        $this->tipo = $valor;
-    }
 }

@@ -2,11 +2,9 @@
 
 namespace App\controllers;
 
-use JsonSchema\Validator;
 use ProjetoMvc\render\Action;
 use App\model\Usuario;
-use App\model\Retorno;
-use App\Validator\Data_Validator;
+use App\model\Data_Validator;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -82,7 +80,6 @@ class HomeController extends Action
     public function login()
     {
         $usu = new Usuario();
-        $retorno = new Retorno();
         $validate = new Data_Validator();
 
         if (filter_has_var(INPUT_POST, 'btnLogar')) :
@@ -90,8 +87,7 @@ class HomeController extends Action
             $senha = trim(filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_SPECIAL_CHARS));
             $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
-            $login = $senha = $token = "";
-
+            $validate->define_pattern('erro_');
             $validate
                 ->set("login", $login)->is_required()
                 ->set("senha", $senha)->is_required()
@@ -107,10 +103,18 @@ class HomeController extends Action
                     echo json_encode($retorno->toArray());
                 endif;*/
 
+                $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
+                $this->setExtra("url_direcionar", URL . "/dashboard");
+                echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
+
             } else {
 
-                var_dump($validate->get_errors());
+                $array_erros = $validate->get_errors();
+                $array_erro = array_shift($array_erros);
+                $erro = array_shift($array_erro);
+                $this->setRetorno($erro, true, false);
 
+                echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
             }
 
             /*if (filter_var($login, FILTER_VALIDATE_EMAIL))

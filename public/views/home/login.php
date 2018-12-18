@@ -22,9 +22,7 @@
 
     <div id="wrapper-login">
 
-        <div class="alert alert-danger text-center" role="alert">
-            Usuário ou senha incorreto
-        </div>
+        <div class="alert text-center" role="alert" id="retorno-erro"></div>
 
         <div class="card">
 
