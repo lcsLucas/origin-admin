@@ -22,10 +22,15 @@ class Banco{
 
     private $con;
 
+    public function __construct()
+    {
+        $this->retorno = new Retorno();
+    }
+
     public function conectar($persist = false)
     {
         if(empty($this->getCon())) :
-            $this->retorno = null;
+
             try
             {
                 // verifica se a conexao deve ser persistente ou nao. Util quando deve ser feito varias operações
@@ -37,12 +42,14 @@ class Banco{
                 endif;
 
                 $this->con->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                $this->con->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
 
                 return true;
             }
             catch(\PDOException $e)
             {
-                $this->setRetorno($e->getCode(),2,"Erro Ao Conectar Com o Banco de Dados | ".$e->getMessage());
+                $this->setRetorno("Erro Ao Conectar Com o Banco de Dados | ".$e->getMessage(), false, false);
+                error_log($e->getMessage(), 0);
                 return null;
             }
         endif;
@@ -77,14 +84,14 @@ class Banco{
         return $this->con = null;
     }
 
-    public function getRetorno()
-    {
-        return $this->retorno;
-    }
-
-    public function setRetorno($codigo = 0, $tp = 0, $msg = "")
-    {
-        $this->retorno = new Retorno();
-        $this->retorno->setRetorno( $codigo , $tp , $msg );
+    /**
+     * define o retorno da requisição
+     * @param  string $mensagem = mensagem do retorno
+     * @param  boolean $flag_exibir = flag que diz se é pra ser mostrado ao usuario a mensagem
+     * @param  boolean $flag_status = flag que diz se o retono é um erro ou não
+     * @return void
+     */
+    public function setRetorno($mensagem, $flag_exibir, $flag_status) {
+        $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
     }
 }

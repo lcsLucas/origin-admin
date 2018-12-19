@@ -9,7 +9,7 @@ if (! defined('ABSPATH')){
     exit();
 }
 
-class Usuario {
+class Usuario extends UsuarioDao{
     private $id;
     private $data_cadastro;
     private $nome;
@@ -38,6 +38,7 @@ class Usuario {
         $this->email = $email;
         $this->ativo = $ativo;
         $this->tipo = $tipo;
+        $this->setUsuario($this);
     }
 
     /**
@@ -168,51 +169,33 @@ class Usuario {
         $this->tipo = $tipo;
     }
 
-    public function Login($usuario, $senha, $token)
+    public function Login()
     {
-    	$ok = false;
-    	$token_verifica = "seg" . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+        $retono = $this->loginDAO($this);
 
-    	/*Validação das entradas*/
-		if (!empty($usuario)) :
-			if (!empty($senha)) :
-				/*validando se o login está sendo feito pelo formulário*/
-				if (password_verify($token_verifica, $token)) :
-                    $usuDao = new UsuarioDao();
-                    $usu_retorno = $usuDao->login($usuario);
+        /*if (!empty($usu_retorno)) :
+            if (password_verify($senha, $usu_retorno->getSenha())) :
+                $_SESSION['usuario-codigo'] = $usu_retorno->getId();
+                $_SESSION['usuario-nome'] = $usu_retorno->getNome();
+                $_SESSION['usuario-status'] = $usu_retorno->getStatus();
+                $_SESSION['usuario-token'] = password_hash($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'], PASSWORD_DEFAULT);
 
-                    if (!empty($usu_retorno)) :
-                        if (password_verify($senha, $usu_retorno->getSenha())) :
-                            $_SESSION['usuario-codigo'] = $usu_retorno->getId();
-                            $_SESSION['usuario-nome'] = $usu_retorno->getNome();
-                            $_SESSION['usuario-status'] = $usu_retorno->getStatus();
-                            $_SESSION['usuario-token'] = password_hash($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'], PASSWORD_DEFAULT);
-
-                            return true;
-                        else :
-                            $this->setRetorno(0,3,"Informações Incorreta. Verifique o Login e Senha.");
-                        endif;
-                    else :
-                        if(!empty($usuDao->getRetorno())) :
-                            $this->setRetorno($usuDao->getRetorno()->getCodigo(),$usuDao->getRetorno()->getTipo(),$usuDao->getRetorno()->getMensagem());
-                        else :
-                            $this->setRetorno(0,3,"Informações Incorreta. Verifique o Login e Senha.");
-                        endif;
-                    endif;
-				else :
-					$this->setRetorno(0,3,'Token de autenticação inválido.');
-				endif;
-			else :
-				$this->setRetorno(0,3,"Senha não informada.");
-			endif;
-		else :
-			$this->setRetorno(0,3,"Usuário não informado.");
-		endif;
+                return true;
+            else :
+                $this->setRetorno(0,3,"Informações Incorreta. Verifique o Login e Senha.");
+            endif;
+        else :
+            if(!empty($usuDao->getRetorno())) :
+                $this->setRetorno($usuDao->getRetorno()->getCodigo(),$usuDao->getRetorno()->getTipo(),$usuDao->getRetorno()->getMensagem());
+            else :
+                $this->setRetorno(0,3,"Informações Incorreta. Verifique o Login e Senha.");
+            endif;
+        endif;*/
 
     	return false;
     }
 
-    public function alterarSenha($token, $senhaAtual, $senhanova, $confSenha)
+    /*public function alterarSenha($token, $senhaAtual, $senhanova, $confSenha)
     {
         $usuDAO = new UsuarioDAO();
         if(!empty($senhaAtual) && !empty($senhanova) && !empty($confSenha)) :
@@ -240,50 +223,7 @@ class Usuario {
             $this->setRetorno(0,3,"Todos os Campos Devem ser Preenchidos");
         endif;
         return false;
-    }
+    }*/
 
-    public function novoUsuario($nome, $login, $senha, $confSenha, $status, $token)
-    {
-        return false;
-    }
 
-    private function validaNovoUsuario($nome, $login, $senha, $confSenha, $status, $token)
-    {
-        if(strcmp($token, $_SESSION["token"]) === 0) ://Token do formulario, deve ser igual ao do usuário logado.
-            if(!empty($nome)) :
-                if(!empty($login)) :
-                    $usuDAO = new UsuarioDAO();
-                    $result = $usuDAO->verificaLoginUsuario($login);
-
-                    if($result >= 0) :
-                        if($result == 0 || $codigo != 0) :
-                            if(!empty($senha) && ctype_alnum($senha)) :
-                                if(strlen($nome) <= 50 && strlen($login) <= 50 && strlen($senha) <= 30) :
-                                    if(strcasecmp($senha, $confSenha) == 0) :
-                                        return true;
-                                    else :
-                                        $this->setRetorno(2,3,"Erro no envio dos Parametros. \"As senhas não são iguais\"");
-                                    endif;
-                                else :
-                                    $this->setRetorno(2,3,"Ultrapassado o Limite de Caracteres do Nome e/ou Login e/ou Senha.");
-                                endif;
-                            else :
-                                $this->setRetorno(2,3,"Erro no envio dos Parametros. \"Senha está Inválida\"");
-                            endif;
-                        else :
-                            $this->setRetorno(2,3,"Esse Login Já está Cadastrado.");
-                        endif;
-                    else :
-                        $this->setRetorno($usuDAO->getRetorno()->getCodigo(),$usuDAO->getRetorno()->getTipo(),$usuDAO->getRetorno()->getMensagem());
-                    endif;
-                else :
-                    $this->setRetorno(2,3,"Erro no envio dos Parametros. \"Login não foi preenchido\"");
-                endif;
-            else :
-                $this->setRetorno(2,3,"Erro no envio dos Parametros. \"Nome não foi preenchido\"");
-            endif;
-        else :
-            $this->setRetorno(2,3,"Erro no envio dos Parametros. \"Falha na autenticação do Token\"");
-        endif;
-    }
 }

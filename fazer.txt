@@ -1,1 +1,4 @@
 - fazer uma função de validação de dados em PHP
+
+- continuar no login do usuario
+    - arrumar o retorno da classe dao e model

@@ -4,14 +4,14 @@ define("SUBDOMINIO", TRUE); // quando o site tem subdominio, obs: isso tbm serve
 
 if (SUBDOMINIO) {
     define("URI","projeto_php_mvc");
-    define( 'ABSPATH', $_SERVER['DOCUMENT_ROOT'] . "/" . URI . "/");
+    define( 'ABSPATH', htmlspecialchars($_SERVER['DOCUMENT_ROOT']) . "/" . URI . "/");
 } else {
-    define( 'ABSPATH', $_SERVER['DOCUMENT_ROOT'] . "/");
+    define( 'ABSPATH', htmlspecialchars($_SERVER['DOCUMENT_ROOT']) . "/");
 }
 
 define( 'PASTA_ADMIN', "admin");
 
-define( 'URL', filter_input(INPUT_SERVER, 'REQUEST_SCHEME') . "://" . filter_input(INPUT_SERVER, 'SERVER_NAME') ."/". URI . "/");
+define( 'URL', htmlspecialchars($_SERVER["REQUEST_SCHEME"]) . "://" . htmlspecialchars($_SERVER["SERVER_NAME"]) ."/". URI . "/");
 
 define( 'PATH_VIEWS', ABSPATH ."public/views/");
 
@@ -31,7 +31,7 @@ define('DB_PASSWORD','');
 
 define('DB_CHARSET', 'utf8' );
 
-define('TOKEN_SESSAO', password_hash("seg" . filter_input(INPUT_SERVER, 'REMOTE_ADDR') . filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'), PASSWORD_DEFAULT));
+define('TOKEN_SESSAO', "seg" . htmlspecialchars($_SERVER["REMOTE_ADDR"]) . htmlspecialchars($_SERVER["HTTP_USER_AGENT"]));
 
 define('DEBUG', true );
 

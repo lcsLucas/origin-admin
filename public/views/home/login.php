@@ -60,7 +60,7 @@
 
                     <div class="form-group mt-5">
                         <button name="btnLogar" class="btn btn-success btn-block btn-lg text-white" type="submit">ENTRAR</button>
-                        <input type="hidden" name="token" value="<?= password_hash("seg". $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'], PASSWORD_DEFAULT) ?>">
+                        <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                         <p class="mt-3 text-right">
                             <a href="">Esqueceu sua senha?</a>
                         </p>

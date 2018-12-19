@@ -100,8 +100,8 @@ abstract class Action
         return $this->retorno->getRetorno();
     }
 
-    public function setExtra($nome, $extra) {
-        $this->retorno->setExtra($nome, $extra);
+    public function setExtra($extra) {
+        $this->retorno->setExtra($extra);
     }
 
     /*

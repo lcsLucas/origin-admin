@@ -40,8 +40,8 @@ class Retorno {
         $this->extra = $extra;
     }
 
-    public function setExtra($nome, $extra) {
-        $this->extra = array($nome => $extra);
+    public function setExtra($extra) {
+        $this->extra = $extra;
     }
 
     public function getRetorno(){

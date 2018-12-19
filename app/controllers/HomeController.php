@@ -95,17 +95,35 @@ class HomeController extends Action
 
             if ($validate->validate()) {
 
-                /*if (!empty($usu->login($usuario, $senha, $token))) :
-                    $retorno->setRetorno(0,1,"OK");
-                    echo json_encode($retorno->toArray());
-                else :
-                    $retorno->setRetorno($usu->getRetorno()->getCodigo(),$usu->getRetorno()->getTipo(),$usu->getRetorno()->getMensagem());
-                    echo json_encode($retorno->toArray());
-                endif;*/
+                if (password_verify(TOKEN_SESSAO, $token)) {
 
-                $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
-                $this->setExtra("url_direcionar", URL . "/dashboard");
-                echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
+                    if (filter_var($login, FILTER_VALIDATE_EMAIL))
+                        $usu->setEmail($login);
+                    else
+                        $usu->setLogin($login);
+
+                    $usu->setSenha($senha);
+
+                    if (!empty($usu->login())) :
+
+                        $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
+                        $this->setExtra(
+                            array(
+                                "url_direcionar" => URL . "dashboard"
+                            )
+                        );
+
+                    else :
+
+                        $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
+
+                        /*$retorno->setRetorno($usu->getRetorno()->getCodigo(),$usu->getRetorno()->getTipo(),$usu->getRetorno()->getMensagem());
+                        echo json_encode($retorno->toArray());*/
+                    endif;
+
+                } else {
+                    $this->setRetorno("Token de autenticação inválido", true, false);
+                }
 
             } else {
 
@@ -113,8 +131,6 @@ class HomeController extends Action
                 $array_erro = array_shift($array_erros);
                 $erro = array_shift($array_erro);
                 $this->setRetorno($erro, true, false);
-
-                echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
             }
 
             /*if (filter_var($login, FILTER_VALIDATE_EMAIL))
@@ -124,6 +140,7 @@ class HomeController extends Action
 
             //validando entradas
 
+            echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
 
         else :
             header('Location: '. URL .'login');

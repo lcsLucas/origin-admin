@@ -12,23 +12,40 @@ if (! defined('ABSPATH')){
 
 class UsuarioDao extends Banco
 {
-	public function login($login)
+    private $usuario;
+
+    public function setUsuario(Usuario $usuario) {
+        $this->usuario = $usuario;
+    }
+
+	public function loginDAO()
 	{
+	    $result = false;
+
 		if (!empty($this->conectar())) :
 			try
 			{
-				$stms = $this->getCon()->prepare("SELECT usu_id, usu_nome, usu_senha, usu_status FROM usuario WHERE usu_login = :login AND usu_ativo = '1' LIMIT 1");
-				$stms->bindValue(':login', $login, \PDO::PARAM_STR);
+				$stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_login = :login AND usu_ativo = '1' LIMIT 1");
+				$stms->bindValue(':login', $this->usuario->getLogin(), \PDO::PARAM_STR);
 				$stms->execute();
-				return $this->convertToObject($stms->fetch());
+                $result = $stms->fetch();
+
+                if (empty($result)){
+                    $stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_email = :email AND usu_ativo = '1' LIMIT 1");
+                    $stms->bindValue(':email', $this->usuario->getEmail(), \PDO::PARAM_STR);
+                    $stms->execute();
+                    $result = $stms->fetch();
+                }
+
 			}
 			catch (\PDOException $e)
 			{
+                $result = false;
 				$this->setRetorno($e->getCode(),2,"Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage());
 			}
 		endif;
 
-		return null;
+		return $result;
 	}
 
     function obterSenha($codigo)
@@ -68,22 +85,4 @@ class UsuarioDao extends Banco
       return false;
     }
 
-	private function convertToObject($registro)
-	{
-		$usu = null;
-/*$id = 0, $dtCad = null, $login = "", $nome = "", $senha = "", $status = "", $ativo = ""*/
-		if (!empty($registro)) :
-			$usu = new Usuario(
-				(!empty($registro['usu_id'])) ? $registro['usu_id'] : 0,
-				(!empty($registro['usu_dtCad'])) ? ($registro['usu_dtCad']) : null,
-				(!empty($registro['usu_login'])) ? ($registro['usu_login']) : "",
-				(!empty($registro['usu_nome'])) ? ($registro['usu_nome']) : "",
-				(!empty($registro['usu_senha'])) ? ($registro['usu_senha']) : "",
-				(!empty($registro['usu_status'])) ? ($registro['usu_status']) : "",
-				(!empty($registro['usu_ativo'])) ? ($registro['usu_ativo']) : ""
-			);
-		endif;
-
-		return $usu;
-	}
 }
