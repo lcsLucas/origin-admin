@@ -94,4 +94,9 @@ class Banco{
     public function setRetorno($mensagem, $flag_exibir, $flag_status) {
         $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
     }
+
+    public function getRetorno() {
+        return $this->retorno->getRetorno();
+    }
+
 }

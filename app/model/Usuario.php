@@ -31,6 +31,7 @@ class Usuario extends UsuarioDao{
      */
     public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = null, $tipo = null)
     {
+        parent::__construct();
         $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date("Y-m-d");
         $this->nome = $nome;
         $this->login = $login;
@@ -171,26 +172,25 @@ class Usuario extends UsuarioDao{
 
     public function Login()
     {
-        $retono = $this->loginDAO($this);
+        $result = $this->loginDAO($this);
 
-        /*if (!empty($usu_retorno)) :
-            if (password_verify($senha, $usu_retorno->getSenha())) :
-                $_SESSION['usuario-codigo'] = $usu_retorno->getId();
-                $_SESSION['usuario-nome'] = $usu_retorno->getNome();
-                $_SESSION['usuario-status'] = $usu_retorno->getStatus();
-                $_SESSION['usuario-token'] = password_hash($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'], PASSWORD_DEFAULT);
+        if (!empty($result)) {
+
+            if (password_verify($this->senha, $result["usu_senha"])) {
+
+                $_SESSION["_idusuario"] = $result["usu_id"];
+                $_SESSION["_logado"] = true;
+                session_write_close();
 
                 return true;
-            else :
-                $this->setRetorno(0,3,"Informações Incorreta. Verifique o Login e Senha.");
-            endif;
-        else :
-            if(!empty($usuDao->getRetorno())) :
-                $this->setRetorno($usuDao->getRetorno()->getCodigo(),$usuDao->getRetorno()->getTipo(),$usuDao->getRetorno()->getMensagem());
-            else :
-                $this->setRetorno(0,3,"Informações Incorreta. Verifique o Login e Senha.");
-            endif;
-        endif;*/
+
+            } else {
+                $this->setRetorno("usuário ou senha estão incorretos", true, false);
+            }
+
+        } elseif(empty($this->getRetorno()["exibir"])) {
+            $this->setRetorno("Não foi possível fazer o login", true, false);
+        }
 
     	return false;
     }
@@ -225,5 +225,8 @@ class Usuario extends UsuarioDao{
         return false;
     }*/
 
+    public function getRetorno() {
+        return parent::getRetorno();
+    }
 
 }

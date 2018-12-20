@@ -27,8 +27,8 @@ class HomeController extends Action
      */
     public function pageIndex()
     {
-        if (isset($_SESSION['usuario-codigo'])) :
-            header('Location: '. URL .'/Area-Administrativa/Dashboard/');
+        if (isset($_SESSION['_idusuario'])) :
+            header('Location: '. URL .'dashboard');
         else :
             $this->dados->title = "Página de login";
             header('Location: '. URL .'login');
@@ -104,7 +104,7 @@ class HomeController extends Action
 
                     $usu->setSenha($senha);
 
-                    if (!empty($usu->login())) :
+                    if (!empty($usu->login())) {
 
                         $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
                         $this->setExtra(
@@ -113,13 +113,11 @@ class HomeController extends Action
                             )
                         );
 
-                    else :
-
-                        $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
-
-                        /*$retorno->setRetorno($usu->getRetorno()->getCodigo(),$usu->getRetorno()->getTipo(),$usu->getRetorno()->getMensagem());
-                        echo json_encode($retorno->toArray());*/
-                    endif;
+                    } else if($usu->getRetorno()["exibir"]) {
+                        $this->setRetorno($usu->getRetorno()["mensagem"], $usu->getRetorno()["exibir"], $usu->getRetorno()["status"]);
+                    } else {
+                        $this->setRetorno("Não foi possível fazer o login", true, false);
+                    }
 
                 } else {
                     $this->setRetorno("Token de autenticação inválido", true, false);
@@ -132,13 +130,6 @@ class HomeController extends Action
                 $erro = array_shift($array_erro);
                 $this->setRetorno($erro, true, false);
             }
-
-            /*if (filter_var($login, FILTER_VALIDATE_EMAIL))
-                $usu->setEmail($login);
-            else
-                $usu->setLogin($login);*/
-
-            //validando entradas
 
             echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
 

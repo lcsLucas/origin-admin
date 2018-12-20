@@ -37,7 +37,6 @@ $(document).ready(function() {
 
                 if(retorno.status) {
                     const extra = JSON.parse(retorno.extra);
-                    console.log(extra.url_direcionar);
                     location.href = extra.url_direcionar;
                 } else {
                     alert.addClass("alert-danger");

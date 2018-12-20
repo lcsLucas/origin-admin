@@ -14,6 +14,11 @@ class UsuarioDao extends Banco
 {
     private $usuario;
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function setUsuario(Usuario $usuario) {
         $this->usuario = $usuario;
     }
@@ -22,28 +27,29 @@ class UsuarioDao extends Banco
 	{
 	    $result = false;
 
-		if (!empty($this->conectar())) :
-			try
-			{
-				$stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_login = :login AND usu_ativo = '1' LIMIT 1");
-				$stms->bindValue(':login', $this->usuario->getLogin(), \PDO::PARAM_STR);
-				$stms->execute();
+		if (!empty($this->conectar())) {
+            try {
+                $stms = $this->getCon()->prepare("SELECT usu_id, usu_senha FROM usuario WHERE usu_login = :login AND usu_ativo = '1' LIMIT 1");
+                $stms->bindValue(':login', $this->usuario->getLogin(), \PDO::PARAM_STR);
+                $stms->execute();
                 $result = $stms->fetch();
 
-                if (empty($result)){
-                    $stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_email = :email AND usu_ativo = '1' LIMIT 1");
+                if (empty($result)) {
+                    $stms = $this->getCon()->prepare("SELECT usu_id, usu_senha FROM usuario WHERE usu_email = :email AND usu_ativo = '1' LIMIT 1");
                     $stms->bindValue(':email', $this->usuario->getEmail(), \PDO::PARAM_STR);
                     $stms->execute();
                     $result = $stms->fetch();
                 }
 
-			}
-			catch (\PDOException $e)
-			{
+                if (empty($result)) {
+                    $this->setRetorno("usuário ou senha estão incorretos", true, false);
+                }
+
+            } catch (\PDOException $e) {
                 $result = false;
-				$this->setRetorno($e->getCode(),2,"Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage());
-			}
-		endif;
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | " . $e->getMessage(), false, false);
+            }
+        }
 
 		return $result;
 	}
@@ -60,7 +66,7 @@ class UsuarioDao extends Banco
           }
           catch(\PDOException $e)
           {
-              $this->setRetorno($e->getCode(),2,"Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage());
+              $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
           }
       endif;
       return false;
@@ -79,10 +85,14 @@ class UsuarioDao extends Banco
         }
         catch(\PDOException $e)
         {
-          $this->setRetorno($e->getCode(),2,"Erro Ao Executar o Comando No Banco de Dados | ".$e->getMessage());
+            $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
         }
       endif;
       return false;
+    }
+
+    public function getRetorno() {
+        return parent::getRetorno();
     }
 
 }
