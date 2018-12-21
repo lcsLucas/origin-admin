@@ -49,6 +49,13 @@ class Init extends Bootstrap
             'controller' => 'home',
             'action' => 'pageDashboard'
         );
+
+        $array[] = array(
+            'exp_reg' => '/^logout\/?$/',
+            'method' => 'GET',
+            'controller' => 'home',
+            'action' => 'logout'
+        );
         
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);

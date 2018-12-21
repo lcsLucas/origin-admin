@@ -139,11 +139,8 @@ class HomeController extends Action
 
     public function logout()
     {
-        if (isset($_SESSION['usuario-codigo'])) :
-            unset($_SESSION['usuario-codigo'], $_SESSION['usuario-nome'], $_SESSION['usuario-status'], $_SESSION['usuario-token']);
-        endif;
-
-        header('Location: /Area-Administrativa/Fazer-Login/');
+        session_destroy();
+        header('Location: ' . URL);
         exit();
     }
 }
