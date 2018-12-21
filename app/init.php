@@ -42,6 +42,13 @@ class Init extends Bootstrap
             'controller' => 'home',
             'action' => 'login'
         );
+
+        $array[] = array(
+            'exp_reg' => '/^dashboard\/?$/',
+            'method' => 'GET',
+            'controller' => 'home',
+            'action' => 'pageDashboard'
+        );
         
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);

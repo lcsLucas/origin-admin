@@ -146,10 +146,10 @@ abstract class Action
          * verifica se o arquivo existe na pasta views, senao inclui o arquivo
          * na pasta Admin dentro de View.
          */
-        if (file_exists(PATH_VIEWS.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout))) :
-            include_once PATH_VIEWS.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout);
-        elseif (file_exists(PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout))) :
-            include_once PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse.DIRECTORY_SEPARATOR.$this->layout);
+        if (file_exists(PATH_VIEWS.strtolower($nomeClasse."/".$this->layout))) :
+            include_once PATH_VIEWS.strtolower($nomeClasse."/".$this->layout);
+        elseif (file_exists(PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse."/".$this->layout))) :
+            include_once PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse."/".$this->layout);
         endif;
     }
 }

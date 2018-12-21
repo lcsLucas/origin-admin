@@ -42,10 +42,8 @@ class HomeController extends Action
      */
     public function pageDashboard()
     {
-        $this->layoutPadrao = PATH_VIEWS."shared/admin/layoutPadraoAdmin";
         $this->dados->title = "Dashboard";
-        $this->css = "partial-dashboard";
-        $this->render('dashboard');
+        $this->render('dashboard.php');
     }
 
     /**
@@ -67,8 +65,8 @@ class HomeController extends Action
 
     public function pageLogin() {
 
-        if (!empty($_SESSION["_usuariocodigo"])) {
-            header('Location: /Area-Administrativa/Dashboard/');
+        if (isset($_SESSION['_idusuario'])) {
+            header('Location: '. URL .'dashboard');
             exit();
         } else {
             $this->dados->title = "Página de login";

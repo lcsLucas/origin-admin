@@ -3,12 +3,13 @@ if (! defined('ABSPATH')){
     header("Location: /");
     exit();
 }
+
 ?>
+
     <?php include_once PATH_VIEWS.'shared/cabecalho.php'; ?>
 
-    <!-- Carrega conteudo -->
-    <section id="conteudo">
+    <div id="conteudo">
         <?= $this->content(); ?>
-    </section>
+    </div>
 
     <?php include_once PATH_VIEWS.'shared/rodape.php'; ?>

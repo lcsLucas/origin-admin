@@ -19,6 +19,8 @@ define( 'URL_PUBLIC', URL ."public/");
 
 define( 'URL_CSS', URL."public/css/");
 
+define( 'URL_IMG', URL."public/img/");
+
 define( 'URL_JS', URL."public/js/");
 
 define('DB_HOST','localhost');
@@ -31,7 +33,7 @@ define('DB_PASSWORD','');
 
 define('DB_CHARSET', 'utf8' );
 
-define('TOKEN_SESSAO', "seg" . htmlspecialchars($_SERVER["REMOTE_ADDR"]) . htmlspecialchars($_SERVER["HTTP_USER_AGENT"]));
+define('TOKEN_SESSAO', "seg_phpmvc_" . htmlspecialchars($_SERVER["REMOTE_ADDR"]) . htmlspecialchars($_SERVER["HTTP_USER_AGENT"]));
 
 define('DEBUG', true );
 
