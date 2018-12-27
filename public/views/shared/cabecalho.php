@@ -3,6 +3,7 @@ if (! defined('ABSPATH')){
     header("Location: /");
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ if (! defined('ABSPATH')){
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="keyword" content="">
-    <title>Painel Administrativo</title>
+    <title><?= $this->dados->title ?> - Painel Administrativo</title>
     <!-- Icons-->
     <link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
     <link href="<?= URL_PUBLIC ?>vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
@@ -23,6 +24,7 @@ if (! defined('ABSPATH')){
     <link href="<?= URL_PUBLIC ?>vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
     <!-- Main styles for this application-->
     <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
+    <link href="<?= URL_CSS ?>estilo-painel.css" rel="stylesheet">
     <link href="<?= URL_PUBLIC ?>vendors/pace-progress/css/pace.min.css" rel="stylesheet">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
@@ -92,21 +94,10 @@ if (! defined('ABSPATH')){
                 <div class="dropdown-header text-center">
                     <strong>Settings</strong>
                 </div>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="<?= URL ?>alterar-perfil">
                     <i class="fa fa-user"></i> Profile</a>
                 <a class="dropdown-item" href="#">
                     <i class="fa fa-wrench"></i> Settings</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-usd"></i> Payments
-                    <span class="badge badge-secondary">42</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-file"></i> Projects
-                    <span class="badge badge-primary">42</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-shield"></i> Lock Account</a>
                 <a class="dropdown-item" href="<?= URL ?>logout">
                     <i class="fa fa-lock"></i> Logout</a>
             </div>

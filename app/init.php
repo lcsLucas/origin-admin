@@ -56,7 +56,15 @@ class Init extends Bootstrap
             'controller' => 'home',
             'action' => 'logout'
         );
-        
+
+        $array[] = array(
+            'exp_reg' => '/^alterar-perfil\/?$/',
+            'method' => 'GET',
+            'controller' => 'usuario',
+            'action' => 'pageAlterarPerfil'
+        );
+
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

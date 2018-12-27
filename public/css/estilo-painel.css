@@ -1,0 +1,11 @@
+@charset"UTF-8";
+
+.form-group .form-control {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.form-group-lg label {
+    font-size: .95rem;
+    color: #333;
+}
