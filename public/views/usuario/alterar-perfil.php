@@ -24,15 +24,24 @@
 
                             <div class="row">
 
-                                <div class="col-sm-12 col-md-9">
+                                <div class="col-sm-12 col-md-9 d-flex">
 
                                     <div class="row">
 
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12 col-md-6">
 
                                             <div class="form-group form-group-lg">
                                                 <label for="nome" class="font-weight-bold">Nome:</label>
                                                 <input required maxlength="60" autofocus type="text" class="form-control form-control-lg" id="nome" name="nome">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-6">
+
+                                            <div class="form-group form-group-lg">
+                                                <label for="apelido" class="font-weight-bold">Apelido:</label>
+                                                <input required maxlength="20" type="text" class="form-control form-control-lg" id="apelido" name="apelido">
                                             </div>
 
                                         </div>
