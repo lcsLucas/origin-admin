@@ -1,4 +1,5 @@
-<main class="main bg-white">
+
+<main class="main">
     <!-- Breadcrumb-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -9,7 +10,7 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
 
-            <div id="conteudo">
+            <div id="conteudo" class="container">
 
                 <div class="card border-0">
 
@@ -60,18 +61,20 @@
 
                                 <div class="col-sm-12 col-md-3">
 
-                                    <div class="text-center">
+                                    <div class="kv-avatar">
+                                        <div class="file-loading">
+                                            <input id="avatar" name="avatar" type="file" required accept="image/jpeg, image/png">
+                                        </div>
+                                    </div>
 
-                                        <img src="https://img.icons8.com/ios/1600/user-male-circle-filled.png" class="img-fluid w-100 d-block" alt="Imagem de perfil do usuário" style="max-width: 180px; margin: 0 auto;">
-
-                                        <a href="">Escolher um avatar</a>
-
+                                    <div class="kv-avatar-hint text-center">
+                                        <a href="">selecionar um avatar</a>
                                     </div>
 
                                 </div>
 
                                 <div class="col-sm-12 text-right mt-5">
-                                    <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg btn-link text-danger">Cancelar</a>
+                                    <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg btn-link text-primary">Cancelar</a>
                                     <button type="submit" class="btn btn-success btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
                                 </div>
 

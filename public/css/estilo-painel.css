@@ -9,3 +9,16 @@
     font-size: .95rem;
     color: #333;
 }
+
+.file-thumbnail-footer {
+    display: none !important;
+}
+
+.krajee-default.file-preview-frame .kv-file-content {
+    width: auto !important;
+}
+
+.krajee-default.file-preview-frame {
+    box-shadow: none !important;
+    border: none !important;
+}

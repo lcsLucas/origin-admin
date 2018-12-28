@@ -29,6 +29,7 @@ class UsuarioController extends Action
      */
     public function pageAlterarPerfil()
     {
+        $this->dados->input_drop = true;
         $this->dados->title = "Alterar Perfil";
         $this->render('alterar-perfil.php');
     }

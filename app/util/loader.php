@@ -15,7 +15,7 @@ ini_set('session.cookie_httponly',1);
 ini_set('session.use_only_cookies',1);
 
 /*inicia sessão*/
-session_name(md5('seg' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
+session_name(md5('seg_painel_' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 session_start();
 
 /*configuração debug*/
