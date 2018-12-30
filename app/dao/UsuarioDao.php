@@ -19,11 +19,11 @@ class UsuarioDao extends Banco
         parent::__construct();
     }
 
-    public function setUsuario(Usuario $usuario) {
+    protected function setUsuario(Usuario $usuario) {
         $this->usuario = $usuario;
     }
 
-	public function loginDAO()
+    protected function loginDAO()
 	{
 	    $result = false;
 
@@ -53,6 +53,35 @@ class UsuarioDao extends Banco
 
 		return $result;
 	}
+
+	protected function carregarInformacoesDAO() {
+
+        if (!empty($this->conectar())) {
+
+            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_email, usu_login, usu_apelido FROM usuario");
+            $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
+
+            if ($stms->execute()) {
+
+                $result = $stms->fetch();
+
+                if (!empty($result)) {
+
+                    $this->usuario->setNome($result["usu_nome"]);
+                    $this->usuario->setEmail($result["usu_email"]);
+                    $this->usuario->setLogin($result["usu_login"]);
+                    $this->usuario->setApelido($result["usu_apelido"]);
+
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        return false;
+    }
 
     function obterSenha($codigo)
     {

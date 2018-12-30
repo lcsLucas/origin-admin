@@ -29,6 +29,11 @@ class UsuarioController extends Action
      */
     public function pageAlterarPerfil()
     {
+        $usu = new Usuario();
+        $usu->setId($_SESSION["_idusuario"]);
+        $usu->carregarInformacoes();
+
+        $this->dados->informacoes = $usu;
         $this->dados->input_drop = true;
         $this->dados->title = "Alterar Perfil";
         $this->render('alterar-perfil.php');

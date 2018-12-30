@@ -1,3 +1,8 @@
+<?php
+
+$usuario = $this->dados->informacoes;
+
+?>
 
 <main class="main">
     <!-- Breadcrumb-->
@@ -32,7 +37,7 @@
 
                                             <div class="form-group form-group-lg">
                                                 <label for="nome" class="font-weight-bold">Nome:</label>
-                                                <input required maxlength="60" autofocus type="text" class="form-control form-control-lg" id="nome" name="nome">
+                                                <input required maxlength="60" autofocus type="text" class="form-control form-control-lg" id="nome" name="nome" value="<?= $usuario->getNome() ?>">
                                             </div>
 
                                         </div>
@@ -41,7 +46,7 @@
 
                                             <div class="form-group form-group-lg">
                                                 <label for="apelido" class="font-weight-bold">Apelido:</label>
-                                                <input required maxlength="20" type="text" class="form-control form-control-lg" id="apelido" name="apelido">
+                                                <input required maxlength="20" type="text" class="form-control form-control-lg" id="apelido" name="apelido" value="<?= $usuario->getApelido() ?>">
                                             </div>
 
                                         </div>
@@ -50,7 +55,7 @@
 
                                             <div class="form-group form-group-lg">
                                                 <label for="email" class="font-weight-bold">Email:</label>
-                                                <input disabled type="text" class="form-control form-control-lg" id="email" name="email">
+                                                <input disabled type="text" class="form-control form-control-lg" id="email" name="email" value="<?= $usuario->getEmail() ?>" title="Você não pode alterar esse campo">
                                             </div>
 
                                         </div>
@@ -59,7 +64,7 @@
 
                                             <div class="form-group form-group-lg">
                                                 <label for="usuario" class="font-weight-bold">Usuário:</label>
-                                                <input disabled type="text" class="form-control form-control-lg" id="usuario" name="usuario">
+                                                <input disabled type="text" class="form-control form-control-lg" id="usuario" name="usuario" value="<?= $usuario->getLogin() ?>" title="Você não pode alterar esse campo">
                                             </div>
 
                                         </div>

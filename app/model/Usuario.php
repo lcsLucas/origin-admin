@@ -18,6 +18,7 @@ class Usuario extends UsuarioDao{
     private $email;
     private $ativo;
     private $tipo;
+    private $apelido;
 
     /**
      * Usuario constructor.
@@ -28,8 +29,9 @@ class Usuario extends UsuarioDao{
      * @param $email
      * @param $ativo
      * @param $tipo
+     * @param $apelido
      */
-    public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = null, $tipo = null)
+    public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = null, $tipo = null, $apelido = null)
     {
         parent::__construct();
         $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date("Y-m-d");
@@ -39,6 +41,7 @@ class Usuario extends UsuarioDao{
         $this->email = $email;
         $this->ativo = $ativo;
         $this->tipo = $tipo;
+        $this->apelido = $apelido;
         $this->setUsuario($this);
     }
 
@@ -170,9 +173,25 @@ class Usuario extends UsuarioDao{
         $this->tipo = $tipo;
     }
 
+    /**
+     * @return null
+     */
+    public function getApelido()
+    {
+        return $this->apelido;
+    }
+
+    /**
+     * @param null $apelido
+     */
+    public function setApelido($apelido)
+    {
+        $this->apelido = $apelido;
+    }
+
     public function Login()
     {
-        $result = $this->loginDAO($this);
+        $result = $this->loginDAO();
 
         if (!empty($result)) {
 
@@ -193,6 +212,10 @@ class Usuario extends UsuarioDao{
         }
 
     	return false;
+    }
+
+    public function carregarInformacoes() {
+        return $this->carregarInformacoesDAO();
     }
 
     /*public function alterarSenha($token, $senhaAtual, $senhanova, $confSenha)
