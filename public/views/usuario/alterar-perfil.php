@@ -17,6 +17,8 @@ $usuario = $this->dados->informacoes;
 
             <div id="conteudo" class="container">
 
+                <div id="container-errors"></div>
+
                 <div class="card border-0">
 
                     <div class="card-header bg-primary">
@@ -25,7 +27,7 @@ $usuario = $this->dados->informacoes;
 
                     <div class="card-body border border-top-0 border-primary">
 
-                        <form action="" method="post">
+                        <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post">
 
                             <div class="row">
 
@@ -77,7 +79,7 @@ $usuario = $this->dados->informacoes;
 
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input id="avatar" name="avatar" type="file" required accept="image/jpeg, image/png">
+                                            <input id="avatar" name="avatar" type="file" required accept=".jpeg, .png, .gif, .svg">
                                         </div>
                                     </div>
 

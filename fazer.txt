@@ -1,1 +1,11 @@
+/******
+
+Otimização de imagem no PHP
+- https://github.com/spatie/image-optimizer
+
+Redimensionamento de imagens
+-http://wideimage.sourceforge.net/
+
+/******
+
 - continuar mexendo na pagina de alterar perfil

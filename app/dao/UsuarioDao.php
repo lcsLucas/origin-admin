@@ -58,7 +58,7 @@ class UsuarioDao extends Banco
 
         if (!empty($this->conectar())) {
 
-            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_email, usu_login, usu_apelido FROM usuario");
+            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_email, usu_login, usu_apelido FROM usuario WHERE usu_id = :codigo LIMIT 1");
             $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
 
             if ($stms->execute()) {

@@ -53,7 +53,7 @@ class HomeController extends Action
     {
             $this->dados->title = "Página Não Encontrada";
             http_response_code(404);
-            $this->render('error404');
+            $this->render('error404.html');
     }
 
     public function pageRecuperarSenha()

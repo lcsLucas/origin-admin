@@ -92,7 +92,7 @@ abstract class Bootstrap
         //busca a rota informada pela url no array de rotas do site
 
         for ($i = 0; $i < $tam && !$achou; $i++) {
-            if (preg_match($this->routes[$i]["exp_reg"], $url)) {
+            if (preg_match($this->routes[$i]["exp_reg"], $url) && $this->routes[$i]["method"] === $_SERVER["REQUEST_METHOD"]) {
                 $achou = true;
                 $rota['controller'] = $this->routes[$i]['controller'];
                 $rota['action'] = $this->routes[$i]['action'];

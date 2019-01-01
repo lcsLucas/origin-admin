@@ -7,8 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\Process\\' => 26,
+            'Spatie\\ImageOptimizer\\' => 22,
+        ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'ProjetoMvc\\' => 11,
         ),
         'A' => 
@@ -18,6 +24,18 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Spatie\\ImageOptimizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/image-optimizer/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'ProjetoMvc\\' => 
         array (
             0 => __DIR__ . '/..' . '/projetoMvc',
@@ -28,11 +46,22 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'W' => 
+        array (
+            'WideImage' => 
+            array (
+                0 => __DIR__ . '/..' . '/smottt/wideimage/lib',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

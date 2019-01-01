@@ -8,10 +8,12 @@ $(document).ready(function() {
         showRemove: false,
         showUpload: false,
         browseOnZoneClick: true,
+        elErrorContainer: "#container-errors",
+        msgErrorClass: 'alert alert-block alert-danger',
         language: "pt-BR",
         theme: "fa",
         defaultPreviewContent: '<img src="http://plugins.krajee.com/uploads/default_avatar_male.jpg" alt="Seu avatar">',
-        allowedFileExtensions: ["jpeg", "jpg", "png"]
+        allowedFileExtensions: ["jpeg", "gif", "png", "svg"]
     });
 
 });

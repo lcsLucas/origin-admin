@@ -26,6 +26,7 @@ class UsuarioController extends Action
     /**
      * chama a view de alterar perfil, passando o titulo da página
      * @return void
+     * Method GET
      */
     public function pageAlterarPerfil()
     {
@@ -37,6 +38,13 @@ class UsuarioController extends Action
         $this->dados->input_drop = true;
         $this->dados->title = "Alterar Perfil";
         $this->render('alterar-perfil.php');
+    }
+
+    public function requestAlterarPerfil() {
+
+        /*header("Location: " . $_SERVER["REQUEST_URI"]);
+        exit();*/
+
     }
 
 }

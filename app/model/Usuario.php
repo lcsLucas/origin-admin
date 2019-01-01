@@ -50,7 +50,7 @@ class Usuario extends UsuarioDao{
      */
     public function getId()
     {
-        return $this->id;
+        return filter_var($this->id, FILTER_VALIDATE_INT);
     }
 
     /**
