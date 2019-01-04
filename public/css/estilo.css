@@ -1,5 +1,18 @@
 @charset"UTF-8";
 
+/* Change the white to any color ;) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill {
+    -webkit-text-fill-color: #444 !important;
+}
+
 #container-login {
     position: fixed;
     left: 0;
@@ -9,11 +22,13 @@
     width: 100%;
     height: 100%;
     font-size: .9rem;
+    overflow: auto;
 }
 
 #wrapper-login {
     width: 100%;
-    max-width: 430px;
+    max-width: 450px;
+    min-height: 450px;
 }
 
 #wrapper-login .titulo {
@@ -25,16 +40,8 @@
     border-color: #bc2026 !important;
 }
 
-.form-group.has-error .input-group-text i{
-    color: #bc2026 !important;
-}
-
 .form-group.has-error .form-control{
     border-color: #bc2026 !important;
-}
-
-.form-group.has-error .form-control::placeholder {
-    color: #bc2026 !important;
 }
 
 .form-group.has-error label.error {
@@ -49,4 +56,37 @@
 form input, form .btn {
     box-shadow: none !important;
     outline: none !important;
+}
+
+form input.form-control::placeholder{
+    font-size: 1.15rem;
+    color: #444;
+    font-weight: lighter;
+}
+
+.form-group {
+    margin: 20px 0;
+}
+
+.input-group-lg>.form-control {
+    border-left: none;
+    font-size: 1.6rem;
+    color: #444;
+}
+
+.input-group-lg>.input-group-prepend>.input-group-text {
+    padding: .5rem 1.1rem;
+}
+
+.input-group-lg>.form-control, .input-group-lg>.input-group-prepend>.input-group-text{
+    height: calc(2.640625rem + 15px);
+}
+
+.input-group-text {
+    background: none;
+}
+
+form button:focus {
+    background-color: #1985ac;
+    border-color: #187da0;
 }

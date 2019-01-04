@@ -35,31 +35,31 @@
                 <form action="<?= URL ?>fazer_login" method="post" id="formLogin" name="formLogin" class="form-validate">
 
                     <div class="form-group">
-                        <label class="form-label" for="login">E-mail ou Usúario:</label>
+                        <label class="form-label sr-only" for="login">E-mail ou Usúario:</label>
 
                         <div class="input-group input-group-lg">
                             <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-lg">
+                            <span class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </span>
                             </div>
-                            <input type="text" autocomplete="username" class="form-control" id="login" name="login" required autofocus>
+                            <input type="text" autocomplete="username" class="form-control" id="login" name="login" required autofocus maxlength="60" placeholder="Usuário ou Email" title="Por favor, informe seu usuário ou email">
                         </div>
 
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="senha">Senha:</label>
+                        <label class="form-label sr-only" for="senha">Senha:</label>
                         <div class="input-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" ><i class="fa fa-lock"></i></span>
                             </div>
-                            <input type="password" autocomplete="current-password" class="form-control" id="senha" name="senha" required>
+                            <input type="password" autocomplete="current-password" class="form-control" id="senha" name="senha" maxlength="60" required placeholder="Senha" title="Por favor, informe sua senha">
                         </div>
                     </div>
 
-                    <div class="form-group mt-5">
-                        <button name="btnLogar" class="btn btn-success btn-block btn-lg text-white" type="submit">ENTRAR</button>
+                    <div class="form-group">
+                        <button name="btnLogar" class="btn btn-primary btn-block btn-lg text-white" type="submit">ENTRAR</button>
                         <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                         <p class="mt-3 text-right">
                             <a href="">Esqueceu sua senha?</a>
@@ -71,6 +71,8 @@
             </div>
 
         </div>
+
+        <p class="m-0 text-muted text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
 
     </div>
 

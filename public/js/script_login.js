@@ -41,9 +41,8 @@ $(document).ready(function() {
                 } else {
                     alert.addClass("alert-danger");
                     alert.html(retorno.mensagem);
+                    $(form).find("button").html("ENTRAR").prop("disabled",false);
                 }
-
-                $(form).find("button").html("ENTRAR").prop("disabled",false);
 
             }).fail(function () {
                 $(form).find("button").html("ENTRAR").prop("disabled",false);
