@@ -6,8 +6,14 @@
 }
 
 .form-group-lg label {
-    font-size: .95rem;
-    color: #333;
+    font-size: 1rem;
+    color: #5F5F5F;
+}
+
+.form-control:focus {
+    color: #5A5A5A;
+    font-family: arial, sans-serif;
+    background: rgba(138, 212, 238,.05);
 }
 
 .file-thumbnail-footer {
@@ -26,3 +32,35 @@
 #container-errors {
     margin: 0 0 1.5rem 0;
 }
+
+.card-body {
+	padding: 1.7rem 1.25rem;
+}
+
+.form-group.has-error label.error {
+    color: #bc2026 !important;
+    margin: 3px 0 0;
+}
+
+.form-group.has-error .form-control{
+    border-color: #bc2026 !important;
+}
+
+.form-group.has-error .form-control:focus{
+    background: rgba(188, 32, 38, .02) !important;
+}
+
+.file-default-preview.clickable {
+    position: relative;
+}
+
+/*.kv-preview-thumb::after {
+    content: "Alterar Foto";
+    background: rgba(75, 134, 236,.92);
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 5px 0;
+    color: #FFF;
+}*/

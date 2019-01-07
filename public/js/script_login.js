@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+    $("#wrapper-login").find(".form-control").focus(function(){
+        $(this).parents(".input-group").addClass("focus");
+    }).blur(function () {
+        $(this).parents(".input-group").removeClass("focus");
+    });
+
+    $("#wrapper-login").find(".form-control")[0].focus();
+
     $(".form-validate").validate({
         language: "pt-BR",
         highlight: function(element) {

@@ -43,7 +43,7 @@
                                 <i class="fa fa-user"></i>
                             </span>
                             </div>
-                            <input type="text" autocomplete="username" class="form-control" id="login" name="login" required autofocus maxlength="60" placeholder="Usuário ou Email" title="Por favor, informe seu usuário ou email">
+                            <input type="text" autocomplete="username" class="form-control" id="login" name="login" required maxlength="60" placeholder="Usuário ou Email" title="Por favor, informe seu usuário ou email">
                         </div>
 
                     </div>

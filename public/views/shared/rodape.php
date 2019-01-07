@@ -323,6 +323,19 @@ if (! defined('ABSPATH')){
 
 ?>
 
+<?php
+
+if (!empty($this->dados->validation)) {
+    ?>
+
+    <script src="<?= URL_PUBLIC ?>vendors/jquery-validate/jquery.validate.min.js"></script>
+    <script src="<?= URL_PUBLIC ?>vendors/jquery-validate/localization/messages_pt_PT.js"></script>
+
+<?php
+}
+
+?>
+
 <script src="<?= URL_JS ?>scripts-painel.js"></script>
 </body>
 </html>
