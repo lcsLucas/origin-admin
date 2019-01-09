@@ -2,6 +2,8 @@
 
 $usuario = $this->dados->informacoes;
 
+var_dump($this->dados);
+
 ?>
 
 <main class="main">
@@ -27,7 +29,7 @@ $usuario = $this->dados->informacoes;
 
                     <div class="card-body border border-top-0 border-primary">
 
-                        <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" >
+                        <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" enctype="multipart/form-data" id="formAlterarPerfil">
 
                             <div class="row">
 
@@ -81,7 +83,7 @@ $usuario = $this->dados->informacoes;
 
                                         <div class="kv-avatar">
                                             <div class="file-loading">
-                                                <input id="avatar" name="avatar" type="file" required accept=".jpeg, .png, .gif, .svg" title="Informe uma imagem">
+                                                <input id="avatar" name="avatar" type="file" accept=".jpeg, .png, .gif, .svg">
                                             </div>
                                         </div>
 
@@ -94,6 +96,7 @@ $usuario = $this->dados->informacoes;
                                 </div>
 
                                 <div class="col-sm-12 text-right mt-5">
+                                    <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                     <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg btn-link text-primary">Cancelar</a>
                                     <button type="submit" class="btn btn-success text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
                                 </div>

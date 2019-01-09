@@ -58,7 +58,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mt-5">
                         <button name="btnLogar" class="btn btn-primary btn-block btn-lg text-white" type="submit">ENTRAR</button>
                         <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                         <p class="mt-3 text-right">

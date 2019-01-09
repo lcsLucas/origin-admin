@@ -5,6 +5,15 @@
     outline: none !important;
 }
 
+button[name="btnConfirmar"] {
+    padding: 9px 18px;
+    font-size: 1.2rem;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    border: 1px solid #CCC;
+}
+
 .form-group-lg label {
     font-size: 1rem;
     color: #5F5F5F;

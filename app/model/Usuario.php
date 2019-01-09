@@ -19,6 +19,8 @@ class Usuario extends UsuarioDao{
     private $ativo;
     private $tipo;
     private $apelido;
+    private $img_avatar;
+    private $file_avatar;
 
     /**
      * Usuario constructor.
@@ -43,6 +45,8 @@ class Usuario extends UsuarioDao{
         $this->tipo = $tipo;
         $this->apelido = $apelido;
         $this->setUsuario($this);
+        $this->img_avatar = "";
+        $this->file_avatar = "";
     }
 
     /**
@@ -189,6 +193,30 @@ class Usuario extends UsuarioDao{
         $this->apelido = $apelido;
     }
 
+    /**
+     * @return string
+     */
+    public function getImgAvatar(): string
+    {
+        return $this->img_avatar;
+    }
+
+    /**
+     * @param string $img_avatar
+     */
+    public function setImgAvatar(string $img_avatar)
+    {
+        $this->img_avatar = $img_avatar;
+    }
+
+    /**
+     * @param string $file_avatar
+     */
+    public function setFileAvatar(string $file_avatar)
+    {
+        $this->file_avatar = $file_avatar;
+    }
+
     public function Login()
     {
         $result = $this->loginDAO();
@@ -212,6 +240,10 @@ class Usuario extends UsuarioDao{
         }
 
     	return false;
+    }
+
+    public function alterarPerfil() {
+
     }
 
     public function carregarInformacoes() {
