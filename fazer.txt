@@ -4,7 +4,10 @@ Otimização de imagem no PHP
 - https://github.com/spatie/image-optimizer
 
 Redimensionamento de imagens
--http://wideimage.sourceforge.net/
+- http://wideimage.sourceforge.net/
+
+Cropper JS
+- https://fengyuanchen.github.io/cropperjs/
 
 /******
 

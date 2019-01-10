@@ -3,6 +3,8 @@ namespace App\model;
 
 use App\dao\UsuarioDao;
 use App\model\Retorno;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
+use WideImage\WideImage;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -210,9 +212,9 @@ class Usuario extends UsuarioDao{
     }
 
     /**
-     * @param string $file_avatar
+     * @param array $file_avatar
      */
-    public function setFileAvatar(string $file_avatar)
+    public function setFileAvatar(array $file_avatar)
     {
         $this->file_avatar = $file_avatar;
     }
@@ -244,6 +246,26 @@ class Usuario extends UsuarioDao{
 
     public function alterarPerfil() {
 
+        $result = $this->alterarPerfilDAO();
+
+        if (!empty($result) && !empty($this->file_avatar)) {
+
+            $tipo = ".png";
+
+            if (strcmp('image/jpeg',$this->file_avatar['type']) === 0)
+                $tipo = ".jpg";
+            if (strcmp('image/gif',$this->file_avatar['type']) === 0)
+                $tipo = ".png";
+
+            $nome_file = $this->getId() . $tipo;
+
+            $image = WideImage::loadFromFile($this->file_avatar["tmp_name"]);
+            $resized = $image->resize(150, 150, 'inside');
+            $resized->saveToFile( PATH_IMG . "avatars/" . $nome_file);
+
+        }
+
+        return $result;
     }
 
     public function carregarInformacoes() {

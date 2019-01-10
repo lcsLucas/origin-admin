@@ -1,5 +1,26 @@
 @charset"UTF-8";
 
+.alert {
+    font-size: .955rem;
+}
+
+.alert-success {
+    color: #FFF;
+    background-color: #3ea662;
+    border-color: #3ea662;
+    font-size: .955rem;
+}
+
+.alert-danger {
+    color: #FFF;
+    background-color: #f64846;
+    border-color: #f64846;
+}
+
+.alert-success .alert-link {
+    color: #FFF;
+}
+
 .form-group .form-control {
     box-shadow: none !important;
     outline: none !important;
@@ -61,6 +82,10 @@ button[name="btnConfirmar"] {
 
 .file-default-preview.clickable {
     position: relative;
+}
+
+#erro-file-input:not(:empty) + .alert {
+    display: none;
 }
 
 /*.kv-preview-thumb::after {

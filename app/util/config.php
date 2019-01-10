@@ -15,6 +15,8 @@ define( 'URL', htmlspecialchars($_SERVER["REQUEST_SCHEME"]) . "://" . htmlspecia
 
 define( 'PATH_VIEWS', ABSPATH ."public/views/");
 
+define( 'PATH_IMG', ABSPATH ."public/img/");
+
 define( 'URL_PUBLIC', URL ."public/");
 
 define( 'URL_CSS', URL."public/css/");

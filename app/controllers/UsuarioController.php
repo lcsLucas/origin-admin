@@ -53,7 +53,6 @@ class UsuarioController extends Action
         $validate->define_pattern('erro_');
         $validate
             ->set("nome", $nome)->is_required()
-            ->set("apelido", $apelido)->is_required()
             ->set("token", $token)->is_required();
 
         if ($validate->validate()) {
@@ -62,27 +61,26 @@ class UsuarioController extends Action
 
                 if (!empty($file)) {
 
-                    if (!$file["error"]) {
+                    if (!empty($file["error"]) && $file["error"] !== 4) {
 
                         if ($file["error"] === 1 || $file["error"] === 2)
                             $this->setRetorno("O arquivo \"". $file["name"] ."\" excede o tamanho máximo permitido de 1,5MB.", true, false);
                         elseif($file["error"] === 3)
                             $this->setRetorno("Não foi possível fazer o upload completo do arquivo, tente novamente", true, false);
-                        elseif($file["error"] === 4)
-                            $this->setRetorno("Não foi enviado nenhum arquivo", true, false);
                         elseif($file["error"] === 6)
                             $this->setRetorno("Não foi possível fazer o upload do arquivo (pasta temporária ausente)", true, false);
                         else
                             $this->setRetorno("Erro inesperável no upload do arquivo, tente novamente", true, false);
 
-                        $erro_img = true;
-                    } else if($file["size"] > 1572864){
+                    } else if($file["size"] > 1572864)
                         $this->setRetorno("O arquivo \"". $file["name"] ."\" excede o tamanho máximo permitido de 1,5MB.", true, false);
-                        $erro_img = true;
-                    }
+                    elseif(strcmp('image/png', $file["type"]) !== 0 || strcmp('image/gif', $file["type"]) !== 0)
+                        $this->setRetorno("O Tipo do arquivo enviado é inválido. São permitidoPor favor, envie um arquivo do tipo \"jpeg, png ou gif\"", true, false);
+
+                    $erro_img = true;
                 }
 
-                if (!isset($erro_img)) {
+                if (empty($erro_img)) {
 
                     $usuario->setNome($nome);
                     $usuario->setApelido($apelido);
@@ -90,7 +88,7 @@ class UsuarioController extends Action
                     $usuario->setId($_SESSION["_idusuario"]);
 
                     if ($usuario->alterarPerfil())
-                        $this->setRetorno("Perfil alterado com sucesso", true, false);
+                        $this->setRetorno("Perfil foi alterado com sucesso", true, true);
                     else if($usuario->getRetorno()["exibir"])
                         $this->setRetorno($usuario->getRetorno()["mensagem"], $usuario->getRetorno()["exibir"], $usuario->getRetorno()["status"]);
                     else

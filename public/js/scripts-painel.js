@@ -10,12 +10,12 @@ $(document).ready(function() {
         showRemove: false,
         showUpload: false,
         browseOnZoneClick: true,
-        elErrorContainer: "#container-errors",
+        elErrorContainer: "#erro-file-input",
         msgErrorClass: 'alert alert-block alert-danger',
         language: "pt-BR",
         theme: "fa",
         defaultPreviewContent: '<img src="http://plugins.krajee.com/uploads/default_avatar_male.jpg" alt="Seu avatar">',
-        allowedFileExtensions: ["jpeg", "gif", "png", "svg"]
+        allowedFileExtensions: ["jpg", "jpeg", "gif", "png"]
     });
 
     $(".form-validate").validate({

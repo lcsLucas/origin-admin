@@ -54,6 +54,32 @@ class UsuarioDao extends Banco
 		return $result;
 	}
 
+	protected function alterarPerfilDAO() {
+
+        $result = false;
+
+        if (!empty($this->conectar())) {
+
+            try {
+
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_nome = :nome, usu_apelido = :apelido WHERE usu_id = :id LIMIT 1");
+                $stms->bindValue(':nome', $this->usuario->getNome(), \PDO::PARAM_STR);
+                $stms->bindValue(':apelido', $this->usuario->getApelido(), \PDO::PARAM_STR);
+                $stms->bindValue(':id', $this->usuario->getId(), \PDO::PARAM_INT);
+
+                $result = $stms->execute();
+
+
+            } catch (\PDOException $e) {
+                $result = false;
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | " . $e->getMessage(), false, false);
+            }
+
+        }
+
+        return $result;
+    }
+
 	protected function carregarInformacoesDAO() {
 
         if (!empty($this->conectar())) {

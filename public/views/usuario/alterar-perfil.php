@@ -1,8 +1,10 @@
 <?php
 
+$retorno = null;
 $usuario = $this->dados->informacoes;
 
-var_dump($this->dados);
+if (!empty($this->dados->retorno))
+    $retorno = $this->dados->retorno;
 
 ?>
 
@@ -19,7 +21,37 @@ var_dump($this->dados);
 
             <div id="conteudo" class="container">
 
-                <div id="container-errors"></div>
+                <div id="container-errors">
+
+                    <div id="erro-file-input"></div>
+
+                    <?php
+
+                    if (!empty($retorno)) {
+
+                        if (empty($retorno["status"])) {
+                            ?>
+
+                            <div class="alert alert-block alert-danger text-center">
+                                <a href="javascript:void(0)" class="alert-link">ATENÇÃO!</a> <?= $retorno["mensagem"] ?>
+                            </div>
+
+                            <?php
+                        } else {
+                            ?>
+
+                            <div class="alert alert-block alert-success text-center">
+                                <a href="javascript:void(0)" class="alert-link">SUCESSO!</a> <?= $retorno["mensagem"] ?>
+                            </div>
+
+                            <?php
+                        }
+
+                    }
+
+                    ?>
+
+                </div>
 
                 <div class="card border-0">
 
@@ -83,7 +115,7 @@ var_dump($this->dados);
 
                                         <div class="kv-avatar">
                                             <div class="file-loading">
-                                                <input id="avatar" name="avatar" type="file" accept=".jpeg, .png, .gif, .svg">
+                                                <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif">
                                             </div>
                                         </div>
 
