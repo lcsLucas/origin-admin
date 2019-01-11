@@ -48,7 +48,7 @@ class UsuarioController extends Action
         $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
         $apelido = trim(filter_input(INPUT_POST, 'apelido', FILTER_SANITIZE_SPECIAL_CHARS));
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
-        $file = !empty($_FILES["avatar"]) ? $_FILES["avatar"] : null;
+        $file = !empty($_FILES["avatar"]["tmp_name"]) ? $_FILES["avatar"]["tmp_name"] : array();
 
         $validate->define_pattern('erro_');
         $validate
@@ -72,12 +72,15 @@ class UsuarioController extends Action
                         else
                             $this->setRetorno("Erro inesperável no upload do arquivo, tente novamente", true, false);
 
-                    } else if($file["size"] > 1572864)
-                        $this->setRetorno("O arquivo \"". $file["name"] ."\" excede o tamanho máximo permitido de 1,5MB.", true, false);
-                    elseif(strcmp('image/png', $file["type"]) !== 0 || strcmp('image/gif', $file["type"]) !== 0)
+                        $erro_img = true;
+                    } else if($file["size"] > 1572864) {
+                        $this->setRetorno("O arquivo \"" . $file["name"] . "\" excede o tamanho máximo permitido de 1,5MB.", true, false);
+                        $erro_img = true;
+                    }elseif(strcmp('image/png', $file["type"]) !== 0 && strcmp('image/gif', $file["type"]) !== 0 && strcmp('image/jpeg', $file["type"]) !== 0) {
                         $this->setRetorno("O Tipo do arquivo enviado é inválido. São permitidoPor favor, envie um arquivo do tipo \"jpeg, png ou gif\"", true, false);
+                        $erro_img = true;
+                    }
 
-                    $erro_img = true;
                 }
 
                 if (empty($erro_img)) {

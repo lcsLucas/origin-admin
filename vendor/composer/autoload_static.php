@@ -7,14 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
 {
     public static $prefixLengthsPsr4 = array (
-        'S' => 
-        array (
-            'Symfony\\Component\\Process\\' => 26,
-            'Spatie\\ImageOptimizer\\' => 22,
-        ),
         'P' => 
         array (
-            'Psr\\Log\\' => 8,
             'ProjetoMvc\\' => 11,
         ),
         'A' => 
@@ -24,18 +18,6 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Component\\Process\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/process',
-        ),
-        'Spatie\\ImageOptimizer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/spatie/image-optimizer/src',
-        ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
         'ProjetoMvc\\' => 
         array (
             0 => __DIR__ . '/..' . '/projetoMvc',

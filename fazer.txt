@@ -11,4 +11,4 @@ Cropper JS
 
 /******
 
-- continuar mexendo na pagina de alterar perfil
+começar a fazer a página de alterar senha do usuario

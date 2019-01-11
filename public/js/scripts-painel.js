@@ -2,7 +2,13 @@ $(document).ready(function() {
 
     var functionSubmit = null;
 
-    $("#avatar").fileinput({
+    const input_avatar = $("#avatar");
+    var img_avatar = "http://plugins.krajee.com/uploads/default_avatar_male.jpg";
+
+    if (input_avatar.data("avatar"))
+        img_avatar = input_avatar.data("avatar");
+    
+    input_avatar.fileinput({
         overwriteInitial: true,
         maxFileSize: 1500,
         showCaption: false,
@@ -14,7 +20,7 @@ $(document).ready(function() {
         msgErrorClass: 'alert alert-block alert-danger',
         language: "pt-BR",
         theme: "fa",
-        defaultPreviewContent: '<img src="http://plugins.krajee.com/uploads/default_avatar_male.jpg" alt="Seu avatar">',
+        defaultPreviewContent: '<img src="'+ img_avatar +'" alt="Seu avatar">',
         allowedFileExtensions: ["jpg", "jpeg", "gif", "png"]
     });
 

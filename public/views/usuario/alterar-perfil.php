@@ -115,12 +115,12 @@ if (!empty($this->dados->retorno))
 
                                         <div class="kv-avatar">
                                             <div class="file-loading">
-                                                <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif">
+                                                <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif" <?= file_exists(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? "data-avatar='". URL_IMG . "usuarios/" . $usuario->getImgAvatar() ."'" : "" ?> >
                                             </div>
                                         </div>
 
                                         <div class="kv-avatar-hint text-center">
-                                            <a href="">selecionar um avatar</a>
+                                            <a href="javascript:void(0)">selecionar um avatar</a>
                                         </div>
 
                                     </div>
@@ -129,8 +129,8 @@ if (!empty($this->dados->retorno))
 
                                 <div class="col-sm-12 text-right mt-5">
                                     <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                                    <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg btn-link text-primary">Cancelar</a>
-                                    <button type="submit" class="btn btn-success text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
+                                    <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg active btn-link text-primary">Cancelar</a>
+                                    <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
                                 </div>
 
                             </div>

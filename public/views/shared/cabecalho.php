@@ -73,33 +73,33 @@ if (! defined('ABSPATH')){
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center">
-                    <strong>Account</strong>
+                    <strong>Notificações</strong>
                 </div>
                 <a class="dropdown-item" href="#">
-                    <i class="fa fa-bell-o"></i> Updates
+                    <i class="fas fa-bell text-muted"></i> Updates
                     <span class="badge badge-info">42</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                    <i class="fa fa-envelope-o"></i> Messages
+                    <i class="fas fa-envelope-open-text text-muted"></i> Mensagens
                     <span class="badge badge-success">42</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                    <i class="fa fa-tasks"></i> Tasks
+                    <i class="fa fa-tasks text-muted"></i> Tarefas
                     <span class="badge badge-danger">42</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                    <i class="fa fa-comments"></i> Comments
+                    <i class="fa fa-comments text-muted"></i> Comentários
                     <span class="badge badge-warning">42</span>
                 </a>
                 <div class="dropdown-header text-center">
-                    <strong>Settings</strong>
+                    <strong>Conta</strong>
                 </div>
                 <a class="dropdown-item" href="<?= URL ?>alterar-perfil">
-                    <i class="fa fa-user"></i> Profile</a>
+                    <i class="fa fa-user text-muted"></i> Perfil</a>
                 <a class="dropdown-item" href="#">
-                    <i class="fa fa-wrench"></i> Settings</a>
+                    <i class="fas fa-cogs text-muted"></i> Opções</a>
                 <a class="dropdown-item" href="<?= URL ?>logout">
-                    <i class="fa fa-lock"></i> Logout</a>
+                    <i class="fas fa-sign-out-alt text-muted"></i> Logout</a>
             </div>
         </li>
     </ul>

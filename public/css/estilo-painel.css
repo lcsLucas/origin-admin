@@ -1,5 +1,9 @@
 @charset"UTF-8";
 
+.file-preview-thumbnails {
+    padding: 8px 0 !important;
+}
+
 .alert {
     font-size: .955rem;
 }
@@ -17,7 +21,7 @@
     border-color: #f64846;
 }
 
-.alert-success .alert-link {
+.alert-success .alert-link, .alert-danger .alert-link {
     color: #FFF;
 }
 
@@ -87,14 +91,3 @@ button[name="btnConfirmar"] {
 #erro-file-input:not(:empty) + .alert {
     display: none;
 }
-
-/*.kv-preview-thumb::after {
-    content: "Alterar Foto";
-    background: rgba(75, 134, 236,.92);
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    padding: 5px 0;
-    color: #FFF;
-}*/

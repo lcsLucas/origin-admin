@@ -3,7 +3,6 @@ namespace App\model;
 
 use App\dao\UsuarioDao;
 use App\model\Retorno;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
 use WideImage\WideImage;
 
 if (! defined('ABSPATH')){
@@ -250,18 +249,29 @@ class Usuario extends UsuarioDao{
 
         if (!empty($result) && !empty($this->file_avatar)) {
 
+            if (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".jpg"))
+                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".jpg");
+            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".jpeg"))
+                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".jpeg");
+            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".png"))
+                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".png");
+            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".gif"))
+                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".gif");
+
             $tipo = ".png";
 
             if (strcmp('image/jpeg',$this->file_avatar['type']) === 0)
                 $tipo = ".jpg";
-            if (strcmp('image/gif',$this->file_avatar['type']) === 0)
+            elseif (strcmp('image/gif',$this->file_avatar['type']) === 0)
+                $tipo = ".gif";
+            elseif (strcmp('image/png',$this->file_avatar['type']) === 0)
                 $tipo = ".png";
 
             $nome_file = $this->getId() . $tipo;
 
             $image = WideImage::loadFromFile($this->file_avatar["tmp_name"]);
             $resized = $image->resize(150, 150, 'inside');
-            $resized->saveToFile( PATH_IMG . "avatars/" . $nome_file);
+            $resized->saveToFile( PATH_IMG . "usuarios/" . $nome_file);
 
         }
 
@@ -269,7 +279,22 @@ class Usuario extends UsuarioDao{
     }
 
     public function carregarInformacoes() {
-        return $this->carregarInformacoesDAO();
+        $result = $this->carregarInformacoesDAO();
+
+        if (!empty($result)) {
+
+            if (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".jpg"))
+                $this->img_avatar = $this->getId() . ".jpg";
+            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".jpeg"))
+                $this->img_avatar = $this->getId() . ".jpeg";
+            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".png"))
+                $this->img_avatar = $this->getId() . ".png";
+            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".gif"))
+                $this->img_avatar = $this->getId() . ".gif";
+
+        }
+
+        return $result;
     }
 
     /*public function alterarSenha($token, $senhaAtual, $senhanova, $confSenha)
