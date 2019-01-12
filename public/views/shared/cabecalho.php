@@ -96,6 +96,8 @@ if (! defined('ABSPATH')){
                 </div>
                 <a class="dropdown-item" href="<?= URL ?>alterar-perfil">
                     <i class="fa fa-user text-muted"></i> Perfil</a>
+                <a class="dropdown-item" href="<?= URL ?>alterar-senha">
+                    <i class="fa fa-lock text-muted"></i> Alterar Senha</a>
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs text-muted"></i> Opções</a>
                 <a class="dropdown-item" href="<?= URL ?>logout">

@@ -71,6 +71,13 @@ class Init extends Bootstrap
             'action' => 'requestAlterarPerfil'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^alterar-senha\/?$/',
+            'method' => 'GET',
+            'controller' => 'usuario',
+            'action' => 'pageAlterarSenha'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

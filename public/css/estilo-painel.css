@@ -4,6 +4,11 @@
     padding: 8px 0 !important;
 }
 
+.kv-error-close {
+    color: #FFF !important;
+    opacity: 1 !important;
+}
+
 .alert {
     font-size: .955rem;
 }
@@ -74,6 +79,7 @@ button[name="btnConfirmar"] {
 .form-group.has-error label.error {
     color: #bc2026 !important;
     margin: 3px 0 0;
+    font-size: .8rem;
 }
 
 .form-group.has-error .form-control{

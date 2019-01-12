@@ -16,7 +16,7 @@ if (!empty($this->dados->retorno))
         </li>
         <li class="breadcrumb-item active">Meu Perfil</li>
     </ol>
-    <div class="container-fluid">
+
         <div class="animated fadeIn">
 
             <div id="conteudo" class="container">
@@ -115,12 +115,12 @@ if (!empty($this->dados->retorno))
 
                                         <div class="kv-avatar">
                                             <div class="file-loading">
-                                                <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif" <?= file_exists(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? "data-avatar='". URL_IMG . "usuarios/" . $usuario->getImgAvatar() ."'" : "" ?> >
+                                                <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif" <?= is_file(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? "data-avatar='". URL_IMG . "usuarios/" . $usuario->getImgAvatar() ."'" : "" ?> >
                                             </div>
                                         </div>
 
                                         <div class="kv-avatar-hint text-center">
-                                            <a href="javascript:void(0)">selecionar um avatar</a>
+                                            <a href="javascript:void(0)">Escolha um avatar</a>
                                         </div>
 
                                     </div>
@@ -145,5 +145,4 @@ if (!empty($this->dados->retorno))
 
         </div>
 
-    </div>
 </main>
