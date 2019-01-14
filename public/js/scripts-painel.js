@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
     var functionSubmit = null;
+    var rulesForm = {};
+    var rulesMessages = {};
 
     const input_avatar = $("#avatar");
 
@@ -29,9 +31,27 @@ $(document).ready(function() {
 
     }
 
+    if ($("#formAlterarSenha").length) {
+
+        rulesForm = {
+            senha_nova2: {
+                equalTo: "#senha_nova"
+            }
+        };
+
+        rulesMessages = {
+            senha_nova2: {
+                equalTo: "As senhas informadas não batem"
+            }
+        };
+
+    }
+
     if($(".form-validate").length)
     $(".form-validate").validate({
         language: "pt-BR",
+        rules: rulesForm,
+        messages: rulesMessages,
         highlight: function (element) {
             $(element).closest('.form-group').addClass('has-error');
         },
@@ -53,16 +73,30 @@ $(document).ready(function() {
         
     });
 
+    $(".form-validate").find(".form-control").focus(function(){
+        $(this).parents(".input-group").addClass("focus");
+    }).blur(function () {
+        $(this).parents(".input-group").removeClass("focus");
+    });
+
 });
 
 function exibiSenha(target) {
     const input_group = target.closest(".input-group");
-    var input = input_group.querySelector("input[type=password],input[type=text]");
+    const input = input_group.querySelector("input[type=password],input[type=text]");
+    const icone = target.querySelector("i");
     
-    if (input.getAttribute("type") === "password")
+    if (input.getAttribute("type") === "password") {
         input.setAttribute("type", "text");
-    else
+        icone.classList.remove("fa-eye-slash");
+        icone.classList.remove("text-muted");
+        icone.classList.add("fa-eye");
+    } else {
         input.setAttribute("type", "password");
+        icone.classList.remove("fa-eye");
+        icone.classList.add("fa-eye-slash");
+        icone.classList.add("text-muted");
+    }
 
     input.focus();
 

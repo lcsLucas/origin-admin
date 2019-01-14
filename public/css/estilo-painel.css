@@ -86,6 +86,22 @@ button[name="btnConfirmar"] {
     border-color: #bc2026 !important;
 }
 
+.form-group.has-error .input-group-text{
+    border-color: #bc2026 !important;
+}
+
+.form-group.has-error .input-group-text{
+    border-color: #bc2026 !important;
+}
+
+.form-group.has-error .input-group-text i{
+    color: #bc2026 !important;
+}
+
+.form-group.has-error .input-group-prepend::after {
+    background: #bc2026 !important;
+}
+
 .form-group.has-error .form-control:focus{
     background: rgba(188, 32, 38, .02) !important;
 }
@@ -96,4 +112,18 @@ button[name="btnConfirmar"] {
 
 #erro-file-input:not(:empty) + .alert {
     display: none;
+}
+
+/*.input-group.focus .input-group-prepend::after {
+    background: #8ad4ee;
+}*/
+
+.input-group.focus .input-group-text{
+    border-color: #8ad4ee;
+    background: rgba(138, 212, 238,.05) !important;
+    border-left: none;
+}
+
+.input-group.focus .input-group-text i{
+    color: #20a8d8;
 }

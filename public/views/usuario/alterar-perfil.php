@@ -41,7 +41,7 @@ if (!empty($this->dados->retorno))
                             ?>
 
                             <div class="alert alert-block alert-success text-center">
-                                <a href="javascript:void(0)" class="alert-link">SUCESSO!</a> <?= $retorno["mensagem"] ?>
+                                <a href="javascript:void(0)" class="alert-link">ATENÇÃO!</a> <?= $retorno["mensagem"] ?>
                             </div>
 
                             <?php

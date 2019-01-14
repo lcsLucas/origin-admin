@@ -11,4 +11,4 @@ Cropper JS
 
 /******
 
-começar a fazer a página de alterar senha do usuario
+página de alterar senha feita

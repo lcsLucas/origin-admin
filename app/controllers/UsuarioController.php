@@ -47,6 +47,56 @@ class UsuarioController extends Action
         $this->render('alterar-senha.php');
     }
 
+    public function requestAlterarSenha() {
+        $validate = new Data_Validator();
+        $usuario = new Usuario();
+
+        $senha_atual = trim(filter_input(INPUT_POST, 'senha_atual', FILTER_SANITIZE_SPECIAL_CHARS));
+        $senha_nova = trim(filter_input(INPUT_POST, 'senha_nova', FILTER_SANITIZE_SPECIAL_CHARS));
+        $senha_nova2 = trim(filter_input(INPUT_POST, 'senha_nova2', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+        $validate
+            ->set("senha atual", $senha_atual)->is_required()->max_length(30)
+            ->set("\"nova senha\"", $senha_nova)->is_required()->max_length(30)
+            ->set("\"repita senha\"", $senha_nova2)->is_required()->max_length(30)
+            ->set("token", $token)->is_required();
+
+        if ($validate->validate()) {
+
+            if (strcmp($senha_nova, $senha_nova2) === 0) {
+
+                if (password_verify(TOKEN_SESSAO, $token)) {
+
+                    $usuario->setId($_SESSION["_idusuario"]);
+                    $usuario->setSenha($senha_nova);
+
+                    if ($usuario->alterarSenha($senha_atual))
+                        $this->setRetorno("Senha alterada com sucesso", true, true);
+                    else if($usuario->getRetorno()["exibir"])
+                        $this->setRetorno($usuario->getRetorno()["mensagem"], $usuario->getRetorno()["exibir"], $usuario->getRetorno()["status"]);
+                    else
+                        $this->setRetorno("Não foi possível alterar a senha, tente novamente", true, false);
+
+                } else
+                    $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+
+            } else
+                $this->setRetorno("As senhas informadas não batem", true, false);
+
+
+        } else {
+            $array_erros = $validate->get_errors();
+            $array_erro = array_shift($array_erros);
+            $erro = array_shift($array_erro);
+            $this->setRetorno($erro, true, false);
+        }
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->pageAlterarSenha();
+    }
+
     public function requestAlterarPerfil() {
         $validate = new Data_Validator();
         $usuario = new Usuario();
@@ -106,7 +156,7 @@ class UsuarioController extends Action
                 }
 
             } else {
-                $this->setRetorno("Token de autenticação inválido", true, false);
+                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
             }
 
         } else {

@@ -109,15 +109,15 @@ class UsuarioDao extends Banco
         return false;
     }
 
-    function obterSenha($codigo)
+    protected function obterSenha()
     {
       if(!empty($this->Conectar())) :
           try
           {
-            $stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_id = :codigo");
-            $stms->bindValue(":codigo", $codigo);
+            $stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_id = :codigo LIMIT 1");
+            $stms->bindValue(":codigo", $this->usuario->getId());
             $stms->execute();
-            return $this->convertToObject($stms->fetch());
+            return $stms->fetch();
           }
           catch(\PDOException $e)
           {
@@ -127,7 +127,31 @@ class UsuarioDao extends Banco
       return false;
     }
 
-    function alterarSenha($codigo, $senha)
+    protected function alterarSenhaDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_senha = :senha WHERE usu_id = :codigo LIMIT 1");
+                $stms->bindValue(":senha", $this->usuario->getSenha());
+                $stms->bindValue(":codigo", $this->usuario->getId());
+
+                return $stms->execute();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+    }
+
+    /*function alterarSenhaDAO($senha)
     {
       if(!empty($this->Conectar())) :
         try
@@ -144,7 +168,7 @@ class UsuarioDao extends Banco
         }
       endif;
       return false;
-    }
+    }*/
 
     public function getRetorno() {
         return parent::getRetorno();

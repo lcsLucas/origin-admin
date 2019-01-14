@@ -297,6 +297,25 @@ class Usuario extends UsuarioDao{
         return $result;
     }
 
+    public function alterarSenha($senha_atual) {
+        $result = $this->obterSenha();
+
+        if (!empty($result)) {
+
+            if (password_verify($senha_atual, $result["usu_senha"])) {
+
+                $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+                $this->desconectar();
+                return $this->alterarSenhaDAO();
+
+            } else
+                $this->setRetorno("Senha atual informada está incorreta", true, false);
+
+        }
+
+        return false;
+    }
+
     /*public function alterarSenha($token, $senhaAtual, $senhanova, $confSenha)
     {
         $usuDAO = new UsuarioDAO();
