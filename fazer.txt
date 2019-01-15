@@ -11,4 +11,4 @@ Cropper JS
 
 /******
 
-página de alterar senha feita
+continuar no cadastro de tipos de usuarios, na tabela de listar

@@ -47,6 +47,12 @@ class UsuarioController extends Action
         $this->render('alterar-senha.php');
     }
 
+    public function pageTiposUsuarios() {
+        $this->dados->title = "Gerenciar Tipos de Usuarios";
+        $this->dados->validation = true;
+        $this->render('gerenciar-tipos-usuarios.php');
+    }
+
     public function requestAlterarSenha() {
         $validate = new Data_Validator();
         $usuario = new Usuario();

@@ -85,6 +85,13 @@ class Init extends Bootstrap
             'action' => 'requestAlterarSenha'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/?$/',
+            'method' => 'GET',
+            'controller' => 'usuario',
+            'action' => 'pageTiposUsuarios'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

@@ -279,26 +279,20 @@ if (! defined('ABSPATH')){
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li class="nav-title">Extras</li>
+                <li class="nav-title">Cadastros Básicos</li>
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="nav-icon icon-star"></i> Pages</a>
+                        <i class="nav-icon icon-star"></i> Usuários</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a class="nav-link" href="login.html" target="_top">
-                                <i class="nav-icon icon-star"></i> Login</a>
+                            <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" target="_top">
+                                <i class="nav-icon icon-star"></i> Tipos de Usuários
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="register.html" target="_top">
-                                <i class="nav-icon icon-star"></i> Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="404.html" target="_top">
-                                <i class="nav-icon icon-star"></i> Error 404</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="500.html" target="_top">
-                                <i class="nav-icon icon-star"></i> Error 500</a>
+                            <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-usuarios" target="_top">
+                                <i class="nav-icon icon-star"></i> Gerenciar Usuários
+                            </a>
                         </li>
                     </ul>
                 </li>
