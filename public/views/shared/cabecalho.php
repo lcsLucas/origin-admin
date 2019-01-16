@@ -24,10 +24,12 @@ if (! defined('ABSPATH')){
     <link href="<?= URL_PUBLIC ?>vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
     <!-- Main styles for this application-->
     <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="<?= URL_CSS ?>estilo-painel.css" rel="stylesheet">
     <link href="<?= URL_PUBLIC ?>vendors/pace-progress/css/pace.min.css" rel="stylesheet">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
 <header class="app-header navbar">
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
@@ -113,6 +115,24 @@ if (! defined('ABSPATH')){
     </button>
 </header>
 <div class="app-body">
+
+    <div class="loader-wrap">
+        <div class="loader">
+
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+
+        </div>
+    </div>
+
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
@@ -121,6 +141,23 @@ if (! defined('ABSPATH')){
                         <i class="nav-icon icon-speedometer"></i> Dashboard
                         <span class="badge badge-primary">NEW</span>
                     </a>
+                </li>
+                <li class="nav-title">Cadastros Básicos</li>
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="nav-icon icon-user"></i> Usuários</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" target="_top">
+                                <i class="nav-icon icon-star"></i> Tipos de Usuários
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-usuarios" target="_top">
+                                <i class="nav-icon icon-star"></i> Gerenciar Usuários
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-title">Theme</li>
                 <li class="nav-item">
@@ -279,24 +316,9 @@ if (! defined('ABSPATH')){
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li class="nav-title">Cadastros Básicos</li>
-                <li class="nav-item nav-dropdown">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="nav-icon icon-star"></i> Usuários</a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" target="_top">
-                                <i class="nav-icon icon-star"></i> Tipos de Usuários
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-usuarios" target="_top">
-                                <i class="nav-icon icon-star"></i> Gerenciar Usuários
-                            </a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
         </nav>
         <button class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
+    <main class="main">
+

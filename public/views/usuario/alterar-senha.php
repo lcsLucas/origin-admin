@@ -7,7 +7,6 @@ if (!empty($this->dados->retorno))
 
 ?>
 
-<main class="main">
     <!-- Breadcrumb-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -66,7 +65,7 @@ if (!empty($this->dados->retorno))
                         <div class="form-group form-group-lg">
                             <label for="senha_atual" class="font-weight-bold">Senha Atual:</label>
                             <div class="input-group focus">
-                                <input autofocus required maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_atual" name="senha_atual" title="Por favor, informe a senha atual">
+                                <input autofocus tabindex="1" required maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_atual" name="senha_atual" title="Por favor, informe a senha atual">
                                 <div class="input-group-append b-l-0">
                                     <span class="input-group-text bg-white" >
                                         <a href="javascript:void(0)" onclick="exibiSenha(this)"><i class="fa fa-eye-slash text-muted"></i></a>
@@ -78,7 +77,7 @@ if (!empty($this->dados->retorno))
                         <div class="form-group form-group-lg">
                             <label for="senha_nova" class="font-weight-bold">Nova Senha:</label>
                             <div class="input-group">
-                                <input required maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_nova" name="senha_nova" title="Por favor, informe a nova senha">
+                                <input required tabindex="2" maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_nova" name="senha_nova" title="Por favor, informe a nova senha">
                                 <div class="input-group-append b-l-0">
                                     <span class="input-group-text bg-white" >
                                         <a href="javascript:void(0)" onclick="exibiSenha(this)"><i class="fa fa-eye-slash text-muted"></i></a>
@@ -90,7 +89,7 @@ if (!empty($this->dados->retorno))
                         <div class="form-group form-group-lg">
                             <label for="senha_nova2" class="font-weight-bold">Repita a Nova Senha:</label>
                             <div class="input-group">
-                                <input required maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_nova2" name="senha_nova2" title="Por favor, repita a nova senha">
+                                <input required maxlength="30" tabindex="3" type="password" class="form-control form-control-lg b-r-0" id="senha_nova2" name="senha_nova2" title="Por favor, repita a nova senha">
                                 <div class="input-group-append b-l-0">
                                     <span class="input-group-text bg-white" >
                                         <a href="javascript:void(0)" onclick="exibiSenha(this)"><i class="fa fa-eye-slash text-muted"></i></a>
@@ -102,7 +101,7 @@ if (!empty($this->dados->retorno))
                         <div class="form-group form-group-lg text-right mt-5">
                             <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                             <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg active btn-link text-primary">Cancelar</a>
-                            <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
+                            <button tabindex="4" type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
                         </div>
 
                     </form>
@@ -114,5 +113,3 @@ if (!empty($this->dados->retorno))
         </div>
 
     </div>
-
-</main>

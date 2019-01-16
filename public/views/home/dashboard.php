@@ -1,4 +1,3 @@
-<main class="main">
     <!-- Breadcrumb-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item active">
@@ -17,4 +16,3 @@
         </div>
 
     </div>
-</main>

@@ -2,7 +2,7 @@
   "_args": [
     [
       "@coreui/coreui-plugin-npm-postinstall@1.0.2",
-      "C:\\wamp64\\www\\coreui"
+      "C:\\wamp64\\www\\projeto_php_mvc\\arquivos\\coreui\\my-project"
     ]
   ],
   "_from": "@coreui/coreui-plugin-npm-postinstall@1.0.2",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@coreui/coreui-plugin-npm-postinstall/-/coreui-plugin-npm-postinstall-1.0.2.tgz",
   "_spec": "1.0.2",
-  "_where": "C:\\wamp64\\www\\coreui",
+  "_where": "C:\\wamp64\\www\\projeto_php_mvc\\arquivos\\coreui\\my-project",
   "author": {
     "name": "Łukasz Holeczek"
   },

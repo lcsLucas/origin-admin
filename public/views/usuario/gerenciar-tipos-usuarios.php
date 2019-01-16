@@ -7,13 +7,13 @@ if (!empty($this->dados->retorno))
 
 ?>
 
-<main class="main">
     <!-- Breadcrumb-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="<?= URL ?>">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Tipos de Usuários</li>
+        <li class="breadcrumb-item active">Usuários</li>
+        <li class="breadcrumb-item active">Tipos de usuários</li>
     </ol>
 
     <div class="animated fadeIn">
@@ -64,7 +64,7 @@ if (!empty($this->dados->retorno))
                     <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formTipoUsuario">
 
                         <div class="form-group form-group-lg">
-                            <label for="nome" class="font-weight-bold">Nome do Tipo:</label>
+                            <label for="nome" class="font-weight-bold">Tipo de usuários:</label>
                             <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" id="nome" name="nome" title="Por favor, informe o nome do novo tipo de usuário">
                         </div>
 
@@ -80,7 +80,7 @@ if (!empty($this->dados->retorno))
 
             </div>
 
-            <div class="card border-0">
+            <div class="card border-primary">
 
                 <div class="card-header bg-primary py-3">
                     <h5 class="text-uppercase m-0 text-white">Tipos de Usuários Cadastrados</h5>
@@ -105,14 +105,30 @@ if (!empty($this->dados->retorno))
 
                             </thead>
 
-                            <tbody>
+                            <tbody class="px-2">
 
                             <tr>
 
                                 <td class="font-weight-bold text-muted">Administrador</td>
                                 <td class="text-center font-weight-bold text-muted">15/01/2018</td>
-                                <td class="text-center font-weight-bold text-muted"></td>
-                                <td class="text-center"></td>
+                                <td class="text-center font-weight-bold text-muted">
+                                    <span class="badge badge-success">ativado</span>
+                                </td>
+                                <td class="text-center">
+
+                                    <button class="btn btn-primary" title="Editar">
+
+                                        <i class="material-icons">edit</i>
+
+                                    </button>
+
+                                    <button class="btn btn-danger" title="Excluir">
+
+                                        <i class="material-icons">close</i>
+
+                                    </button>
+
+                                </td>
 
                             </tr>
 
@@ -129,5 +145,3 @@ if (!empty($this->dados->retorno))
         </div>
 
     </div>
-
-</main>

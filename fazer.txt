@@ -12,3 +12,4 @@ Cropper JS
 /******
 
 continuar no cadastro de tipos de usuarios, na tabela de listar
+    - fazer paginação de registros

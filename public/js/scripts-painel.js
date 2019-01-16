@@ -1,4 +1,10 @@
-$(document).ready(function() {
+window.onload = function() {
+    window.onbeforeunload = function() {
+        $(".loader-wrap").fadeIn();
+
+    };
+
+    $(".loader-wrap").fadeOut();
 
     var functionSubmit = null;
     var rulesForm = {};
@@ -79,7 +85,7 @@ $(document).ready(function() {
         $(this).parents(".input-group").removeClass("focus");
     });
 
-});
+};
 
 function exibiSenha(target) {
     const input_group = target.closest(".input-group");

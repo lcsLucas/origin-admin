@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    window.onbeforeunload = function() {
+        $("body").fadeOut("fast");
+    };
+
     $("#wrapper-login").find(".form-control").focus(function(){
         $(this).parents(".input-group").addClass("focus");
     }).blur(function () {

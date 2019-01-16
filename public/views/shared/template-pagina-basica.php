@@ -7,7 +7,6 @@ if (!empty($this->dados->retorno))
 
 ?>
 
-<main class="main">
     <!-- Breadcrumb-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -70,5 +69,3 @@ if (!empty($this->dados->retorno))
         </div>
 
     </div>
-
-</main>
