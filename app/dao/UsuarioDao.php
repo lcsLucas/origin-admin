@@ -151,25 +151,6 @@ class UsuarioDao extends Banco
         return false;
     }
 
-    /*function alterarSenhaDAO($senha)
-    {
-      if(!empty($this->Conectar())) :
-        try
-        {
-          $stms = $this->getCon()->prepare("update usuario set usu_senha = :senha where usu_id = :codigo");
-          $stms->bindValue(":codigo", intval($codigo), \PDO::PARAM_INT);
-          $stms->bindValue(":senha", $senha, \PDO::PARAM_STR);
-
-          return $stms->execute();
-        }
-        catch(\PDOException $e)
-        {
-            $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
-        }
-      endif;
-      return false;
-    }*/
-
     public function getRetorno() {
         return parent::getRetorno();
     }

@@ -8,15 +8,27 @@
     <meta name="author" content="">
     <meta name="keyword" content="">
     <title><?= $this->dados->title ?></title>
-    <!-- Icons-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
-    <link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <!-- Main styles for this application-->
     <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
-    <link href="<?= URL_CSS ?>estilo.css" rel="stylesheet">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
+<div class="loader-wrap">
+    <div class="loader">
+
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+
+    </div>
+</div>
 
 <div id="container-login" class="d-flex justify-content-center align-items-center">
 
@@ -77,6 +89,11 @@
     </div>
 
 </div>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+<link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link href="<?= URL_CSS ?>estilo.css" rel="stylesheet">
 
 <!-- CoreUI and necessary plugins-->
 <script src="<?= URL_PUBLIC ?>vendors/jquery/dist/jquery.min.js"></script>

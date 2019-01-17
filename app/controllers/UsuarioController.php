@@ -161,9 +161,8 @@ class UsuarioController extends Action
 
                 }
 
-            } else {
+            } else
                 $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
-            }
 
         } else {
             $array_erros = $validate->get_errors();
@@ -178,6 +177,36 @@ class UsuarioController extends Action
         /*header("Location: " . $_SERVER["REQUEST_URI"]);
         exit();*/
 
+    }
+
+    public function requestTiposUsuarios() {
+
+        $validate = new Data_Validator();
+        $usuario = new Usuario();
+
+        $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+        $validate->define_pattern('erro_');
+        $validate
+            ->set("nome", $nome)->is_required();
+
+        if ($validate->validate()) {
+
+            if (password_verify(TOKEN_SESSAO, $token)) {
+
+            } else
+                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+            } else {
+            $array_erros = $validate->get_errors();
+            $array_erro = array_shift($array_erros);
+            $erro = array_shift($array_erro);
+            $this->setRetorno($erro, true, false);
+        }
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->pageTiposUsuarios();
     }
 
 }

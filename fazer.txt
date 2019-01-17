@@ -13,3 +13,8 @@ Cropper JS
 
 continuar no cadastro de tipos de usuarios, na tabela de listar
     - fazer paginação de registros
+     - Tentar usar isso:
+        - http://www.devwilliam.com.br/php/paginacao-com-mysql-php
+
+- continuar no gerenciar tipos de usuarios
+    - cadastrar

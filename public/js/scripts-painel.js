@@ -5,6 +5,7 @@ window.onload = function() {
     };
 
     $(".loader-wrap").fadeOut();
+    $("body").css("overflow", "auto");
 
     var functionSubmit = null;
     var rulesForm = {};

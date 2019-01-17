@@ -316,36 +316,6 @@ class Usuario extends UsuarioDao{
         return false;
     }
 
-    /*public function alterarSenha($token, $senhaAtual, $senhanova, $confSenha)
-    {
-        $usuDAO = new UsuarioDAO();
-        if(!empty($senhaAtual) && !empty($senhanova) && !empty($confSenha)) :
-            if(strcmp($token, $_SESSION["usuario-token"]) === 0) :
-                $usu_retorno = $usuDAO->obterSenha($_SESSION["usuario-codigo"]);
-                //verifica se a senha passada é a mesma que a do banco de dados
-                if(password_verify($senhaAtual, $usu_retorno->getSenha())) :
-                    if(strcmp($senhanova, $confSenha) === 0) :
-                        $usuDAO->desconectar();
-                        if(!empty($usuDAO->alterarSenha($_SESSION["usuario-codigo"], password_hash($senhanova, PASSWORD_DEFAULT)))) :
-                            return true;
-                        else :
-                            $this->setRetorno($usuDAO->getRetorno()->getCodigo(),$usuDAO->getRetorno()->getTipo(),$usuDAO->getRetorno()->getMensagem());
-                        endif;
-                    else :
-                        $this->setRetorno(0,3,"Valores informados nos Campos para Nova Senha estão Diferentes.");
-                    endif;
-                else :
-                    $this->setRetorno(0,3,"Senha Atual Incorreta");
-                endif;
-            else :
-                $this->setRetorno(0,3,"Token de Autenticação Inválido");
-            endif;
-        else :
-            $this->setRetorno(0,3,"Todos os Campos Devem ser Preenchidos");
-        endif;
-        return false;
-    }*/
-
     public function getRetorno() {
         return parent::getRetorno();
     }

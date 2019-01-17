@@ -74,6 +74,8 @@ abstract class Action
      */
     public function render($layout, $template = true, $layoutPadrao = false)
     {
+        header("Cache-Control: no-cache, must-revalidate");header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // não permiti o navegador armazenar cache de proxy entre o servidor e o cliente
+
         $this->layout = $layout;
         if($template && !$layoutPadrao && file_exists($this->layoutPadrao.".php"))
             include_once $this->layoutPadrao.".php";

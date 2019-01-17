@@ -299,6 +299,12 @@ if (! defined('ABSPATH')){
         <span>&copy; <?= date("Y") ?></span>
     </div>
 </footer>
+
+<link href="<?= URL_PUBLIC ?>vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="<?= URL_CSS ?>estilo-painel.css" rel="stylesheet">
 <!-- CoreUI and necessary plugins-->
 <script src="<?= URL_PUBLIC ?>vendors/jquery/dist/jquery.min.js"></script>
 <script src="<?= URL_PUBLIC ?>vendors/popper.js/dist/popper.min.js"></script>

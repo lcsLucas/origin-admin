@@ -16,16 +16,13 @@ if (! defined('ABSPATH')){
     <meta name="author" content="">
     <meta name="keyword" content="">
     <title><?= $this->dados->title ?> - Painel Administrativo</title>
-    <!-- Icons-->
-    <link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
-    <link href="<?= URL_PUBLIC ?>vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link href="<?= URL_PUBLIC ?>vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+
     <!-- Main styles for this application-->
-    <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="<?= URL_CSS ?>estilo-painel.css" rel="stylesheet">
     <link href="<?= URL_PUBLIC ?>vendors/pace-progress/css/pace.min.css" rel="stylesheet">
+    <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
+
+    <script>history.replaceState({}, '', '<?= $_SERVER["REQUEST_URI"] ?>');</script>
+
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 

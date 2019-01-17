@@ -1,8 +1,12 @@
-$(document).ready(function() {
+window.onload = function() {
 
     window.onbeforeunload = function() {
-        $("body").fadeOut("fast");
+        $(".loader-wrap").fadeIn();
+
     };
+
+    $(".loader-wrap").fadeOut();
+    $("body").css("overflow", "auto");
 
     $("#wrapper-login").find(".form-control").focus(function(){
         $(this).parents(".input-group").addClass("focus");
@@ -64,4 +68,4 @@ $(document).ready(function() {
         }
     });
 
-});
+};
