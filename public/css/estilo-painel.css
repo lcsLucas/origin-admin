@@ -1,6 +1,28 @@
 @charset"UTF-8";
 
-.material-icons {
+/*#nav-opcoes > .nav-item > .nav-link {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 24px;
+    color: #FFF;
+}*/
+
+#nav-opcoes > .nav-item > .nav-link i{
+    display: inline-block;
+    width: 3.1rem;
+    margin: 0;
+    font-size: 1.3rem;
+    color: #73818f;
+    float: left;
+    text-align: center;
+}
+
+#nav-opcoes > .nav-item > .nav-link:hover i {
+    color: #FFF;
+    opacity: 1;
+}
+
+.btn-acao .material-icons {
     display: flex;
     padding: 0.1rem .6rem;
 }
@@ -58,12 +80,12 @@ button[name="btnConfirmar"] {
 }
 
 .form-control:disabled, .form-control[readonly] {
-    border: 1px solid #CCC;
+    border: 1px solid #D9D9D9
 }
 
 .form-group-lg label {
     font-size: 1rem;
-    color: #5F5F5F;
+    color: #6F6F6F;
 }
 
 .form-control:focus {
@@ -143,4 +165,16 @@ button[name="btnConfirmar"] {
 
 .input-group.focus .input-group-text i{
     color: #20a8d8;
+}
+
+.file-preview {
+    width: 100%;
+    max-width: 180px;
+    margin: 20px auto;
+}
+
+.file-preview img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
 }

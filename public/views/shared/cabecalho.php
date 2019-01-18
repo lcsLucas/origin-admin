@@ -131,7 +131,7 @@ if (! defined('ABSPATH')){
 
     <div class="sidebar">
         <nav class="sidebar-nav">
-            <ul class="nav">
+            <ul class="nav" id="nav-opcoes">
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">
                         <i class="nav-icon icon-speedometer"></i> Dashboard
@@ -141,7 +141,7 @@ if (! defined('ABSPATH')){
                 <li class="nav-title">Cadastros Básicos</li>
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="nav-icon icon-user"></i> Usuários</a>
+                        <i class="material-icons">people</i> Usuários</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a class="nav-link" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" target="_top">
