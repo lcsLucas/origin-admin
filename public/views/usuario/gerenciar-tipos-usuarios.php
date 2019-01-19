@@ -5,6 +5,8 @@ $retorno = null;
 if (!empty($this->dados->retorno))
     $retorno = $this->dados->retorno;
 
+$this->dados->modal = true;
+
 ?>
 
     <!-- Breadcrumb-->
