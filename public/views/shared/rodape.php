@@ -11,17 +11,17 @@ if (! defined('ABSPATH')){
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#timeline" role="tab">
-                <i class="icon-list"></i>
+                <i class="fas fa-list"></i>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#messages" role="tab">
-                <i class="icon-speech"></i>
+                <i class="fas fa-comment"></i>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#settings" role="tab">
-                <i class="icon-settings"></i>
+                <i class="fas fa-cog"></i>
             </a>
         </li>
     </ul>
@@ -38,9 +38,9 @@ if (! defined('ABSPATH')){
                         <strong>Lucas</strong>
                     </div>
                     <small class="text-muted mr-3">
-                        <i class="icon-calendar"></i>  1 - 3pm</small>
+                        <i class="far fa-calendar-alt"></i>  1 - 3pm</small>
                     <small class="text-muted">
-                        <i class="icon-location-pin"></i>  Palo Alto, CA</small>
+                        <i class="fas fa-map-marker-alt"></i>  Palo Alto, CA</small>
                 </div>
                 <div class="list-group-item list-group-item-accent-info">
                     <div class="avatar float-right">
@@ -50,9 +50,9 @@ if (! defined('ABSPATH')){
                         <strong>Megan</strong>
                     </div>
                     <small class="text-muted mr-3">
-                        <i class="icon-calendar"></i>  4 - 5pm</small>
+                        <i class="far fa-calendar-alt"></i>  4 - 5pm</small>
                     <small class="text-muted">
-                        <i class="icon-social-skype"></i>  On-line</small>
+                        <i class="fab fa-skype"></i>  On-line</small>
                 </div>
                 <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</div>
                 <div class="list-group-item list-group-item-accent-danger list-group-item-divider">
@@ -60,9 +60,9 @@ if (! defined('ABSPATH')){
                         <strong>deadline</strong>
                     </div>
                     <small class="text-muted mr-3">
-                        <i class="icon-calendar"></i>  10 - 11pm</small>
+                        <i class="far fa-calendar-alt"></i>  10 - 11pm</small>
                     <small class="text-muted">
-                        <i class="icon-home"></i>  creativeLabs HQ</small>
+                        <i class="fas fa-home"></i>  creativeLabs HQ</small>
                     <div class="avatars-stack mt-2">
                         <div class="avatar avatar-xs">
                             <img class="img-avatar" src="<?= URL_IMG ?>avatars/2.jpg" alt="admin@bootstrapmaster.com">
@@ -85,18 +85,18 @@ if (! defined('ABSPATH')){
                     <div>
                         <strong>#10 Startups.Garden</strong> Meetup</div>
                     <small class="text-muted mr-3">
-                        <i class="icon-calendar"></i>  1 - 3pm</small>
+                        <i class="far fa-calendar-alt"></i>  1 - 3pm</small>
                     <small class="text-muted">
-                        <i class="icon-location-pin"></i>  Palo Alto, CA</small>
+                        <i class="fas fa-map-marker-alt"></i>  Palo Alto, CA</small>
                 </div>
                 <div class="list-group-item list-group-item-accent-primary list-group-item-divider">
                     <div>
                         <strong>Team meeting</strong>
                     </div>
                     <small class="text-muted mr-3">
-                        <i class="icon-calendar"></i>  4 - 6pm</small>
+                        <i class="far fa-calendar-alt"></i>  4 - 6pm</small>
                     <small class="text-muted">
-                        <i class="icon-home"></i>  creativeLabs HQ</small>
+                        <i class="fas fa-home"></i>  creativeLabs HQ</small>
                     <div class="avatars-stack mt-2">
                         <div class="avatar avatar-xs">
                             <img class="img-avatar" src="<?= URL_IMG ?>avatars/2.jpg" alt="admin@bootstrapmaster.com">
