@@ -1,25 +1,36 @@
 @charset"UTF-8";
 
-/*#nav-opcoes > .nav-item > .nav-link {
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 24px;
-    color: #FFF;
-}*/
+body {
+    font-family: 'Roboto', sans-serif;
+}
 
 #nav-opcoes > .nav-item > .nav-link i{
     display: inline-block;
-    width: 3.1rem;
-    margin: 0;
-    font-size: 1.3rem;
     color: #73818f;
     float: left;
     text-align: center;
+    font-size: 1rem;
+    margin: 0 .9rem 0 0;
 }
 
-#nav-opcoes > .nav-item > .nav-link:hover i {
-    color: #FFF;
+#nav-opcoes > .nav-item > .nav-link:hover i, .sidebar-minimized .sidebar .nav-item:hover > .nav-link i {
+    color: #FFF !important;
     opacity: 1;
+}
+
+#nav-opcoes > .nav-item > .nav-link .nav-item .nav-link {
+    padding-left: 30px !important;
+}
+
+.sidebar-minimized .sidebar .nav-link i {
+    display: block;
+    float: left;
+    width: 50px;
+    font-size: 18px;
+}
+
+.sidebar .nav-dropdown.open .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
+    padding-left: .9rem;
 }
 
 .btn-acao .material-icons {
@@ -28,7 +39,12 @@
 }
 
 table td, table th{
+    font-size: .95rem;
     vertical-align: middle !important;
+}
+
+table th.min-170 {
+    min-width: 170px;
 }
 
 body {
@@ -69,6 +85,10 @@ body {
     color: #FFF;
 }
 
+.form-control, .input-group-text{
+    border-color: #c8ced3;
+}
+
 .form-group .form-control {
     box-shadow: none !important;
     outline: none !important;
@@ -86,12 +106,6 @@ button[name="btnConfirmar"] {
 .form-group-lg label {
     font-size: 1rem;
     color: #6F6F6F;
-}
-
-.form-control:focus {
-    color: #5A5A5A;
-    font-family: arial, sans-serif;
-    background: rgba(138, 212, 238,.05);
 }
 
 .file-thumbnail-footer {
@@ -112,7 +126,7 @@ button[name="btnConfirmar"] {
 }
 
 .card-body {
-	padding: 1.7rem 1.25rem;
+    padding: 1.7rem 1.25rem;
 }
 
 .form-group.has-error label.error {
@@ -167,7 +181,11 @@ button[name="btnConfirmar"] {
     color: #20a8d8;
 }
 
-.file-preview {
+.file-preview .fileinput-remove {
+    font-size: 1.6rem;
+}
+
+/*.file-preview {
     width: 100%;
     max-width: 180px;
     margin: 20px auto;
@@ -177,4 +195,4 @@ button[name="btnConfirmar"] {
     width: 100%;
     max-width: 100%;
     height: auto;
-}
+}*/

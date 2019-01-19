@@ -5,18 +5,18 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema projeto_mvc
+-- Schema projeto_php_mvc
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `projeto_mvc` ;
 
 -- -----------------------------------------------------
--- Schema projeto_mvc
+-- Schema projeto_php_mvc
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `projeto_mvc` DEFAULT CHARACTER SET utf8 ;
 USE `projeto_mvc` ;
 
 -- -----------------------------------------------------
--- Table `projeto_mvc`.`tipo_usuario`
+-- Table `projeto_php_mvc`.`tipo_usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projeto_mvc`.`tipo_usuario` (
   `tip_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `projeto_mvc`.`usuario`
+-- Table `projeto_php_mvc`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projeto_mvc`.`usuario` (
   `usu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -49,7 +49,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `projeto_mvc`.`menu_adminitrativo`
+-- Table `projeto_php_mvc`.`menu_adminitrativo`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projeto_mvc`.`menu_adminitrativo` (
   `men_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -69,7 +69,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `projeto_mvc`.`permissao_usuario_menu`
+-- Table `projeto_php_mvc`.`permissao_usuario_menu`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projeto_mvc`.`permissao_usuario_menu` (
   `tip_id` INT UNSIGNED NOT NULL,
@@ -95,7 +95,7 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `projeto_mvc`.`tipo_usuario`
+-- Data for table `projeto_php_mvc`.`tipo_usuario`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `projeto_mvc`;
@@ -106,7 +106,7 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `projeto_mvc`.`usuario`
+-- Data for table `projeto_php_mvc`.`usuario`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `projeto_mvc`;

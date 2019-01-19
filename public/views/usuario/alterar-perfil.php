@@ -99,7 +99,7 @@ if (!empty($this->dados->retorno))
 
                                             <div class="kv-avatar">
                                                 <div class="file-loading">
-                                                    <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif" <?= is_file(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? "data-avatar='". URL_IMG . "usuarios/" . $usuario->getImgAvatar() ."'" : "" ?> >
+                                                    <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif" <?= is_file(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? "data-avatar='". URL_IMG . "usuarios/" . $usuario->getImgAvatar() . "?random=" . rand() . "'" : "" ?> >
                                                 </div>
                                             </div>
 

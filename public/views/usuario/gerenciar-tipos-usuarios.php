@@ -90,16 +90,16 @@ if (!empty($this->dados->retorno))
 
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-hover m-0">
+                        <table class="table table-hover m-0">
 
                             <thead>
 
                             <tr class="bg-gray-100">
 
-                                <td class="border-0 font-weight-bold text-uppercase text-dark">Nome</td>
-                                <td class="border-0 text-center font-weight-bold text-uppercase text-dark">Criado</td>
-                                <td class="border-0 text-center font-weight-bold text-uppercase text-dark">Status</td>
-                                <td class="border-0 text-center font-weight-bold text-uppercase text-dark">Ação</td>
+                                <th class="border-0 font-weight-bold text-uppercase text-dark">Nome</th>
+                                <th class="border-0 text-center font-weight-bold text-uppercase text-dark">Criado</th>
+                                <th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ativado</th>
+                                <th class="border-0 text-center font-weight-bold text-uppercase text-dark min-170">Ação</th>
 
                             </tr>
 
@@ -112,17 +112,20 @@ if (!empty($this->dados->retorno))
                                 <td class="font-weight-bold text-muted">Administrador</td>
                                 <td class="text-center font-weight-bold text-muted">15/01/2018</td>
                                 <td class="text-center font-weight-bold text-muted">
-                                    <span class="badge badge-success">ativado</span>
+                                    <label class="switch switch-label switch-pill switch-success switch-sm">
+                                        <input class="switch-input" type="checkbox" checked="">
+                                        <span class="switch-slider" data-checked="" data-unchecked=""></span>
+                                    </label>
                                 </td>
                                 <td class="text-center">
 
-                                    <button class="btn btn-primary" title="Editar">
+                                    <button class="btn btn-primary btn-acao" title="Editar">
 
                                         <i class="material-icons">edit</i>
 
                                     </button>
 
-                                    <button class="btn btn-danger" title="Excluir">
+                                    <button class="btn btn-danger btn-acao" title="Excluir">
 
                                         <i class="material-icons">close</i>
 
