@@ -40,29 +40,42 @@ function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $ran
     $range_final   = (($pagina_atual + $range_paginas) <= $ultima_pagina ) ? $pagina_atual + $range_paginas : $ultima_pagina ;
 
     /* Verifica se vai exibir o botão "Primeiro" e "Pŕoximo" */
-    $exibir_botao_inicio = ($range_inicial < $pagina_atual) ? 'd-inline' : 'd-none';
+    $exibir_botao_inicio = ($range_inicial < $pagina_atual) ? '' : 'd-none d-md-none d-lg-none';
 
     /* Verifica se vai exibir o botão "Anterior" e "Último" */
-    $exibir_botao_final = ($range_final > $pagina_atual) ? 'd-inline' : 'd-none';
+    $exibir_botao_final = ($range_final > $pagina_atual) ? '' : 'd-none d-md-none d-lg-none';
 
 /* Loop para montar a páginação central com os números */
-?>
 
-    <div class='box-paginacao'>
-        <a class='box-navegacao <?=$exibir_botao_inicio?>' href="index.php?page=<?=$primeira_pagina?>" title="Primeira Página">Primeira</a>
-        <a class='box-navegacao <?=$exibir_botao_inicio?>' href="index.php?page=<?=$pagina_anterior?>" title="Página Anterior">Anterior</a>
+    $pos = strpos($_SERVER["REQUEST_URI"],"?");
+    $url = substr($_SERVER["REQUEST_URI"],0,$pos);
+    ?>
 
-        <?php
-        /* Loop para montar a páginação central com os números */
-        for ($i=$range_inicial; $i <= $range_final; $i++):
-            $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;
-            ?>
-            <a class='box-numero <?=$destaque?>' href="index.php?page=<?=$i?>"><?=$i?></a>
-        <?php endfor; ?>
+    <nav aria-label="navigation" class="mt-5">
+        <ul class="pagination justify-content-center flex-wrap">
+            <li class="page-item">
+                <a class="page-link d-none d-md-inline-block <?=$exibir_botao_inicio?>" href="<?= $url ?>?page=<?=$primeira_pagina?>" title="Primeira Página">Primeira</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link <?=$exibir_botao_inicio?>" href="<?= $url ?>?page=<?=$pagina_anterior?>" title="Página Anterior">Anterior</a>
+            </li>
 
-        <a class='box-navegacao <?=$exibir_botao_final?>' href="index.php?page=<?=$proxima_pagina?>" title="Próxima Página">Próxima</a>
-        <a class='box-navegacao <?=$exibir_botao_final?>' href="index.php?page=<?=$ultima_pagina?>" title="Última Página">Último</a>
-    </div>
+            <?php
+            /* Loop para montar a páginação central com os números */
+            for ($i=$range_inicial; $i <= $range_final; $i++):
+                $destaque = ($i == $pagina_atual) ? 'active d-inline' : '' ;
+                ?>
+                <li class="page-item d-none d-md-inline <?=$destaque?>"><a class="page-link" href="<?= $url ?>?page=<?=$i?>"><?=$i?></a></li>
+            <?php endfor; ?>
+
+            <li class="page-item">
+                <a class="page-link <?=$exibir_botao_final?>" href="<?= $url ?>?page=<?=$proxima_pagina?>" title="Próxima Página">Próxima</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link d-none d-md-inline-block <?=$exibir_botao_final?>" href="<?= $url ?>?page=<?=$ultima_pagina?>" title="Última página">Última</a>
+            </li>
+        </ul>
+    </nav>
 
     <?php
 }

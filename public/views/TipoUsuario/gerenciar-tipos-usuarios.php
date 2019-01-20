@@ -11,7 +11,6 @@ $lista_registros = $this->dados->registros;
 
 $paginacao = $this->dados->paginacao;
 
-
 ?>
 
     <!-- Breadcrumb-->
@@ -145,9 +144,10 @@ $paginacao = $this->dados->paginacao;
                             </tbody>
 
                         </table>
-                        <?php paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas) ?>
 
                     </div>
+
+                    <?php paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas) ?>
 
                 </div>
 

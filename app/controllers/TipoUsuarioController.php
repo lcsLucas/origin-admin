@@ -26,7 +26,7 @@ class TipoUsuarioController extends Action
     public function pageTiposUsuarios() {
         $tipo = new TipoUsuario();
 
-        $pagina_atual = filter_input(INPUT_GET, "pagina", FILTER_VALIDATE_INT);
+        $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
         $qtde_registros = 1;
