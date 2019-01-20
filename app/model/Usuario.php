@@ -305,7 +305,6 @@ class Usuario extends UsuarioDao{
             if (password_verify($senha_atual, $result["usu_senha"])) {
 
                 $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
-                $this->desconectar();
                 return $this->alterarSenhaDAO();
 
             } else

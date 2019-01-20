@@ -342,19 +342,6 @@ if (!empty($this->dados->validation)) {
 
 ?>
 
-<?php
-
-if (!empty($this->dados->modal)) {
-    ?>
-
-    <script src="<?= URL_PUBLIC ?>vendors/materialize/cash.js"></script>
-    <script src="<?= URL_PUBLIC ?>vendors/materialize/modal/modal.js"></script>
-
-    <?php
-}
-
-?>
-
 <script src="<?= URL_JS ?>scripts-painel.js?random=<?= rand() ?>"></script>
 </body>
 </html>

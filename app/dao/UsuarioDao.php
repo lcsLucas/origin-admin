@@ -115,7 +115,7 @@ class UsuarioDao extends Banco
           try
           {
             $stms = $this->getCon()->prepare("SELECT usu_senha FROM usuario WHERE usu_id = :codigo LIMIT 1");
-            $stms->bindValue(":codigo", $this->usuario->getId());
+            $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
             $stms->execute();
             return $stms->fetch();
           }
@@ -135,8 +135,8 @@ class UsuarioDao extends Banco
             {
 
                 $stms = $this->getCon()->prepare("UPDATE usuario SET usu_senha = :senha WHERE usu_id = :codigo LIMIT 1");
-                $stms->bindValue(":senha", $this->usuario->getSenha());
-                $stms->bindValue(":codigo", $this->usuario->getId());
+                $stms->bindValue(":senha", $this->usuario->getSenha(), \PDO::PARAM_STR);
+                $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
 
                 return $stms->execute();
 

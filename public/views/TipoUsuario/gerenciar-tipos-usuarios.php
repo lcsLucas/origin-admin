@@ -2,10 +2,15 @@
 
 $retorno = null;
 
+include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
+
 if (!empty($this->dados->retorno))
     $retorno = $this->dados->retorno;
 
-$this->dados->modal = true;
+$lista_registros = $this->dados->registros;
+
+$paginacao = $this->dados->paginacao;
+
 
 ?>
 
@@ -140,6 +145,7 @@ $this->dados->modal = true;
                             </tbody>
 
                         </table>
+                        <?php paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas) ?>
 
                     </div>
 

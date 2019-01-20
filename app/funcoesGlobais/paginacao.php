@@ -18,72 +18,51 @@ if (! defined('ABSPATH')){
     exit();
 }
 
-function paginacao(
-    $total_artigos = 0,
-    $artigos_por_pagina = 10,
-    $offset = 5
-) {
-    // Obtém o número total de página
-    $numero_de_paginas = ceil( ($total_artigos) / $artigos_por_pagina )-1;
+function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $range_paginas)
+{
 
-    // Atualiza a página atual se tiver o parâmetro pagina=n
-    $pagina_atual = !(filter_input(INPUT_GET,"pagina",FILTER_VALIDATE_INT)) ? 0 : filter_input(INPUT_GET,"pagina",FILTER_VALIDATE_INT);
+    /* Idêntifica a primeira página */
+    $primeira_pagina = 1;
 
-    if($pagina_atual > $numero_de_paginas) $pagina_atual = 0;
-    // Vamos preencher essa variável com a paginação
-    $paginas = null;
+    /* Cálcula qual será a última página */
+    $ultima_pagina  = ceil($total_registros / $registros_por_paginas);
 
-    /**
-     * Só Mostrar 'Inicio' se tiver 1 ou mais paginas e pagina atual nao for a primeira
-     */
-    if($numero_de_paginas >= 1 && $pagina_atual > 0) {
-        // Primeira página
-        $paginas .=
-            "<li class=\"page-item\">
-            <a class=\"page-link\" href=\"?pagina=\" aria-label=\"Previous\">
-            <span aria-hidden=\"true\">&laquo;</span>
-            <span class=\"sr-only\">Previous</span>
-            </a>
-            </li>";
-    } elseif($numero_de_paginas >= 1){
-        $paginas .= "<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">Início</a></li>";
-    }
-    // Faz o loop da paginação
-    // $pagina_atual - 1 da a possibilidade do usuário voltar
-    $i = ( $pagina_atual - 1 );
-    while($i < ( $pagina_atual - 1 ) + $offset) {
+    /* Cálcula qual será a página anterior em relação a página atual em exibição */
+    $pagina_anterior = ($pagina_atual > 1) ? $pagina_atual -1 :  1;
 
-        // Eliminamos a primeira página (que seria a home do site)
-        if ( $i < $numero_de_paginas && $i > 0 ) {
-            // A página atual
-            $pagina = $i;
+    /* Cálcula qual será a pŕoxima página em relação a página atual em exibição */
+    $proxima_pagina = ($pagina_atual < $ultima_pagina) ? $pagina_atual +1 : 1;
 
-            // O estilo da página atual
-            $estilo = '';
+    /* Cálcula qual será a página inicial do nosso range */
+    $range_inicial  = (($pagina_atual - $range_paginas) >= 1) ? $pagina_atual - $range_paginas : 1 ;
 
-            // Verifica qual dos números é a página atual
-            // E cria um estilo extremamente simples para diferenciar
-            if ($i == $pagina_atual) {
-                $estilo = 'active';
-            }
-            // Inclui os links na variável $paginas
-            $paginas.=
-                    "<li class=\"page-item ".$estilo."\"><a class=\"page-link\" href=\"?pagina=$pagina\">".$pagina."</a></li>";
-        }
-        $i++;
-    } // while
+    /* Cálcula qual será a página final do nosso range */
+    $range_final   = (($pagina_atual + $range_paginas) <= $ultima_pagina ) ? $pagina_atual + $range_paginas : $ultima_pagina ;
 
-    if($numero_de_paginas >= 1 && $pagina_atual < $numero_de_paginas) {
-        $paginas.=
-            "<li class=\"page-item\">
-            <a class=\"page-link\" href=\"?pagina=".$numero_de_paginas."\" aria-label=\"Next\">
-            <span aria-hidden=\"true\">&raquo;</span>
-            <span class=\"sr-only\">Next</span>
-            </a>
-            </li>";
-    } elseif($numero_de_paginas >= 1){
-        $paginas .= "<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">Último</a></li>";
-    }
-    // Retorna o que foi criado
-    return $paginas;
+    /* Verifica se vai exibir o botão "Primeiro" e "Pŕoximo" */
+    $exibir_botao_inicio = ($range_inicial < $pagina_atual) ? 'd-inline' : 'd-none';
+
+    /* Verifica se vai exibir o botão "Anterior" e "Último" */
+    $exibir_botao_final = ($range_final > $pagina_atual) ? 'd-inline' : 'd-none';
+
+/* Loop para montar a páginação central com os números */
+?>
+
+    <div class='box-paginacao'>
+        <a class='box-navegacao <?=$exibir_botao_inicio?>' href="index.php?page=<?=$primeira_pagina?>" title="Primeira Página">Primeira</a>
+        <a class='box-navegacao <?=$exibir_botao_inicio?>' href="index.php?page=<?=$pagina_anterior?>" title="Página Anterior">Anterior</a>
+
+        <?php
+        /* Loop para montar a páginação central com os números */
+        for ($i=$range_inicial; $i <= $range_final; $i++):
+            $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;
+            ?>
+            <a class='box-numero <?=$destaque?>' href="index.php?page=<?=$i?>"><?=$i?></a>
+        <?php endfor; ?>
+
+        <a class='box-navegacao <?=$exibir_botao_final?>' href="index.php?page=<?=$proxima_pagina?>" title="Próxima Página">Próxima</a>
+        <a class='box-navegacao <?=$exibir_botao_final?>' href="index.php?page=<?=$ultima_pagina?>" title="Última Página">Último</a>
+    </div>
+
+    <?php
 }

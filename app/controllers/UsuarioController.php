@@ -4,6 +4,7 @@ namespace App\controllers;
 
 use ProjetoMvc\render\Action;
 use App\model\Usuario;
+use App\model\TipoUsuario;
 use App\model\Data_Validator;
 
 if (! defined('ABSPATH')){
@@ -45,12 +46,6 @@ class UsuarioController extends Action
         $this->dados->title = "Alterar Senha";
         $this->dados->validation = true;
         $this->render('alterar-senha.php');
-    }
-
-    public function pageTiposUsuarios() {
-        $this->dados->title = "Gerenciar Tipos de Usuarios";
-        $this->dados->validation = true;
-        $this->render('gerenciar-tipos-usuarios.php');
     }
 
     public function requestAlterarSenha() {
@@ -174,39 +169,6 @@ class UsuarioController extends Action
         $this->dados->retorno = $this->getRetorno();
         $this->pageAlterarPerfil();
 
-        /*header("Location: " . $_SERVER["REQUEST_URI"]);
-        exit();*/
-
-    }
-
-    public function requestTiposUsuarios() {
-
-        $validate = new Data_Validator();
-        $usuario = new Usuario();
-
-        $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
-        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
-
-        $validate->define_pattern('erro_');
-        $validate
-            ->set("nome", $nome)->is_required();
-
-        if ($validate->validate()) {
-
-            if (password_verify(TOKEN_SESSAO, $token)) {
-
-            } else
-                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
-
-            } else {
-            $array_erros = $validate->get_errors();
-            $array_erro = array_shift($array_erros);
-            $erro = array_shift($array_erro);
-            $this->setRetorno($erro, true, false);
-        }
-
-        $this->dados->retorno = $this->getRetorno();
-        $this->pageTiposUsuarios();
     }
 
 }

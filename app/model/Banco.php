@@ -52,6 +52,10 @@ class Banco{
                 error_log($e->getMessage(), 0);
                 return null;
             }
+
+        else :
+            return true;
+
         endif;
     }
 

@@ -11,15 +11,25 @@ if (! defined('ABSPATH')){
 class TipoUsuario extends TipoUsuarioDao{
     private $id;
     private $nome;
+    private $data_cadastro;
+    private $ativo;
+    private $flag_adm;
 
     /**
      * TipoUsuario constructor.
      * @param $nome
+     * @param $ativo
      */
-    public function __construct($nome = null)
+    public function __construct($nome=null, $ativo='0')
     {
+        parent::__construct();
         $this->nome = $nome;
+        $this->ativo = $ativo;
+        $this->flag_adm = '0';
+        $this->data_cadastro = date("Y-m-d");
+        $this->setTipoUsuario($this);
     }
+
 
     /**
      * @return mixed
@@ -53,8 +63,68 @@ class TipoUsuario extends TipoUsuarioDao{
         $this->nome = $nome;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDataCadastro()
+    {
+        return $this->data_cadastro;
+    }
+
+    /**
+     * @param mixed $data_cadastro
+     */
+    public function setDataCadastro($data_cadastro): void
+    {
+        $this->data_cadastro = $data_cadastro;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * @param mixed $ativo
+     */
+    public function setAtivo($ativo): void
+    {
+        $this->ativo = $ativo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFlagAdm()
+    {
+        return $this->flag_adm;
+    }
+
+    /**
+     * @param mixed $flag_adm
+     */
+    public function setFlagAdm($flag_adm): void
+    {
+        $this->flag_adm = $flag_adm;
+    }
+
     public function getRetorno() {
         return parent::getRetorno();
+    }
+
+    public function cadastrar() {
+        return $this->cadastrarDAO();
+    }
+
+    public  function paginacao($incio, $fim) {
+        return $this->limiteRegistroDAO($incio, $fim);
+    }
+
+    public function totalRegistros() {
+        return $this->totalRegistrosDAO();
     }
 
 }

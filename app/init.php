@@ -88,14 +88,14 @@ class Init extends Bootstrap
         $array[] = array(
             'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/?$/',
             'method' => 'GET',
-            'controller' => 'usuario',
+            'controller' => 'TipoUsuario',
             'action' => 'pageTiposUsuarios'
         );
 
         $array[] = array(
             'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/?$/',
             'method' => 'POST',
-            'controller' => 'usuario',
+            'controller' => 'TipoUsuario',
             'action' => 'requestTiposUsuarios'
         );
 
