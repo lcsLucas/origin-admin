@@ -150,6 +150,7 @@ if (! defined('ABSPATH')){
                                 Gerenciar usuários
                             </a>
                         </li>
+
                     </ul>
                 </li>
             </ul>

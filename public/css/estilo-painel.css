@@ -43,8 +43,17 @@ table td, table th{
     vertical-align: middle !important;
 }
 
-table th.min-170 {
-    min-width: 170px;
+table th.min-180 {
+    min-width: 180px;
+    width: 200px;
+}
+
+table tr td:first-child, table tr th:first-child {
+    padding-left: 20px;
+}
+
+table tr td:last-child, table tr th:last-child {
+    padding-right: 20px;
 }
 
 body {

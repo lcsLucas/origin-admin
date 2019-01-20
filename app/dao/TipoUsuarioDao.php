@@ -67,7 +67,7 @@ class TipoUsuarioDao extends Banco
             try
             {
 
-                $stms = $this->getCon()->prepare("SELECT * FROM tipo_usuario ORDER BY tip_id DESC LIMIT :inicio,:fim");
+                $stms = $this->getCon()->prepare("SELECT * FROM tipo_usuario ORDER BY tip_nome LIMIT :inicio,:fim");
                 $stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
                 $stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
 

@@ -61,11 +61,13 @@ $paginacao = $this->dados->paginacao;
 
             <div class="card border-0">
 
-                <div class="card-header bg-primary py-3">
-                    <h5 class="text-uppercase m-0">Gerenciar Tipos de Usuários</h5>
+                <div class="card-header <?= !empty($this->dados->editar) ? "bg-danger" : "bg-primary" ?> py-3">
+                    <h5 class="text-uppercase m-0 text-center text-md-left">
+                        <?= !empty($this->dados->editar) ? "Editar Tipo de Usuário" : "Gerenciar Tipos de Usuários" ?>
+                    </h5>
                 </div>
 
-                <div class="card-body border border-top-0 border-primary">
+                <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
                     <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formTipoUsuario">
 
@@ -89,7 +91,7 @@ $paginacao = $this->dados->paginacao;
             <div class="card border-primary">
 
                 <div class="card-header bg-primary py-3">
-                    <h5 class="text-uppercase m-0 text-white">Tipos de Usuários Cadastrados</h5>
+                    <h5 class="text-uppercase m-0 text-white text-center text-md-left">Tipos de Usuários Cadastrados</h5>
                 </div>
 
                 <div class="card-body p-0">
@@ -105,7 +107,7 @@ $paginacao = $this->dados->paginacao;
                                 <th class="border-0 font-weight-bold text-uppercase text-dark">Nome</th>
                                 <th class="border-0 text-center font-weight-bold text-uppercase text-dark">Criado</th>
                                 <th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ativado</th>
-                                <th class="border-0 text-center font-weight-bold text-uppercase text-dark min-170">Ação</th>
+                                <th class="border-0 text-center font-weight-bold text-uppercase text-dark min-180">Ação</th>
 
                             </tr>
 
@@ -113,33 +115,46 @@ $paginacao = $this->dados->paginacao;
 
                             <tbody class="px-2">
 
-                            <tr>
+                            <?php
 
-                                <td class="font-weight-bold text-muted">Administrador</td>
-                                <td class="text-center font-weight-bold text-muted">15/01/2018</td>
-                                <td class="text-center font-weight-bold text-muted">
-                                    <label class="switch switch-label switch-pill switch-success switch-sm">
-                                        <input class="switch-input" type="checkbox" checked="">
-                                        <span class="switch-slider" data-checked="" data-unchecked=""></span>
-                                    </label>
-                                </td>
-                                <td class="text-center">
+                            if (!empty($lista_registros)) {
+                                foreach ($lista_registros as $registro) {
+                                    ?>
 
-                                    <button class="btn btn-primary btn-acao" title="Editar">
+                                    <tr>
 
-                                        <i class="material-icons">edit</i>
+                                        <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
+                                        <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["tip_dtcad"])) ?></td>
+                                        <td class="text-center font-weight-bold text-muted">
+                                            <label class="switch switch-label switch-pill switch-success switch-sm">
+                                                <input class="switch-input" type="checkbox" checked="">
+                                                <span class="switch-slider" data-checked="" data-unchecked=""></span>
+                                            </label>
+                                        </td>
+                                        <td class="text-center">
 
-                                    </button>
+                                            <a class="btn btn-primary btn-acao" title="Editar" href="<?= rtrim($_SERVER["REQUEST_URI"], "/") . "/edit/" . $registro["tip_id"] ?>">
 
-                                    <button class="btn btn-danger btn-acao" title="Excluir">
+                                                <i class="material-icons">edit</i>
 
-                                        <i class="material-icons">close</i>
+                                            </a>
 
-                                    </button>
+                                            <button class="btn btn-danger btn-acao" title="Excluir">
 
-                                </td>
+                                                <i class="material-icons">close</i>
 
-                            </tr>
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <?php
+
+                                }
+                            }
+
+                            ?>
 
                             </tbody>
 
@@ -147,7 +162,9 @@ $paginacao = $this->dados->paginacao;
 
                     </div>
 
-                    <?php paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas) ?>
+                    <?php
+                        paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas)
+                    ?>
 
                 </div>
 

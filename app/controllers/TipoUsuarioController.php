@@ -29,7 +29,7 @@ class TipoUsuarioController extends Action
         $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
-        $qtde_registros = 1;
+        $qtde_registros = 5;
 
         /*definição de paginação*/
 
@@ -53,6 +53,30 @@ class TipoUsuarioController extends Action
         $this->dados->title = "Gerenciar Tipos de Usuarios";
         $this->dados->validation = true;
         $this->render('gerenciar-tipos-usuarios.php');
+    }
+
+    public function pageTiposUsuariosEdit() {
+
+        $url = $_SERVER["REQUEST_URI"];
+
+        //Remove as barras e também remove URI caso tenha
+        $url = trim($url,'/');
+        if(SUBDOMINIO)
+            $url = trim(substr($url, strlen(URI)),"/");
+
+        if (".php" === substr($url,-4))
+            $url = substr($url,0,-4);
+
+        $pos = strripos($url, "/");
+        $valor = substr($url,$pos+1);
+        $id = filter_var($valor, FILTER_VALIDATE_INT);
+
+        if (!empty($id)) { //verificar depois que carregar dados, caso não carregue dados usar o header para redimensionar a url
+            $this->dados->editar = true;
+            $this->dados->id = $id;
+        }
+
+        $this->pageTiposUsuarios();
     }
 
     public function requestTiposUsuarios() {

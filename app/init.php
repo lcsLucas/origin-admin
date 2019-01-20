@@ -99,6 +99,13 @@ class Init extends Bootstrap
             'action' => 'requestTiposUsuarios'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/edit\/([0-9]+)\/?$/',
+            'method' => 'GET',
+            'controller' => 'TipoUsuario',
+            'action' => 'pageTiposUsuariosEdit'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }
