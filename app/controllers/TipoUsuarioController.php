@@ -56,6 +56,7 @@ class TipoUsuarioController extends Action
     }
 
     public function pageTiposUsuariosEdit() {
+        $tipo = new TipoUsuario();
 
         $url = $_SERVER["REQUEST_URI"];
 
@@ -72,11 +73,23 @@ class TipoUsuarioController extends Action
         $id = filter_var($valor, FILTER_VALIDATE_INT);
 
         if (!empty($id)) { //verificar depois que carregar dados, caso não carregue dados usar o header para redimensionar a url
-            $this->dados->editar = true;
-            $this->dados->id = $id;
+            $tipo->setId($id);
+
+            if ($tipo->carregar()) {
+
+                $this->dados->editar = true;
+                $this->dados->id = $id;
+                $carregado = true;
+            }
+
         }
 
-        $this->pageTiposUsuarios();
+        if (!empty($carregado))
+            $this->pageTiposUsuarios();
+        else {
+            header("Location: " . URL . "usuarios/gerenciar-tipos-usuarios");
+            die();
+        }
     }
 
     public function requestTiposUsuarios() {

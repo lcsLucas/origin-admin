@@ -69,7 +69,7 @@ $paginacao = $this->dados->paginacao;
 
                 <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
-                    <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formTipoUsuario">
+                    <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios" method="post" class="form-validate" id="formTipoUsuario">
 
                         <div class="form-group form-group-lg">
                             <label for="nome" class="font-weight-bold">Tipo de usuários:</label>
@@ -78,7 +78,7 @@ $paginacao = $this->dados->paginacao;
 
                         <div class="form-group form-group-lg text-right mt-5">
                             <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                            <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg active btn-link text-primary">Cancelar</a>
+                            <a role="button" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" class="btn btn-lg active btn-link text-primary">Cancelar</a>
                             <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
                         </div>
 
@@ -133,7 +133,7 @@ $paginacao = $this->dados->paginacao;
                                         </td>
                                         <td class="text-center">
 
-                                            <a class="btn btn-primary btn-acao" title="Editar" href="<?= rtrim($_SERVER["REQUEST_URI"], "/") . "/edit/" . $registro["tip_id"] ?>">
+                                            <a class="btn btn-primary btn-acao" title="Editar" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios<?= "/edit/" . $registro["tip_id"] ?>">
 
                                                 <i class="material-icons">edit</i>
 

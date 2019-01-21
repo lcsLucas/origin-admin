@@ -127,4 +127,8 @@ class TipoUsuario extends TipoUsuarioDao{
         return $this->totalRegistrosDAO();
     }
 
+    public function carregar() {
+        return false;
+    }
+
 }

@@ -19,4 +19,3 @@ continuar no cadastro de tipos de usuarios, na tabela de listar
 - continuar no gerenciar tipos de usuarios
     - cadastrar
     - continuar no carregar dados do tipos de usuarios
-    na controller na hora de verificar depois que carregar dados, caso não carregue dados usar o header para redimensionar a url
