@@ -42,7 +42,7 @@ class TipoUsuario extends TipoUsuarioDao{
     /**
      * @param mixed $id
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -58,7 +58,7 @@ class TipoUsuario extends TipoUsuarioDao{
     /**
      * @param string $nome
      */
-    public function setNome(string $nome): void
+    public function setNome(string $nome)
     {
         $this->nome = $nome;
     }
@@ -74,7 +74,7 @@ class TipoUsuario extends TipoUsuarioDao{
     /**
      * @param mixed $data_cadastro
      */
-    public function setDataCadastro($data_cadastro): void
+    public function setDataCadastro($data_cadastro)
     {
         $this->data_cadastro = $data_cadastro;
     }
@@ -90,7 +90,7 @@ class TipoUsuario extends TipoUsuarioDao{
     /**
      * @param mixed $ativo
      */
-    public function setAtivo($ativo): void
+    public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
     }
@@ -106,7 +106,7 @@ class TipoUsuario extends TipoUsuarioDao{
     /**
      * @param mixed $flag_adm
      */
-    public function setFlagAdm($flag_adm): void
+    public function setFlagAdm($flag_adm)
     {
         $this->flag_adm = $flag_adm;
     }
@@ -128,7 +128,21 @@ class TipoUsuario extends TipoUsuarioDao{
     }
 
     public function carregar() {
+
+        $result = $this->carregarDAO();
+
+        if (!empty($result)) {
+
+            $this->nome = $result["tip_nome"];
+            return true;
+
+        }
+
         return false;
+    }
+
+    public function alterar() {
+        return !empty($this->alterarDAO()) ? true : false;
     }
 
 }

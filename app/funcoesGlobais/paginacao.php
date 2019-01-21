@@ -47,8 +47,12 @@ function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $ran
 
 /* Loop para montar a páginação central com os números */
 
-    $pos = strpos($_SERVER["REQUEST_URI"],"?");
-    $url = substr($_SERVER["REQUEST_URI"],0,$pos);
+    $url = rtrim($_SERVER["REQUEST_URI"],'/');
+    $pos = strpos($url,"?");
+    if (!empty($pos)) {
+        $url = substr($_SERVER["REQUEST_URI"], 0, $pos);
+        $url = rtrim($url, "/");
+    }
     ?>
 
     <nav aria-label="navigation" class="mt-5">

@@ -10,6 +10,7 @@ body {
     float: left;
     text-align: center;
     font-size: 1rem;
+    line-height: 1.25rem;
     margin: 0 .9rem 0 0;
 }
 
@@ -54,6 +55,10 @@ table tr td:first-child, table tr th:first-child {
 
 table tr td:last-child, table tr th:last-child {
     padding-right: 20px;
+}
+
+.pagination .page-item.active .page-link {
+    pointer-events: none;
 }
 
 body {

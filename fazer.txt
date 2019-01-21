@@ -11,11 +11,7 @@ Cropper JS
 
 /******
 
-continuar no cadastro de tipos de usuarios, na tabela de listar
-    - fazer paginação de registros
-     - Tentar usar isso:
-        - http://www.devwilliam.com.br/php/paginacao-com-mysql-php
+- arrumar a mensagem de retorno ao usuário no mobile
 
 - continuar no gerenciar tipos de usuarios
-    - cadastrar
-    - continuar no carregar dados do tipos de usuarios
+    - fazer o deletar

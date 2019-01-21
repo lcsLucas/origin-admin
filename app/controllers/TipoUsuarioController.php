@@ -29,7 +29,7 @@ class TipoUsuarioController extends Action
         $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
-        $qtde_registros = 5;
+        $qtde_registros = 1;
 
         /*definição de paginação*/
 
@@ -70,6 +70,12 @@ class TipoUsuarioController extends Action
 
         $pos = strripos($url, "/");
         $valor = substr($url,$pos+1);
+
+        $pos = strpos($valor,"?");
+        if (!empty($pos)) {
+            $valor = substr($valor, 0, $pos);
+        }
+
         $id = filter_var($valor, FILTER_VALIDATE_INT);
 
         if (!empty($id)) { //verificar depois que carregar dados, caso não carregue dados usar o header para redimensionar a url
@@ -79,6 +85,7 @@ class TipoUsuarioController extends Action
 
                 $this->dados->editar = true;
                 $this->dados->id = $id;
+                $this->dados->nome = $tipo->getNome();
                 $carregado = true;
             }
 
@@ -129,6 +136,71 @@ class TipoUsuarioController extends Action
 
         $this->dados->retorno = $this->getRetorno();
         $this->pageTiposUsuarios();
+    }
+
+    public function requestTiposUsuariosEdit() {
+
+        $url = $_SERVER["REQUEST_URI"];
+
+        //Remove as barras e também remove URI caso tenha
+        $url = trim($url,'/');
+        if(SUBDOMINIO)
+            $url = trim(substr($url, strlen(URI)),"/");
+
+        if (".php" === substr($url,-4))
+            $url = substr($url,0,-4);
+
+        $pos = strripos($url, "/");
+        $valor = substr($url,$pos+1);
+
+        $pos = strpos($valor,"?");
+        if (!empty($pos)) {
+            $valor = substr($valor, 0, $pos);
+        }
+
+        $id = filter_var($valor, FILTER_VALIDATE_INT);
+
+        if (!empty($id)) {
+
+            $validate = new Data_Validator();
+            $tipo = new TipoUsuario();
+
+            $tipo->setId($id);
+            $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+            $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+            $validate->define_pattern('erro_');
+            $validate
+                ->set("nome", $nome)->is_required();
+
+            if ($validate->validate()) {
+
+                if (password_verify(TOKEN_SESSAO, $token)) {
+
+                    $tipo->setNome($nome);
+
+                    if ($tipo->alterar())
+                        $this->setRetorno("Tipo de usuários foi alterado com sucesso", true, true);
+                    else if($tipo->getRetorno()["exibir"])
+                        $this->setRetorno($tipo->getRetorno()["mensagem"], $tipo->getRetorno()["exibir"], $tipo->getRetorno()["status"]);
+                    else
+                        $this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+
+                } else
+                    $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+            } else {
+                $array_erros = $validate->get_errors();
+                $array_erro = array_shift($array_erros);
+                $erro = array_shift($array_erro);
+                $this->setRetorno($erro, true, false);
+            }
+
+        } else
+            $this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->pageTiposUsuariosEdit();
     }
 
 }

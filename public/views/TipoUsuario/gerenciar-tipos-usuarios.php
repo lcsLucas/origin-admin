@@ -7,6 +7,8 @@ include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
 if (!empty($this->dados->retorno))
     $retorno = $this->dados->retorno;
 
+$nome = !empty($this->dados->nome) ? $this->dados->nome : "";
+
 $lista_registros = $this->dados->registros;
 
 $paginacao = $this->dados->paginacao;
@@ -63,23 +65,23 @@ $paginacao = $this->dados->paginacao;
 
                 <div class="card-header <?= !empty($this->dados->editar) ? "bg-danger" : "bg-primary" ?> py-3">
                     <h5 class="text-uppercase m-0 text-center text-md-left">
-                        <?= !empty($this->dados->editar) ? "Editar Tipo de Usuário" : "Gerenciar Tipos de Usuários" ?>
+                        <?= !empty($this->dados->editar) ? "Editar o Tipo de Usuários \"". $nome ."\"" : "Gerenciar Tipos de Usuários" ?>
                     </h5>
                 </div>
 
                 <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
-                    <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios" method="post" class="form-validate" id="formTipoUsuario">
+                    <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formTipoUsuario">
 
                         <div class="form-group form-group-lg">
                             <label for="nome" class="font-weight-bold">Tipo de usuários:</label>
-                            <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" id="nome" name="nome" title="Por favor, informe o nome do novo tipo de usuário">
+                            <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" value="<?= $nome ?>" id="nome" name="nome" title="Por favor, informe o nome do novo tipo de usuário">
                         </div>
 
                         <div class="form-group form-group-lg text-right mt-5">
                             <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                             <a role="button" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" class="btn btn-lg active btn-link text-primary">Cancelar</a>
-                            <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
+                            <button type="submit" class="btn <?= !empty($this->dados->editar) ? "btn-danger" : "btn-success" ?> active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
                         </div>
 
                     </form>
@@ -133,7 +135,16 @@ $paginacao = $this->dados->paginacao;
                                         </td>
                                         <td class="text-center">
 
-                                            <a class="btn btn-primary btn-acao" title="Editar" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios<?= "/edit/" . $registro["tip_id"] ?>">
+                                            <?php
+
+                                            $url_editar = URL . "usuarios/gerenciar-tipos-usuarios/edit/" . $registro["tip_id"];
+
+                                            if (!empty($_SERVER["QUERY_STRING"]))
+                                                $url_editar .= "?" . $_SERVER["QUERY_STRING"];
+
+                                            ?>
+
+                                            <a class="btn btn-primary btn-acao" title="Editar" href="<?= $url_editar ?>">
 
                                                 <i class="material-icons">edit</i>
 

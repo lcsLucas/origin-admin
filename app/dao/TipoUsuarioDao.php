@@ -42,10 +42,10 @@ class TipoUsuarioDao extends Banco
             {
 
                 $stms = $this->getCon()->prepare("INSERT INTO tipo_usuario(tip_dtCad, tip_nome, tip_ativo, tip_administrador) VALUES(:data, :nome, :ativo, :adm)");
-                $stms->bindValue(":data", $this->tipo_usuario->getDataCadastro());
-                $stms->bindValue(":nome", $this->tipo_usuario->getNome());
-                $stms->bindValue(":ativo", $this->tipo_usuario->getAtivo());
-                $stms->bindValue(":adm", $this->tipo_usuario->getFlagAdm());
+                $stms->bindValue(":data", $this->tipo_usuario->getDataCadastro(), \PDO::PARAM_STR);
+                $stms->bindValue(":nome", $this->tipo_usuario->getNome(), \PDO::PARAM_STR);
+                $stms->bindValue(":ativo", $this->tipo_usuario->getAtivo(), \PDO::PARAM_STR);
+                $stms->bindValue(":adm", $this->tipo_usuario->getFlagAdm(), \PDO::PARAM_STR);
 
                 return $stms->execute();
 
@@ -110,6 +110,58 @@ class TipoUsuarioDao extends Banco
         endif;
 
         return 0;
+
+    }
+
+    protected function carregarDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("SELECT tip_nome FROM tipo_usuario WHERE tip_id = :id LIMIT 1");
+                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_INT);
+
+                $stms->execute();
+                return $stms->fetch();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return null;
+
+    }
+
+    protected function alterarDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("UPDATE tipo_usuario SET tip_nome = :nome WHERE tip_id = :id");
+                $stms->bindValue(":nome", $this->tipo_usuario->getNome(), \PDO::PARAM_STR);
+                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_STR);
+                if ($stms->execute())
+                    return $stms->rowCount();
+                else
+                    return false;
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
 
     }
 
