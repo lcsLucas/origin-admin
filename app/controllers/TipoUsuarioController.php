@@ -29,7 +29,7 @@ class TipoUsuarioController extends Action
         $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
-        $qtde_registros = 1;
+        $qtde_registros = 5;
 
         /*definição de paginação*/
 
@@ -49,6 +49,7 @@ class TipoUsuarioController extends Action
             $this->dados->paginacao->total_registros = $tipo->totalRegistros();
 
         /***/
+        $this->dados->tipo_usuario = $tipo->carregarTipoUsuario();
 
         $this->dados->title = "Gerenciar Tipos de Usuarios";
         $this->dados->validation = true;

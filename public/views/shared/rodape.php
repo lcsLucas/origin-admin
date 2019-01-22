@@ -342,6 +342,16 @@ if (!empty($this->dados->validation)) {
 
 ?>
 
+<?php
+
+if (!empty($this->dados->alert)) {
+    ?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <?php
+}
+
+?>
+
 <script src="<?= URL_JS ?>scripts-painel.js?random=<?= rand() ?>"></script>
 </body>
 </html>

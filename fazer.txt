@@ -1,17 +1,24 @@
 /******
 
-Otimização de imagem no PHP
-- https://github.com/spatie/image-optimizer
-
-Redimensionamento de imagens
-- http://wideimage.sourceforge.net/
-
 Cropper JS
 - https://fengyuanchen.github.io/cropperjs/
 
 /******
 
+############# Fazer o controle de acesso no sistema #############
+    - não permitir que usuários não autorizados acessem as páginas
+    - no controle de acesso validar tbm o tipo de usuário, se aquele tipo de usuário deve ter acesso ao sistema
+#############
+
 - arrumar a mensagem de retorno ao usuário no mobile
 
 - continuar no gerenciar tipos de usuarios
     - fazer o deletar
+        - arrumar um plugin de modal
+            - https://sweetalert2.github.io/
+
+- fazer a regra de negocio do tipo de usuario
+    - um usuario não pode deletar seu proprio tipo nem desativar
+    - o tipo de usuario administrador não pode ser deletado nem desativado
+
+- continuar no alterar status do tipo de usuarios

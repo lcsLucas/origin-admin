@@ -13,6 +13,8 @@ $lista_registros = $this->dados->registros;
 
 $paginacao = $this->dados->paginacao;
 
+$this->dados->alert = true;
+
 ?>
 
     <!-- Breadcrumb-->
@@ -121,6 +123,21 @@ $paginacao = $this->dados->paginacao;
 
                             if (!empty($lista_registros)) {
                                 foreach ($lista_registros as $registro) {
+
+                                    $title_desativar = "Desativar esse tipo de usuários";
+                                    $title_excluir = "Excluir esse tipo de usuários";
+                                    $disabled = false;
+
+                                    if (!empty($registro["tip_administrador"])) {
+                                        $title_desativar = "Você não pode desativar o tipo de usuários Administrador";
+                                        $title_excluir = "Você não pode excluir o tipo de usuários Administrador";
+                                        $disabled = true;
+                                    } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
+                                        $title_desativar = "Você não pode desativar seu tipo de usuários";
+                                        $title_excluir = "Você não pode excluir seu tipo de usuários";
+                                        $disabled = true;
+                                    }
+
                                     ?>
 
                                     <tr>
@@ -128,10 +145,17 @@ $paginacao = $this->dados->paginacao;
                                         <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
                                         <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["tip_dtcad"])) ?></td>
                                         <td class="text-center font-weight-bold text-muted">
-                                            <label class="switch switch-label switch-pill switch-success switch-sm">
-                                                <input class="switch-input" type="checkbox" checked="">
-                                                <span class="switch-slider" data-checked="" data-unchecked=""></span>
-                                            </label>
+                                            <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post">
+
+                                                <label class="switch switch-label switch-pill switch-success switch-sm"
+                                                       title="<?= $title_desativar ?>">
+                                                    <input class="switch-input desativar-tipo-usuarios" type="checkbox"
+                                                           checked="" <?= !empty($disabled) ? "disabled" : "" ?> name="alterar-status">
+                                                    <span class="switch-slider" data-checked="" data-unchecked=""></span>
+                                                </label>
+
+                                            </form>
+
                                         </td>
                                         <td class="text-center">
 
@@ -144,13 +168,15 @@ $paginacao = $this->dados->paginacao;
 
                                             ?>
 
-                                            <a class="btn btn-primary btn-acao" title="Editar" href="<?= $url_editar ?>">
+                                            <a class="btn btn-primary btn-acao" title="Editar"
+                                               href="<?= $url_editar ?>">
 
                                                 <i class="material-icons">edit</i>
 
                                             </a>
 
-                                            <button class="btn btn-danger btn-acao" title="Excluir">
+                                            <button class="btn btn-danger btn-acao"
+                                                    title="<?= $title_excluir ?>" <?= !empty($disabled) ? "disabled" : "" ?> >
 
                                                 <i class="material-icons">close</i>
 

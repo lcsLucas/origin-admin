@@ -165,4 +165,23 @@ class TipoUsuarioDao extends Banco
 
     }
 
+    protected function carregarTipoUsuarioDAO($idusuario) {
+
+        if(!empty($this->Conectar())) :
+            try
+            {
+                $stms = $this->getCon()->prepare("SELECT t.tip_id FROM usuario u INNEr JOIN tipo_usuario t ON t.tip_id = u.tip_id WHERE u.usu_id = :codigo LIMIT 1");
+                $stms->bindValue(":codigo", $idusuario, \PDO::PARAM_INT);
+                $stms->execute();
+                return $stms->fetch();
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+        endif;
+        return false;
+
+    }
+
 }

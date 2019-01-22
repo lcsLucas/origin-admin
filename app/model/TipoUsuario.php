@@ -142,7 +142,19 @@ class TipoUsuario extends TipoUsuarioDao{
     }
 
     public function alterar() {
-        return !empty($this->alterarDAO()) ? true : false;
+
+        $retorno = $this->alterarDAO();
+
+        if (!empty($retorno))
+            return true;
+        else if(intval($retorno) === 0)
+            $this->setRetorno("Tipo de usuários não foi alterado, tente novamente", true, false);
+
+        return false;
+    }
+    public function carregarTipoUsuario() {
+        $retorno = $this->carregarTipoUsuarioDAO($_SESSION["_idusuario"]);
+        return empty($retorno) ? 0 : $retorno["tip_id"];
     }
 
 }
