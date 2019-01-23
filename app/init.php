@@ -113,6 +113,20 @@ class Init extends Bootstrap
             'action' => 'requestTiposUsuariosEdit'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/alterar-status\/?$/',
+            'method' => 'POST',
+            'controller' => 'TipoUsuario',
+            'action' => 'requestAlterarStatus'
+        );
+
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/deletar\/?$/',
+            'method' => 'POST',
+            'controller' => 'TipoUsuario',
+            'action' => 'requestDeletar'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

@@ -89,24 +89,33 @@ window.onload = function() {
     $("#conteudo").find(".desativar-tipo-usuarios").click(function () {
         var $this = $(this);
         const status = $(this).prop("checked");
+        var texto = "";
+
+        if (!status)
+            texto = "Você está preste a desativar um tipo de usuários, caso confirme todos os usuários que pertencem a esse tipo não teram mais acesso ao sistema, deseja desativar?";
+        else
+            texto = "Você está preste a ativar um tipo de usuários, caso confirme todos os usuários que pertencem a esse tipo teram acesso ao sistema, deseja mesmo ativar?";
+
+
         Swal.fire({
             title: 'ATENÇÃO!',
-            text: "Você está preste a desativar um tipo de usuários, caso confirme todos os usuários que pertencem a esse tipo não teram mais acesso ao sistema, deseja desativar?",
+            text: texto,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'SIM, desativar!',
+            confirmButtonText: (status) ? 'SIM, ativar!' : 'SIM, desativar!',
             cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.value) {
                 var pai = $this.parent();
                 var load = $("<i>").addClass("fas fa-spinner fa-spin text-dark");
+                var form = $this.parents("form");
 
                 $.ajax({
                     type: 'POST',
-                    url: "",
-                    data: "",
+                    url: form.attr("action"),
+                    data: form.serialize(),
                     dataType: 'json',
                     beforeSend: function(){
 
@@ -114,11 +123,14 @@ window.onload = function() {
                         pai.addClass("d-none");
 
                     }
-                }).done(function (status) {
+                }).done(function (retorno) {
 
                     load.remove();
                     pai.removeClass("d-none");
-                    $this.prop("checked", status);
+                    $this.prop("checked", retorno["status"]);
+
+                    if (retorno["erro"])
+                        alert(retorno["msg"]);
 
                 }).fail(function () {
 
@@ -133,37 +145,45 @@ window.onload = function() {
         return false;
     });
 
+    $(".deletar-tipo").click(function () {
+        var $this = $(this);
+
+        Swal.fire({
+            title: 'Atenção',
+            type: 'warning',
+            label: 'Informe sua senha',
+            input: 'password',
+            html: 'Tem certeza que desaja excluir esse tipo? Seus usuários também seram deletados, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            showLoaderOnConfirm: true,
+            preConfirm: (senha) => {
+
+                if (senha === "")
+                    Swal.showValidationMessage(
+                        `Informe sua senha`
+                    )
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+
+            if (result.value) {
+                var form = $this.parents("form");
+                form.append($("<input>").val(result.value).prop("name", "senha"));
+                $this.parents("form").submit();
+
+            }
+
+        });
+
+        return false;
+    });
+
 };
-
-/*
-            $.ajax({
-                type: 'POST',
-                url: $(form).prop("action"),
-                data: dados,
-                dataType: 'json',
-                beforeSend: function(){
-                    $(form).find("button").html("Aguarde...").append(
-                        $("<i>").addClass("fas fa-spinner fa-spin ml-4")
-                    ).prop("disabled", true)
-                    $('#btnEnviarUsu').prop("disabled",true);
-                }
-            }).done(function (retorno) {
-                const alert = $("#retorno-erro");
-                alert.removeClass("alert-danger alert-success");
-
-                if(retorno.status) {
-                    const extra = JSON.parse(retorno.extra);
-                    location.href = extra.url_direcionar;
-                } else {
-                    alert.addClass("alert-danger");
-                    alert.html(retorno.mensagem);
-                    $(form).find("button").html("ENTRAR").prop("disabled",false);
-                }
-
-            }).fail(function () {
-                $(form).find("button").html("ENTRAR").prop("disabled",false);
-            });
- */
 
 function exibiSenha(target) {
     const input_group = target.closest(".input-group");

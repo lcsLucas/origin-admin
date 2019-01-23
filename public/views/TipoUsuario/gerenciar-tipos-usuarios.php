@@ -145,12 +145,12 @@ $this->dados->alert = true;
                                         <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
                                         <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["tip_dtcad"])) ?></td>
                                         <td class="text-center font-weight-bold text-muted">
-                                            <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post">
-
+                                            <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/alterar-status" method="post">
+                                                <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">
                                                 <label class="switch switch-label switch-pill switch-success switch-sm"
                                                        title="<?= $title_desativar ?>">
                                                     <input class="switch-input desativar-tipo-usuarios" type="checkbox"
-                                                           checked="" <?= !empty($disabled) ? "disabled" : "" ?> name="alterar-status">
+                                                           <?= !empty($registro["tip_ativo"]) ? "checked" : "" ?> <?= !empty($disabled) ? "disabled" : "" ?> name="alterar-status">
                                                     <span class="switch-slider" data-checked="" data-unchecked=""></span>
                                                 </label>
 
@@ -175,12 +175,17 @@ $this->dados->alert = true;
 
                                             </a>
 
-                                            <button class="btn btn-danger btn-acao"
-                                                    title="<?= $title_excluir ?>" <?= !empty($disabled) ? "disabled" : "" ?> >
+                                            <form class="d-inline" action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/deletar" method="post">
+                                                <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">
+                                                <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
+                                                <button type="button" class="btn btn-danger btn-acao deletar-tipo"
+                                                        title="<?= $title_excluir ?>" <?= !empty($disabled) ? "disabled" : "" ?> >
 
-                                                <i class="material-icons">close</i>
+                                                    <i class="material-icons">close</i>
 
-                                            </button>
+                                                </button>
+
+                                            </form>
 
                                         </td>
 

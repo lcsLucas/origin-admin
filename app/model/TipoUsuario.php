@@ -157,4 +157,8 @@ class TipoUsuario extends TipoUsuarioDao{
         return empty($retorno) ? 0 : $retorno["tip_id"];
     }
 
+    public function alterarStatus() {
+        return $this->alterarStatusDAO();
+    }
+
 }

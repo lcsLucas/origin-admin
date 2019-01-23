@@ -22,3 +22,6 @@ Cropper JS
     - o tipo de usuario administrador não pode ser deletado nem desativado
 
 - continuar no alterar status do tipo de usuarios
+    - requestAlterarStatus do controller
+
+    -continuar o deletar tipo
