@@ -74,7 +74,7 @@ if (!empty($this->dados->retorno))
 
                             <div class="form-group form-group-lg">
                                 <label for="email" class="font-weight-bold">Email:</label>
-                                <input disabled type="text" class="form-control form-control-lg" id="email" name="email" value="<?= $usuario->getEmail() ?>" title="Você não pode alterar esse campo">
+                                <input disabled type="email" class="form-control form-control-lg" id="email" name="email" value="<?= $usuario->getEmail() ?>" title="Você não pode alterar esse campo">
                             </div>
 
                             <div class="form-group form-group-lg">

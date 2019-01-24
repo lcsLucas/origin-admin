@@ -255,13 +255,15 @@ class TipoUsuarioController extends Action
                 if (password_verify($senha, $senha_atual["usu_senha"])) {
 
                     $tipo->setId($id);
+                    if ($tipo->excluir())
+                        $this->setRetorno("Tipo de usuários excluído com sucesso", true, true);
+                    else if($tipo->getRetorno()["exibir"])
+                        $this->setRetorno($tipo->getRetorno()["mensagem"], $tipo->getRetorno()["exibir"], $tipo->getRetorno()["status"]);
+                    else
+                        $this->setRetorno("Não foi possível excluir o tipo de usuários, tente novamente", true, false);
 
                 } else
                     $this->setRetorno("Senha informada inválida, tente novamente", true, false);
-
-                //obter senha do usuario
-                //verificar senha informada
-                //deletar esse tipo de usuario
 
             } else
                 $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);

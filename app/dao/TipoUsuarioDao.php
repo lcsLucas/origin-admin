@@ -147,7 +147,7 @@ class TipoUsuarioDao extends Banco
 
                 $stms = $this->getCon()->prepare("UPDATE tipo_usuario SET tip_nome = :nome WHERE tip_id = :id");
                 $stms->bindValue(":nome", $this->tipo_usuario->getNome(), \PDO::PARAM_STR);
-                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_STR);
+                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_INT);
                 if ($stms->execute())
                     return $stms->rowCount();
                 else
@@ -209,6 +209,31 @@ class TipoUsuarioDao extends Banco
 
         return false;
 
+    }
+
+    protected function excluirDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("DELETE FROM tipo_usuario WHERE tip_id = :id");
+                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_INT);
+                if ($stms->execute())
+                    return $stms->rowCount();
+                else
+                    return false;
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
     }
 
 }

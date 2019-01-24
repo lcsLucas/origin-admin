@@ -202,3 +202,11 @@ button[name="btnConfirmar"] {
 :disabled {
     cursor: not-allowed;
 }
+
+.sidebar .nav-dropdown.open .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
+    padding-left: 1.8rem;
+}
+
+select.form-control-lg {
+    font-weight: lighter;
+}

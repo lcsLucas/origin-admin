@@ -155,4 +155,29 @@ class UsuarioDao extends Banco
         return parent::getRetorno();
     }
 
+    protected function UltimoAcessoDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_ultimoAcesso = :acesso WHERE usu_id = :codigo LIMIT 1");
+                $stms->bindValue(":acesso", date("Y-m-d H:i:00"), \PDO::PARAM_STR);
+                $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
+
+                return $stms->execute();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+
+    }
+
 }

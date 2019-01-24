@@ -134,6 +134,13 @@ class Init extends Bootstrap
             'action' => 'pageTiposUsuarios'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-usuarios\/?$/',
+            'method' => 'GET',
+            'controller' => 'Usuario',
+            'action' => 'pageGerenciarUsuarios'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

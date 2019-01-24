@@ -161,4 +161,16 @@ class TipoUsuario extends TipoUsuarioDao{
         return $this->alterarStatusDAO();
     }
 
+    public function excluir() {
+
+        $retorno = $this->excluirDAO();
+
+        if (!empty($retorno))
+            return true;
+        else if(intval($retorno) === 0)
+            $this->setRetorno("Tipo de usuários não foi alterado, tente novamente", true, false);
+
+        return false;
+    }
+
 }

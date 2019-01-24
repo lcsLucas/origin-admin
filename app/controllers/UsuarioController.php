@@ -171,4 +171,10 @@ class UsuarioController extends Action
 
     }
 
+    public function pageGerenciarUsuarios() {
+        $this->dados->title = "Gerenciar usuários";
+        $this->dados->validation = true;
+        $this->render('gerenciar-usuarios.php');
+    }
+
 }

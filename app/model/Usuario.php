@@ -225,7 +225,8 @@ class Usuario extends UsuarioDao{
         if (!empty($result)) {
 
             if (password_verify($this->senha, $result["usu_senha"])) {
-
+                $this->id = $result["usu_id"];
+                $this->UltimoAcessoDAO();
                 $_SESSION["_idusuario"] = $result["usu_id"];
                 $_SESSION["_logado"] = true;
                 session_write_close();
