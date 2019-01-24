@@ -154,4 +154,14 @@ abstract class Action
             include_once PATH_VIEWS.PASTA_ADMIN.strtolower($nomeClasse."/".$this->layout);
         endif;
     }
+
+    /**
+     * modifica a url do navegador para o usuário, alterando a url atual pela a url informada no parametro
+     * @return void
+     */
+    protected function ModificaURL($url) {
+        echo '<script>history.replaceState({}, \'\', \''. $url .'\');</script>';
+        $this->dados->modificacao_url = true;
+    }
+
 }

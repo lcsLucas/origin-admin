@@ -127,6 +127,13 @@ class Init extends Bootstrap
             'action' => 'requestDeletar'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-tipos-usuarios\/deletar\/?$/',
+            'method' => 'GET',
+            'controller' => 'TipoUsuario',
+            'action' => 'pageTiposUsuarios'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

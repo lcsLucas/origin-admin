@@ -22,7 +22,18 @@ if (! defined('ABSPATH')){
     <link href="<?= URL_PUBLIC ?>vendors/pace-progress/css/pace.min.css" rel="stylesheet">
     <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
 
-    <script>history.replaceState({}, '', '<?= $_SERVER["REQUEST_URI"] ?>');</script>
+    <?php
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($this->dados->modificacao_url)) { //se for metodo post, remove do histórico do navegador
+
+        ?>
+
+        <script>history.replaceState({}, '', '<?= $_SERVER["REQUEST_URI"] ?>');</script>
+
+    <?php
+    }
+
+    ?>
 
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">

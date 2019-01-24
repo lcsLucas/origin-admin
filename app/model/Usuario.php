@@ -315,6 +315,10 @@ class Usuario extends UsuarioDao{
         return false;
     }
 
+    public function obterSenha() {
+        return parent::obterSenha();
+    }
+
     public function getRetorno() {
         return parent::getRetorno();
     }

@@ -12,6 +12,11 @@
 
 </IfModule>
 
+# Forçando o "WWW" na url
+#RewriteEngine On
+#RewriteCond %{HTTP_HOST} ^example.com
+#RewriteRule (.*) http://www.example.com/$1 [R=301,L]
+
 #Proteger htaccess
 <files ~ "^.*\.([Hh][Tt][Aa])">
 	order allow,deny

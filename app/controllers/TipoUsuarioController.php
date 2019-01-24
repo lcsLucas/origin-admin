@@ -241,7 +241,7 @@ class TipoUsuarioController extends Action
         $validate
             ->set("id", $id)->is_required()
             ->set("nome", $senha)->is_required()
-            ->set("token", $$token)->is_required();
+            ->set("token", $token)->is_required();
 
         if ($validate->validate()) {
 
@@ -249,6 +249,15 @@ class TipoUsuarioController extends Action
 
                 $usuario->setId($_SESSION["_idusuario"]);
                 $usuario->setSenha($senha);
+
+                $senha_atual = $usuario->obterSenha();
+
+                if (password_verify($senha, $senha_atual["usu_senha"])) {
+
+                    $tipo->setId($id);
+
+                } else
+                    $this->setRetorno("Senha informada inválida, tente novamente", true, false);
 
                 //obter senha do usuario
                 //verificar senha informada
@@ -264,6 +273,9 @@ class TipoUsuarioController extends Action
             $this->setRetorno($erro, true, false);
         }
 
+        $this->dados->retorno = $this->getRetorno();
+        $this->ModificaURL(URL . "usuarios/gerenciar-tipos-usuarios"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+        $this->pageTiposUsuarios();
     }
 
 }
