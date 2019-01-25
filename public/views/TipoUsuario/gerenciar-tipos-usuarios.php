@@ -127,11 +127,16 @@ $this->dados->alert = true;
                                     $title_desativar = "Desativar esse tipo de usuários";
                                     $title_excluir = "Excluir esse tipo de usuários";
                                     $disabled = false;
+                                    $editar_adm = false;
 
                                     if (!empty($registro["tip_administrador"])) {
                                         $title_desativar = "Você não pode desativar o tipo de usuários Administrador";
                                         $title_excluir = "Você não pode excluir o tipo de usuários Administrador";
                                         $disabled = true;
+
+                                        if (intval($this->dados->tipo_usuario) === intval($registro["tip_id"]))
+                                            $editar_adm = true;
+
                                     } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
                                         $title_desativar = "Você não pode desativar seu tipo de usuários";
                                         $title_excluir = "Você não pode excluir seu tipo de usuários";
@@ -168,7 +173,7 @@ $this->dados->alert = true;
 
                                             ?>
 
-                                            <a class="btn btn-primary btn-acao" title="Editar"
+                                            <a class="btn btn-primary btn-acao <?= !empty($registro["tip_administrador"]) && empty($editar_adm) ? "disabled" : "" ?>" title="Editar"
                                                href="<?= $url_editar ?>">
 
                                                 <i class="material-icons">edit</i>

@@ -56,13 +56,6 @@ class HomeController extends Action
             $this->render('error404.html');
     }
 
-    public function pageRecuperarSenha()
-    {
-            $this->dados->title = "Recuperar Senha";
-            $this->css = "partial-login";
-            $this->render('recuperar-senha');
-    }
-
     public function pageLogin() {
 
         if (isset($_SESSION['_idusuario'])) {

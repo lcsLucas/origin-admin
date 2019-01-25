@@ -218,7 +218,7 @@ class TipoUsuarioDao extends Banco
             try
             {
 
-                $stms = $this->getCon()->prepare("DELETE FROM tipo_usuario WHERE tip_id = :id");
+                $stms = $this->getCon()->prepare("DELETE FROM tipo_usuario WHERE tip_id = :id AND tip_id <> 1");
                 $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_INT);
                 if ($stms->execute())
                     return $stms->rowCount();

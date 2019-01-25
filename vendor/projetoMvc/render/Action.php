@@ -51,6 +51,11 @@ abstract class Action
     */
     protected $layoutPadrao;
 
+    /*
+     * Verifica se tem permissão de acessar esse metódo, caso contrário envia para a tela de login
+     */
+    protected $autenticacao;
+
     protected $retorno;
 
     /**
@@ -62,6 +67,10 @@ abstract class Action
         $this->dados = new \stdClass;
         $this->param = [];
         $this->retorno = new Retorno();
+
+        if (!empty($this->autenticacao) && empty($_SESSION))
+            header("Location: " . URL);
+
     }
 
     /**

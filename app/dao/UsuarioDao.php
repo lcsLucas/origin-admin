@@ -29,13 +29,13 @@ class UsuarioDao extends Banco
 
 		if (!empty($this->conectar())) {
             try {
-                $stms = $this->getCon()->prepare("SELECT usu_id, usu_senha FROM usuario WHERE usu_login = :login AND usu_ativo = '1' LIMIT 1");
+                $stms = $this->getCon()->prepare("SELECT usu_id, usu_senha FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id WHERE usu_login = :login AND usu_ativo = '1' AND tip_ativo = '1' LIMIT 1");
                 $stms->bindValue(':login', $this->usuario->getLogin(), \PDO::PARAM_STR);
                 $stms->execute();
                 $result = $stms->fetch();
 
                 if (empty($result)) {
-                    $stms = $this->getCon()->prepare("SELECT usu_id, usu_senha FROM usuario WHERE usu_email = :email AND usu_ativo = '1' LIMIT 1");
+                    $stms = $this->getCon()->prepare("SELECT usu_id, usu_senha FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id WHERE usu_email = :email AND usu_ativo = '1' AND tip_ativo = '1' LIMIT 1");
                     $stms->bindValue(':email', $this->usuario->getEmail(), \PDO::PARAM_STR);
                     $stms->execute();
                     $result = $stms->fetch();
@@ -177,6 +177,59 @@ class UsuarioDao extends Banco
         endif;
 
         return false;
+
+    }
+
+    protected function limiteRegistroDAO($inicio, $fim) {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("SELECT usu_id, usu_dtCad, usu_nome, tu.tip_id, tip_nome, tip_administrador, usu_email, usu_ativo FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id ORDER BY usu_nome LIMIT :inicio,:fim");
+                $stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
+                $stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
+
+                $stms->execute();
+                return $stms->fetchAll();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return array();
+
+    }
+
+    protected function totalRegistrosDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM usuario");
+                $stms->execute();
+                $result = $stms->fetch(\PDO::FETCH_ASSOC);
+
+                if (!empty($result))
+                    return $result["total"];
+
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return 0;
 
     }
 

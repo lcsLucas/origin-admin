@@ -2,10 +2,18 @@
 
 $retorno = null;
 
+include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
+
 if (!empty($this->dados->retorno))
     $retorno = $this->dados->retorno;
 
 $nome = !empty($this->dados->nome) ? $this->dados->nome : "";
+
+$lista_registros = $this->dados->registros;
+
+$paginacao = $this->dados->paginacao;
+
+$this->dados->alert = true;
 
 ?>
 
@@ -131,6 +139,102 @@ $nome = !empty($this->dados->nome) ? $this->dados->nome : "";
                     </div>
 
                 </form>
+
+            </div>
+
+        </div>
+
+        <div class="card border-primary">
+
+            <div class="card-header bg-primary py-3">
+                <h5 class="text-uppercase m-0 text-white text-center text-md-left">Usuários Cadastrados</h5>
+            </div>
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover m-0">
+
+                        <thead>
+
+                        <tr class="bg-gray-100">
+
+                            <th class="border-0 font-weight-bold text-uppercase text-dark">Nome</th>
+                            <th class="border-0 font-weight-bold text-uppercase text-dark">Tipo</th>
+                            <th class="border-0 text-center font-weight-bold text-uppercase text-dark">Criado</th>
+                            <th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ativado</th>
+                            <th class="border-0 text-center font-weight-bold text-uppercase text-dark min-180">Ação</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody class="px-2">
+
+                        <?php
+
+                            if (!empty($lista_registros)) {
+                                foreach ($lista_registros as $registro) {
+
+                                    $title_desativar = "Desativar esse tipo de usuários";
+                                    $title_excluir = "Excluir esse tipo de usuários";
+                                    $disabled = false;
+                                    $editar_adm = false;
+
+                                    if (!empty($registro["tip_administrador"])) {
+                                        $title_desativar = "Você não pode desativar o tipo de usuários Administrador";
+                                        $title_excluir = "Você não pode excluir o tipo de usuários Administrador";
+                                        $disabled = true;
+
+                                        if (intval($this->dados->tipo_usuario) === intval($registro["tip_id"]))
+                                            $editar_adm = true;
+
+                                    } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
+                                        $title_desativar = "Você não pode desativar seu tipo de usuários";
+                                        $title_excluir = "Você não pode excluir seu tipo de usuários";
+                                        $disabled = true;
+                                    }
+
+                                    ?>
+
+                                    <tr>
+
+                                        <td class="font-weight-bold text-muted"><?= $registro["usu_nome"] ?></td>
+                                        <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
+                                        <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["usu_dtCad"])) ?></td>
+                                        <td class="text-center font-weight-bold text-muted">
+                                            <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/alterar-status" method="post">
+                                                <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
+                                                <label class="switch switch-label switch-pill switch-success switch-sm"
+                                                       title="<?= $title_desativar ?>">
+                                                    <input class="switch-input desativar-tipo-usuarios" type="checkbox"
+                                                        <?= !empty($registro["usu_ativo"]) ? "checked" : "" ?> <?= !empty($disabled) ? "disabled" : "" ?> name="alterar-status">
+                                                    <span class="switch-slider" data-checked="" data-unchecked=""></span>
+                                                </label>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <?php
+
+                                }
+                            }
+
+                            ?>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <?php
+                paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas)
+                ?>
 
             </div>
 

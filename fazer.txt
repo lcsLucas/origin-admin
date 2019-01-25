@@ -1,3 +1,11 @@
+/************ Atenção ************/
+
+-> achar uma maneira de fazer o controle de usuário utilizando as rotas do site
+
+    ############# Fazer o controle de acesso no sistema #############
+        - não permitir que usuários não autorizados acessem as páginas
+    #############
+
 /******
 
 Cropper JS
@@ -5,23 +13,8 @@ Cropper JS
 
 /******
 
-############# Fazer o controle de acesso no sistema #############
-    - não permitir que usuários não autorizados acessem as páginas
-    - no controle de acesso validar tbm o tipo de usuário, se aquele tipo de usuário deve ter acesso ao sistema
-#############
+- arrumar a regra do sistema referente ao seu avatar, enviar imagem ou escolher um avatar
 
 - arrumar a mensagem de retorno ao usuário no mobile
-
-- continuar no gerenciar tipos de usuarios
-    - fazer o deletar
-        - arrumar um plugin de modal
-            - https://sweetalert2.github.io/
-
-- fazer a regra de negocio do tipo de usuario
-    - um usuario não pode deletar seu proprio tipo nem desativar
-    - o tipo de usuario administrador não pode ser deletado nem desativado
-
-- continuar no alterar status do tipo de usuarios
-    - requestAlterarStatus do controller
 
 - fazer o cadastro de usuários

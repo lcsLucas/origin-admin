@@ -210,3 +210,9 @@ button[name="btnConfirmar"] {
 select.form-control-lg {
     font-weight: lighter;
 }
+
+div#profile img {
+    width: 100%;
+    max-width: 90px;
+    margin: 20px;
+}

@@ -324,4 +324,12 @@ class Usuario extends UsuarioDao{
         return parent::getRetorno();
     }
 
+    public  function paginacao($incio, $fim) {
+        return $this->limiteRegistroDAO($incio, $fim);
+    }
+
+    public function totalRegistros() {
+        return $this->totalRegistrosDAO();
+    }
+
 }
