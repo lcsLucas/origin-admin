@@ -233,4 +233,86 @@ class UsuarioDao extends Banco
 
     }
 
+    protected function verificaEmailDAO() {
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM usuario WHERE usu_email = :email LIMIT 1");
+                $stms->bindValue(":email", $this->usuario->getEmail(), \PDO::PARAM_STR);
+                $stms->execute();
+                $result = $stms->fetch(\PDO::FETCH_ASSOC);
+
+                if (!empty($result))
+                    return !empty($result["total"]) ? true : false;
+
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+    }
+
+    protected function verificaUsuarioDAO() {
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM usuario WHERE usu_login = :login LIMIT 1");
+                $stms->bindValue(":login", $this->usuario->getLogin(), \PDO::PARAM_STR);
+                $stms->execute();
+                $result = $stms->fetch(\PDO::FETCH_ASSOC);
+
+                if (!empty($result))
+                    return !empty($result["total"]) ? true : false;
+
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+    }
+
+    public function inserirDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("INSERT INTO usuario(usu_dtCad, usu_nome, usu_login, usu_senha, usu_email, usu_ativo, tip_id) VALUES(:data, :nome, :login, :senha, :email, :ativo, :tipo)");
+                $stms->bindValue(":data", $this->usuario->getDataCadastro(), \PDO::PARAM_STR);
+                $stms->bindValue(":nome", $this->usuario->getNome(), \PDO::PARAM_STR);
+                $stms->bindValue(":login", $this->usuario->getLogin(), \PDO::PARAM_STR);
+                $stms->bindValue(":senha", $this->usuario->getSenha(), \PDO::PARAM_STR);
+                $stms->bindValue(":email", $this->usuario->getEmail(), \PDO::PARAM_STR);
+                $stms->bindValue(":ativo", $this->usuario->getAtivo(), \PDO::PARAM_STR);
+                $stms->bindValue(":tipo", $this->usuario->getTipo(), \PDO::PARAM_INT);
+
+                return $stms->execute();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+
+    }
+
 }

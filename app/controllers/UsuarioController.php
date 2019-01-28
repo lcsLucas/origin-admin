@@ -199,10 +199,84 @@ class UsuarioController extends Action
         $this->dados->paginacao->total_registros = $usuario->totalRegistros();
 
         $this->dados->tipo_usuario = $tipo->carregarTipoUsuario();
+        $this->dados->todosTipos = $tipo->listarTodos();
 
         $this->dados->title = "Gerenciar usuários";
         $this->dados->validation = true;
         $this->render('gerenciar-usuarios.php');
+    }
+
+    public function requestNovoUsuario() {
+        $validate = new Data_Validator();
+        $usu = new Usuario();
+
+        $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+        $email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS));
+        $usuario = trim(filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_SPECIAL_CHARS));
+        $senha_nova = trim(filter_input(INPUT_POST, 'senha_nova', FILTER_SANITIZE_SPECIAL_CHARS));
+        $senha_nova2 = trim(filter_input(INPUT_POST, 'senha_nova2', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+        $id_tipo = filter_input(INPUT_POST, "sel_tipo", FILTER_VALIDATE_INT);
+
+        $validate->define_pattern('erro_');
+        $validate
+            ->set("nome", $nome)->is_required()
+            ->set("email", $email)->is_required()->is_email()
+            ->set("tipo de usuario", $id_tipo)->is_required()
+            ->set("usuario", $usuario)->is_required()
+            ->set("\"nova senha\"", $senha_nova)->is_required()->max_length(30)
+            ->set("\"repita senha\"", $senha_nova2)->is_required()->max_length(30)
+            ->set("token", $token)->is_required();
+
+        if ($validate->validate()) {
+
+            if (strcmp($senha_nova, $senha_nova2) === 0) {
+
+                if (password_verify(TOKEN_SESSAO, $token)) {
+
+                    $usu->setNome($nome);
+                    $usu->setEmail($email);
+                    $usu->setLogin($usuario);
+                    $usu->setSenha($senha_nova);
+                    $usu->setTipo($id_tipo);
+
+                    if ($usu->inserir())
+                        $this->setRetorno("Usuário cadastrado com sucesso", true, true);
+                    else if(!empty($usu->getRetorno()["exibir"]))
+                        $this->setRetorno($usu->getRetorno()["mensagem"], $usu->getRetorno()["exibir"], $usu->getRetorno()["status"]);
+                    else
+                        $this->setRetorno("Não foi possível cadastrar o usuário, tente novamente", true, false);
+
+                } else
+                    $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+
+            } else
+                $this->setRetorno("As senhas informadas não batem", true, false);
+
+
+        } else {
+            $array_erros = $validate->get_errors();
+            $array_erro = array_shift($array_erros);
+            $erro = array_shift($array_erro);
+            $this->setRetorno($erro, true, false);
+        }
+
+        if (empty($this->getRetorno()["status"])) { //devove os parametros passados para view, e coloca nos campos correspondente
+
+            $this->dados->parametros =
+                array(
+                    "param_nome" => $nome,
+                    "param_email" => $email,
+                    "param_tipo" => $id_tipo,
+                    "param_usuario" => $usuario
+                );
+
+        }
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->pageGerenciarUsuarios();
+
     }
 
 }

@@ -38,7 +38,7 @@ window.onload = function() {
 
     }
 
-    if ($("#formAlterarSenha").length) {
+    if ($("#formAlterarSenha, #formUsuario").length) {
 
         rulesForm = {
             senha_nova2: {

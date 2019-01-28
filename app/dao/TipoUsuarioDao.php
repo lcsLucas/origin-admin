@@ -236,4 +236,22 @@ class TipoUsuarioDao extends Banco
         return false;
     }
 
+    protected function listarTodosDAO() {
+
+        if(!empty($this->Conectar())) :
+            try
+            {
+                $stms = $this->getCon()->prepare("SELECT tip_id, tip_nome FROM tipo_usuario WHERE tip_ativo = '1' ORDER BY tip_nome");
+                $stms->execute();
+                return $stms->fetchAll();
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+        endif;
+        return null;
+
+    }
+
 }

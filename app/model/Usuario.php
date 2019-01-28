@@ -34,7 +34,7 @@ class Usuario extends UsuarioDao{
      * @param $tipo
      * @param $apelido
      */
-    public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = null, $tipo = null, $apelido = null)
+    public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = 0, $tipo = null, $apelido = null)
     {
         parent::__construct();
         $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date("Y-m-d");
@@ -330,6 +330,24 @@ class Usuario extends UsuarioDao{
 
     public function totalRegistros() {
         return $this->totalRegistrosDAO();
+    }
+
+    public function inserir() {
+
+        if (!$this->verificaEmailDAO()) {
+
+            if (!$this->verificaUsuarioDAO()) {
+                $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+                if ($this->inserirDAO())
+                    return true;
+
+            } else
+                $this->setRetorno("O usuário informado já existe no sistema", true, false);
+
+        } else
+            $this->setRetorno("O email informado já existe no sistema", true, false);
+
+        return false;
     }
 
 }

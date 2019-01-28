@@ -17,4 +17,5 @@ Cropper JS
 
 - arrumar a mensagem de retorno ao usuário no mobile
 
-- fazer o cadastro de usuários
+- continuar no cadastro de usuários
+    - inserir funcionando

@@ -173,4 +173,8 @@ class TipoUsuario extends TipoUsuarioDao{
         return false;
     }
 
+    public function listarTodos() {
+        return $this->listarTodosDAO();
+    }
+
 }
