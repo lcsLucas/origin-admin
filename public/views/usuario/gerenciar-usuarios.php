@@ -97,7 +97,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="sel_tipo" class="font-weight-bold">Tipo de Usuário:</label>
+                                <label for="sel_tipo" class="font-weight-bold">Tipo de usuário:</label>
                                 <select required tabindex="3" title="Por favor, selecione o tipo do novo usuário" name="sel_tipo" id="sel_tipo" class="form-control form-control-lg">
 
                                     <option value="">Selecione um tipo</option>
@@ -122,7 +122,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="usuario" class="font-weight-bold">Usuário:</label>
+                                <label for="usuario" class="font-weight-bold">Login do usuário:</label>
                                 <input required maxlength="15" tabindex="4" type="text" class="form-control form-control-lg" id="usuario" name="usuario" value="<?= !empty($parametros["param_usuario"]) ? $parametros["param_usuario"] : ""  ?>" title="Por favor, informe um usuário">
                             </div>
 
@@ -162,7 +162,7 @@ $this->dados->alert = true;
 
                         <div class="col-12">
 
-                            <div class="form-group form-group-lg text-right mt-5">
+                            <div class="form-group form-group-lg text-right mt-5 mb-0">
                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                 <a role="button" tabindex="8" href="<?= URL ?>usuarios/gerenciar-usuarios" class="btn btn-lg active btn-link text-primary">Cancelar</a>
                                 <button tabindex="7" type="submit" class="btn <?= !empty($this->dados->editar) ? "btn-danger" : "btn-success" ?> active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
@@ -238,17 +238,15 @@ $this->dados->alert = true;
                                         <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
                                         <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["usu_dtCad"])) ?></td>
                                         <td class="text-center font-weight-bold text-muted">
-                                            <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/alterar-status" method="post">
+                                            <form action="<?= URL ?>usuarios/gerenciar-usuarios/alterar-status" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
                                                 <label class="switch switch-label switch-pill switch-success switch-sm"
                                                        title="<?= $title_desativar ?>">
-                                                    <input class="switch-input desativar-tipo-usuarios" type="checkbox"
+                                                    <input class="switch-input desativar-usuarios" type="checkbox"
                                                         <?= !empty($registro["usu_ativo"]) ? "checked" : "" ?> <?= !empty($disabled) ? "disabled" : "" ?> name="alterar-status">
                                                     <span class="switch-slider" data-checked="" data-unchecked=""></span>
                                                 </label>
-
                                             </form>
-
                                         </td>
 
                                         <td class="text-center">
@@ -272,13 +270,12 @@ $this->dados->alert = true;
                                             <form class="d-inline" action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/deletar" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
                                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                                                <button type="button" class="btn btn-danger btn-acao deletar-tipo"
+                                                <button type="button" class="btn btn-danger btn-acao deletar-usuario"
                                                         title="<?= $title_excluir ?>" <?= !empty($disabled) ? "disabled" : "" ?> >
 
                                                     <i class="material-icons">close</i>
 
                                                 </button>
-
                                             </form>
 
                                         </td>

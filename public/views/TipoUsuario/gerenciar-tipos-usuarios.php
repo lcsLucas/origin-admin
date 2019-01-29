@@ -80,7 +80,7 @@ $this->dados->alert = true;
                             <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" value="<?= $nome ?>" id="nome" name="nome" title="Por favor, informe o nome do novo tipo de usuário">
                         </div>
 
-                        <div class="form-group form-group-lg text-right mt-5">
+                        <div class="form-group form-group-lg text-right mt-5 mb-0">
                             <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                             <a role="button" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" class="btn btn-lg active btn-link text-primary">Cancelar</a>
                             <button type="submit" class="btn <?= !empty($this->dados->editar) ? "btn-danger" : "btn-success" ?> active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>

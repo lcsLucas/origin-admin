@@ -136,7 +136,7 @@ if (!empty($this->dados->retorno))
 
                             </div>
 
-                            <div class="form-group text-right mt-4">
+                            <div class="form-group text-right mt-4 mb-0">
                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                 <a role="button" href="<?= $_SERVER["REQUEST_URI"] ?>" class="btn btn-lg active btn-link text-primary">Cancelar</a>
                                 <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
