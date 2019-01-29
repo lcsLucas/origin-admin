@@ -7,7 +7,6 @@ include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
 if (!empty($this->dados->retorno))
     $retorno = $this->dados->retorno;
 
-$nome = !empty($this->dados->nome) ? $this->dados->nome : "";
 $todos_tipos = !empty($this->dados->todosTipos) ? $this->dados->todosTipos : array();
 $parametros = !empty($this->dados->parametros) ? $this->dados->parametros : array();
 
@@ -66,11 +65,13 @@ $this->dados->alert = true;
 
         <div class="card border-0">
 
-            <div class="card-header bg-primary">
-                <h5 class="text-uppercase m-0">Gerenciar Usuários</h5>
+            <div class="card-header <?= !empty($this->dados->editar) ? "bg-danger" : "bg-primary" ?> py-3">
+                <h5 class="text-uppercase m-0">
+                    <?= !empty($this->dados->editar) ? "Editar o usuário \"". $parametros["param_nome"] ."\"" : "Gerenciar Usuários" ?>
+                </h5>
             </div>
 
-            <div class="card-body border border-top-0 border-primary">
+            <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
                 <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formUsuario">
 
@@ -89,7 +90,7 @@ $this->dados->alert = true;
 
                             <div class="form-group form-group-lg">
                                 <label for="email" class="font-weight-bold">Email do usuário:</label>
-                                <input required maxlength="60" type="email" tabindex="2" class="form-control form-control-lg" id="email" name="email" value="<?= !empty($parametros["param_email"]) ? $parametros["param_email"] : ""  ?>" title="Por favor, informe um email válido para o usuário">
+                                <input required maxlength="60" type="email" <?= !empty($this->dados->editar) ? "disabled" : "" ?> tabindex="2" class="form-control form-control-lg" id="email" name="email" value="<?= !empty($parametros["param_email"]) ? $parametros["param_email"] : ""  ?>"  title="<?= !empty($this->dados->editar) ? "Você não pode alterar o email do usuário" : "Por favor, informe um email válido para o usuário" ?>">
                             </div>
 
                         </div>
@@ -107,7 +108,7 @@ $this->dados->alert = true;
                                     if (!empty($todos_tipos)) {
                                         foreach ($todos_tipos as $tipo) {
                                             ?>
-                                            <option <?= (!empty($parametros["param_tipo"]) && $parametros["param_tipo"] === intval($tipo['tip_id'])) ? "selected" : "" ?> value="<?= $tipo['tip_id'] ?>"><?= $tipo['tip_nome'] ?></option>
+                                            <option <?= (!empty($parametros["param_tipo"]) && intval($parametros["param_tipo"]) === intval($tipo['tip_id'])) ? "selected" : "" ?> value="<?= $tipo['tip_id'] ?>"><?= $tipo['tip_nome'] ?></option>
                                     <?php
                                         }
                                     }
@@ -123,7 +124,7 @@ $this->dados->alert = true;
 
                             <div class="form-group form-group-lg">
                                 <label for="usuario" class="font-weight-bold">Login do usuário:</label>
-                                <input required maxlength="15" tabindex="4" type="text" class="form-control form-control-lg" id="usuario" name="usuario" value="<?= !empty($parametros["param_usuario"]) ? $parametros["param_usuario"] : ""  ?>" title="Por favor, informe um usuário">
+                                <input required maxlength="15" <?= !empty($this->dados->editar) ? "disabled" : "" ?> tabindex="4" type="text" class="form-control form-control-lg" id="usuario" name="usuario" value="<?= !empty($parametros["param_usuario"]) ? $parametros["param_usuario"] : ""  ?>" title="<?= !empty($this->dados->editar) ? "Você não pode alterar o login do usuário" : "Por favor, informe um login para o usuário" ?>">
                             </div>
 
                         </div>
@@ -186,29 +187,33 @@ $this->dados->alert = true;
 
             <div class="card-body p-0">
 
-                <div style="max-width: 600px;margin: 20px auto 50px auto;" class="form-group">
+                <form>
 
-                    <label for="email" class="font-weight-bold">Pesquisar por:</label>
+                    <div class="d-flex align-items-center" style="max-width: 500px;margin-left: auto;margin-right: 30px;">
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
+                        <label style="min-width: 70px;" class="font-weight-bold m-0 text-muted mr-1">Pesquisar:</label>
 
-                            <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="sel_busca" id="sel-busca" class="form-control">
+                        <div class="input-group my-4">
+                            <div class="input-group-prepend">
 
-                                <option value="1">Nome</option>
-                                <option value="2">Email</option>
-                                <option value="3">Login</option>
-                                
-                            </select>
-                            
+                                <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="sel_busca" id="sel-busca" class="form-control">
+
+                                    <option value="1">Nome</option>
+                                    <option value="2">Email</option>
+                                    <option value="3">Login</option>
+
+                                </select>
+
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                            </div>
                         </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
-                        </div>
+
                     </div>
 
-                </div>
+                </form>
 
                 <div class="table-responsive">
 

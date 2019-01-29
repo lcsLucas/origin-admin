@@ -68,7 +68,7 @@ abstract class Action
         $this->param = [];
         $this->retorno = new Retorno();
 
-        if (!empty($this->autenticacao) && empty($_SESSION))
+        if (!empty($this->autenticacao) && empty($_SESSION["_logado"]))
             header("Location: " . URL);
 
     }

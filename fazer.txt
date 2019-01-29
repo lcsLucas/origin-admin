@@ -19,3 +19,5 @@ Cropper JS
 
 - continuar no cadastro de usuários
     - inserir funcionando
+    - carregando funcionando
+    - alterando funcionando

@@ -315,4 +315,59 @@ class UsuarioDao extends Banco
 
     }
 
+    protected function alterarDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_nome = :nome, usu_senha = :senha, tip_id = :tipo WHERE tip_id = :id");
+                $stms->bindValue(":nome", $this->usuario->getNome(), \PDO::PARAM_STR);
+                $stms->bindValue(":senha", $this->usuario->getSenha(), \PDO::PARAM_STR);
+                $stms->bindValue(":tipo", $this->usuario->getTipo(), \PDO::PARAM_INT);
+                $stms->bindValue(":id", $this->usuario->getId(), \PDO::PARAM_INT);
+
+                if ($stms->execute())
+                    return $stms->rowCount();
+                else
+                    return false;
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+
+    }
+
+    protected function carregarDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("SELECT usu_nome, usu_login, usu_email, tip_id FROM usuario WHERE usu_id = :id LIMIT 1");
+                $stms->bindValue(":id", $this->usuario->getId(), \PDO::PARAM_INT);
+
+                $stms->execute();
+                return $stms->fetch();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return null;
+
+    }
+
 }

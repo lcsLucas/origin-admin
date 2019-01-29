@@ -80,7 +80,7 @@ class TipoUsuarioController extends Action
 
         $id = filter_var($valor, FILTER_VALIDATE_INT);
 
-        if (!empty($id)) { //verificar depois que carregar dados, caso não carregue dados usar o header para redimensionar a url
+        if (!empty($id)) {
             $tipo->setId($id);
 
             if ($tipo->carregar()) {

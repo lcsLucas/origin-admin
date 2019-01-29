@@ -279,4 +279,148 @@ class UsuarioController extends Action
 
     }
 
+    public function pageUsuariosEdit() {
+        $usuario = new Usuario();
+
+        $url = $_SERVER["REQUEST_URI"];
+
+        //Remove as barras e também remove URI caso tenha
+        $url = trim($url,'/');
+        if(SUBDOMINIO)
+            $url = trim(substr($url, strlen(URI)),"/");
+
+        if (".php" === substr($url,-4))
+            $url = substr($url,0,-4);
+
+        $pos = strripos($url, "/");
+        $valor = substr($url,$pos+1);
+
+        $pos = strpos($valor,"?");
+        if (!empty($pos)) {
+            $valor = substr($valor, 0, $pos);
+        }
+
+        $id = filter_var($valor, FILTER_VALIDATE_INT);
+
+        if (!empty($id)) {
+            $usuario->setId($id);
+
+            if ($usuario->carregar()) {
+
+                $this->dados->editar = true;
+
+                $this->dados->parametros =
+                    array(
+                        "param_nome" => $usuario->getNome(),
+                        "param_email" => $usuario->getEmail(),
+                        "param_tipo" => $usuario->getTipo(),
+                        "param_usuario" => $usuario->getLogin()
+                    );
+
+                $carregado = true;
+            }
+
+        }
+
+        if (!empty($carregado))
+            $this->pageGerenciarUsuarios();
+        else {
+            header("Location: " . URL . "usuarios/gerenciar-usuarios");
+            die();
+        }
+
+    }
+
+    public function requestUsuariosEdit() {
+
+        $url = $_SERVER["REQUEST_URI"];
+
+        //Remove as barras e também remove URI caso tenha
+        $url = trim($url,'/');
+        if(SUBDOMINIO)
+            $url = trim(substr($url, strlen(URI)),"/");
+
+        if (".php" === substr($url,-4))
+            $url = substr($url,0,-4);
+
+        $pos = strripos($url, "/");
+        $valor = substr($url,$pos+1);
+
+        $pos = strpos($valor,"?");
+        if (!empty($pos)) {
+            $valor = substr($valor, 0, $pos);
+        }
+
+        $id = filter_var($valor, FILTER_VALIDATE_INT);
+
+        if (!empty($id)) {
+
+            $validate = new Data_Validator();
+            $usu = new Usuario();
+
+            $usu->setId($id);
+
+            $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+            $senha_nova = trim(filter_input(INPUT_POST, 'senha_nova', FILTER_SANITIZE_SPECIAL_CHARS));
+            $senha_nova2 = trim(filter_input(INPUT_POST, 'senha_nova2', FILTER_SANITIZE_SPECIAL_CHARS));
+            $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+            $id_tipo = filter_input(INPUT_POST, "sel_tipo", FILTER_VALIDATE_INT);
+
+            $validate->define_pattern('erro_');
+            $validate
+                ->set("nome", $nome)->is_required()
+                ->set("tipo de usuario", $id_tipo)->is_required()
+                ->set("\"nova senha\"", $senha_nova)->is_required()->max_length(30)
+                ->set("\"repita senha\"", $senha_nova2)->is_required()->max_length(30)
+                ->set("token", $token)->is_required();
+
+            if ($validate->validate()) {
+
+                if (strcmp($senha_nova, $senha_nova2) === 0) {
+
+                    if (password_verify(TOKEN_SESSAO, $token)) {
+
+                        $usu->setNome($nome);
+                        $usu->setSenha($senha_nova);
+                        $usu->setTipo($id_tipo);
+
+                        if ($usu->alterar())
+                            $this->setRetorno("Usuário alterado com sucesso", true, true);
+                        else if(!empty($usu->getRetorno()["exibir"]))
+                            $this->setRetorno($usu->getRetorno()["mensagem"], $usu->getRetorno()["exibir"], $usu->getRetorno()["status"]);
+                        else
+                            $this->setRetorno("Não foi possível alterar o usuário, tente novamente", true, false);
+
+                    } else
+                        $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+
+                } else
+                    $this->setRetorno("As senhas informadas não batem", true, false);
+
+
+            } else {
+                $array_erros = $validate->get_errors();
+                $array_erro = array_shift($array_erros);
+                $erro = array_shift($array_erro);
+                $this->setRetorno($erro, true, false);
+            }
+
+            if (empty($this->getRetorno()["status"])) { //devove os parametros passados para view, e coloca nos campos correspondente
+
+                $this->dados->parametros =
+                    array(
+                        "param_nome" => $nome,
+                        "param_tipo" => $id_tipo,
+                    );
+
+            }
+
+        } else
+            $this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->pageUsuariosEdit();
+    }
+
 }

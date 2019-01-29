@@ -350,4 +350,26 @@ class Usuario extends UsuarioDao{
         return false;
     }
 
+    public function carregar() {
+
+        $result = $this->carregarDAO();
+
+        if (!empty($result)) {
+
+            $this->nome = $result["usu_nome"];
+            $this->login = $result["usu_login"];
+            $this->email = $result["usu_email"];
+            $this->tipo = $result["tip_id"];
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function alterar() {
+        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+        return $this->alterarDAO();
+    }
+
 }
