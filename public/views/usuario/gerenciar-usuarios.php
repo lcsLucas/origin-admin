@@ -186,6 +186,30 @@ $this->dados->alert = true;
 
             <div class="card-body p-0">
 
+                <div style="max-width: 600px;margin: 20px auto 50px auto;" class="form-group">
+
+                    <label for="email" class="font-weight-bold">Pesquisar por:</label>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+
+                            <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="sel_busca" id="sel-busca" class="form-control">
+
+                                <option value="1">Nome</option>
+                                <option value="2">Email</option>
+                                <option value="3">Login</option>
+                                
+                            </select>
+                            
+                        </div>
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="table-responsive">
 
                     <table class="table table-hover m-0">

@@ -96,7 +96,6 @@ window.onload = function() {
         else
             texto = "Você está preste a ativar um tipo de usuários, caso confirme todos os usuários que pertencem a esse tipo teram acesso ao sistema, deseja mesmo ativar?";
 
-
         Swal.fire({
             title: 'ATENÇÃO!',
             text: texto,
