@@ -370,4 +370,57 @@ class UsuarioDao extends Banco
 
     }
 
+    protected function alterarStatusDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_ativo = :status WHERE usu_id = :id AND usu_id <> 1 LIMIT 1");
+                $stms->bindValue(":status", $this->usuario->getAtivo(), \PDO::PARAM_STR);
+                $stms->bindValue(":id", $this->usuario->getId(), \PDO::PARAM_INT);
+                if ($stms->execute())
+                    return ($stms->rowCount() > 0) ? true : false;
+                else
+                    return false;
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+
+    }
+
+    protected function excluirDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+
+                $stms = $this->getCon()->prepare("DELETE FROM usuario WHERE usu_id = :id AND usu_id <> 1");
+                $stms->bindValue(":id", $this->usuario->getId(), \PDO::PARAM_INT);
+                if ($stms->execute())
+                    return $stms->rowCount();
+                else
+                    return false;
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+
+    }
+
 }

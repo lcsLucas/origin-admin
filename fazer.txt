@@ -21,3 +21,6 @@ Cropper JS
     - inserir funcionando
     - carregando funcionando
     - alterando funcionando
+    - deletando funcionando
+    - altaerar status funcionando
+    - fazer o filtro da consulta

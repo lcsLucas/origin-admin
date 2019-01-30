@@ -86,6 +86,93 @@ window.onload = function() {
         $(this).parents(".input-group").removeClass("focus");
     });
 
+    $("#conteudo").find(".desativar-usuarios").click(function () {
+        var $this = $(this);
+        const status = $(this).prop("checked");
+        var texto = "";
+
+        if (!status)
+            texto = "Você está preste a desativar um usuário, deseja realmente desativá-lo?";
+        else
+            texto = "Você está preste a ativar um usuário, deseja realmente ativá-lo?";
+
+        Swal.fire({
+            title: 'ATENÇÃO!',
+            text: texto,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: (status) ? 'SIM, ativar!' : 'SIM, desativar!',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.value) {
+                var pai = $this.parent();
+                var load = $("<i>").addClass("fas fa-spinner fa-spin text-dark");
+                var form = $this.parents("form");
+
+                $.ajax({
+                    type: 'POST',
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function(){
+
+                        pai.after(load);
+                        pai.addClass("d-none");
+
+                    }
+                }).done(function (retorno) {
+
+                    load.remove();
+                    pai.removeClass("d-none");
+                    $this.prop("checked", retorno["status"]);
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    if (retorno["erro"]) {
+                        Toast.fire({
+                            type: 'error',
+                            title: retorno['msg']
+                        });
+                    } else {
+                        Toast.fire({
+                            type: 'success',
+                            title: 'Status alterado com sucesso'
+                        });
+                    }
+
+                }).fail(function () {
+
+                    load.remove();
+                    pai.removeClass("d-none");
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    Toast.fire({
+                        type: 'error',
+                        title: 'Não foi possível alterar status'
+                    });
+
+                });
+            }
+
+        });
+
+        return false;
+
+    });
+
     $("#conteudo").find(".desativar-tipo-usuarios").click(function () {
         var $this = $(this);
         const status = $(this).prop("checked");
@@ -128,13 +215,41 @@ window.onload = function() {
                     pai.removeClass("d-none");
                     $this.prop("checked", retorno["status"]);
 
-                    if (retorno["erro"])
-                        alert(retorno["msg"]);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    if (retorno["erro"]) {
+                        Toast.fire({
+                            type: 'error',
+                            title: retorno['msg']
+                        });
+                    } else {
+                        Toast.fire({
+                            type: 'success',
+                            title: 'Status alterado com sucesso'
+                        });
+                    }
 
                 }).fail(function () {
 
                     load.remove();
                     pai.removeClass("d-none");
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    Toast.fire({
+                        type: 'error',
+                        title: 'Não foi possível alterar status'
+                    });
 
                 });
             }
@@ -153,6 +268,44 @@ window.onload = function() {
             label: 'Informe sua senha',
             input: 'password',
             html: 'Tem certeza que desaja excluir esse tipo? Seus usuários também seram deletados, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            showLoaderOnConfirm: true,
+            preConfirm: (senha) => {
+
+                if (senha === "")
+                    Swal.showValidationMessage(
+                        `Informe sua senha`
+                    )
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+
+            if (result.value) {
+                var form = $this.parents("form");
+                form.append($("<input>").val(result.value).prop("name", "senha"));
+                $this.parents("form").submit();
+
+            }
+
+        });
+
+        return false;
+    });
+
+    $(".deletar-usuario").click(function () {
+        var $this = $(this);
+
+        Swal.fire({
+            title: 'Atenção',
+            type: 'warning',
+            strong: 'Informe sua senha',
+            input: 'password',
+            html: 'Tem certeza que desaja excluir esse usuário? Todas as suas referências com outros cadastros também seram deletadas, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
             inputAttributes: {
                 autocapitalize: 'off'
             },

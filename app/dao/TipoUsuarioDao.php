@@ -193,7 +193,7 @@ class TipoUsuarioDao extends Banco
 
                 $stms = $this->getCon()->prepare("UPDATE tipo_usuario SET tip_ativo = :status WHERE tip_id = :id AND tip_id <> 1 LIMIT 1");
                 $stms->bindValue(":status", $this->tipo_usuario->getAtivo(), \PDO::PARAM_STR);
-                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_STR);
+                $stms->bindValue(":id", $this->tipo_usuario->getId(), \PDO::PARAM_INT);
                 if ($stms->execute())
                     return ($stms->rowCount() > 0) ? true : false;
                 else

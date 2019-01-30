@@ -168,7 +168,7 @@ class TipoUsuario extends TipoUsuarioDao{
         if (!empty($retorno))
             return true;
         else if(intval($retorno) === 0)
-            $this->setRetorno("Tipo de usuários não foi alterado, tente novamente", true, false);
+            $this->setRetorno("Tipo de usuários não foi excluído, tente novamente", true, false);
 
         return false;
     }

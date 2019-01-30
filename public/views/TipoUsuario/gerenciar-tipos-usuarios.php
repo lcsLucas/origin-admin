@@ -73,7 +73,7 @@ $this->dados->alert = true;
 
                 <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
-                    <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formTipoUsuario">
+                    <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios" method="post" class="form-validate" id="formTipoUsuario">
 
                         <div class="form-group form-group-lg">
                             <label for="nome" class="font-weight-bold">Tipo de usuários:</label>

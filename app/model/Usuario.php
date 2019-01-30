@@ -372,4 +372,21 @@ class Usuario extends UsuarioDao{
         return $this->alterarDAO();
     }
 
+    public function alterarStatus() {
+        return $this->alterarStatusDAO();
+    }
+
+    public function excluir() {
+
+        $retorno = $this->excluirDAO();
+
+        if (!empty($retorno))
+            return true;
+        else if(intval($retorno) === 0)
+            $this->setRetorno("Usuário não foi excluído, tente novamente", true, false);
+
+        return false;
+
+    }
+
 }

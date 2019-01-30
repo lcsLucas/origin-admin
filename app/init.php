@@ -162,6 +162,27 @@ class Init extends Bootstrap
             'action' => 'requestUsuariosEdit'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-usuarios\/alterar-status\/?$/',
+            'method' => 'POST',
+            'controller' => 'Usuario',
+            'action' => 'requestAlterarStatus'
+        );
+
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-usuarios\/deletar\/?$/',
+            'method' => 'GET',
+            'controller' => 'Usuario',
+            'action' => 'pageGerenciarUsuarios'
+        );
+
+        $array[] = array(
+            'exp_reg' => '/^usuarios\/gerenciar-usuarios\/deletar\/?$/',
+            'method' => 'POST',
+            'controller' => 'Usuario',
+            'action' => 'requestDeletar'
+        );
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

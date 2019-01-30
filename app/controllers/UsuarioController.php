@@ -423,4 +423,79 @@ class UsuarioController extends Action
         $this->pageUsuariosEdit();
     }
 
+    public function requestAlterarStatus() {
+        $id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+        $status = !filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
+
+        $retorno = array();
+
+        if (!empty($id)) {
+
+            $usuario = new Usuario();
+            $usuario->setId($id);
+            $usuario->setAtivo($status);
+
+            if (!empty($usuario->alterarStatus()))
+                $retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
+            else
+                $retorno = array("status" => $status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+
+        } else
+            $retorno = array("status" => $status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+
+        echo json_encode($retorno, JSON_FORCE_OBJECT);
+    }
+
+    public function requestDeletar() {
+        $id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+        $senha = trim(filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+        $validate = new Data_Validator();
+        $usuario = new Usuario();
+
+        $validate->define_pattern('erro_');
+        $validate
+            ->set("id", $id)->is_required()
+            ->set("nome", $senha)->is_required()
+            ->set("token", $token)->is_required();
+
+        if ($validate->validate()) {
+
+            if (password_verify(TOKEN_SESSAO, $token)) {
+
+                $usuario->setId($_SESSION["_idusuario"]);
+                $usuario->setSenha($senha);
+
+                $senha_atual = $usuario->obterSenha();
+
+                if (password_verify($senha, $senha_atual["usu_senha"])) {
+
+                    $usuario->setId($id);
+                    if ($usuario->excluir())
+                        $this->setRetorno("Usuário excluído com sucesso", true, true);
+                    else if($usuario->getRetorno()["exibir"])
+                        $this->setRetorno($usuario->getRetorno()["mensagem"], $usuario->getRetorno()["exibir"], $usuario->getRetorno()["status"]);
+                    else
+                        $this->setRetorno("Não foi possível excluir o usuário, tente novamente", true, false);
+
+                } else
+                    $this->setRetorno("Senha informada inválida, tente novamente", true, false);
+
+            } else
+                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+        } else {
+            $array_erros = $validate->get_errors();
+            $array_erro = array_shift($array_erros);
+            $erro = array_shift($array_erro);
+            $this->setRetorno($erro, true, false);
+        }
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->ModificaURL(URL . "usuarios/gerenciar-usuarios"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+        $this->pageGerenciarUsuarios();
+
+    }
+
 }

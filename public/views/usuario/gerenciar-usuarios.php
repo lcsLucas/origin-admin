@@ -73,7 +73,7 @@ $this->dados->alert = true;
 
             <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
-                <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formUsuario">
+                <form action="<?= URL ?>usuarios/gerenciar-usuarios" method="post" class="form-validate" id="formUsuario">
 
                     <div class="row clearfix">
 
@@ -107,9 +107,12 @@ $this->dados->alert = true;
 
                                     if (!empty($todos_tipos)) {
                                         foreach ($todos_tipos as $tipo) {
-                                            ?>
-                                            <option <?= (!empty($parametros["param_tipo"]) && intval($parametros["param_tipo"]) === intval($tipo['tip_id'])) ? "selected" : "" ?> value="<?= $tipo['tip_id'] ?>"><?= $tipo['tip_nome'] ?></option>
-                                    <?php
+                                            if (!(intval($this->dados->tipo_usuario) !== 1 && intval($tipo['tip_id']) === 1)) {
+                                                ?>
+                                                <option <?= (!empty($parametros["param_tipo"]) && intval($parametros["param_tipo"]) === intval($tipo['tip_id'])) ? "selected" : "" ?>
+                                                        value="<?= $tipo['tip_id'] ?>"><?= $tipo['tip_nome'] ?></option>
+                                                <?php
+                                            }
                                         }
                                     }
 
@@ -205,9 +208,9 @@ $this->dados->alert = true;
                                 </select>
 
                             </div>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            <input type="text" class="form-control border-right-0" aria-label="Text input with dropdown button">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-outline-secondary border-left-0" type="button"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
 
@@ -253,7 +256,7 @@ $this->dados->alert = true;
                                         if (intval($this->dados->tipo_usuario) === intval($registro["tip_id"]))
                                             $editar_adm = true;
 
-                                    } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
+                                    } elseif (intval($_SESSION['_idusuario']) === intval($registro["usu_id"])) {
                                         $title_desativar = "Você não pode desativar seu usuário";
                                         $title_excluir = "Você não pode excluir seu usuário";
                                         $disabled = true;
@@ -296,7 +299,7 @@ $this->dados->alert = true;
 
                                             </a>
 
-                                            <form class="d-inline" action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/deletar" method="post">
+                                            <form class="d-inline" action="<?= URL ?>usuarios/gerenciar-usuarios/deletar" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
                                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                                 <button type="button" class="btn btn-danger btn-acao deletar-usuario"
