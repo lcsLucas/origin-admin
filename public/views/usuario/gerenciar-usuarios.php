@@ -73,7 +73,7 @@ $this->dados->alert = true;
 
             <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
 
-                <form action="<?= URL ?>usuarios/gerenciar-usuarios" method="post" class="form-validate" id="formUsuario">
+                <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formUsuario">
 
                     <div class="row clearfix">
 
@@ -242,23 +242,12 @@ $this->dados->alert = true;
 
                             if (!empty($lista_registros)) {
                                 foreach ($lista_registros as $registro) {
-
-                                    $title_desativar = "Desativar esse usuário";
-                                    $title_excluir = "Excluir esse usuário";
                                     $disabled = false;
-                                    $editar_adm = false;
+                                    $title_disabled = '';
 
-                                    if (!empty($registro["tip_administrador"])) {
-                                        $title_desativar = "Você não pode desativar o usuário Administrador";
-                                        $title_excluir = "Você não pode excluir o usuário Administrador";
+                                    if (!empty($registro["tip_administrador"]) && empty($this->dados->tipo_usuario)) {
                                         $disabled = true;
-
-                                        if (intval($this->dados->tipo_usuario) === intval($registro["tip_id"]))
-                                            $editar_adm = true;
-
-                                    } elseif (intval($_SESSION['_idusuario']) === intval($registro["usu_id"])) {
-                                        $title_desativar = "Você não pode desativar seu usuário";
-                                        $title_excluir = "Você não pode excluir seu usuário";
+                                    } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
                                         $disabled = true;
                                     }
 
@@ -272,10 +261,9 @@ $this->dados->alert = true;
                                         <td class="text-center font-weight-bold text-muted">
                                             <form action="<?= URL ?>usuarios/gerenciar-usuarios/alterar-status" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
-                                                <label class="switch switch-label switch-pill switch-success switch-sm"
-                                                       title="<?= $title_desativar ?>">
+                                                <label class="switch switch-label switch-pill switch-success switch-sm">
                                                     <input class="switch-input desativar-usuarios" type="checkbox"
-                                                        <?= !empty($registro["usu_ativo"]) ? "checked" : "" ?> <?= !empty($disabled) ? "disabled" : "" ?> name="alterar-status">
+                                                        <?= !empty($registro["usu_ativo"]) ? "checked" : "" ?> <?= ($disabled) ? 'disabled' : '' ?> name="alterar-status">
                                                     <span class="switch-slider" data-checked="" data-unchecked=""></span>
                                                 </label>
                                             </form>
@@ -292,7 +280,7 @@ $this->dados->alert = true;
 
                                             ?>
 
-                                            <a class="btn btn-primary btn-acao <?= !empty($registro["tip_administrador"]) && empty($editar_adm) ? "disabled" : "" ?>" title="Editar"
+                                            <a class="btn btn-primary btn-acao" title="Editar"
                                                href="<?= $url_editar ?>">
 
                                                 <i class="material-icons">edit</i>
@@ -303,7 +291,7 @@ $this->dados->alert = true;
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
                                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                                 <button type="button" class="btn btn-danger btn-acao deletar-usuario"
-                                                        title="<?= $title_excluir ?>" <?= !empty($disabled) ? "disabled" : "" ?> >
+                                                        title="" >
 
                                                     <i class="material-icons">close</i>
 

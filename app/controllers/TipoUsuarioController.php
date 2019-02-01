@@ -50,7 +50,8 @@ class TipoUsuarioController extends Action
             $this->dados->paginacao->total_registros = $tipo->totalRegistros();
 
         /***/
-        $this->dados->tipo_usuario = $tipo->carregarTipoUsuario();
+        $tipo->carregarTipoUsuario();
+        $this->dados->tipo_usuario = $tipo->getId();
 
         $this->dados->title = "Gerenciar Tipos de Usuarios";
         $this->dados->validation = true;

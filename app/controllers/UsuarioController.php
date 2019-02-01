@@ -135,7 +135,7 @@ class UsuarioController extends Action
                         $this->setRetorno("O arquivo \"" . $file["name"] . "\" excede o tamanho máximo permitido de 1,5MB.", true, false);
                         $erro_img = true;
                     }elseif(strcmp('image/png', $file["type"]) !== 0 && strcmp('image/gif', $file["type"]) !== 0 && strcmp('image/jpeg', $file["type"]) !== 0) {
-                        $this->setRetorno("O Tipo do arquivo enviado é inválido. São permitidoPor favor, envie um arquivo do tipo \"jpeg, png ou gif\"", true, false);
+                        $this->setRetorno("O Tipo do arquivo enviado é inválido. Por favor, envie um arquivo do tipo \"jpeg, png ou gif\"", true, false);
                         $erro_img = true;
                     }
 
@@ -198,7 +198,8 @@ class UsuarioController extends Action
         // Total de registros
         $this->dados->paginacao->total_registros = $usuario->totalRegistros();
 
-        $this->dados->tipo_usuario = $tipo->carregarTipoUsuario();
+        $tipo->carregarTipoUsuario();
+        $this->dados->tipo_usuario = $tipo->getFlagAdm();
         $this->dados->todosTipos = $tipo->listarTodos();
 
         $this->dados->title = "Gerenciar usuários";

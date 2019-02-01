@@ -154,7 +154,14 @@ class TipoUsuario extends TipoUsuarioDao{
     }
     public function carregarTipoUsuario() {
         $retorno = $this->carregarTipoUsuarioDAO($_SESSION["_idusuario"]);
-        return empty($retorno) ? 0 : $retorno["tip_id"];
+
+        if (!empty($retorno)) {
+            $this->id = $retorno["tip_id"];
+            $this->flag_adm = $retorno['tip_administrador'];
+            return true;
+        }
+
+        return false;
     }
 
     public function alterarStatus() {

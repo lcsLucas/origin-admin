@@ -24,3 +24,5 @@ Cropper JS
     - deletando funcionando
     - altaerar status funcionando
     - fazer o filtro da consulta
+	
+- fazer a regra de controle de gerenciar usuarios
