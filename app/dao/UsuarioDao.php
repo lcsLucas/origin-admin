@@ -42,7 +42,7 @@ class UsuarioDao extends Banco
                 }
 
                 if (empty($result)) {
-                    $this->setRetorno("usuário ou senha estão incorretos", true, false);
+                    $this->setRetorno("usuario não encontrado", true, false);
                 }
 
             } catch (\PDOException $e) {

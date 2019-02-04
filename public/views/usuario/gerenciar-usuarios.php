@@ -107,7 +107,7 @@ $this->dados->alert = true;
 
                                     if (!empty($todos_tipos)) {
                                         foreach ($todos_tipos as $tipo) {
-                                            if (!(intval($this->dados->tipo_usuario) !== 1 && intval($tipo['tip_id']) === 1)) {
+                                            if (!(intval($this->dados->tipo_id) !== 1 && intval($tipo['tip_id']) === 1)) {
                                                 ?>
                                                 <option <?= (!empty($parametros["param_tipo"]) && intval($parametros["param_tipo"]) === intval($tipo['tip_id'])) ? "selected" : "" ?>
                                                         value="<?= $tipo['tip_id'] ?>"><?= $tipo['tip_nome'] ?></option>
@@ -190,28 +190,36 @@ $this->dados->alert = true;
 
             <div class="card-body p-0">
 
-                <form>
+                <form method="get" >
 
                     <div class="d-flex align-items-center" style="max-width: 500px;margin-left: auto;margin-right: 30px;">
 
-                        <label style="min-width: 70px;" class="font-weight-bold m-0 text-muted mr-1">Pesquisar:</label>
+                        <label class="font-weight-bold m-0 text-muted mr-2" for="sel-busca">Pesquisar:</label>
 
                         <div class="input-group my-4">
                             <div class="input-group-prepend">
 
-                                <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="sel_busca" id="sel-busca" class="form-control">
+                                <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="tipo" id="sel-busca" class="form-control">
 
-                                    <option value="1">Nome</option>
-                                    <option value="2">Email</option>
-                                    <option value="3">Login</option>
+                                    <option <?= (filter_has_var(INPUT_GET, 'tipo') && filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT) === 1) ? 'checked' : '' ?> value="1">Nome</option>
+                                    <option <?= (filter_has_var(INPUT_GET, 'tipo') && filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT) === 2) ? 'checked' : '' ?> value="2">Email</option>
+                                    <option <?= (filter_has_var(INPUT_GET, 'tipo') && filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT) === 3) ? 'checked' : '' ?> value="3">Login</option>
 
                                 </select>
 
                             </div>
-                            <input type="text" class="form-control border-right-0" aria-label="Text input with dropdown button">
+                            <input type="text" class="form-control border-right-0" aria-label="Text input com dropdown button" name="termo" value="<?= filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_STRING) ?>">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary border-left-0" type="button"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-outline-secondary border-left-0" type="submit"><i class="fa fa-search"></i></button>
                             </div>
+                            <?php
+                                if (filter_has_var(INPUT_GET, 'termo')) {
+                                    ?>
+                                    <a href="<?= URL ?>usuarios/gerenciar-usuarios" class="btn btn-link text-danger pr-0"><i class="fas fa-times"></i></a>
+                            <?php
+                                }
+                            ?>
+
                         </div>
 
                     </div>
@@ -243,12 +251,20 @@ $this->dados->alert = true;
                             if (!empty($lista_registros)) {
                                 foreach ($lista_registros as $registro) {
                                     $disabled = false;
-                                    $title_disabled = '';
+                                    $editar = true;
+                                    $title_disabled = 'Desativar esse usuário';
+                                    $title_editar = 'Editar esse usuário';
+                                    $title_excluir = 'Excluir esse usuário';
 
-                                    if (!empty($registro["tip_administrador"]) && empty($this->dados->tipo_usuario)) {
-                                        $disabled = true;
-                                    } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
-                                        $disabled = true;
+                                    if (!empty($registro["tip_administrador"]) && empty($this->dados->tipo_admin)) {
+                                        $disabled = true; $editar = false;
+                                        $title_disabled = 'Você não pode desativar um usuário administrador';
+                                        $title_excluir = 'Você não pode excluir um usuário administrador';
+                                        $title_editar = 'Você não pode editar um usuário administrador';
+                                    } elseif (intval($_SESSION['_idusuario']) === intval($registro["usu_id"])) {
+                                        $title_disabled = 'Você não pode desativar seu usuário';
+                                        $title_excluir = 'Você não pode excluir seu usuário';
+                                        $disabled = true; $editar = true;
                                     }
 
                                     ?>
@@ -261,7 +277,7 @@ $this->dados->alert = true;
                                         <td class="text-center font-weight-bold text-muted">
                                             <form action="<?= URL ?>usuarios/gerenciar-usuarios/alterar-status" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
-                                                <label class="switch switch-label switch-pill switch-success switch-sm">
+                                                <label title="<?= $title_disabled ?>" class="switch switch-label switch-pill switch-success switch-sm">
                                                     <input class="switch-input desativar-usuarios" type="checkbox"
                                                         <?= !empty($registro["usu_ativo"]) ? "checked" : "" ?> <?= ($disabled) ? 'disabled' : '' ?> name="alterar-status">
                                                     <span class="switch-slider" data-checked="" data-unchecked=""></span>
@@ -280,8 +296,8 @@ $this->dados->alert = true;
 
                                             ?>
 
-                                            <a class="btn btn-primary btn-acao" title="Editar"
-                                               href="<?= $url_editar ?>">
+                                            <a class="btn btn-primary btn-acao <?= !$editar ? 'disabled' : '' ?>" title="<?= $title_editar ?>"
+                                               href="<?= $url_editar ?>" >
 
                                                 <i class="material-icons">edit</i>
 
@@ -290,8 +306,8 @@ $this->dados->alert = true;
                                             <form class="d-inline" action="<?= URL ?>usuarios/gerenciar-usuarios/deletar" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
                                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                                                <button type="button" class="btn btn-danger btn-acao deletar-usuario"
-                                                        title="" >
+                                                <button type="button" class="btn btn-danger btn-acao deletar-usuario" <?= ($disabled) ? 'disabled' : '' ?>
+                                                        title="<?= $title_excluir ?>" >
 
                                                     <i class="material-icons">close</i>
 

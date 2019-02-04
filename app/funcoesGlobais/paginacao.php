@@ -45,23 +45,29 @@ function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $ran
     /* Verifica se vai exibir o botão "Anterior" e "Último" */
     $exibir_botao_final = ($range_final > $pagina_atual) ? '' : 'd-none d-md-none d-lg-none';
 
-/* Loop para montar a páginação central com os números */
-
+    /* Loop para montar a páginação central com os números */
     $url = rtrim($_SERVER["REQUEST_URI"],'/');
     $pos = strpos($url,"?");
+    $parametros = '';
+
     if (!empty($pos)) {
         $url = substr($_SERVER["REQUEST_URI"], 0, $pos);
         $url = rtrim($url, "/");
+
+        $query = preg_replace('/(&|\?)?page=([0-9]+)/', '', $_SERVER['QUERY_STRING']);
+
+        if (!empty($query))
+            $parametros = '&' . ltrim($query, '&');
     }
     ?>
 
     <nav aria-label="navigation" class="mt-5">
         <ul class="pagination justify-content-center flex-wrap">
             <li class="page-item">
-                <a class="page-link d-none d-md-inline-block <?=$exibir_botao_inicio?>" href="<?= $url ?>?page=<?=$primeira_pagina?>" title="Primeira Página">Primeira</a>
+                <a class="page-link d-none d-md-inline-block <?=$exibir_botao_inicio?>" href="<?= $url ?>?page=<?=$primeira_pagina . $parametros?>" title="Primeira Página">Primeira</a>
             </li>
             <li class="page-item">
-                <a class="page-link <?=$exibir_botao_inicio?>" href="<?= $url ?>?page=<?=$pagina_anterior?>" title="Página Anterior">Anterior</a>
+                <a class="page-link <?=$exibir_botao_inicio?>" href="<?= $url ?>?page=<?=$pagina_anterior . $parametros ?>" title="Página Anterior">Anterior</a>
             </li>
 
             <?php
@@ -69,14 +75,14 @@ function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $ran
             for ($i=$range_inicial; $i <= $range_final; $i++):
                 $destaque = ($i == $pagina_atual) ? 'active d-inline' : '' ;
                 ?>
-                <li class="page-item d-none d-md-inline <?=$destaque?>"><a class="page-link" href="<?= $url ?>?page=<?=$i?>"><?=$i?></a></li>
+                <li class="page-item d-none d-md-inline <?=$destaque?>"><a class="page-link" href="<?= $url ?>?page=<?=$i . $parametros?>"><?=$i?></a></li>
             <?php endfor; ?>
 
             <li class="page-item">
-                <a class="page-link <?=$exibir_botao_final?>" href="<?= $url ?>?page=<?=$proxima_pagina?>" title="Próxima Página">Próxima</a>
+                <a class="page-link <?=$exibir_botao_final?>" href="<?= $url ?>?page=<?=$proxima_pagina . $parametros?>" title="Próxima Página">Próxima</a>
             </li>
             <li class="page-item">
-                <a class="page-link d-none d-md-inline-block <?=$exibir_botao_final?>" href="<?= $url ?>?page=<?=$ultima_pagina?>" title="Última página">Última</a>
+                <a class="page-link d-none d-md-inline-block <?=$exibir_botao_final?>" href="<?= $url ?>?page=<?=$ultima_pagina . $parametros?>" title="Última página">Última</a>
             </li>
         </ul>
     </nav>

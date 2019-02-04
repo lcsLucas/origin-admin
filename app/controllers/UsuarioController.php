@@ -179,7 +179,7 @@ class UsuarioController extends Action
         $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
-        $qtde_registros = 5;
+        $qtde_registros = 1;
 
         /*definição de paginação*/
 
@@ -199,7 +199,8 @@ class UsuarioController extends Action
         $this->dados->paginacao->total_registros = $usuario->totalRegistros();
 
         $tipo->carregarTipoUsuario();
-        $this->dados->tipo_usuario = $tipo->getFlagAdm();
+        $this->dados->tipo_admin = $tipo->getFlagAdm();
+        $this->dados->tipo_id = $tipo->getId();
         $this->dados->todosTipos = $tipo->listarTodos();
 
         $this->dados->title = "Gerenciar usuários";

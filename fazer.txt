@@ -17,12 +17,10 @@ Cropper JS
 
 - arrumar a mensagem de retorno ao usuário no mobile
 
-- continuar no cadastro de usuários
-    - inserir funcionando
-    - carregando funcionando
-    - alterando funcionando
-    - deletando funcionando
-    - altaerar status funcionando
-    - fazer o filtro da consulta
-	
-- fazer a regra de controle de gerenciar usuarios
+- mexer no style do campo filtro do formulario dos usuarios
+ - tirar os css inlines e arrumar a visualização no mobile
+    - usar o print tirado como referencia na pasta downloads
+
+- continuar na paginação dos usuarios
+  - url da páginação já está certa e funcionando
+  - começar a fazer o filtro dos registros no back-end
