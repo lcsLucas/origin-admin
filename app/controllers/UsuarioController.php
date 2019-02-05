@@ -179,7 +179,7 @@ class UsuarioController extends Action
         $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
-        $qtde_registros = 1;
+        $qtde_registros = 5;
 
         /*definição de paginação*/
 
@@ -192,11 +192,18 @@ class UsuarioController extends Action
         // Calcula a linha inicial da consulta */
         $inicio_registro = ($pagina_atual -1) * $qtde_registros;
 
+        $tipo_filtro = filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT);
+        $filtro = filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $parametros = array(
+            'tipo' => $tipo_filtro,
+            'filtro' => $filtro
+        );
 
         // Consulta dos registros utilizando o LIMIT
-        $this->dados->registros = $usuario->paginacao($inicio_registro, $qtde_registros);
+        $this->dados->registros = $usuario->paginacao($inicio_registro, $qtde_registros, $parametros);
         // Total de registros
-        $this->dados->paginacao->total_registros = $usuario->totalRegistros();
+        $this->dados->paginacao->total_registros = $usuario->totalRegistros($parametros);
 
         $tipo->carregarTipoUsuario();
         $this->dados->tipo_admin = $tipo->getFlagAdm();

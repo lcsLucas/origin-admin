@@ -201,9 +201,15 @@ $this->dados->alert = true;
 
                                 <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="tipo" id="sel-busca" class="form-control">
 
-                                    <option <?= (filter_has_var(INPUT_GET, 'tipo') && filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT) === 1) ? 'checked' : '' ?> value="1">Nome</option>
-                                    <option <?= (filter_has_var(INPUT_GET, 'tipo') && filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT) === 2) ? 'checked' : '' ?> value="2">Email</option>
-                                    <option <?= (filter_has_var(INPUT_GET, 'tipo') && filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT) === 3) ? 'checked' : '' ?> value="3">Login</option>
+                                    <?php
+
+                                    $param_tipo = filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT);
+
+                                    ?>
+
+                                    <option <?= empty($param_tipo) ? 'checked' : '' ?> value="">Nome</option>
+                                    <option <?= (!empty($param_tipo) && $param_tipo === 2) ? 'selected' : '' ?> value="2">Email</option>
+                                    <option <?= (!empty($param_tipo) && $param_tipo === 3) ? 'selected' : '' ?> value="3">Login</option>
 
                                 </select>
 
@@ -271,7 +277,10 @@ $this->dados->alert = true;
 
                                     <tr>
 
-                                        <td class="font-weight-bold text-muted"><?= $registro["usu_nome"] ?></td>
+                                        <td class="font-weight-bold text-muted">
+                                            <img src="http://localhost/projeto_php_mvc/public/img/avatars/2.jpg" alt="" class="img-avatar mr-3" style="max-width: 40px;">
+                                            <?= $registro["usu_nome"] ?>
+                                        </td>
                                         <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
                                         <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["usu_dtCad"])) ?></td>
                                         <td class="text-center font-weight-bold text-muted">
@@ -321,7 +330,8 @@ $this->dados->alert = true;
                                     <?php
 
                                 }
-                            }
+                            } else
+                                echo '<tr><td colspan="5" class="text-center text-muted">Nenhum registro encontrado</td></tr>';
 
                             ?>
 

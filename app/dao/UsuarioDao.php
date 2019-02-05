@@ -180,14 +180,32 @@ class UsuarioDao extends Banco
 
     }
 
-    protected function limiteRegistroDAO($inicio, $fim) {
+    protected function limiteRegistroDAO($inicio, $fim, $parametros) {
+        $sql = 'SELECT usu_id, usu_dtCad, usu_nome, tu.tip_id, tip_nome, tip_administrador, usu_email, usu_ativo FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id WHERE u.usu_id > 1 ';
 
         if(!empty($this->Conectar())) :
 
             try
             {
 
-                $stms = $this->getCon()->prepare("SELECT usu_id, usu_dtCad, usu_nome, tu.tip_id, tip_nome, tip_administrador, usu_email, usu_ativo FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id WHERE u.usu_id > 1 ORDER BY usu_nome LIMIT :inicio,:fim");
+                if (!empty($parametros['filtro'])) {
+
+                    if (!empty($parametros['tipo'])) {
+                        if($parametros['tipo'] === 2)
+                            $sql .= ' AND usu_email like :filtro '; // filtrar pelo email
+                        elseif($parametros['tipo'] === 3)
+                            $sql .= ' AND usu_login like :filtro '; // filtrar pelo login
+                    }
+                    else
+                        $sql .= ' AND usu_nome like :filtro '; //filtrar pelo nome
+                }
+
+                $sql .= ' ORDER BY usu_nome LIMIT :inicio,:fim ';
+                $stms = $this->getCon()->prepare($sql);
+
+                if (!empty($parametros['filtro']))
+                    $stms->bindValue(":filtro", '%'.$parametros['filtro'].'%', \PDO::PARAM_STR);
+
                 $stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
                 $stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
 
@@ -206,14 +224,31 @@ class UsuarioDao extends Banco
 
     }
 
-    protected function totalRegistrosDAO() {
+    protected function totalRegistrosDAO($parametros) {
+        $sql = 'SELECT COUNT(*) total FROM usuario WHERE usu_id > 1 ';
 
         if(!empty($this->Conectar())) :
 
             try
             {
 
-                $stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM usuario WHERE usu_id > 1");
+                if (!empty($parametros['filtro'])) {
+
+                    if (!empty($parametros['tipo'])) {
+                        if($parametros['tipo'] === 2)
+                            $sql .= ' AND usu_email like :filtro '; // filtrar pelo email
+                        elseif($parametros['tipo'] === 3)
+                            $sql .= ' AND usu_login like :filtro '; // filtrar pelo login
+                    }
+                    else
+                        $sql .= ' AND usu_nome like :filtro '; //filtrar pelo nome
+                }
+
+                $stms = $this->getCon()->prepare($sql);
+
+                if (!empty($parametros['filtro']))
+                    $stms->bindValue(":filtro", '%'.$parametros['filtro'].'%', \PDO::PARAM_STR);
+
                 $stms->execute();
                 $result = $stms->fetch(\PDO::FETCH_ASSOC);
 

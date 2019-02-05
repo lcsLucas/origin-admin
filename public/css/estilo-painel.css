@@ -30,10 +30,6 @@ body {
     font-size: 18px;
 }
 
-.sidebar .nav-dropdown.open .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
-    padding-left: .9rem;
-}
-
 .btn-acao .material-icons {
     display: flex;
     padding: 0.1rem .6rem;
@@ -201,6 +197,11 @@ button[name="btnConfirmar"] {
 
 :disabled {
     cursor: not-allowed;
+}
+
+.sidebar .nav-dropdown .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
+    transition: padding-left .8s;
+    transition-timing-function: ease-out;
 }
 
 .sidebar .nav-dropdown.open .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {

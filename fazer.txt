@@ -21,6 +21,7 @@ Cropper JS
  - tirar os css inlines e arrumar a visualização no mobile
     - usar o print tirado como referencia na pasta downloads
 
-- continuar na paginação dos usuarios
-  - url da páginação já está certa e funcionando
-  - começar a fazer o filtro dos registros no back-end
+- fazer o controle de acesso
+    - acrescentar no menu a opção "Categoria de menu"
+        - fazer um cadastros para essa opção
+        - no cadastro do menu o usuario escolhe a categoria do menu (opcional)
