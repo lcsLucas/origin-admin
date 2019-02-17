@@ -34,15 +34,15 @@
 
     <div id="wrapper-login">
 
-        <div class="alert text-center" role="alert" id="retorno-erro"></div>
+        <div class="card m-0">
 
-        <div class="card">
-
-            <div class="card-header bg-primary">
-                <h3 class="text-uppercase text-center titulo">Acessar o Sistema</h3>
+            <div class="card-header border-0 bg-white">
+                <h3 class="text-uppercase text-center titulo m-0 mt-3">Acessar o Sistema</h3>
             </div>
 
-            <div class="card-body">
+            <div class="card-body pt-1">
+
+                <div class="alert text-center" role="alert" id="retorno-erro"></div>
 
                 <form action="<?= URL ?>fazer_login" method="post" id="formLogin" name="formLogin" class="form-validate">
 
@@ -73,7 +73,7 @@
                     <div class="form-group mt-5">
                         <button name="btnLogar" class="btn btn-primary btn-block btn-lg text-white" type="submit">ENTRAR</button>
                         <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                        <p class="mt-3 text-right">
+                        <p class="mt-2 text-right">
                             <a href="">Esqueceu sua senha?</a>
                         </p>
                     </div>
@@ -84,7 +84,7 @@
 
         </div>
 
-        <p class="m-0 text-muted text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
+        <p class="my-4 font-xs text-white text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
 
     </div>
 
