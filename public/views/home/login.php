@@ -37,7 +37,8 @@
         <div class="card m-0">
 
             <div class="card-header border-0 bg-white">
-                <h3 class="text-uppercase text-center titulo m-0 mt-3">Acessar o Sistema</h3>
+                <h1 class="text-uppercase m-0 mt-3 h5 titulo text-center mb-1">Bem vindo ao sistema</h1>
+                <h2 class="m-0 h6 text-muted text-center">Acesse o painel através do seu usuário e senha</h2>
             </div>
 
             <div class="card-body pt-1">
@@ -47,35 +48,49 @@
                 <form action="<?= URL ?>fazer_login" method="post" id="formLogin" name="formLogin" class="form-validate">
 
                     <div class="form-group">
-                        <label class="form-label sr-only" for="login">E-mail ou Usúario:</label>
 
-                        <div class="input-group input-group-lg">
-                            <div class="input-group-prepend">
-                            <span class="input-group-text">
+                        <div class="wrapper-float">
+
+                            <div class="prepend-group">
                                 <i class="fa fa-user"></i>
-                            </span>
                             </div>
-                            <input type="text" autocomplete="username" class="form-control" id="login" name="login" required maxlength="60" placeholder="Usuário ou Email" title="Por favor, informe seu usuário ou email">
+
+                            <div class="form-float">
+                                <input type="text" autocomplete="username" id="login" name="login" required maxlength="60" title="Por favor, informe seu usuário ou email">
+                                <label class="form-label" for="login">Usuário/Email</label>
+                            </div>
+
                         </div>
 
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label sr-only" for="senha">Senha:</label>
-                        <div class="input-group input-group-lg">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" ><i class="fa fa-lock"></i></span>
+
+                        <div class="wrapper-float">
+
+                            <div class="prepend-group">
+                                <i class="fa fa-key"></i>
                             </div>
-                            <input type="password" autocomplete="current-password" class="form-control" id="senha" name="senha" maxlength="60" required placeholder="Senha" title="Por favor, informe sua senha">
+
+                            <div class="form-float">
+                                <input type="password" autocomplete="current-password" id="senha" name="senha" maxlength="60" required title="Por favor, informe sua senha">
+                                <label class="form-label" for="senha">Senha</label>
+                            </div>
+
                         </div>
+
                     </div>
 
-                    <div class="form-group mt-5">
+                    <div class="form-group mt-5 clearfix">
                         <button name="btnLogar" class="btn btn-primary btn-block btn-lg text-white" type="submit">ENTRAR</button>
                         <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                        <p class="mt-2 text-right">
-                            <a href="">Esqueceu sua senha?</a>
-                        </p>
+                        <div class="mt-2">
+                            <div class="wrapper-check float-left">
+                                <input type="checkbox" class="form-check-input" id="ckLogado">
+                                <label class="form-check-label" for="ckLogado">Permanecer logado</label>
+                            </div>
+                            <a class="float-right" href="">Esqueceu sua senha?</a>
+                        </div>
                     </div>
 
                 </form>
@@ -84,13 +99,13 @@
 
         </div>
 
-        <p class="my-4 font-xs text-white text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
+        <p class="my-4 font-xs text-muted text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
 
     </div>
 
 </div>
 
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,600" rel="stylesheet">
 <link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <link href="<?= URL_CSS ?>estilo.css" rel="stylesheet">

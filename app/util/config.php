@@ -3,7 +3,7 @@
 define("SUBDOMINIO", TRUE); // quando o site tem subdominio, obs: isso tbm serve para localhost que geramente os arquivos ficam em pasta a qual o acesso não é direto pela URL: EX:http://localhost/sistema_delivery/
 
 if (SUBDOMINIO) {
-    define("URI","projeto_php_mvc");
+    define("URI","painel_administrativo");
     define( 'ABSPATH', htmlspecialchars($_SERVER['DOCUMENT_ROOT']) . "/" . URI . "/");
 } else {
     define( 'ABSPATH', htmlspecialchars($_SERVER['DOCUMENT_ROOT']) . "/");

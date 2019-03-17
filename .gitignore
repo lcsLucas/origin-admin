@@ -1,1 +1,4 @@
-/Esqueleto-MVC/nbproject/private/
+.idea/
+.git/
+nbproject/
+.gitignore

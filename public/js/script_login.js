@@ -8,13 +8,14 @@ window.onload = function() {
     $(".loader-wrap").fadeOut();
     $("body").css("overflow", "auto");
 
-    $("#wrapper-login").find(".form-control").focus(function(){
-        $(this).parents(".input-group").addClass("focus");
+    $("#wrapper-login").find(".wrapper-float input").focus(function(){
+        $(this).parents(".wrapper-float").addClass("focus");
     }).blur(function () {
-        $(this).parents(".input-group").removeClass("focus");
+        $(this).parents(".wrapper-float").removeClass("focus");
     });
 
-    $("#wrapper-login").find(".form-control")[0].focus();
+    $("#wrapper-login").find(".wrapper-float input")[0].focus();
+
 
     $(".form-validate").validate({
         language: "pt-BR",
@@ -27,8 +28,8 @@ window.onload = function() {
         errorElement: 'label',
         errorClass: 'error',
         errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
+            if(element.parents('.form-group').length) {
+                element.parents('.form-group').append(error);
             } else {
                 error.insertAfter(element);
             }
