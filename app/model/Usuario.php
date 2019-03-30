@@ -271,7 +271,7 @@ class Usuario extends UsuarioDao{
             $nome_file = $this->getId() . $tipo;
 
             $image = WideImage::loadFromFile($this->file_avatar["tmp_name"]);
-            $resized = $image->resize(150, 150, 'inside');
+            $resized = $image->resize(150, 150, 'inside','down');
             $resized->saveToFile( PATH_IMG . "usuarios/" . $nome_file);
 
         }

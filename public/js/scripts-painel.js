@@ -15,10 +15,12 @@ window.onload = function() {
 
     if (input_avatar.length) {
 
-        var img_avatar = "http://plugins.krajee.com/uploads/default_avatar_male.jpg";
+        var img_avatar = $('#img_avatar').val();
 
-        if (input_avatar.data("avatar"))
-            img_avatar = input_avatar.data("avatar");
+        if (!img_avatar)
+            img_avatar = '<div id="preview-photo"><i class="fas fa-camera-retro"></i>Adicione uma foto de perfil</div>';
+        else
+            img_avatar = '<img src="'+ img_avatar +'" class="img-fluid" />';
 
         input_avatar.fileinput({
             overwriteInitial: true,
@@ -32,7 +34,7 @@ window.onload = function() {
             msgErrorClass: 'alert alert-block alert-danger',
             language: "pt-BR",
             theme: "fa",
-            defaultPreviewContent: '<img src="'+ img_avatar +'" alt="Seu avatar">',
+            defaultPreviewContent: img_avatar,
             allowedFileExtensions: ["jpg", "jpeg", "gif", "png"]
         });
 

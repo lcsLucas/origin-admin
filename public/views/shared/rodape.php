@@ -307,7 +307,6 @@ if (! defined('ABSPATH')){
 <script src="<?= URL_PUBLIC ?>vendors/jquery/dist/jquery.min.js"></script>
 <script src="<?= URL_PUBLIC ?>vendors/popper.js/dist/popper.min.js"></script>
 <script src="<?= URL_PUBLIC ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="<?= URL_PUBLIC ?>vendors/pace-progress/pace.min.js"></script>
 <script src="<?= URL_PUBLIC ?>vendors/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
 <script src="<?= URL_PUBLIC ?>vendors/@coreui/coreui/dist/js/coreui.min.js"></script>
 
@@ -316,13 +315,14 @@ if (! defined('ABSPATH')){
     if (!empty($this->dados->input_drop)) {
         ?>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/js/plugins/purify.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/js/fileinput.min.js"></script>
         <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/themes/fa/theme.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/themes/fa/theme.js"></script>
         <!-- optionally if you need translation for your language then include  locale file as mentioned below -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/locales/pt-BR.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/js/locales/pt-BR.js"></script>
 
 <?php
     }

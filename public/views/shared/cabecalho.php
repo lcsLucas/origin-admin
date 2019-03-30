@@ -19,6 +19,7 @@ if (! defined('ABSPATH')){
 
     <!-- Main styles for this application-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <script src="<?= URL_PUBLIC ?>vendors/pace-progress/pace.min.js"></script>
     <link href="<?= URL_PUBLIC ?>vendors/pace-progress/css/pace.min.css" rel="stylesheet">
     <link href="<?= URL_CSS ?>style.min.css" rel="stylesheet">
 
@@ -75,7 +76,7 @@ if (! defined('ABSPATH')){
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <img class="img-avatar" src="<?= URL_IMG ?>avatars/6.jpg" alt="admin@bootstrapmaster.com">
+                <img class="img-avatar" src="<?= URL_IMG ?>avatars/8.jpg" alt="admin@bootstrapmaster.com">
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center">
@@ -164,10 +165,16 @@ if (! defined('ABSPATH')){
 
                     </ul>
                 </li>
+                <li class="nav-title">Controle de Acesso</li>
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fas fa-lock"></i> Permissões</a>
                     <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= URL ?>" target="_top">
+                                Gerenciar Seções
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= URL ?>" target="_top">
                                 Gerenciar Menus
@@ -185,6 +192,22 @@ if (! defined('ABSPATH')){
                         </li>
 
                     </ul>
+                </li>
+                <li class="nav-title">Configurações</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= URL ?>" target="_top">
+                        <i class="fas fa-user"></i> Alterar Perfil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= URL ?>" target="_top">
+                        <i class="fas fa-lock"></i> Alterar Senha
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= URL ?>" target="_top">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
                 </li>
             </ul>
         </nav>

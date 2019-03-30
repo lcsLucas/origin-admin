@@ -83,57 +83,12 @@ if (!empty($this->dados->retorno))
                             </div>
 
                             <div class="form-group">
-
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Enviar Foto</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Escolher um Avatar</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-                                        <div class="form-group">
-
-                                            <div class="kv-avatar">
-                                                <div class="file-loading">
-                                                    <input id="avatar" name="avatar" type="file" accept="image/jpeg, image/png, image/gif" <?= is_file(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? "data-avatar='". URL_IMG . "usuarios/" . $usuario->getImgAvatar() . "?random=" . rand() . "'" : "" ?> >
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
-                                        <div class="row">
-
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar1.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar2.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar3.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar4.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar5.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar6.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar7.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar8.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar9.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar10.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar11.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar12.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar13.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar14.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar15.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar16.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar17.svg" ?>" alt=""></div>
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"><img src="<?= URL_IMG . "avatars/avatars/avatar18.svg" ?>" alt=""></div>
-
-                                        </div>
-
+                                <input type="hidden" id="img_avatar" value="<?= !empty($usuario->getImgAvatar()) && is_file(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? URL_IMG . "usuarios/" . $usuario->getImgAvatar() . "?random=" . rand() : '' ?>">
+                                <div class="kv-avatar">
+                                    <div class="file-loading">
+                                        <input name="avatar" id="avatar" type="file" accept=".jpeg,.jpg,.png,.gif" >
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="form-group text-right mt-4 mb-0">

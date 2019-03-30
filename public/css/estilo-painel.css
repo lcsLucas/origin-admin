@@ -131,6 +131,57 @@ button[name="btnConfirmar"] {
     border: none !important;
 }
 
+.file-preview {
+    border: none !important;
+}
+
+.file-preview {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.file-preview-thumbnails {
+    padding: 0px !important;
+}
+
+.krajee-default.file-preview-frame {
+    width: 100%;
+}
+
+.kv-file-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-drop-zone .file-preview-thumbnails {
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#preview-photo {
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px;
+    background: #20a8d8;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    border-radius: 2px;
+    position: relative;
+    font-size: 1rem;
+    font-weight: lighter;
+}
+
+#preview-photo i {
+    font-size: 2.5rem;
+}
+
 #container-errors {
     margin: 0 0 1.5rem 0;
 }

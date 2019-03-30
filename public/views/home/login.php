@@ -57,7 +57,7 @@
 
                             <div class="form-float">
                                 <input type="text" autocomplete="username" id="login" name="login" required maxlength="60" title="Por favor, informe seu usuário ou email">
-                                <label class="form-label" for="login">Usuário/Email</label>
+                                <label class="form-label" for="login">E-mail ou usuário</label>
                             </div>
 
                         </div>

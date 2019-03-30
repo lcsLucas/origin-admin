@@ -51,7 +51,7 @@ input:-webkit-autofill {
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #D3D3D3;
     border-radius: 0.3rem;
     /*margin-bottom: 1rem;*/
 }
@@ -62,6 +62,14 @@ input:-webkit-autofill {
 
 .wrapper-float.focus .prepend-group{
     color: #44ACE1;
+}
+
+.has-error .wrapper-float {
+    border-color: #bc2026 !important;
+}
+
+.has-error .wrapper-float .form-float input:focus ~ label, .has-error .wrapper-float .form-float input:valid ~ label {
+    color: #bc2026 !important;
 }
 
 .wrapper-float .prepend-group {
@@ -82,15 +90,16 @@ input:-webkit-autofill {
     line-height: 1.5;
     flex: 1 1 auto;
     width: 100%;
-    color: #555;
+    color: #202124;
     transition-timing-function: ease-in;
     transition: padding-bottom .4s;
+    outline: none;
 }
 
 .wrapper-float .form-float label{
     position: absolute;
     left: 0;
-    color: #8F8F8F;
+    color: #777;
     top: 50%;
     transform: translateY(-50%);
     transition-timing-function: ease-in;
@@ -99,12 +108,16 @@ input:-webkit-autofill {
 
 .wrapper-float .form-float input:focus, .wrapper-float .form-float input:valid{
     padding-bottom: 0;
+    border-width: 3px;
 }
 
 .wrapper-float .form-float input:focus ~ label, .wrapper-float .form-float input:valid ~ label{
-    transform: translateY(-160%);
+    transform: translateY(-220%);
     color: #44ACE1;
-    font-size: .65rem;
+    font-size: .70rem;
+    padding: 0 30px;
+    left: -30px;
+    background: #FFF;
 }
 
 #wrapper-login button {
