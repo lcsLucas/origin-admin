@@ -205,7 +205,7 @@ class Usuario extends UsuarioDao{
     /**
      * @param string $img_avatar
      */
-    public function setImgAvatar(string $img_avatar)
+    public function setImgAvatar($img_avatar)
     {
         $this->img_avatar = $img_avatar;
     }
@@ -245,36 +245,49 @@ class Usuario extends UsuarioDao{
     }
 
     public function alterarPerfil() {
+        $result = false;
 
-        $result = $this->alterarPerfilDAO();
+        if ($this->conectar()) {
 
-        if (!empty($result) && !empty($this->file_avatar)) {
+            $this->beginTransaction();
+            $result = $this->alterarPerfilDAO();
 
-            if (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".jpg"))
-                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".jpg");
-            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".jpeg"))
-                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".jpeg");
-            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".png"))
-                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".png");
-            elseif (file_exists(PATH_IMG . "usuarios/" . $this->getId() . ".gif"))
-                unlink(PATH_IMG . "usuarios/" . $this->getId() . ".gif");
+            if (!empty($result) && !empty($this->file_avatar)) {
 
-            $tipo = ".png";
+                if ($this->carregarAvatarDAO() && !empty($this->img_avatar)) {
 
-            if (strcmp('image/jpeg',$this->file_avatar['type']) === 0)
+                    if (file_exists(PATH_IMG . "usuarios/" . $this->getImgAvatar()))
+                        unlink(PATH_IMG . "usuarios/" . $this->getImgAvatar());
+
+                }
+
                 $tipo = ".jpg";
-            elseif (strcmp('image/gif',$this->file_avatar['type']) === 0)
-                $tipo = ".gif";
-            elseif (strcmp('image/png',$this->file_avatar['type']) === 0)
-                $tipo = ".png";
+                $parametro = null;
 
-            $nome_file = $this->getId() . $tipo;
+                if (strcmp('image/jpeg',$this->file_avatar['type']) === 0)
+                    $parametro = 90;
+                elseif (strcmp('image/gif',$this->file_avatar['type']) === 0)
+                    $tipo = ".gif";
+                elseif (strcmp('image/png',$this->file_avatar['type']) === 0) {
+                    $tipo = ".png";
+                    $parametro = 9;
+                }
 
-            $image = WideImage::loadFromFile($this->file_avatar["tmp_name"]);
-            $resized = $image->resize(150, 150, 'inside','down');
-            $resized->saveToFile( PATH_IMG . "usuarios/" . $nome_file);
+                $this->img_avatar = $this->getId() . $tipo;
 
+                $result = $this->alterarPerfilFotoDAO();
+
+                if ($result) {
+                    $image = WideImage::loadFromFile($this->file_avatar["tmp_name"]);
+                    $resized = $image->resize(150, 150, 'inside','down');
+                    $resized->saveToFile( PATH_IMG . "usuarios/" . $this->img_avatar, $parametro);
+                }
+
+            }
+
+            $this->commitar($result);
         }
+
 
         return $result;
     }

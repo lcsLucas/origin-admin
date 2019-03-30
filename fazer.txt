@@ -25,3 +25,6 @@ Cropper JS
     - acrescentar no menu a opção "Categoria de menu"
         - fazer um cadastros para essa opção
         - no cadastro do menu o usuario escolhe a categoria do menu (opcional)
+    - adicionar no 'MidlewarePrincipal' o código de controle dos usuários, utilizando a url passada
+
+- fazer o cadastro dos menus do sistema

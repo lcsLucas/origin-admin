@@ -11,6 +11,7 @@
 namespace ProjetoMvc\render;
 
 use App\model\Retorno;
+use App\controllers\MiddleWarePrincipal;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -68,8 +69,11 @@ abstract class Action
         $this->param = [];
         $this->retorno = new Retorno();
 
-        if (!empty($this->autenticacao) && empty($_SESSION["_logado"]))
+        $uri = trim(str_replace(URI, '', $_SERVER['REQUEST_URI']), '/');
+        if (!empty($this->autenticacao) && empty($_SESSION["_logado"]) || !MiddleWarePrincipal::autenticacao($uri)) {
             header("Location: " . URL);
+            exit;
+        }
 
     }
 

@@ -61,10 +61,33 @@ class UsuarioDao extends Banco
         if (!empty($this->conectar())) {
 
             try {
-
                 $stms = $this->getCon()->prepare("UPDATE usuario SET usu_nome = :nome, usu_apelido = :apelido WHERE usu_id = :id AND usu_id > 1 LIMIT 1");
                 $stms->bindValue(':nome', $this->usuario->getNome(), \PDO::PARAM_STR);
                 $stms->bindValue(':apelido', $this->usuario->getApelido(), \PDO::PARAM_STR);
+                $stms->bindValue(':id', $this->usuario->getId(), \PDO::PARAM_INT);
+
+                $result = $stms->execute();
+
+
+            } catch (\PDOException $e) {
+                $result = false;
+                $this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | " . $e->getMessage(), false, false);
+            }
+
+        }
+
+        return $result;
+    }
+
+    protected function alterarPerfilFotoDAO() {
+
+        $result = false;
+
+        if (!empty($this->conectar())) {
+
+            try {
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_avatar = :avatar WHERE usu_id = :id AND usu_id > 1 LIMIT 1");
+                $stms->bindValue(':avatar', $this->usuario->getImgAvatar(), \PDO::PARAM_STR);
                 $stms->bindValue(':id', $this->usuario->getId(), \PDO::PARAM_INT);
 
                 $result = $stms->execute();
@@ -97,6 +120,31 @@ class UsuarioDao extends Banco
                     $this->usuario->setEmail($result["usu_email"]);
                     $this->usuario->setLogin($result["usu_login"]);
                     $this->usuario->setApelido($result["usu_apelido"]);
+
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        return false;
+    }
+
+    protected function carregarAvatarDAO() {
+        if (!empty($this->conectar())) {
+
+            $stms = $this->getCon()->prepare("SELECT usu_avatar FROM usuario WHERE usu_id = :codigo LIMIT 1");
+            $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
+
+            if ($stms->execute()) {
+
+                $result = $stms->fetch();
+
+                if (!empty($result)) {
+
+                    $this->usuario->setImgAvatar($result["usu_avatar"]);
 
                     return true;
 
