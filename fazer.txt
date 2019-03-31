@@ -1,13 +1,5 @@
 /************ Atenção ************/
 
--> achar uma maneira de fazer o controle de usuário utilizando as rotas do site
-
-    ############# Fazer o controle de acesso no sistema #############
-        - não permitir que usuários não autorizados acessem as páginas
-    #############
-
-/******
-
 Cropper JS
 - https://fengyuanchen.github.io/cropperjs/
 
