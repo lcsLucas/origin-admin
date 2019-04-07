@@ -75,12 +75,14 @@ $this->dados->alert = true;
 
                 <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formUsuario">
 
+                    <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+
                     <div class="row clearfix">
 
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="nome" class="font-weight-bold">Nome do usuário:</label>
+                                <label for="nome" class="font-weight-bold">Nome do usuário <sup class="text-danger">*</sup>:</label>
                                 <input required maxlength="60" autofocus tabindex="1" type="text" class="form-control form-control-lg" value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : ""  ?>" id="nome" name="nome" title="Por favor, informe o nome do novo usuário">
                             </div>
 
@@ -89,7 +91,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="email" class="font-weight-bold">Email do usuário:</label>
+                                <label for="email" class="font-weight-bold">Email do usuário <sup class="text-danger">*</sup>:</label>
                                 <input required maxlength="60" type="email" <?= !empty($this->dados->editar) ? "disabled" : "" ?> tabindex="2" class="form-control form-control-lg" id="email" name="email" value="<?= !empty($parametros["param_email"]) ? $parametros["param_email"] : ""  ?>"  title="<?= !empty($this->dados->editar) ? "Você não pode alterar o email do usuário" : "Por favor, informe um email válido para o usuário" ?>">
                             </div>
 
@@ -98,7 +100,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="sel_tipo" class="font-weight-bold">Tipo de usuário:</label>
+                                <label for="sel_tipo" class="font-weight-bold">Tipo de usuário <sup class="text-danger">*</sup>:</label>
                                 <select required tabindex="3" title="Por favor, selecione o tipo do novo usuário" name="sel_tipo" id="sel_tipo" class="form-control form-control-lg">
 
                                     <option value="">Selecione um tipo</option>
@@ -126,7 +128,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="usuario" class="font-weight-bold">Login do usuário:</label>
+                                <label for="usuario" class="font-weight-bold">Login do usuário <sup class="text-danger">*</sup>:</label>
                                 <input required maxlength="15" <?= !empty($this->dados->editar) ? "disabled" : "" ?> tabindex="4" type="text" class="form-control form-control-lg" id="usuario" name="usuario" value="<?= !empty($parametros["param_usuario"]) ? $parametros["param_usuario"] : ""  ?>" title="<?= !empty($this->dados->editar) ? "Você não pode alterar o login do usuário" : "Por favor, informe um login para o usuário" ?>">
                             </div>
 
@@ -135,7 +137,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="senha_nova" class="font-weight-bold">Senha do usuário:</label>
+                                <label for="senha_nova" class="font-weight-bold">Senha do usuário <sup class="text-danger">*</sup>:</label>
                                 <div class="input-group">
                                     <input required maxlength="30" tabindex="5" type="password" class="form-control form-control-lg b-r-0" id="senha_nova" name="senha_nova" title="Por favor, informe a senha do usuário">
                                     <div class="input-group-append b-l-0">
@@ -151,7 +153,7 @@ $this->dados->alert = true;
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="senha_nova2" class="font-weight-bold">Repita a senha:</label>
+                                <label for="senha_nova2" class="font-weight-bold">Repita a senha <sup class="text-danger">*</sup>:</label>
                                 <div class="input-group">
                                     <input required maxlength="30" tabindex="6" type="password" class="form-control form-control-lg b-r-0" id="senha_nova2" name="senha_nova2" title="Por favor, repita a senha do usuário">
                                     <div class="input-group-append b-l-0">
@@ -278,7 +280,7 @@ $this->dados->alert = true;
                                     <tr>
 
                                         <td class="font-weight-bold text-muted">
-                                            <img src="http://localhost/projeto_php_mvc/public/img/avatars/2.jpg" alt="" class="img-avatar mr-3" style="max-width: 40px;">
+                                            <img src="<?= URL_IMG ?>usuarios/<?=$registro['usu_avatar'] ?>" alt="" class="img-avatar mr-3" style="max-width: 40px;">
                                             <?= $registro["usu_nome"] ?>
                                         </td>
                                         <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>

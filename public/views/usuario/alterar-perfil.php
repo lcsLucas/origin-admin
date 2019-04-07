@@ -62,8 +62,10 @@ if (!empty($this->dados->retorno))
 
                         <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" enctype="multipart/form-data" id="formAlterarPerfil">
 
+                            <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+
                             <div class="form-group form-group-lg">
-                                <label for="nome" class="font-weight-bold">Nome:</label>
+                                <label for="nome" class="font-weight-bold">Nome <sup class="text-danger">*</sup>:</label>
                                 <input required maxlength="60" autofocus type="text" class="form-control form-control-lg" id="nome" name="nome" value="<?= $usuario->getNome() ?>" title="Por favor, informe seu nome">
                             </div>
 

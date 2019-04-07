@@ -24,6 +24,7 @@ window.onload = function() {
 
         input_avatar.fileinput({
             overwriteInitial: true,
+            autoOrientImage: false,
             maxFileSize: 1500,
             showCaption: false,
             showBrowse: false,

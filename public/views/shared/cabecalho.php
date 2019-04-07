@@ -102,13 +102,13 @@ if (! defined('ABSPATH')){
                     <strong>Conta</strong>
                 </div>
                 <a class="dropdown-item" href="<?= URL ?>alterar-perfil">
-                    <i class="fa fa-user text-muted"></i> Perfil</a>
+                    <i class="fa fa-user-edit text-muted"></i> Alterar Perfil</a>
                 <a class="dropdown-item" href="<?= URL ?>alterar-senha">
-                    <i class="fa fa-lock text-muted"></i> Alterar Senha</a>
+                    <i class="fa fa-key text-muted"></i> Alterar Senha</a>
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs text-muted"></i> Opções</a>
                 <a class="dropdown-item" href="<?= URL ?>logout">
-                    <i class="fas fa-sign-out-alt text-muted"></i> Logout</a>
+                    <i class="fas fa-sign-out-alt text-muted"></i> Sair</a>
             </div>
         </li>
     </ul>
@@ -148,6 +148,8 @@ if (! defined('ABSPATH')){
                     </a>
                 </li>
                 <li class="nav-title">Cadastros Básicos</li>
+                
+                <li class="nav-title">Configurações</li>
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fas fa-user-cog"></i> Usuários</a>
@@ -165,13 +167,12 @@ if (! defined('ABSPATH')){
 
                     </ul>
                 </li>
-                <li class="nav-title">Controle de Acesso</li>
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="fas fa-lock"></i> Permissões</a>
+                        <i class="fas fa-user-lock"></i> Permissões</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= URL ?>" target="_top">
+                            <a class="nav-link" href="<?= URL ?>permissoes/gerenciar-secoes-menus" target="_top">
                                 Gerenciar Seções
                             </a>
                         </li>
@@ -193,19 +194,18 @@ if (! defined('ABSPATH')){
 
                     </ul>
                 </li>
-                <li class="nav-title">Configurações</li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= URL ?>" target="_top">
-                        <i class="fas fa-user"></i> Alterar Perfil
+                <li class="nav-item notshow-minimized">
+                    <a class="nav-link" href="<?= URL ?>alterar-perfil" target="_top">
+                        <i class="fas fa-user-edit"></i> Alterar Perfil
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= URL ?>" target="_top">
-                        <i class="fas fa-lock"></i> Alterar Senha
+                <li class="nav-item notshow-minimized">
+                    <a class="nav-link" href="<?= URL ?>alterar-senha" target="_top">
+                        <i class="fas fa-key"></i> Alterar Senha
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= URL ?>" target="_top">
+                <li class="nav-item notshow-minimized">
+                    <a class="nav-link" href="<?= URL ?>logout" target="_top">
                         <i class="fas fa-sign-out-alt"></i> Sair
                     </a>
                 </li>

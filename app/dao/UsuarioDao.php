@@ -229,7 +229,7 @@ class UsuarioDao extends Banco
     }
 
     protected function limiteRegistroDAO($inicio, $fim, $parametros) {
-        $sql = 'SELECT usu_id, usu_dtCad, usu_nome, tu.tip_id, tip_nome, tip_administrador, usu_email, usu_ativo FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id WHERE u.usu_id > 1 ';
+        $sql = 'SELECT usu_id, usu_dtCad, usu_nome, tu.tip_id, tip_nome, tip_administrador, usu_email, usu_ativo, usu_avatar FROM usuario u INNER JOIN tipo_usuario tu ON u.tip_id = tu.tip_id WHERE u.usu_id > 1 ';
 
         if(!empty($this->Conectar())) :
 

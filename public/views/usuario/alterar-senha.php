@@ -62,8 +62,10 @@ if (!empty($this->dados->retorno))
 
                     <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formAlterarSenha" autocomplete="off">
 
+                        <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+
                         <div class="form-group form-group-lg">
-                            <label for="senha_atual" class="font-weight-bold">Senha Atual:</label>
+                            <label for="senha_atual" class="font-weight-bold">Senha Atual <sup class="text-danger">*</sup>:</label>
                             <div class="input-group focus">
                                 <input autofocus tabindex="1" required maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_atual" name="senha_atual" title="Por favor, informe a senha atual">
                                 <div class="input-group-append b-l-0">
@@ -75,7 +77,7 @@ if (!empty($this->dados->retorno))
                         </div>
 
                         <div class="form-group form-group-lg">
-                            <label for="senha_nova" class="font-weight-bold">Nova Senha:</label>
+                            <label for="senha_nova" class="font-weight-bold">Nova Senha <sup class="text-danger">*</sup>:</label>
                             <div class="input-group">
                                 <input required tabindex="2" maxlength="30" type="password" class="form-control form-control-lg b-r-0" id="senha_nova" name="senha_nova" title="Por favor, informe a nova senha">
                                 <div class="input-group-append b-l-0">
@@ -87,7 +89,7 @@ if (!empty($this->dados->retorno))
                         </div>
 
                         <div class="form-group form-group-lg">
-                            <label for="senha_nova2" class="font-weight-bold">Repita a Nova Senha:</label>
+                            <label for="senha_nova2" class="font-weight-bold">Repita a Nova Senha <sup class="text-danger">*</sup>:</label>
                             <div class="input-group">
                                 <input required maxlength="30" tabindex="3" type="password" class="form-control form-control-lg b-r-0" id="senha_nova2" name="senha_nova2" title="Por favor, repita a nova senha">
                                 <div class="input-group-append b-l-0">

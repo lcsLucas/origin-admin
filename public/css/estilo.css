@@ -111,7 +111,8 @@ input:-webkit-autofill {
     border-width: 3px;
 }
 
-.wrapper-float .form-float input:focus ~ label, .wrapper-float .form-float input:valid ~ label{
+.wrapper-float .form-float input:focus ~ label, .wrapper-float .form-float input:valid ~ label,
+    .wrapper-float .form-float input:-webkit-autofill ~label{
     transform: translateY(-220%);
     color: #44ACE1;
     font-size: .70rem;
@@ -121,8 +122,8 @@ input:-webkit-autofill {
 }
 
 #wrapper-login button {
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: normal;
+    font-size: 1.2rem;
     box-shadow: none;
 }
 

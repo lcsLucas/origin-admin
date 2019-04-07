@@ -75,8 +75,10 @@ $this->dados->alert = true;
 
                     <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formTipoUsuario">
 
+                        <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+
                         <div class="form-group form-group-lg">
-                            <label for="nome" class="font-weight-bold">Tipo de usuários:</label>
+                            <label for="nome" class="font-weight-bold">Nome do tipo <sup class="text-danger">*</sup>:</label>
                             <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" value="<?= $nome ?>" id="nome" name="nome" title="Por favor, informe o nome do novo tipo de usuário">
                         </div>
 
