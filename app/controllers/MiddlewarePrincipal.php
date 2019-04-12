@@ -10,7 +10,7 @@ if (! defined('ABSPATH')){
 
 abstract class MiddlewarePrincipal {
 
-    static function autenticacao($uri) {
+    public static function autenticacao($uri) {
 
         // fazer a autenticação de usuário nessa url, e se tiver autenticado carregar a foto e o nome (se necessario)
 

@@ -4,6 +4,9 @@ if (! defined('ABSPATH')){
     exit();
 }
 
+use App\controllers\UsuarioController;
+$usuario_logado = UsuarioController::carregarInformacoes2();
+
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +15,8 @@ if (! defined('ABSPATH')){
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Painel Administrativo">
+    <meta name="author" content="Lucas S. Rosa - lucas.tarta@hotmail.com">
     <meta name="keyword" content="">
     <title><?= $this->dados->title ?> - Painel Administrativo</title>
 
@@ -50,15 +53,9 @@ if (! defined('ABSPATH')){
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="nav navbar-nav d-md-down-none">
-        <li class="nav-item px-3">
-            <a class="nav-link" href="#">Dashboard</a>
-        </li>
-        <li class="nav-item px-3">
-            <a class="nav-link" href="#">Users</a>
-        </li>
-        <li class="nav-item px-3">
-            <a class="nav-link" href="#">Settings</a>
+    <ul class="nav navbar-nav d-md-down-none ml-auto">
+        <li class="nav-item px-3 text-muted font-weight-light">
+            Logado como: <span class="font-weight-bold"><?= $usuario_logado->getNome() ?></span>
         </li>
     </ul>
     <ul class="nav navbar-nav ml-auto">
@@ -76,7 +73,7 @@ if (! defined('ABSPATH')){
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <img class="img-avatar" src="<?= URL_IMG ?>avatars/8.jpg" alt="admin@bootstrapmaster.com">
+                <img class="img-avatar" src="<?= !empty($usuario_logado->getImgAvatar()) && file_exists(PATH_IMG . 'usuarios/' . $usuario_logado->getImgAvatar()) ? URL_IMG . 'usuarios/' . $usuario_logado->getImgAvatar() . '?random =' .rand(1,100) : URL_IMG . 'usuarios/default-avatar.png' ?>" alt="<?= $usuario_logado->getNome() ?>">
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center">

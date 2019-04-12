@@ -111,9 +111,20 @@ input:-webkit-autofill {
     border-width: 3px;
 }
 
-.wrapper-float .form-float input:focus ~ label, .wrapper-float .form-float input:valid ~ label,
-    .wrapper-float .form-float input:-webkit-autofill ~label{
-    transform: translateY(-220%);
+.wrapper-float .form-float input:-webkit-autofill:focus ~ label,
+.wrapper-float .form-float input:-webkit-autofill:valid ~ label
+{
+    transform: translateY(-220%) !important;
+    color: #44ACE1;
+    font-size: .70rem;
+    padding: 0 30px;
+    left: -30px;
+    background: #FFF;
+}
+.wrapper-float .form-float input:focus ~ label,
+.wrapper-float .form-float input:valid ~ label
+{
+    transform: translateY(-220%) !important;
     color: #44ACE1;
     font-size: .70rem;
     padding: 0 30px;
