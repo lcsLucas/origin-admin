@@ -250,6 +250,28 @@ button[name="btnConfirmar"] {
     cursor: not-allowed;
 }
 
+.file-preview .fileinput-remove {
+    bottom: -12px;
+    left: 50%;
+    top: auto !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    margin-top: 30px;
+    color: #fff !important;
+    background-color: #f86c6b;
+    border-color: #f86c6b;
+    padding: .375rem .75rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    opacity: 0;
+}
+
+.file-preview .fileinput-remove:hover, .file-preview .fileinput-remove:active {
+    background-color: #f63c3a !important;
+    border-color: #f63c3a !important;
+}
+
 .sidebar .nav-dropdown .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
     transition: padding-left .8s;
     transition-timing-function: ease-out;
@@ -267,4 +289,73 @@ div#profile img {
     width: 100%;
     max-width: 90px;
     margin: 20px;
+}
+
+.cropper-view-box,
+.cropper-face {
+    border-radius: 50%;
+}
+
+.btn {
+    border-radius: 0 !important;
+}
+
+#modalFoto .modal-header {
+    color: rgba(0,0,0,.6);
+}
+
+#modalFoto .modal-body {
+    background: #000;
+}
+
+#modalFoto .modal-content {
+    border: none !important;
+    border-radius: 0;
+}
+
+#modalFoto #wrapper-img-crop {
+    width: 400px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 3px; /* Specified height */
+    background: #FFF; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 1; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    border-radius: 50%;
+    cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%;
 }

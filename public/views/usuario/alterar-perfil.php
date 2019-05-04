@@ -108,3 +108,27 @@ if (!empty($this->dados->retorno))
             </div>
 
         </div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalFoto">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Foto</h5>
+                <button type="button" class="close" id="cancelaFoto" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div id="wrapper-img-crop"></div>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmaFoto" type="button" class="btn btn-primary btn-lg">Confirmar <i class="fa fa-fw fa-check"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ window.onload = function() {
     var rulesMessages = {};
 
     const input_avatar = $("#avatar");
+    var cropper;
 
     if (input_avatar.length) {
 
@@ -33,10 +34,53 @@ window.onload = function() {
             browseOnZoneClick: true,
             elErrorContainer: "#erro-file-input",
             msgErrorClass: 'alert alert-block alert-danger',
+            cancelClass: 'text-danger',
             language: "pt-BR",
             theme: "fa",
             defaultPreviewContent: img_avatar,
             allowedFileExtensions: ["jpg", "jpeg", "gif", "png"]
+        }).on('fileimageloaded', function(event,  previewId) {
+            var container_img = document.getElementById(previewId);
+            var image = container_img.querySelector('img').cloneNode();
+            image.classList= 'img-fluid';
+            var modal = document.getElementById('modalFoto');
+
+            $(modal).find('#wrapper-img-crop').html(image);
+            $(modal).modal('show');
+
+            $('.file-preview .fileinput-remove').css('opacity', 1);
+
+        }).on('filecleared', function(event) {
+            $('.file-preview .fileinput-remove').css('opacity', 0);
+        });
+
+        $('#modalFoto').on('shown.bs.modal', function (e) {
+            var image = document.getElementById('modalFoto').querySelector('#wrapper-img-crop').querySelector('img');
+
+            cropper = new Cropper(image, {
+                viewMode: 1,
+                dragMode: 'crop',
+                aspectRatio: 1,
+                autoCropArea: 1,
+                responsive: true,
+                zoomable: false,
+                movable: false,
+                scalable: false
+            });
+
+        });
+
+        $('#cancelaFoto').click(function () {
+            input_avatar.fileinput('clear');
+            $('#modalFoto').modal('hide');
+        });
+
+        $('#confirmaFoto').click(function () {
+
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                input_avatar.fileinput('updateStack', 0, blob);
+                $('#modalFoto').modal('hide');
+            });
         });
 
     }

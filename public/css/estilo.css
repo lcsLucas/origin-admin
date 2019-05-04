@@ -111,6 +111,7 @@ input:-webkit-autofill {
     border-width: 3px;
 }
 
+.wrapper-float .form-float input:-webkit-autofill ~ label,
 .wrapper-float .form-float input:-webkit-autofill:focus ~ label,
 .wrapper-float .form-float input:-webkit-autofill:valid ~ label
 {

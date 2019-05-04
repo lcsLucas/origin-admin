@@ -352,6 +352,17 @@ if (!empty($this->dados->alert)) {
 
 ?>
 
+<?php
+
+    if (!empty($this->dados->cropjs)) {
+        ?>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.1/cropper.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.1/cropper.min.js"></script>
+        <?php
+    }
+
+?>
+
 <script src="<?= URL_JS ?>scripts-painel.js?random=<?= rand() ?>"></script>
 </body>
 </html>

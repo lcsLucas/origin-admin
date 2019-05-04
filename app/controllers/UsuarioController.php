@@ -38,6 +38,7 @@ class UsuarioController extends Action
 
         $this->dados->informacoes = $usu;
         $this->dados->input_drop = true;
+        $this->dados->cropjs = true;
         $this->dados->validation = true;
         $this->dados->title = "Alterar Perfil";
         $this->render('alterar-perfil.php');
