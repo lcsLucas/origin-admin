@@ -13,6 +13,7 @@ window.onload = function() {
 
     const input_avatar = $("#avatar");
     var cropper;
+    const modalFoto = $('#modalFoto');
 
     if (input_avatar.length) {
 
@@ -39,7 +40,11 @@ window.onload = function() {
             theme: "fa",
             defaultPreviewContent: img_avatar,
             allowedFileExtensions: ["jpg", "jpeg", "gif", "png"]
-        }).on('fileimageloaded', function(event,  previewId) {
+        }).on('change', function (e) {
+
+        }).on('fileloaded', function(event, file, previewId, index, reader) {
+            console.log(file);
+            console.log(reader.result = new Blob());
             var container_img = document.getElementById(previewId);
             var image = container_img.querySelector('img').cloneNode();
             image.classList= 'img-fluid';
@@ -54,7 +59,8 @@ window.onload = function() {
             $('.file-preview .fileinput-remove').css('opacity', 0);
         });
 
-        $('#modalFoto').on('shown.bs.modal', function (e) {
+        modalFoto.on('shown.bs.modal', function (e) {
+            $('body').css('overflow', 'hidden');
             var image = document.getElementById('modalFoto').querySelector('#wrapper-img-crop').querySelector('img');
 
             cropper = new Cropper(image, {
@@ -63,24 +69,35 @@ window.onload = function() {
                 aspectRatio: 1,
                 autoCropArea: 1,
                 responsive: true,
-                zoomable: false,
-                movable: false,
-                scalable: false
+                zoomable: true,
+                movable: true,
+                scalable: true,
+                background: false,
+                ready() {
+
+                    modalFoto.find('#confirmaFoto').html('Confirmar <i class="fa fa-fw fa-check"></i>').prop('disabled', false).on('click', function () {
+
+                        cropper.getCroppedCanvas().toBlob((blob) => {
+
+                        input_avatar.files[0] = blob;
+
+                            $('#modalFoto').modal('hide');
+                        });
+                    });
+
+                }
             });
 
+        });
+
+        modalFoto.on('hidden.bs.modal', function (e) {
+            $('body').css('overflow', 'auto');
+            console.log(cropper);
+            cropper.destroy();
         });
 
         $('#cancelaFoto').click(function () {
-            input_avatar.fileinput('clear');
             $('#modalFoto').modal('hide');
-        });
-
-        $('#confirmaFoto').click(function () {
-
-            cropper.getCroppedCanvas().toBlob((blob) => {
-                input_avatar.fileinput('updateStack', 0, blob);
-                $('#modalFoto').modal('hide');
-            });
         });
 
     }
