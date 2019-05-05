@@ -20,3 +20,7 @@ Cropper JS
     - adicionar no 'MidlewarePrincipal' o código de controle dos usuários, utilizando a url passada
 
 - fazer o cadastro dos menus do sistema
+
+- continuar na pagina de alterar perfil
+    - não conseguir atualizar a imagem preview do input file
+    - então lá no js quando confirmar no cropper, enviar o resultado blob da imagem por ajax e fazer a alteração da imagem do perfil

@@ -53,7 +53,7 @@ window.onload = function() {
             $(modal).find('#wrapper-img-crop').html(image);
             $(modal).modal('show');
 
-            $('.file-preview .fileinput-remove').css('opacity', 1);
+            //$('.file-preview .fileinput-remove').css('opacity', 1);
 
         }).on('filecleared', function(event) {
             $('.file-preview .fileinput-remove').css('opacity', 0);
@@ -79,7 +79,12 @@ window.onload = function() {
 
                         cropper.getCroppedCanvas().toBlob((blob) => {
 
-                        input_avatar.files[0] = blob;
+                            var formData = new FormData();
+                            formData.append('image', blob);
+
+                            //aqui
+
+                            console.log(formData);
 
                             $('#modalFoto').modal('hide');
                         });
