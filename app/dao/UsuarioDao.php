@@ -86,12 +86,12 @@ class UsuarioDao extends Banco
         if (!empty($this->conectar())) {
 
             try {
-                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_avatar = :avatar WHERE usu_id = :id LIMIT 1");
-                $stms->bindValue(':avatar', $this->usuario->getImgAvatar(), \PDO::PARAM_STR);
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_avatar = :avatar, usu_avatar_dados = :dados WHERE usu_id = :id LIMIT 1");
+                $stms->bindValue(':avatar', $this->usuario->getImagem()->getNomeImagem(), \PDO::PARAM_STR);
+                $stms->bindValue(':dados', json_encode($this->usuario->getImagem()->getDadosImagem(), JSON_FORCE_OBJECT), \PDO::PARAM_STR);
                 $stms->bindValue(':id', $this->usuario->getId(), \PDO::PARAM_INT);
 
                 $result = $stms->execute();
-
 
             } catch (\PDOException $e) {
                 $result = false;
@@ -107,7 +107,7 @@ class UsuarioDao extends Banco
 
         if (!empty($this->conectar())) {
 
-            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_email, usu_login, usu_apelido, usu_avatar FROM usuario WHERE usu_id = :codigo LIMIT 1");
+            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_email, usu_login, usu_apelido, usu_avatar, usu_avatar_dados FROM usuario WHERE usu_id = :codigo LIMIT 1");
             $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
 
             if ($stms->execute()) {
@@ -120,7 +120,8 @@ class UsuarioDao extends Banco
                     $this->usuario->setEmail($result["usu_email"]);
                     $this->usuario->setLogin($result["usu_login"]);
                     $this->usuario->setApelido($result["usu_apelido"]);
-                    $this->usuario->setImgAvatar($result["usu_avatar"]);
+                    $this->usuario->getImagem()->setNomeImagem($result["usu_avatar"]);
+                    $this->usuario->getImagem()->setDadosImagem($result['usu_avatar_dados']);
 
                     return true;
 
@@ -137,7 +138,7 @@ class UsuarioDao extends Banco
 
         if (!empty($this->conectar())) {
 
-            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_avatar FROM usuario WHERE usu_id = :codigo LIMIT 1");
+            $stms = $this->getCon()->prepare("SELECT usu_nome, usu_avatar, usu_avatar_dados FROM usuario WHERE usu_id = :codigo LIMIT 1");
             $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
 
             if ($stms->execute()) {
@@ -147,7 +148,8 @@ class UsuarioDao extends Banco
                 if (!empty($result)) {
 
                     $this->usuario->setNome($result["usu_nome"]);
-                    $this->usuario->setImgAvatar($result["usu_avatar"]);
+                    $this->usuario->getImagem()->setNomeImagem($result["usu_avatar"]);
+                    $this->usuario->getImagem()->setDadosImagem($result['usu_avatar_dados']);
 
                     return true;
 
@@ -172,7 +174,7 @@ class UsuarioDao extends Banco
 
                 if (!empty($result)) {
 
-                    $this->usuario->setImgAvatar($result["usu_avatar"]);
+                    $this->usuario->getImagem()->setNomeImagem($result["usu_avatar"]);
 
                     return true;
 

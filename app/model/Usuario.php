@@ -2,8 +2,7 @@
 namespace App\model;
 
 use App\dao\UsuarioDao;
-use App\model\Retorno;
-use WideImage\WideImage;
+use App\model\ManipulacaoImagem;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -20,8 +19,7 @@ class Usuario extends UsuarioDao{
     private $ativo;
     private $tipo;
     private $apelido;
-    private $img_avatar;
-    private $file_avatar;
+    private $imagem;
 
     /**
      * Usuario constructor.
@@ -46,8 +44,7 @@ class Usuario extends UsuarioDao{
         $this->tipo = $tipo;
         $this->apelido = $apelido;
         $this->setUsuario($this);
-        $this->img_avatar = "";
-        $this->file_avatar = "";
+        $this->imagem = new ManipulacaoImagem();
     }
 
     /**
@@ -195,27 +192,19 @@ class Usuario extends UsuarioDao{
     }
 
     /**
-     * @return string
+     * @return \App\model\ManipulacaoImagem
      */
-    public function getImgAvatar()
+    public function getImagem(): \App\model\ManipulacaoImagem
     {
-        return $this->img_avatar;
+        return $this->imagem;
     }
 
     /**
-     * @param string $img_avatar
+     * @param \App\model\ManipulacaoImagem $imagem
      */
-    public function setImgAvatar($img_avatar)
+    public function setImagem(\App\model\ManipulacaoImagem $imagem): void
     {
-        $this->img_avatar = $img_avatar;
-    }
-
-    /**
-     * @param array $file_avatar
-     */
-    public function setFileAvatar(array $file_avatar)
-    {
-        $this->file_avatar = $file_avatar;
+        $this->imagem = $imagem;
     }
 
     public function Login()
@@ -252,37 +241,24 @@ class Usuario extends UsuarioDao{
             $this->beginTransaction();
             $result = $this->alterarPerfilDAO();
 
-            if (!empty($result) && !empty($this->file_avatar)) {
+            if (!empty($result) && !empty($this->imagem->getFileImagem())) {
 
-                if ($this->carregarAvatarDAO() && !empty($this->img_avatar)) {
+                if ($this->carregarAvatarDAO() && !empty($this->getImagem()->getNomeImagem())) {
 
-                    if (file_exists(PATH_IMG . "usuarios/" . $this->getImgAvatar()))
-                        unlink(PATH_IMG . "usuarios/" . $this->getImgAvatar());
+                    if (file_exists(PATH_IMG . "usuarios/" . $this->getImagem()->getNomeImagem()))
+                        unlink(PATH_IMG . "usuarios/" . $this->getImagem()->getNomeImagem());
+
+                    if (file_exists(PATH_IMG . "usuarios/thumbs/" . $this->getImagem()->getNomeImagem()))
+                        unlink(PATH_IMG . "usuarios/thumbs/" . $this->getImagem()->getNomeImagem());
 
                 }
 
-                $tipo = ".jpg";
-                $parametro = null;
-
-                if (strcmp('image/jpeg',$this->file_avatar['type']) === 0)
-                    $parametro = 90;
-                elseif (strcmp('image/gif',$this->file_avatar['type']) === 0)
-                    $tipo = ".gif";
-                elseif (strcmp('image/png',$this->file_avatar['type']) === 0) {
-                    $tipo = ".png";
-                    $parametro = 9;
-                }
-
-                $this->img_avatar = $this->getId() . $tipo;
-
+                $this->imagem->setNomeImagem($this->getId() . $this->imagem->getTipoImagem());
                 $result = $this->alterarPerfilFotoDAO();
 
-                if ($result) {
-                    $image = WideImage::loadFromFile($this->file_avatar["tmp_name"]);
-                    $resized = $image->resize(150, 150, 'inside','down');
-                    $resized->saveToFile( PATH_IMG . "usuarios/" . $this->img_avatar, $parametro);
-                }
-
+                if ($result)
+                    $this->imagem->salvarImagem(PATH_IMG . 'usuarios/', 500, 500);
+                    $this->imagem->salvarImagemDados(PATH_IMG . 'usuarios/thumbs/', 150, 150);
             }
 
             $this->commitar($result);

@@ -107,6 +107,7 @@ class UsuarioController extends Action
         $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
         $apelido = trim(filter_input(INPUT_POST, 'apelido', FILTER_SANITIZE_SPECIAL_CHARS));
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+        $dados_imagem = trim(filter_input(INPUT_POST, 'dados_imagem', FILTER_DEFAULT));
         $file = !empty($_FILES["avatar"]["tmp_name"]) ? $_FILES["avatar"] : array();
 
         $validate->define_pattern('erro_');
@@ -120,34 +121,27 @@ class UsuarioController extends Action
 
                 if (!empty($file)) {
 
-                    if (!empty($file["error"]) && $file["error"] !== 4) {
+                    $restricoes = array();
 
-                        if ($file["error"] === 1 || $file["error"] === 2)
-                            $this->setRetorno("O arquivo \"". $file["name"] ."\" excede o tamanho máximo permitido de 1,5MB.", true, false);
-                        elseif($file["error"] === 3)
-                            $this->setRetorno("Não foi possível fazer o upload completo do arquivo, tente novamente", true, false);
-                        elseif($file["error"] === 6)
-                            $this->setRetorno("Não foi possível fazer o upload do arquivo (pasta temporária ausente)", true, false);
-                        else
-                            $this->setRetorno("Erro inesperável no upload do arquivo, tente novamente", true, false);
+                    $restricoes[0] = null;
+                    $restricoes[1] = array('image/png', 'image/gif', 'image/jpeg');
 
-                        $erro_img = true;
-                    } else if($file["size"] > 1572864) {
-                        $this->setRetorno("O arquivo \"" . $file["name"] . "\" excede o tamanho máximo permitido de 1,5MB.", true, false);
-                        $erro_img = true;
-                    }elseif(strcmp('image/png', $file["type"]) !== 0 && strcmp('image/gif', $file["type"]) !== 0 && strcmp('image/jpeg', $file["type"]) !== 0) {
-                        $this->setRetorno("O Tipo do arquivo enviado é inválido. Por favor, envie um arquivo do tipo \"jpeg, png ou gif\"", true, false);
-                        $erro_img = true;
-                    }
-
+                    $usuario->getImagem()->setFileImagem($file);
+                    $erro_img = $usuario->getImagem()->verificaImagem($restricoes);
                 }
 
                 if (empty($erro_img)) {
 
                     $usuario->setNome($nome);
                     $usuario->setApelido($apelido);
-                    $usuario->setFileAvatar($file);
                     $usuario->setId($_SESSION["_idusuario"]);
+
+                    $dados_imagem = json_decode($dados_imagem, true);
+                    if (json_last_error() === JSON_ERROR_NONE)
+                        $usuario->getImagem()->setDadosImagem($dados_imagem);
+
+                    if (!empty($dados_imagem))
+                        $usuario->getImagem()->setDadosImagem($dados_imagem);
 
                     if ($usuario->alterarPerfil())
                         $this->setRetorno("Perfil foi alterado com sucesso", true, true);
@@ -156,7 +150,8 @@ class UsuarioController extends Action
                     else
                         $this->setRetorno("Não foi possível alterar seu perfil, tente novamente", true, false);
 
-                }
+                } else
+                    $this->retorno = $usuario->getImagem()->getRetorno();
 
             } else
                 $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);

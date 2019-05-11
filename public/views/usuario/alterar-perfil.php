@@ -85,7 +85,7 @@ if (!empty($this->dados->retorno))
                             </div>
 
                             <div class="form-group">
-                                <input type="hidden" id="img_avatar" value="<?= !empty($usuario->getImgAvatar()) && is_file(PATH_IMG . "usuarios/" . $usuario->getImgAvatar()) ? URL_IMG . "usuarios/" . $usuario->getImgAvatar() . "?random=" . rand() : '' ?>">
+                                <input type="hidden" id="img_avatar" value="<?= !empty($usuario->getImagem()->getNomeImagem()) && is_file(PATH_IMG . "usuarios/thumbs/" . $usuario->getImagem()->getNomeImagem()) ? URL_IMG . "usuarios/thumbs/" . $usuario->getImagem()->getNomeImagem() . "?random=" . rand() : '' ?>">
                                 <div class="kv-avatar">
                                     <div class="file-loading">
                                         <input name="avatar" id="avatar" type="file" accept=".jpeg,.jpg,.png,.gif" >
@@ -108,31 +108,6 @@ if (!empty($this->dados->retorno))
             </div>
 
         </div>
-
-
-<!--
-<div class="modal" tabindex="-1" role="dialog" id="modalFoto">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Foto</h5>
-                <button type="button" class="close" id="cancelaFoto" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                <div id="wrapper-img-crop"></div>
-                <p class="text-white text-center mt-5 mb-2 mx-0 font-weight-light">Arraste para posicionar a foto e clique em "Confirmar"</p>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="confirmaFoto" type="button" class="btn btn-primary btn-lg">Confirmar <i class="fa fa-fw fa-check"></i></button>
-            </div>
-        </div>
-    </div>
-</div>-->
 
 <div class="modal fade" id="modalFoto" tabindex="-1" role="dialog" aria-labelledby="ModalFoto" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

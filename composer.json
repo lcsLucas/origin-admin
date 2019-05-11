@@ -18,6 +18,6 @@
 	},
 	"config": {
 		"bin-dir": "vendor/bin",
-		"Ext-json": "*"
+		"ext-json": "*"
 	}
 }

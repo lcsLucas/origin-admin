@@ -14,6 +14,7 @@ window.onload = function() {
     const input_avatar = $("#avatar");
     var cropper;
     const modalFoto = $('#modalFoto');
+    var container_img;
 
     if (input_avatar.length) {
 
@@ -40,20 +41,14 @@ window.onload = function() {
             theme: "fa",
             defaultPreviewContent: img_avatar,
             allowedFileExtensions: ["jpg", "jpeg", "gif", "png"]
-        }).on('change', function (e) {
-
         }).on('fileloaded', function(event, file, previewId, index, reader) {
-            console.log(file);
-            console.log(reader.result = new Blob());
-            var container_img = document.getElementById(previewId);
+            container_img = document.getElementById(previewId);
             var image = container_img.querySelector('img').cloneNode();
             image.classList= 'img-fluid';
             var modal = document.getElementById('modalFoto');
 
             $(modal).find('#wrapper-img-crop').html(image);
             $(modal).modal('show');
-
-            //$('.file-preview .fileinput-remove').css('opacity', 1);
 
         }).on('filecleared', function(event) {
             $('.file-preview .fileinput-remove').css('opacity', 0);
@@ -78,15 +73,20 @@ window.onload = function() {
                     modalFoto.find('#confirmaFoto').html('Confirmar <i class="fa fa-fw fa-check"></i>').prop('disabled', false).on('click', function () {
 
                         cropper.getCroppedCanvas().toBlob((blob) => {
+                            var modal = document.getElementById('modalFoto');
+                            const blobUrl = URL.createObjectURL(blob);
+                            var image = container_img.querySelector('img');
+                            image.src = blobUrl;
 
-                            var formData = new FormData();
-                            formData.append('image', blob);
+                            var input_data = $('<input>')
+                                .prop({
+                                   'type': 'hidden',
+                                   'name': 'dados_imagem',
+                                   'value': JSON.stringify(cropper.getData())
+                                });
 
-                            //aqui
-
-                            console.log(formData);
-
-                            $('#modalFoto').modal('hide');
+                            input_data.insertAfter($(image));
+                            $(modal).modal('hide');
                         });
                     });
 

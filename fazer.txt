@@ -21,6 +21,9 @@ Cropper JS
 
 - fazer o cadastro dos menus do sistema
 
-- continuar na pagina de alterar perfil
-    - não conseguir atualizar a imagem preview do input file
-    - então lá no js quando confirmar no cropper, enviar o resultado blob da imagem por ajax e fazer a alteração da imagem do perfil
+- alterar perfil
+quando confirmar o crop
+	- envia a imagem selecionada mo input, junto com as coordenadas do crop
+	- no servidor usando o wideImage gera uma nova imagem cortada e devolve
+	- cria um campo hidden, com essa coordenadas que quando enviado o formulario pega a imagem e esse campo
+	e usa o wideImage para corta a imagem
