@@ -278,6 +278,7 @@ button[name="btnConfirmar"] {
 }
 
 .sidebar .nav-dropdown.open .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
+    font-size: .75rem;
     padding-left: 1.8rem;
 }
 
@@ -296,9 +297,10 @@ div#profile img {
     border-radius: 50em;
 }
 
-.btn {
+/*
+button[type="submit"] {
     border-radius: 0 !important;
-}
+}*/
 
 #modalFoto .modal-header {
     color: rgba(0,0,0,.6);

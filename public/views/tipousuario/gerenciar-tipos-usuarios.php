@@ -40,9 +40,6 @@ $this->dados->alert = true;
                         ?>
 
                         <div class="alert alert-block alert-danger text-center">
-                            <a href="javascript:void(0)" class="alert-link position-relative">
-                                <i class="fas fa-thumbs-up fa-rotate-180" style="position: absolute;left: -25px;top: 5px;"></i>
-                            </a>
                             <?= $retorno["mensagem"] ?>
                         </div>
 
@@ -51,7 +48,7 @@ $this->dados->alert = true;
                         ?>
 
                         <div class="alert alert-block alert-success text-center">
-                            <a href="javascript:void(0)" class="alert-link position-relative"><i class="fas fa-thumbs-up" style="position: absolute;left: -25px;top: 3px;"></i></a> <?= $retorno["mensagem"] ?>
+                            <?= $retorno["mensagem"] ?>
                         </div>
 
                         <?php
@@ -65,13 +62,13 @@ $this->dados->alert = true;
 
             <div class="card border-0">
 
-                <div class="card-header <?= !empty($this->dados->editar) ? "bg-danger" : "bg-primary" ?> py-3">
+                <div class="card-header bg-primary py-3">
                     <h5 class="text-uppercase m-0 text-center text-md-left">
                         <?= !empty($this->dados->editar) ? "Editar o Tipo de Usuários \"". $nome ."\"" : "Gerenciar Tipos de Usuários" ?>
                     </h5>
                 </div>
 
-                <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
+                <div class="card-body border border-top-0 border-primary">
 
                     <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formTipoUsuario">
 
@@ -85,7 +82,7 @@ $this->dados->alert = true;
                         <div class="form-group form-group-lg text-right mt-5 mb-0">
                             <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                             <a role="button" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios" class="btn btn-lg active btn-link text-primary">Cancelar</a>
-                            <button type="submit" class="btn <?= !empty($this->dados->editar) ? "btn-danger" : "btn-success" ?> active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
+                            <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check fa-fw"></i></button>
                         </div>
 
                     </form>
@@ -136,10 +133,10 @@ $this->dados->alert = true;
                                         $title_excluir = "Você não pode excluir o tipo de usuários Administrador";
                                         $disabled = true;
 
-                                        if (intval($this->dados->tipo_usuario) === intval($registro["tip_id"]))
+                                        if ((int)$this->dados->tipo_usuario === (int)$registro["tip_id"])
                                             $editar_adm = true;
 
-                                    } elseif (intval($this->dados->tipo_usuario) === intval($registro["tip_id"])) {
+                                    } elseif ((int)$this->dados->tipo_usuario === (int)$registro["tip_id"]) {
                                         $title_desativar = "Você não pode desativar seu tipo de usuários";
                                         $title_excluir = "Você não pode excluir seu tipo de usuários";
                                         $disabled = true;
@@ -149,8 +146,8 @@ $this->dados->alert = true;
 
                                     <tr>
 
-                                        <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
-                                        <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["tip_dtcad"])) ?></td>
+                                        <td class="font-weight-lighter lead text-muted"><?= $registro["tip_nome"] ?></td>
+                                        <td class="font-weight-lighter lead text-muted text-center"><?= date("d/m/Y", strtotime($registro["tip_dtcad"])) ?></td>
                                         <td class="text-center font-weight-bold text-muted">
                                             <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/alterar-status" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">

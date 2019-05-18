@@ -241,7 +241,7 @@ class TipoUsuarioDao extends Banco
         if(!empty($this->Conectar())) :
             try
             {
-                $stms = $this->getCon()->prepare("SELECT tip_id, tip_nome FROM tipo_usuario WHERE tip_ativo = '1' ORDER BY tip_nome");
+                $stms = $this->getCon()->prepare("SELECT tip_id, tip_nome FROM tipo_usuario WHERE tip_id > 1 AND tip_ativo = '1' ORDER BY tip_nome");
                 $stms->execute();
                 return $stms->fetchAll();
             }

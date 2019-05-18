@@ -1,29 +1,9 @@
-/************ Atenção ************/
-
-Cropper JS
-- https://fengyuanchen.github.io/cropperjs/
-
-/******
-
-- arrumar a regra do sistema referente ao seu avatar, enviar imagem ou escolher um avatar
-
 - arrumar a mensagem de retorno ao usuário no mobile
 
 - mexer no style do campo filtro do formulario dos usuarios
  - tirar os css inlines e arrumar a visualização no mobile
     - usar o print tirado como referencia na pasta downloads
 
-- fazer o controle de acesso
-    - acrescentar no menu a opção "Categoria de menu"
-        - fazer um cadastros para essa opção
-        - no cadastro do menu o usuario escolhe a categoria do menu (opcional)
-    - adicionar no 'MidlewarePrincipal' o código de controle dos usuários, utilizando a url passada
-
 - fazer o cadastro dos menus do sistema
 
-- alterar perfil
-quando confirmar o crop
-	- envia a imagem selecionada mo input, junto com as coordenadas do crop
-	- no servidor usando o wideImage gera uma nova imagem cortada e devolve
-	- cria um campo hidden, com essa coordenadas que quando enviado o formulario pega a imagem e esse campo
-	e usa o wideImage para corta a imagem
+- continuar no cadastro de seções de menu

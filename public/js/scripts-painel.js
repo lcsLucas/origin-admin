@@ -50,6 +50,10 @@ window.onload = function() {
             $(modal).find('#wrapper-img-crop').html(image);
             $(modal).modal('show');
 
+            console.log(previewId);
+
+            $(previewId).parents('.file-preview').children('.fileinput-remove').css('opacity', '1');
+
         }).on('filecleared', function(event) {
             $('.file-preview .fileinput-remove').css('opacity', 0);
         });
@@ -102,6 +106,7 @@ window.onload = function() {
         });
 
         $('#cancelaFoto').click(function () {
+            input_avatar.fileinput('clear');
             $('#modalFoto').modal('hide');
         });
 

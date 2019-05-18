@@ -8,8 +8,34 @@
 
 namespace App\dao;
 
+use App\model\Banco;
+use App\model\SecaoMenu;
+use App\model\Retorno;
 
-class SecaoMenuDao
+if (! defined('ABSPATH')){
+    header("Location: /");
+    exit();
+}
+
+class SecaoMenuDao extends Banco
 {
+    private $secao;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    protected function limiteRegistroDAO($inicio, $fim) {
+
+        return array();
+
+    }
+
+    protected function totalRegistrosDAO() {
+
+        return 0;
+
+    }
 
 }

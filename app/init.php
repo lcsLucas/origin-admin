@@ -183,6 +183,17 @@ class Init extends Bootstrap
             'action' => 'requestDeletar'
         );
 
+        /*--Secao Menu--*/
+
+        $array[] = array(
+            'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/?$/',
+            'method' => 'GET',
+            'controller' => 'SecaoMenu',
+            'action' => 'pageGerenciarSecoesMenus'
+        );
+
+        /*--------------*/
+
         /*Setando na propriedades as rotas definidas à cima.*/
         $this->setRoutes($array);
     }

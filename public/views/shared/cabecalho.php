@@ -191,20 +191,27 @@ $usuario_logado = UsuarioController::carregarInformacoes2();
 
                     </ul>
                 </li>
-                <li class="nav-item notshow-minimized">
-                    <a class="nav-link" href="<?= URL ?>alterar-perfil" target="_top">
-                        <i class="fas fa-user-edit"></i> Alterar Perfil
-                    </a>
-                </li>
-                <li class="nav-item notshow-minimized">
-                    <a class="nav-link" href="<?= URL ?>alterar-senha" target="_top">
-                        <i class="fas fa-key"></i> Alterar Senha
-                    </a>
-                </li>
-                <li class="nav-item notshow-minimized">
-                    <a class="nav-link" href="<?= URL ?>logout" target="_top">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </a>
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="fas fa-user-edit"></i> Meu Perfil</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= URL ?>alterar-perfil" target="_top">
+                                Alterar Perfil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= URL ?>alterar-senha" target="_top">
+                                Alterar Senha
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= URL ?>logout" target="_top">
+                                Sair
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
             </ul>
         </nav>

@@ -15,6 +15,7 @@ $lista_registros = $this->dados->registros;
 $paginacao = $this->dados->paginacao;
 
 $this->dados->alert = true;
+
 ?>
 
 <!-- Breadcrumb-->
@@ -40,9 +41,6 @@ $this->dados->alert = true;
                     ?>
 
                     <div class="alert alert-block alert-danger text-center">
-                        <a href="javascript:void(0)" class="alert-link position-relative">
-                            <i class="fas fa-thumbs-up fa-rotate-180" style="position: absolute;left: -25px;top: 5px;"></i>
-                        </a>
                         <?= $retorno["mensagem"] ?>
                     </div>
 
@@ -51,7 +49,7 @@ $this->dados->alert = true;
                     ?>
 
                     <div class="alert alert-block alert-success text-center">
-                        <a href="javascript:void(0)" class="alert-link position-relative"><i class="fas fa-thumbs-up" style="position: absolute;left: -25px;top: 3px;"></i></a> <?= $retorno["mensagem"] ?>
+                        <?= $retorno["mensagem"] ?>
                     </div>
 
                     <?php
@@ -65,13 +63,13 @@ $this->dados->alert = true;
 
         <div class="card border-0">
 
-            <div class="card-header <?= !empty($this->dados->editar) ? "bg-danger" : "bg-primary" ?> py-3">
+            <div class="card-header bg-primary py-3">
                 <h5 class="text-uppercase m-0">
                     <?= !empty($this->dados->editar) ? "Editar o usuário \"". $parametros["param_nome"] ."\"" : "Gerenciar Usuários" ?>
                 </h5>
             </div>
 
-            <div class="card-body border border-top-0 <?= !empty($this->dados->editar) ? "border-danger" : "border-primary" ?>">
+            <div class="card-body border border-top-0 border-primary">
 
                 <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formUsuario">
 
@@ -109,12 +107,10 @@ $this->dados->alert = true;
 
                                     if (!empty($todos_tipos)) {
                                         foreach ($todos_tipos as $tipo) {
-                                            if (!(intval($this->dados->tipo_id) !== 1 && intval($tipo['tip_id']) === 1)) {
                                                 ?>
-                                                <option <?= (!empty($parametros["param_tipo"]) && intval($parametros["param_tipo"]) === intval($tipo['tip_id'])) ? "selected" : "" ?>
+                                                <option <?= (!empty($parametros["param_tipo"]) && (int)$parametros["param_tipo"] === (int)$tipo['tip_id']) ? "selected" : "" ?>
                                                         value="<?= $tipo['tip_id'] ?>"><?= $tipo['tip_nome'] ?></option>
                                                 <?php
-                                            }
                                         }
                                     }
 
@@ -171,7 +167,7 @@ $this->dados->alert = true;
                             <div class="form-group form-group-lg text-right mt-5 mb-0">
                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                 <a role="button" tabindex="8" href="<?= URL ?>usuarios/gerenciar-usuarios" class="btn btn-lg active btn-link text-primary">Cancelar</a>
-                                <button tabindex="7" type="submit" class="btn <?= !empty($this->dados->editar) ? "btn-danger" : "btn-success" ?> active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check"></i></button>
+                                <button tabindex="7" type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check fa-fw"></i></button>
                             </div>
 
                         </div>
@@ -269,7 +265,7 @@ $this->dados->alert = true;
                                         $title_disabled = 'Você não pode desativar um usuário administrador';
                                         $title_excluir = 'Você não pode excluir um usuário administrador';
                                         $title_editar = 'Você não pode editar um usuário administrador';
-                                    } elseif (intval($_SESSION['_idusuario']) === intval($registro["usu_id"])) {
+                                    } elseif ((int)$_SESSION['_idusuario'] === (int)$registro["usu_id"]) {
                                         $title_disabled = 'Você não pode desativar seu usuário';
                                         $title_excluir = 'Você não pode excluir seu usuário';
                                         $disabled = true; $editar = true;
@@ -279,13 +275,25 @@ $this->dados->alert = true;
 
                                     <tr>
 
-                                        <td class="font-weight-bold text-muted">
-                                            <img src="<?= URL_IMG ?>usuarios/<?=$registro['usu_avatar'] ?>" alt="" class="img-avatar mr-3" style="max-width: 40px;">
+                                        <td class="font-weight-lighter lead text-muted">
+                                            <?php
+
+                                            if (!empty($registro['usu_avatar']) && PATH_IMG.'usuarios/thumbs/' . $registro['usu_avatar']) {
+                                                ?>
+                                                <img src="<?= URL_IMG ?>usuarios/thumbs/<?=$registro['usu_avatar'] ?>" alt="" class="img-avatar mr-3" width="50">
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <img src="<?= URL_IMG ?>usuarios/default-avatar.png" alt="" class="img-avatar mr-3" width="50">
+                                            <?php
+                                            }
+
+                                            ?>
                                             <?= $registro["usu_nome"] ?>
                                         </td>
-                                        <td class="font-weight-bold text-muted"><?= $registro["tip_nome"] ?></td>
-                                        <td class="text-center font-weight-bold text-muted"><?= date("d/m/Y", strtotime($registro["usu_dtCad"])) ?></td>
-                                        <td class="text-center font-weight-bold text-muted">
+                                        <td class="font-weight-lighter lead text-muted"><?= $registro["tip_nome"] ?></td>
+                                        <td class="text-center font-weight-lighter lead text-muted"><?= date("d/m/Y", strtotime($registro["usu_dtCad"])) ?></td>
+                                        <td class="text-center font-weight-lighter lead text-muted">
                                             <form action="<?= URL ?>usuarios/gerenciar-usuarios/alterar-status" method="post">
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["usu_id"] ?>">
                                                 <label title="<?= $title_disabled ?>" class="switch switch-label switch-pill switch-success switch-sm">

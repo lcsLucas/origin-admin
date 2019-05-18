@@ -363,6 +363,6 @@ if (!empty($this->dados->alert)) {
 
 ?>
 
-<script src="<?= URL_JS ?>scripts-painel.js?random=<?= rand() ?>"></script>
+<script src="<?= URL_JS ?>scripts-painel.js"></script>
 </body>
 </html>

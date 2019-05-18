@@ -258,7 +258,7 @@ class Usuario extends UsuarioDao{
 
                 if ($result)
                     $this->imagem->salvarImagem(PATH_IMG . 'usuarios/', 500, 500);
-                    $this->imagem->salvarImagemDados(PATH_IMG . 'usuarios/thumbs/', 150, 150);
+                    $this->imagem->salvarImagemDados(PATH_IMG . 'usuarios/thumbs/', 200, 200);
             }
 
             $this->commitar($result);
@@ -361,8 +361,6 @@ class Usuario extends UsuarioDao{
 
         if (!empty($retorno))
             return true;
-        else if(intval($retorno) === 0)
-            $this->setRetorno("Usuário não foi excluído, tente novamente", true, false);
 
         return false;
 
