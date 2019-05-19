@@ -29,9 +29,6 @@ if (!empty($this->dados->retorno))
                         ?>
 
                         <div class="alert alert-block alert-danger text-center">
-                            <a href="javascript:void(0)" class="alert-link position-relative">
-                                <i class="fas fa-thumbs-up fa-rotate-180" style="position: absolute;left: -25px;top: 5px;"></i>
-                            </a>
                             <?= $retorno["mensagem"] ?>
                         </div>
 
@@ -40,7 +37,7 @@ if (!empty($this->dados->retorno))
                         ?>
 
                         <div class="alert alert-block alert-success text-center">
-                            <a href="javascript:void(0)" class="alert-link position-relative"><i class="fas fa-thumbs-up" style="position: absolute;left: -25px;top: 3px;"></i></a> <?= $retorno["mensagem"] ?>
+                            <?= $retorno["mensagem"] ?>
                         </div>
 
                         <?php
@@ -62,7 +59,7 @@ if (!empty($this->dados->retorno))
 
                     <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" id="formAlterarSenha" autocomplete="off">
 
-                        <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+                        <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
                         <div class="form-group form-group-lg">
                             <label for="senha_atual" class="font-weight-bold">Senha Atual <sup class="text-danger">*</sup>:</label>

@@ -32,7 +32,7 @@ if (!empty($this->dados->retorno))
                             ?>
 
                             <div class="alert alert-block alert-danger text-center">
-                                <a href="javascript:void(0)" class="alert-link">ATENÇÃO!</a> <?= $retorno["mensagem"] ?>
+                                <?= $retorno["mensagem"] ?>
                             </div>
 
                             <?php
@@ -40,7 +40,7 @@ if (!empty($this->dados->retorno))
                             ?>
 
                             <div class="alert alert-block alert-success text-center">
-                                <a href="javascript:void(0)" class="alert-link">ATENÇÃO!</a> <?= $retorno["mensagem"] ?>
+                                <?= $retorno["mensagem"] ?>
                             </div>
 
                             <?php
@@ -62,7 +62,7 @@ if (!empty($this->dados->retorno))
 
                         <form action="<?= $_SERVER["REQUEST_URI"] ?>" method="post" class="form-validate" enctype="multipart/form-data" id="formAlterarPerfil">
 
-                            <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+                            <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
                             <div class="form-group form-group-lg">
                                 <label for="nome" class="font-weight-bold">Nome <sup class="text-danger">*</sup>:</label>

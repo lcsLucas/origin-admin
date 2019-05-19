@@ -192,6 +192,13 @@ class Init extends Bootstrap
             'action' => 'pageGerenciarSecoesMenus'
         );
 
+        $array[] = array(
+            'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/?$/',
+            'method' => 'POST',
+            'controller' => 'SecaoMenu',
+            'action' => 'requestNovaSecao'
+        );
+
         /*--------------*/
 
         /*Setando na propriedades as rotas definidas à cima.*/

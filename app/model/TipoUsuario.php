@@ -22,12 +22,11 @@ class TipoUsuario extends TipoUsuarioDao{
      */
     public function __construct($nome=null, $ativo='0')
     {
-        parent::__construct();
+        parent::__construct($this);
         $this->nome = $nome;
         $this->ativo = $ativo;
         $this->flag_adm = '0';
         $this->data_cadastro = date("Y-m-d");
-        $this->setTipoUsuario($this);
     }
 
 

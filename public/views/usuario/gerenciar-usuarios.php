@@ -73,7 +73,7 @@ $this->dados->alert = true;
 
                 <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formUsuario">
 
-                    <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+                    <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
                     <div class="row clearfix">
 

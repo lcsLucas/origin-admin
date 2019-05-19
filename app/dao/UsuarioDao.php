@@ -14,12 +14,9 @@ class UsuarioDao extends Banco
 {
     private $usuario;
 
-    public function __construct()
+    public function __construct(Usuario $usuario)
     {
         parent::__construct();
-    }
-
-    protected function setUsuario(Usuario $usuario) {
         $this->usuario = $usuario;
     }
 

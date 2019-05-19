@@ -49,7 +49,6 @@ class Banco{
             catch(\PDOException $e)
             {
                 $this->setRetorno("Erro Ao Conectar Com o Banco de Dados | ".$e->getMessage(), false, false);
-                error_log($e->getMessage(), 0);
                 return null;
             }
 
@@ -97,6 +96,9 @@ class Banco{
      */
     public function setRetorno($mensagem, $flag_exibir, $flag_status) {
         $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
+
+        if (!$flag_exibir)
+            error_log($mensagem, 3, ABSPATH . "erros-sistema.log");
     }
 
     public function getRetorno() {

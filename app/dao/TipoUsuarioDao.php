@@ -9,7 +9,6 @@ namespace App\dao;
 
 use App\model\Banco;
 use App\model\TipoUsuario;
-use App\model\Retorno;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -21,9 +20,10 @@ class TipoUsuarioDao extends Banco
 {
     private $tipo_usuario;
 
-    public function __construct()
+    public function __construct(TipoUsuario $tipo)
     {
         parent::__construct();
+        $this->tipo_usuario = $tipo;
     }
 
     protected function setTipoUsuario(TipoUsuario $tipo) {
@@ -83,7 +83,6 @@ class TipoUsuarioDao extends Banco
         endif;
 
         return array();
-
     }
 
     protected function totalRegistrosDAO() {
@@ -110,7 +109,6 @@ class TipoUsuarioDao extends Banco
         endif;
 
         return 0;
-
     }
 
     protected function carregarDAO() {

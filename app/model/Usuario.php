@@ -2,7 +2,6 @@
 namespace App\model;
 
 use App\dao\UsuarioDao;
-use App\model\ManipulacaoImagem;
 
 if (! defined('ABSPATH')){
     header("Location: /");
@@ -34,7 +33,7 @@ class Usuario extends UsuarioDao{
      */
     public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = 0, $tipo = null, $apelido = null)
     {
-        parent::__construct();
+        parent::__construct($this);
         $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date("Y-m-d");
         $this->nome = $nome;
         $this->login = $login;
@@ -43,7 +42,6 @@ class Usuario extends UsuarioDao{
         $this->ativo = $ativo;
         $this->tipo = $tipo;
         $this->apelido = $apelido;
-        $this->setUsuario($this);
         $this->imagem = new ManipulacaoImagem();
     }
 

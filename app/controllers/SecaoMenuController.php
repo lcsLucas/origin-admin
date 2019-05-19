@@ -53,10 +53,40 @@ class SecaoMenuController extends Action
         // Total de registros
         $this->dados->paginacao->total_registros = $secao->totalRegistros();
 
-        $this->dados->title = "Gerenciar Tipos de Usuarios";
+        $this->dados->title = "Gerenciar Seções de Menus";
         $this->dados->validation = true;
         $this->render('gerenciar-secoes-menus.php');
 
+    }
+
+    public function requestNovaSecao() {
+        $secao = new SecaoMenu();
+
+        $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+        if (!empty($nome)) {
+
+            if (password_verify(TOKEN_SESSAO, $token)) {
+
+                $secao->setNome($nome);
+
+                if ($secao->cadastrar())
+                    $this->setRetorno("Nova seção foi cadastrada com sucesso", true, true);
+                else if($secao->getRetorno()["exibir"])
+                    $this->setRetorno = $secao->getRetorno();
+                else
+                    $this->setRetorno("Não foi possível cadastrar a nova seção, tente novamente", true, false);
+
+            } else
+                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+
+        } else
+            $this->setRetorno("Você não informou corretamente o nome da seção", true, false);
+
+        $this->dados->retorno = $this->getRetorno();
+        $this->pageGerenciarSecoesMenus();
     }
 
 }

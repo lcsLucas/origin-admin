@@ -72,7 +72,7 @@ $this->dados->alert = true;
 
                     <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formTipoUsuario">
 
-                        <p class="text-muted font-weight-bold">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+                        <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
                         <div class="form-group form-group-lg">
                             <label for="nome" class="font-weight-bold">Nome do tipo <sup class="text-danger">*</sup>:</label>
@@ -163,17 +163,8 @@ $this->dados->alert = true;
                                         </td>
                                         <td class="text-center">
 
-                                            <?php
-
-                                            $url_editar = URL . "usuarios/gerenciar-tipos-usuarios/edit/" . $registro["tip_id"];
-
-                                            if (!empty($_SERVER["QUERY_STRING"]))
-                                                $url_editar .= "?" . $_SERVER["QUERY_STRING"];
-
-                                            ?>
-
                                             <a class="btn btn-primary btn-acao <?= !empty($registro["tip_administrador"]) && empty($editar_adm) ? "disabled" : "" ?>" title="Editar"
-                                               href="<?= $url_editar ?>">
+                                               href="<?= URL . 'usuarios/gerenciar-tipos-usuarios/edit/' . $registro['tip_id'] ?>">
 
                                                 <i class="material-icons">edit</i>
 
@@ -183,7 +174,7 @@ $this->dados->alert = true;
                                                 <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">
                                                 <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                                 <button type="button" class="btn btn-danger btn-acao deletar-tipo"
-                                                        title="<?= $title_excluir ?>" <?= !empty($disabled) ? "disabled" : "" ?> >
+                                                        title="<?= $title_excluir ?>" <?= !empty($disabled) ? 'disabled' : '' ?> >
 
                                                     <i class="material-icons">close</i>
 
