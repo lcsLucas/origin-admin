@@ -127,7 +127,7 @@ $this->dados->alert = true;
                                 <tr>
                                     <td class="font-weight-lighter lead text-muted"><?= $registro["nome"] ?></td>
                                     <td class="text-center font-weight-bold text-muted">
-                                        <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/alterar-status" method="post">
+                                        <form action="<?= URL ?>usuarios/gerenciar-secoes-menus/alterar-status" method="post">
                                             <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">
                                             <label class="switch switch-label switch-pill switch-success switch-sm">
                                                 <input class="switch-input desativar-secao-menu desativar" type="checkbox"
