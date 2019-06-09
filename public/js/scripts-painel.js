@@ -177,6 +177,7 @@ window.onload = function() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
+            reverseButtons: true,
             confirmButtonText: (status) ? 'SIM, ativar!' : 'SIM, desativar!',
             cancelButtonText: 'Cancelar',
         }).then((result) => {
@@ -264,6 +265,7 @@ window.onload = function() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
+            reverseButtons: true,
             confirmButtonText: (status) ? 'SIM, ativar!' : 'SIM, desativar!',
             cancelButtonText: 'Cancelar',
         }).then((result) => {
@@ -341,6 +343,7 @@ window.onload = function() {
             type: 'warning',
             label: 'Informe sua senha',
             input: 'password',
+            reverseButtons: true,
             html: 'Tem certeza que desaja excluir esse tipo? Seus usuários também seram deletados, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
             inputAttributes: {
                 autocapitalize: 'off'
@@ -379,6 +382,7 @@ window.onload = function() {
             type: 'warning',
             strong: 'Informe sua senha',
             input: 'password',
+            reverseButtons: true,
             html: 'Tem certeza que desaja excluir esse usuário? Todas as suas referências com outros cadastros também seram deletadas, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
             inputAttributes: {
                 autocapitalize: 'off'
@@ -407,6 +411,70 @@ window.onload = function() {
         });
 
         return false;
+    });
+
+    $(".desativar").click(function () {
+        var $this = $(this);
+        const status = $(this).prop("checked");
+        var pai = $this.parent();
+        var load = $("<i>").addClass("fas fa-spinner fa-spin text-dark");
+        var form = $this.parents("form");
+
+        $.ajax({
+            type: 'POST',
+            url: form.attr("action"),
+            data: form.serialize(),
+            dataType: 'json',
+            beforeSend: function(){
+
+                pai.after(load);
+                pai.addClass("d-none");
+
+            }
+        }).done(function (retorno) {
+
+            $this.prop("checked", retorno["status"]);
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            if (retorno["erro"]) {
+                Toast.fire({
+                    type: 'error',
+                    title: retorno['msg'],
+                });
+            } else {
+                Toast.fire({
+                    type: 'success',
+                    title: 'Status alterado com sucesso'
+                });
+            }
+
+        }).fail(function () {
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            Toast.fire({
+                type: 'error',
+                title: 'Não foi possível alterar status',
+            });
+
+        }).always(function () {
+
+            load.remove();
+            pai.removeClass("d-none");
+
+        });
+
     });
 
 };

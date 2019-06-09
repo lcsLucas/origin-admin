@@ -81,13 +81,22 @@ class SecaoMenuDao extends Banco
     }
 
     protected function cadastrarDAO() {
+        $ordem = 1;
         if(!empty($this->Conectar())) :
 
             try
             {
-                $stms = $this->getCon()->prepare("INSERT INTO secao_menu(nome, ativo) VALUES(:nome, :ativo)");
+
+                $result = $this->getCon()->query('SELECT MAX(ordem) + 1 as ordem FROM secao_menu');
+
+                foreach ($result->fetch() as $result_ordem)
+                    if ((int) $result_ordem)
+                        $ordem = (int) $result_ordem;
+
+                $stms = $this->getCon()->prepare("INSERT INTO secao_menu(nome, ativo, ordem) VALUES(:nome, :ativo, :ordem)");
                 $stms->bindValue(":nome", $this->secao->getNome(), \PDO::PARAM_STR);
                 $stms->bindValue(":ativo", $this->secao->getAtivo(), \PDO::PARAM_STR);
+                $stms->bindValue(":ordem", $ordem, \PDO::PARAM_INT);
 
                 return $stms->execute();
 

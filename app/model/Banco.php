@@ -98,7 +98,7 @@ class Banco{
         $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
 
         if (!$flag_exibir)
-            error_log($mensagem, 3, ABSPATH . "erros-sistema.log");
+            error_log($mensagem."\n", 3, ABSPATH . "erros-sistema.log");
     }
 
     public function getRetorno() {

@@ -130,7 +130,7 @@ $this->dados->alert = true;
                                         <form action="<?= URL ?>usuarios/gerenciar-tipos-usuarios/alterar-status" method="post">
                                             <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">
                                             <label class="switch switch-label switch-pill switch-success switch-sm">
-                                                <input class="switch-input desativar-secao-menu" type="checkbox"
+                                                <input class="switch-input desativar-secao-menu desativar" type="checkbox"
                                                     <?= !empty($registro['ativo']) ? 'checked' : '' ?> <?= !empty($disabled) ? 'disabled' : '' ?> name="alterar-status">
                                                 <span class="switch-slider" data-checked="" data-unchecked=""></span>
                                             </label>
@@ -175,6 +175,8 @@ $this->dados->alert = true;
 
                         <?php
                             }
+                        } else {
+                            echo '<tr><td class="text-center text-muted" colspan="4">Nenhuma seção de menu cadastrada</td></tr>';
                         }
 
                         ?>

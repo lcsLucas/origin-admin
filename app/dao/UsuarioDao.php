@@ -209,7 +209,7 @@ class UsuarioDao extends Banco
             try
             {
 
-                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_senha = :senha WHERE usu_id = :codigo AND usu_id > 1 LIMIT 1");
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_senha = :senha WHERE usu_id = :codigo LIMIT 1");
                 $stms->bindValue(":senha", $this->usuario->getSenha(), \PDO::PARAM_STR);
                 $stms->bindValue(":codigo", $this->usuario->getId(), \PDO::PARAM_INT);
 
@@ -432,7 +432,7 @@ class UsuarioDao extends Banco
             try
             {
 
-                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_nome = :nome, usu_senha = :senha, tip_id = :tipo WHERE usu_id = :id AND usu_id > 1");
+                $stms = $this->getCon()->prepare("UPDATE usuario SET usu_nome = :nome, usu_senha = :senha, tip_id = :tipo WHERE usu_id = :id");
                 $stms->bindValue(":nome", $this->usuario->getNome(), \PDO::PARAM_STR);
                 $stms->bindValue(":senha", $this->usuario->getSenha(), \PDO::PARAM_STR);
                 $stms->bindValue(":tipo", $this->usuario->getTipo(), \PDO::PARAM_INT);
