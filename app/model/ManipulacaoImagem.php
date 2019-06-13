@@ -171,43 +171,86 @@ class ManipulacaoImagem
     }
 
     public function getRetorno() {
-        return $this->retorno;
+        return $this->retorno->getRetorno();
     }
 
     private function loadImage() {
-        if (empty($this->objetoWide))
-            $this->objetoWide = WideImage::loadFromFile($this->file_imagem["tmp_name"]);
+        if (empty($this->objetoWide)) {
+
+        	try {
+				$this->objetoWide = WideImage::loadFromFile($this->file_imagem["tmp_name"]);
+				return true;
+			} catch(\Exception $e) {
+				$this->setRetorno($e->getMessage(), true, false);
+			}
+		} else
+			return true;
+
+        return false;
     }
 
     public function salvarImagem($pasta, $width, $height) {
-        $this->loadImage();
-        $resized = $this->objetoWide->resize($width, $height, 'inside','down');
-        $resized->saveToFile( $pasta . $this->nome_imagem, $this->parametro_imagem);
 
+        if($this->loadImage()) {
+			try {
+				$resized = $this->objetoWide->resize($width, $height, 'inside','down');
+				$resized->saveToFile( $pasta . $this->nome_imagem, $this->parametro_imagem);
+				return true;
+			} catch(\Exception $e) {
+				$this->setRetorno($e->getMessage(), true, false);
+			}
+
+		}
+
+        return false;
     }
 
     public function salvarImagemDados($pasta, $width, $height) {
-        $this->loadImage();
 
-        if (!empty($this->dados_imagem)) {
-            $resized2 = $this->objetoWide
-                ->crop
-                (
-                    $this->dados_imagem['x'],
-                    $this->dados_imagem['y'],
-                    $this->dados_imagem['width'],
-                    $this->dados_imagem['height']
-                )
-                ->resize
-                (
-                    $width,
-                    $height,
-                    'inside',
-                    'down'
-                );
-            $resized2->saveToFile( $pasta . $this->nome_imagem, $this->parametro_imagem);
-        }
+    	if($this->loadImage()) {
 
+			try {
+
+				if (!empty($this->dados_imagem)) {
+
+					$resized2 = $this->objetoWide
+						->crop
+						(
+							$this->dados_imagem['x'],
+							$this->dados_imagem['y'],
+							$this->dados_imagem['width'],
+							$this->dados_imagem['height']
+						)
+						->resize
+						(
+							$width,
+							$height,
+							'inside',
+							'down'
+						);
+					$resized2->saveToFile( $pasta . $this->nome_imagem, $this->parametro_imagem);
+				} else {
+
+					$resized2 = $this->objetoWide
+						->resize
+						(
+							$width,
+							$height,
+							'inside',
+							'down'
+						);
+					$resized2->saveToFile( $pasta . $this->nome_imagem, $this->parametro_imagem);
+
+				}
+
+				return true;
+			} catch(\Exception $e) {
+				$this->setRetorno($e->getMessage(), true, false);
+			}
+
+		}
+
+        return false;
     }
 
 }

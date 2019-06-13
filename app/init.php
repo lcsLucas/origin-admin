@@ -199,6 +199,13 @@ class Init extends Bootstrap
             'action' => 'requestNovaSecao'
         );
 
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/alterar-status\/?$/',
+			'method' => 'POST',
+			'controller' => 'SecaoMenu',
+			'action' => 'requestAlterarStatus'
+		);
+
         /*--------------*/
 
         /*Setando na propriedades as rotas definidas à cima.*/

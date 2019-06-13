@@ -241,22 +241,40 @@ class Usuario extends UsuarioDao{
 
             if (!empty($result) && !empty($this->imagem->getFileImagem())) {
 
-                if ($this->carregarAvatarDAO() && !empty($this->getImagem()->getNomeImagem())) {
+            	$img_excluir = '';
 
-                    if (file_exists(PATH_IMG . "usuarios/" . $this->getImagem()->getNomeImagem()))
-                        unlink(PATH_IMG . "usuarios/" . $this->getImagem()->getNomeImagem());
-
-                    if (file_exists(PATH_IMG . "usuarios/thumbs/" . $this->getImagem()->getNomeImagem()))
-                        unlink(PATH_IMG . "usuarios/thumbs/" . $this->getImagem()->getNomeImagem());
-
-                }
+                if ($this->carregarAvatarDAO() && !empty($this->getImagem()->getNomeImagem()))
+                	$img_excluir = $this->getImagem()->getNomeImagem();
 
                 $this->imagem->setNomeImagem($this->getId() . $this->imagem->getTipoImagem());
                 $result = $this->alterarPerfilFotoDAO();
 
-                if ($result)
-                    $this->imagem->salvarImagem(PATH_IMG . 'usuarios/', 500, 500);
-                    $this->imagem->salvarImagemDados(PATH_IMG . 'usuarios/thumbs/', 200, 200);
+                if ($result) {
+					$result = $this->imagem->salvarImagem(PATH_IMG . 'usuarios/', 500, 500);
+
+					if (!$result && !empty($this->imagem->getRetorno()))
+						$this->setRetorno($this->imagem->getRetorno()['mensagem'], $this->imagem->getRetorno()['exibir'], $this->imagem->getRetorno()['status']);
+
+					if ($result) {
+						$result = $this->imagem->salvarImagemDados(PATH_IMG . 'usuarios/thumbs/', 200, 200);
+
+						if (!$result && !empty($this->imagem->getRetorno()))
+							$this->setRetorno($this->imagem->getRetorno()['mensagem'], $this->imagem->getRetorno()['exibir'], $this->imagem->getRetorno()['status']);
+
+					}
+
+				}
+
+                if ($result && !empty($img_excluir) && $img_excluir !== $this->imagem->getNomeImagem()) {
+
+					if (file_exists(PATH_IMG . "usuarios/" . $img_excluir))
+						unlink(PATH_IMG . "usuarios/" . $img_excluir);
+
+					if (file_exists(PATH_IMG . "usuarios/thumbs/" . $img_excluir))
+						unlink(PATH_IMG . "usuarios/thumbs/" . $img_excluir);
+
+				}
+
             }
 
             $this->commitar($result);

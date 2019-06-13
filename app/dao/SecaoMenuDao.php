@@ -111,4 +111,31 @@ class SecaoMenuDao extends Banco
         return false;
     }
 
+    protected function alterarStatusDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare("UPDATE secao_menu SET ativo = :status WHERE idsecao_menu = :id LIMIT 1");
+				$stms->bindValue(":status", $this->secao->getAtivo(), \PDO::PARAM_STR);
+				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
+				if ($stms->execute())
+					return ($stms->rowCount() > 0) ? true : false;
+				else
+					return false;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+
+	}
+
 }

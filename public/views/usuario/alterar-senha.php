@@ -17,7 +17,7 @@ if (!empty($this->dados->retorno))
 
     <div class="animated fadeIn">
 
-        <div id="conteudo" class="container">
+        <div id="conteudo" class="container-fluid">
 
             <div id="container-errors">
 

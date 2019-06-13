@@ -55,7 +55,7 @@
                                 <i class="fa fa-user"></i>
                             </div>
 
-                            <div class="form-float">
+                            <div class="form-float w-100 pr-2">
                                 <input type="text" autocomplete="username" id="login" name="login" required maxlength="60" title="Por favor, informe seu usuário ou email">
                                 <label class="form-label" for="login">E-mail ou usuário</label>
                             </div>
@@ -72,7 +72,7 @@
                                 <i class="fa fa-key"></i>
                             </div>
 
-                            <div class="form-float">
+                            <div class="form-float w-100 pr-2">
                                 <input type="password" autocomplete="current-password" id="senha" name="senha" maxlength="60" required title="Por favor, informe sua senha">
                                 <label class="form-label" for="senha">Senha</label>
                             </div>

@@ -28,7 +28,7 @@ $this->dados->alert = true;
 
 <div class="animated fadeIn">
 
-    <div id="conteudo" class="container">
+    <div id="conteudo" class="container-fluid">
 
         <div id="container-errors">
 
@@ -127,10 +127,10 @@ $this->dados->alert = true;
                                 <tr>
                                     <td class="font-weight-lighter lead text-muted"><?= $registro["nome"] ?></td>
                                     <td class="text-center font-weight-bold text-muted">
-                                        <form action="<?= URL ?>usuarios/gerenciar-secoes-menus/alterar-status" method="post">
-                                            <input type="hidden" name="codigo-acao" value="<?= $registro["tip_id"] ?>">
+                                        <form action="<?= URL ?>permissoes/gerenciar-secoes-menus/alterar-status" method="post">
+                                            <input type="hidden" name="codigo-acao" value="<?= $registro["idsecao_menu"] ?>">
                                             <label class="switch switch-label switch-pill switch-success switch-sm">
-                                                <input class="switch-input desativar-secao-menu desativar" type="checkbox"
+                                                <input class="switch-input desativar" type="checkbox"
                                                     <?= !empty($registro['ativo']) ? 'checked' : '' ?> <?= !empty($disabled) ? 'disabled' : '' ?> name="alterar-status">
                                                 <span class="switch-slider" data-checked="" data-unchecked=""></span>
                                             </label>
