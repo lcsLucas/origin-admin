@@ -432,8 +432,6 @@ class UsuarioController extends Action
         $id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
         $status = !filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
 
-        $retorno = array();
-
         if (!empty($id)) {
 
             $usuario = new Usuario();
@@ -443,10 +441,10 @@ class UsuarioController extends Action
             if (!empty($usuario->alterarStatus()))
                 $retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
             else
-                $retorno = array("status" => $status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+                $retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
 
         } else
-            $retorno = array("status" => $status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+            $retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
 
         echo json_encode($retorno, JSON_FORCE_OBJECT);
     }
