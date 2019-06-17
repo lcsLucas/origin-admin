@@ -439,18 +439,24 @@ window.onload = function() {
                 toast: true,
                 position: 'bottom-end',
                 showConfirmButton: false,
-                timer: 3000
+                timer: 600000
             });
 
             if (retorno["erro"]) {
                 Toast.fire({
-                    type: 'error',
-                    title: retorno['msg'],
+                    title: '<i class="fas fa-times-circle mr-2"></i> ' + retorno['msg'],
+                    customClass: {
+                        popup: 'btn-danger active mr-3',
+                        title: 'text-white p-2 font-weight-normal'
+                    }
                 });
             } else {
                 Toast.fire({
-                    type: 'success',
-                    title: 'Status alterado com sucesso'
+                    title: '<i class="fas fa-check-circle mr-2"></i> Status alterado com sucesso',
+                    customClass: {
+                        popup: 'btn-success active mr-3',
+                        title: 'text-white p-2 font-weight-normal'
+                    }
                 });
             }
 
