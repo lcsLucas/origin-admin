@@ -113,4 +113,46 @@ class SecaoMenuController extends Action
 
 	}
 
+	public function pageSecoesMenusEdit() {
+    	$secao = new SecaoMenu();
+		$url = $_SERVER["REQUEST_URI"];
+
+		//Remove as barras e também remove URI caso tenha
+		$url = trim($url,'/');
+		if(SUBDOMINIO)
+			$url = trim(substr($url, strlen(URI)),"/");
+
+		if (".php" === substr($url,-4))
+			$url = substr($url,0,-4);
+
+		$pos = strripos($url, "/");
+		$valor = substr($url,$pos+1);
+
+		$pos = strpos($valor,"?");
+		if (!empty($pos)) {
+			$valor = substr($valor, 0, $pos);
+		}
+
+		$id = filter_var($valor, FILTER_VALIDATE_INT);
+
+		if (!empty($id)) {
+			$secao->setId($id);
+
+			if ($secao->carregar()) {
+				$this->dados->editar = true;
+				$this->dados->parametros = array('param_nome' => $secao->getNome());
+				$carregado = true;
+			}
+
+		}
+
+		if (!empty($carregado))
+			$this->pageGerenciarUsuarios();
+		else {
+			header("Location: " . URL . "permissoes/gerenciar-secoes-menus");
+			die();
+		}
+
+	}
+
 }
