@@ -7,3 +7,5 @@
 - fazer o cadastro dos menus do sistema
 
 - continuar no cadastro de seções de menu
+    - continuar no carregar dados de uma seção
+        - controller -> fazer o metodo carregar da Model

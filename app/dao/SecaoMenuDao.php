@@ -138,4 +138,33 @@ class SecaoMenuDao extends Banco
 
 	}
 
+	protected function carregarDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare("SELECT nome FROM secao_menu WHERE idsecao_menu = :id LIMIT 1");
+				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
+
+				$stms->execute();
+
+				/* continuar daqui -> fazzer o fetch e já colocar o resultado na Clsse Secao
+				if ($result = $stms->fetch())
+					var_dump($result);
+				*/
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return null;
+
+	}
+
 }

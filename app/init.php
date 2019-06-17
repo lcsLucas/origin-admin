@@ -206,6 +206,13 @@ class Init extends Bootstrap
 			'action' => 'requestAlterarStatus'
 		);
 
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/edit\/([0-9]+)\/?$/',
+			'method' => 'GET',
+			'controller' => 'SecaoMenu',
+			'action' => 'pageSecoesMenusEdit'
+		);
+
         /*--------------*/
 
         /*Setando na propriedades as rotas definidas à cima.*/

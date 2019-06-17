@@ -114,4 +114,8 @@ class SecaoMenu extends SecaoMenuDao
 		return $this->alterarStatusDAO();
 	}
 
+	public function carregar() {
+    	return $this->carregarDAO();
+	}
+
 }
