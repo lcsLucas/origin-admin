@@ -14,7 +14,7 @@ abstract class MiddlewarePrincipal {
 
         // fazer a autenticação de usuário nessa url, e se tiver autenticado carregar a foto e o nome (se necessario)
 
-        return true;
+        return empty($_SESSION["_logado"]) ? false : true;
     }
 
 }

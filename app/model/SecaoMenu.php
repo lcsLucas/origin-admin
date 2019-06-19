@@ -118,4 +118,23 @@ class SecaoMenu extends SecaoMenuDao
     	return $this->carregarDAO();
 	}
 
+	public function alterar() {
+    	return $this->alterarDAO();
+	}
+
+	public function excluir() {
+    	return $this->excluirDAO();
+	}
+
+	public function alterarOrdem($ordem) {
+
+    	if ($ordem === 1) {
+    		$retorno = $this->alterarOrdemProximoDAO();
+		} else {
+    		$retorno = $this->alterarOrdemAnteriorDAO();
+		}
+
+    	return $retorno;
+	}
+
 }

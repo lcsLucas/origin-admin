@@ -70,8 +70,8 @@ abstract class Action
         $this->retorno = new Retorno();
 
         $uri = trim(str_replace(URI, '', $_SERVER['REQUEST_URI']), '/');
-        if (!empty($this->autenticacao) && empty($_SESSION["_logado"]) || !MiddleWarePrincipal::autenticacao($uri)) {
-            header("Location: " . URL);
+        if (!empty($this->autenticacao) && empty($_SESSION["_logado"]) && !MiddleWarePrincipal::autenticacao($uri)) {
+            header("Location: " . URL . 'login');
             exit;
         }
 

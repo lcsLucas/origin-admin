@@ -74,7 +74,7 @@ class SecaoMenuController extends Action
                 if ($secao->cadastrar())
                     $this->setRetorno("Nova seção foi cadastrada com sucesso", true, true);
                 else if($secao->getRetorno()["exibir"])
-                    $this->setRetorno = $secao->getRetorno();
+                    $this->retorno = $secao->getRetorno();
                 else
                     $this->setRetorno("Não foi possível cadastrar a nova seção, tente novamente", true, false);
 
@@ -111,8 +111,122 @@ class SecaoMenuController extends Action
 
 	}
 
+	public function requestAlterarOrdem() {
+		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+		$ordem = filter_input(INPUT_POST, "ordem", FILTER_VALIDATE_INT, array("min_range" => 1, "max_range" => 2));
+
+		if (!empty($id)) {
+
+			$secao = new SecaoMenu();
+			$secao->setId($id);
+
+			$retorno_reg = $secao->alterarOrdem($ordem);
+
+			if (!empty($retorno_reg))
+				$retorno = array("msg" => "", "erro" => false, "registros" => $retorno_reg);
+			else
+				$retorno = array("msg" => "Não foi possível alterar a ordem", "erro" => true);
+
+		} else
+			$retorno = array("msg" => "Não foi possível alterar a ordem", "erro" => true);
+
+		echo json_encode($retorno, JSON_FORCE_OBJECT);
+
+	}
+
 	public function pageSecoesMenusEdit() {
     	$secao = new SecaoMenu();
+
+    	$id = $this->getIdUri();
+
+		if (!empty($id)) {
+			$secao->setId($id);
+
+			if ($secao->carregar()) {
+				$this->dados->editar = true;
+				$this->dados->parametros = array('param_id' => $id, 'param_nome' => $secao->getNome());
+				$carregado = true;
+			}
+
+		}
+
+		if (!empty($carregado))
+			$this->pageGerenciarSecoesMenus();
+		else {
+			header("Location: " . URL . "permissoes/gerenciar-secoes-menus");
+			die();
+		}
+
+	}
+
+	public function requestSecoesMenusEdit() {
+		$secao = new SecaoMenu();
+
+		$id = $this->getIdUri();
+
+		if (!empty($id)) {
+			$secao->setId($id);
+			$nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+			$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+			if (!empty($nome)) {
+
+				if (password_verify(TOKEN_SESSAO, $token)) {
+
+					$secao->setNome($nome);
+
+					if ($secao->alterar())
+						$this->setRetorno("Seção alterada com sucesso", true, true);
+					else if($secao->getRetorno()["exibir"])
+						$this->retorno = $secao->getRetorno();
+					else
+						$this->setRetorno("Não foi possível alterar a seção, tente novamente", true, false);
+
+				} else
+					$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+
+			} else
+				$this->setRetorno("Você não informou corretamente o nome da seção", true, false);
+
+		} else
+			$this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+
+		$this->dados->retorno = $this->getRetorno();
+		$this->pageSecoesMenusEdit();
+	}
+
+	public function requestSecoesMenusDeletar() {
+		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+		$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+		$secao = new SecaoMenu();
+
+		if (!empty($id)) {
+
+			if (password_verify(TOKEN_SESSAO, $token)) {
+
+				$secao->setId($id);
+
+				if ($secao->excluir())
+					$this->setRetorno("Seção excluída com sucesso", true, true);
+				else if($secao->getRetorno()["exibir"])
+					$this->retorno = $secao->getRetorno();
+				else
+					$this->setRetorno("Não foi possível excluir a seção, tente novamente", true, false);
+
+			} else
+				$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+		} else
+			$this->setRetorno("Não foi possível deletar a Seção de Menus, tente novamente", true, false);
+
+		$this->dados->retorno = $this->getRetorno();
+		$this->ModificaURL(URL . "permissoes/gerenciar-secoes-menus"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+		$this->pageGerenciarSecoesMenus();
+	}
+
+	private function getIdUri() {
 		$url = $_SERVER["REQUEST_URI"];
 
 		//Remove as barras e também remove URI caso tenha
@@ -133,24 +247,7 @@ class SecaoMenuController extends Action
 
 		$id = filter_var($valor, FILTER_VALIDATE_INT);
 
-		if (!empty($id)) {
-			$secao->setId($id);
-
-			if ($secao->carregar()) {
-				$this->dados->editar = true;
-				$this->dados->parametros = array('param_nome' => $secao->getNome());
-				$carregado = true;
-			}
-
-		}
-
-		if (!empty($carregado))
-			$this->pageGerenciarUsuarios();
-		else {
-			header("Location: " . URL . "permissoes/gerenciar-secoes-menus");
-			die();
-		}
-
+		return $id;
 	}
 
 }

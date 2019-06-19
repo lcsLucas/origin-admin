@@ -344,7 +344,7 @@ window.onload = function() {
             label: 'Informe sua senha',
             input: 'password',
             reverseButtons: true,
-            html: 'Tem certeza que desaja excluir esse tipo? Seus usuários também seram deletados, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
+            html: 'Tem certeza que deseja excluir esse tipo? Seus usuários também seram deletados, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
             inputAttributes: {
                 autocapitalize: 'off'
             },
@@ -365,7 +365,7 @@ window.onload = function() {
             if (result.value) {
                 var form = $this.parents("form");
                 form.append($("<input>").val(result.value).prop("name", "senha"));
-                $this.parents("form").submit();
+                form.submit();
 
             }
 
@@ -383,7 +383,7 @@ window.onload = function() {
             strong: 'Informe sua senha',
             input: 'password',
             reverseButtons: true,
-            html: 'Tem certeza que desaja excluir esse usuário? Todas as suas referências com outros cadastros também seram deletadas, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
+            html: 'Tem certeza que deseja excluir esse usuário? Todas as suas referências com outros cadastros também seram deletadas, informe sua <b class="text-danger">senha</b> e confirme<br><br><b class="d-block text-left">Sua senha</b>',
             inputAttributes: {
                 autocapitalize: 'off'
             },
@@ -404,7 +404,31 @@ window.onload = function() {
             if (result.value) {
                 var form = $this.parents("form");
                 form.append($("<input>").val(result.value).prop("name", "senha"));
-                $this.parents("form").submit();
+                form.submit();
+
+            }
+
+        });
+
+        return false;
+    });
+
+    $(".deletar").click(function () {
+        var $this = $(this);
+
+        Swal.fire({
+            title: 'Atenção',
+            type: 'warning',
+            reverseButtons: true,
+            html: 'você está preste a excluir um registro, caso confirme ele não estará mais disponível no sistema. Clique em "Confirmar" para continuar',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+
+            if (result.value) {
+                var form = $this.parents("form");
+                form.submit();
 
             }
 
@@ -439,7 +463,7 @@ window.onload = function() {
                 toast: true,
                 position: 'bottom-end',
                 showConfirmButton: false,
-                timer: 600000
+                timer: 3000
             });
 
             if (retorno["erro"]) {
@@ -455,7 +479,7 @@ window.onload = function() {
                     title: '<i class="fas fa-check-circle mr-2"></i> Status alterado com sucesso',
                     customClass: {
                         popup: 'btn-success active mr-3',
-                        title: 'text-white p-2 font-weight-normal'
+                        title: 'text-white p-2 font-weight-normal align-items-center'
                     }
                 });
             }
@@ -479,6 +503,29 @@ window.onload = function() {
             load.remove();
             pai.removeClass("d-none");
 
+        });
+
+        return false;
+    });
+
+    $(".alterar-ordem").click(function () {
+        var $this = $(this);
+        var parent_form = $this.parents('form');
+
+        console.log(parent_form.serialize());
+
+        $.ajax({
+            type: 'POST',
+            url: parent_form.attr("action"),
+            data: parent_form.serialize(),
+            dataType: 'json',
+            beforeSend: function () {
+                
+            }
+        }).done(function () {
+
+        }).fail(function () {
+            
         });
 
         return false;

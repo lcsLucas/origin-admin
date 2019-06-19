@@ -213,6 +213,27 @@ class Init extends Bootstrap
 			'action' => 'pageSecoesMenusEdit'
 		);
 
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/edit\/([0-9]+)\/?$/',
+			'method' => 'POST',
+			'controller' => 'SecaoMenu',
+			'action' => 'requestSecoesMenusEdit'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/deletar\/?$/',
+			'method' => 'POST',
+			'controller' => 'SecaoMenu',
+			'action' => 'requestSecoesMenusDeletar'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-secoes-menus\/alterar-ordem\/?$/',
+			'method' => 'POST',
+			'controller' => 'SecaoMenu',
+			'action' => 'requestAlterarOrdem'
+		);
+
         /*--------------*/
 
         /*Setando na propriedades as rotas definidas à cima.*/

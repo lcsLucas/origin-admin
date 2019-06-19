@@ -7,13 +7,17 @@ include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
 if (!empty($this->dados->retorno))
     $retorno = $this->dados->retorno;
 
-$nome = !empty($this->dados->nome) ? $this->dados->nome : "";
+$parametros = !empty($this->dados->parametros) ? $this->dados->parametros : array();
 
 $lista_registros = $this->dados->registros;
-
 $paginacao = $this->dados->paginacao;
 
 $this->dados->alert = true;
+
+$query_uri = '';
+
+if (!empty($_SERVER["QUERY_STRING"]))
+	$query_uri .= "?" . $_SERVER["QUERY_STRING"];
 
 ?>
 
@@ -64,19 +68,19 @@ $this->dados->alert = true;
 
             <div class="card-header bg-primary py-3">
                 <h5 class="text-uppercase m-0 text-center text-md-left">
-                    <?= !empty($this->dados->editar) ? "Editar a Seção \"". $nome ."\"" : "Gerenciar Seções de Menus" ?>
+                    <?= !empty($this->dados->editar) ? "Editar a Seção \"". $parametros["param_nome"] ."\"" : "Gerenciar Seções de Menus" ?>
                 </h5>
             </div>
 
             <div class="card-body border border-top-0 border-primary">
 
-                <form action="<?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $_SERVER['REQUEST_URI'] ?>" method="post" class="form-validate" id="formSecaoMenus">
+                <form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-secoes-menus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-secoes-menus' . $query_uri ?>" method="post" class="form-validate" id="formSecaoMenus">
 
                     <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
                     <div class="form-group form-group-lg">
                         <label for="nome" class="font-weight-bold">Nome da Seção <sup class="text-danger">*</sup>:</label>
-                        <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" value="<?= $nome ?>" id="nome" name="nome" title="Por favor, informe o nome da seção de menus">
+                        <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : '' ?>" id="nome" name="nome" title="Por favor, informe o nome da seção de menus">
                     </div>
 
                     <div class="form-group form-group-lg text-right mt-5 mb-0">
@@ -140,32 +144,35 @@ $this->dados->alert = true;
                                     </td>
                                     <td class="text-center font-weight-bold text-muted">
 
-                                        <a href="javascript:void(0)" class="btn btn-lg btn-link <?= $i === $paginacao->total_registros-1 ? 'text-secondary disabled' : 'text-danger' ?>  p-1">
-                                            <i class="fas fa-long-arrow-alt-down"></i>
-                                        </a>
+                                        <form action="<?= URL ?>permissoes/gerenciar-secoes-menus/alterar-ordem<?= $query_uri ?>" method="post">
+                                            <input type="hidden" name="codigo-acao" value="<?= $registro["idsecao_menu"] ?>">
 
-                                        <a href="javascript:void(0)" class="btn btn-lg btn-link <?= $i === 0 ? 'text-secondary disabled' : 'text-success' ?> p-1">
-                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                        </a>
+                                            <label class="btn btn-lg btn-link p-1 text-danger">
+                                                <input type="radio" value="1" name="ordem" class="d-none alterar-ordem">
+                                                <i class="fas fa-long-arrow-alt-down"></i>
+                                            </label>
+
+                                            <label class="btn btn-lg btn-link p-1 text-success">
+                                                <input type="radio" value="2" name="ordem" class="d-none alterar-ordem">
+                                                <i class="fas fa-long-arrow-alt-up"></i>
+                                            </label>
+
+                                        </form>
 
                                     </td>
                                     <td class="text-center">
 
                                         <a class="btn btn-primary btn-acao" title="Editar"
-                                           href="<?= URL . 'permissoes/gerenciar-secoes-menus/edit/' . $registro['idsecao_menu'] ?>">
-
+                                           href="<?= URL . 'permissoes/gerenciar-secoes-menus/edit/' . $registro['idsecao_menu'] . $query_uri ?>">
                                             <i class="material-icons">edit</i>
-
                                         </a>
 
                                         <form class="d-inline" action="<?= URL ?>permissoes/gerenciar-secoes-menus/deletar" method="post">
                                             <input type="hidden" name="codigo-acao" value="<?= $registro["idsecao_menu"] ?>">
                                             <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                                            <button type="button" class="btn btn-danger btn-acao"
+                                            <button type="button" class="btn btn-danger btn-acao deletar"
                                                     title="Excluir Seção de Menu" >
-
                                                 <i class="material-icons">close</i>
-
                                             </button>
 
                                         </form>

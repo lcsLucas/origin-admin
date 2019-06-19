@@ -460,7 +460,7 @@ class UsuarioController extends Action
         $validate->define_pattern('erro_');
         $validate
             ->set("id", $id)->is_required()
-            ->set("nome", $senha)->is_required()
+            ->set("senha", $senha)->is_required()
             ->set("token", $token)->is_required();
 
         if ($validate->validate()) {

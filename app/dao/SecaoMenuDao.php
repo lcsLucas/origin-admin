@@ -150,10 +150,12 @@ class SecaoMenuDao extends Banco
 
 				$stms->execute();
 
-				/* continuar daqui -> fazzer o fetch e já colocar o resultado na Clsse Secao
-				if ($result = $stms->fetch())
-					var_dump($result);
-				*/
+				$result = $stms->fetch();
+
+				if (!empty($result)) {
+					$this->secao->setNome($result['nome']);
+					return true;
+				}
 
 			}
 			catch(\PDOException $e)
@@ -164,6 +166,102 @@ class SecaoMenuDao extends Banco
 		endif;
 
 		return null;
+
+	}
+
+	protected function alterarDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare("UPDATE secao_menu SET nome = :nome WHERE idsecao_menu = :id LIMIT 1");
+				$stms->bindValue(":nome", $this->secao->getNome(), \PDO::PARAM_STR);
+				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
+
+				if ($stms->execute())
+					return $stms->rowCount();
+				else
+					return false;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+	}
+
+	protected function excluirDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare("DELETE FROM secao_menu WHERE idsecao_menu = :id");
+				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
+				if ($stms->execute())
+					return $stms->rowCount();
+				else
+					return false;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+	}
+
+	protected function alterarOrdemProximoDAO() {
+    	$array_retorno = array();
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem FROM secao_menu WHERE idsecao_menu = :id LIMIT 1");
+				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
+				$stms->execute();
+				$result = $stms->fetch();
+
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem FROM secao_menu WHERE ordem = :ordem LIMIT 1");
+				$stms->bindValue(":ordem", (int)$result['ordem'] + 1, \PDO::PARAM_INT);
+				$stms->execute();
+				$result2 = $stms->fetch();
+
+				$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
+				$stms->bindValue(":ordem", (int)$result['ordem'] + 1, \PDO::PARAM_INT);
+				$stms->bindValue(":id", $result['idsecao_menu'], \PDO::PARAM_INT);
+				$stms->execute();
+
+				$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
+				$stms->bindValue(":ordem", (int)$result['ordem'], \PDO::PARAM_INT);
+				$stms->bindValue(":id", $result2['idsecao_menu'], \PDO::PARAM_INT);
+				$stms->execute();
+
+				$array_retorno['atual'] = $result;
+				$array_retorno['proximo'] = $result2;
+
+				return $array_retorno;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return $array_retorno;
 
 	}
 
