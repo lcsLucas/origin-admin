@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="projeto_mvc@localhost" uuid="ae262137-f5ac-42fe-8237-81e7ec4d4c82">
+    <data-source source="LOCAL" name="projeto_mvc@localhost [2]" uuid="36df4375-c618-431e-b64b-7762933d9bea">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/projeto_mvc</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="zeroDateTimeBehavior" value="CONVERT_TO_NULL" />
         <property name="tinyInt1isBit" value="false" />
         <property name="characterEncoding" value="utf8" />
         <property name="characterSetResults" value="utf8" />

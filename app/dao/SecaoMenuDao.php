@@ -221,6 +221,55 @@ class SecaoMenuDao extends Banco
 		return false;
 	}
 
+	protected function alterarOrdemAnteriorDAO() {
+		$array_retorno = array();
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+				$this->beginTransaction();
+
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE idsecao_menu = :id LIMIT 1");
+				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
+				$stms->execute();
+				$result = $stms->fetch();
+
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE ordem < :ordem ORDER BY ordem DESC LIMIT 1");
+				$stms->bindValue(":ordem", (int)$result['ordem'], \PDO::PARAM_INT);
+				$stms->execute();
+				$result2 = $stms->fetch();
+
+				if (!empty($result) && !empty($result2)) {
+
+					$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
+					$stms->bindValue(":ordem", (int)$result2['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(":id", $result['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->execute();
+
+					$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
+					$stms->bindValue(":ordem", (int)$result['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(":id", $result2['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->execute();
+
+					//$array_retorno['atual'] = $result;
+					$array_retorno['anterior'] = $result2;
+
+				}
+
+				$this->commitar(!empty($array_retorno));
+				return $array_retorno;
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return $array_retorno;
+	}
+
 	protected function alterarOrdemProximoDAO() {
     	$array_retorno = array();
 
@@ -228,29 +277,36 @@ class SecaoMenuDao extends Banco
 
 			try
 			{
-				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem FROM secao_menu WHERE idsecao_menu = :id LIMIT 1");
+				$this->beginTransaction();
+
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE idsecao_menu = :id LIMIT 1");
 				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
 				$stms->execute();
 				$result = $stms->fetch();
 
-				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem FROM secao_menu WHERE ordem = :ordem LIMIT 1");
-				$stms->bindValue(":ordem", (int)$result['ordem'] + 1, \PDO::PARAM_INT);
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE ordem > :ordem ORDER BY ordem LIMIT 1");
+				$stms->bindValue(":ordem", (int)$result['ordem'], \PDO::PARAM_INT);
 				$stms->execute();
 				$result2 = $stms->fetch();
 
-				$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
-				$stms->bindValue(":ordem", (int)$result['ordem'] + 1, \PDO::PARAM_INT);
-				$stms->bindValue(":id", $result['idsecao_menu'], \PDO::PARAM_INT);
-				$stms->execute();
+				if (!empty($result) && !empty($result2)) {
 
-				$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
-				$stms->bindValue(":ordem", (int)$result['ordem'], \PDO::PARAM_INT);
-				$stms->bindValue(":id", $result2['idsecao_menu'], \PDO::PARAM_INT);
-				$stms->execute();
+					$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
+					$stms->bindValue(":ordem", (int)$result2['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(":id", $result['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->execute();
 
-				$array_retorno['atual'] = $result;
-				$array_retorno['proximo'] = $result2;
+					$stms = $this->getCon()->prepare("UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id");
+					$stms->bindValue(":ordem", (int)$result['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(":id", $result2['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->execute();
 
+					//$array_retorno['atual'] = $result;
+					$array_retorno['proximo'] = $result2;
+
+				}
+
+				$this->commitar(!empty($array_retorno));
 				return $array_retorno;
 
 			}

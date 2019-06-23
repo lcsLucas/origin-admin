@@ -316,6 +316,7 @@ class UsuarioController extends Action
 
                 $this->dados->parametros =
                     array(
+                        "param_id" => $usuario->getId(),
                         "param_nome" => $usuario->getNome(),
                         "param_email" => $usuario->getEmail(),
                         "param_tipo" => $usuario->getTipo(),

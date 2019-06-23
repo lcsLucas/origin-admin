@@ -1,23 +1,23 @@
 <?php
 
-$retorno = null;
+	$retorno = null;
 
-include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
+	include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
 
-if (!empty($this->dados->retorno))
-    $retorno = $this->dados->retorno;
+	if (!empty($this->dados->retorno))
+		$retorno = $this->dados->retorno;
 
-$parametros = !empty($this->dados->parametros) ? $this->dados->parametros : array();
+	$parametros = !empty($this->dados->parametros) ? $this->dados->parametros : array();
 
-$lista_registros = $this->dados->registros;
-$paginacao = $this->dados->paginacao;
+	$lista_registros = $this->dados->registros;
+	$paginacao = $this->dados->paginacao;
 
-$this->dados->alert = true;
+	$this->dados->alert = true;
 
-$query_uri = '';
+	$query_uri = '';
 
-if (!empty($_SERVER["QUERY_STRING"]))
-	$query_uri .= "?" . $_SERVER["QUERY_STRING"];
+	if (!empty($_SERVER["QUERY_STRING"]))
+		$query_uri .= "?" . $_SERVER["QUERY_STRING"];
 
 ?>
 
@@ -36,31 +36,31 @@ if (!empty($_SERVER["QUERY_STRING"]))
 
         <div id="container-errors">
 
-            <?php
+			<?php
 
-            if (!empty($retorno)) {
+				if (!empty($retorno)) {
 
-                if (empty($retorno["status"])) {
-                    ?>
+					if (empty($retorno["status"])) {
+						?>
 
-                    <div class="alert alert-block alert-danger text-center">
-                        <?= $retorno["mensagem"] ?>
-                    </div>
+                        <div class="alert alert-block alert-danger text-center">
+							<?= $retorno["mensagem"] ?>
+                        </div>
 
-                    <?php
-                } else {
-                    ?>
+						<?php
+					} else {
+						?>
 
-                    <div class="alert alert-block alert-success text-center">
-                        <?= $retorno["mensagem"] ?>
-                    </div>
+                        <div class="alert alert-block alert-success text-center">
+							<?= $retorno["mensagem"] ?>
+                        </div>
 
-                    <?php
-                }
+						<?php
+					}
 
-            }
+				}
 
-            ?>
+			?>
 
         </div>
 
@@ -68,25 +68,32 @@ if (!empty($_SERVER["QUERY_STRING"]))
 
             <div class="card-header bg-primary py-3">
                 <h5 class="text-uppercase m-0 text-center text-md-left">
-                    <?= !empty($this->dados->editar) ? "Editar a Seção \"". $parametros["param_nome"] ."\"" : "Gerenciar Seções de Menus" ?>
+					<?= !empty($this->dados->editar) ? "Editar a Seção \"" . $parametros["param_nome"] . "\"" : "Gerenciar Seções de Menus" ?>
                 </h5>
             </div>
 
             <div class="card-body border border-top-0 border-primary">
 
-                <form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-secoes-menus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-secoes-menus' . $query_uri ?>" method="post" class="form-validate" id="formSecaoMenus">
+                <form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-secoes-menus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-secoes-menus' . $query_uri ?>"
+                      method="post" class="form-validate" id="formSecaoMenus">
 
-                    <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
+                    <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios
+                    </p>
 
                     <div class="form-group form-group-lg">
-                        <label for="nome" class="font-weight-bold">Nome da Seção <sup class="text-danger">*</sup>:</label>
-                        <input required maxlength="20" autofocus type="text" class="form-control form-control-lg" value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : '' ?>" id="nome" name="nome" title="Por favor, informe o nome da seção de menus">
+                        <label for="nome" class="font-weight-bold">Nome da Seção <sup
+                                    class="text-danger">*</sup>:</label>
+                        <input required maxlength="20" autofocus type="text" class="form-control form-control-lg"
+                               value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : '' ?>"
+                               id="nome" name="nome" title="Por favor, informe o nome da seção de menus">
                     </div>
 
                     <div class="form-group form-group-lg text-right mt-5 mb-0">
                         <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                        <a role="button" href="<?= URL ?>permissoes/gerenciar-secoes-menus" class="btn btn-lg active btn-link text-primary">Cancelar</a>
-                        <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">Confirmar <i class="fa fa-check fa-fw"></i></button>
+                        <a role="button" href="<?= URL ?>permissoes/gerenciar-secoes-menus"
+                           class="btn btn-lg active btn-link text-primary">Cancelar</a>
+                        <button type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">
+                            Confirmar <i class="fa fa-check fa-fw"></i></button>
                     </div>
 
                 </form>
@@ -122,71 +129,83 @@ if (!empty($_SERVER["QUERY_STRING"]))
 
                         <tbody class="px-2">
 
-                        <?php
+						<?php
 
-                        if (!empty($lista_registros)) {
-                            foreach ($lista_registros as $i => $registro) {
-                                ?>
+							if (!empty($lista_registros)) {
+								foreach ($lista_registros as $i => $registro) {
+									?>
 
-                                <tr>
-                                    <td class="font-weight-lighter lead text-muted"><?= $registro["nome"] ?></td>
-                                    <td class="text-center font-weight-bold text-muted">
-                                        <form action="<?= URL ?>permissoes/gerenciar-secoes-menus/alterar-status" method="post">
-                                            <input type="hidden" name="codigo-acao" value="<?= $registro["idsecao_menu"] ?>">
-                                            <label class="switch switch-label switch-pill switch-success switch-sm">
-                                                <input class="switch-input desativar" type="checkbox"
-                                                    <?= !empty($registro['ativo']) ? 'checked' : '' ?> <?= !empty($disabled) ? 'disabled' : '' ?> name="alterar-status">
-                                                <span class="switch-slider" data-checked="" data-unchecked=""></span>
-                                            </label>
+                                    <tr>
+                                        <td class="font-weight-lighter lead text-muted"><?= $registro["nome"] ?></td>
+                                        <td class="text-center font-weight-bold text-muted">
+                                            <form action="<?= URL ?>permissoes/gerenciar-secoes-menus/alterar-status"
+                                                  method="post">
+                                                <input type="hidden" name="codigo-acao"
+                                                       value="<?= $registro["idsecao_menu"] ?>">
+                                                <label class="switch switch-label switch-pill switch-success switch-sm">
+                                                    <input class="switch-input desativar" type="checkbox"
+														<?= !empty($registro['ativo']) ? 'checked' : '' ?> <?= !empty($disabled) ? 'disabled' : '' ?>
+                                                           name="alterar-status">
+                                                    <span class="switch-slider" data-checked=""
+                                                          data-unchecked=""></span>
+                                                </label>
 
-                                        </form>
+                                            </form>
 
-                                    </td>
-                                    <td class="text-center font-weight-bold text-muted">
+                                        </td>
+                                        <td class="text-center font-weight-bold text-muted">
 
-                                        <form action="<?= URL ?>permissoes/gerenciar-secoes-menus/alterar-ordem<?= $query_uri ?>" method="post">
-                                            <input type="hidden" name="codigo-acao" value="<?= $registro["idsecao_menu"] ?>">
+                                            <form action="<?= URL ?>permissoes/gerenciar-secoes-menus/alterar-ordem<?= $query_uri ?>"
+                                                  method="post">
+                                                <input type="hidden" name="codigo-acao"
+                                                       value="<?= $registro["idsecao_menu"] ?>">
 
-                                            <label class="btn btn-lg btn-link p-1 text-danger">
-                                                <input type="radio" value="1" name="ordem" class="d-none alterar-ordem">
-                                                <i class="fas fa-long-arrow-alt-down"></i>
-                                            </label>
+                                                <label class="btn btn-lg btn-link p-1 text-danger">
+                                                    <input type="radio" value="1" name="ordem"
+                                                           class="d-none alterar-ordem">
+                                                    <i class="fas fa-long-arrow-alt-down"></i>
+                                                </label>
 
-                                            <label class="btn btn-lg btn-link p-1 text-success">
-                                                <input type="radio" value="2" name="ordem" class="d-none alterar-ordem">
-                                                <i class="fas fa-long-arrow-alt-up"></i>
-                                            </label>
+                                                <label class="btn btn-lg btn-link p-1 text-success">
+                                                    <input type="radio" value="2" name="ordem"
+                                                           class="d-none alterar-ordem">
+                                                    <i class="fas fa-long-arrow-alt-up"></i>
+                                                </label>
 
-                                        </form>
+                                            </form>
 
-                                    </td>
-                                    <td class="text-center">
+                                        </td>
+                                        <td class="text-center">
 
-                                        <a class="btn btn-primary btn-acao" title="Editar"
-                                           href="<?= URL . 'permissoes/gerenciar-secoes-menus/edit/' . $registro['idsecao_menu'] . $query_uri ?>">
-                                            <i class="material-icons">edit</i>
-                                        </a>
+                                            <a class="btn btn-primary btn-acao editar" title="Editar"
+                                               href="<?= URL . 'permissoes/gerenciar-secoes-menus/edit/' . $registro['idsecao_menu'] . $query_uri ?>">
+                                                <i class="material-icons">edit</i>
+                                            </a>
 
-                                        <form class="d-inline" action="<?= URL ?>permissoes/gerenciar-secoes-menus/deletar" method="post">
-                                            <input type="hidden" name="codigo-acao" value="<?= $registro["idsecao_menu"] ?>">
-                                            <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-                                            <button type="button" class="btn btn-danger btn-acao deletar"
-                                                    title="Excluir Seção de Menu" >
-                                                <i class="material-icons">close</i>
-                                            </button>
+                                            <form class="d-inline"
+                                                  action="<?= URL ?>permissoes/gerenciar-secoes-menus/deletar"
+                                                  method="post">
+                                                <input type="hidden" name="codigo-acao"
+                                                       value="<?= $registro["idsecao_menu"] ?>">
+                                                <input type="hidden" name="token"
+                                                       value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
+                                                <button type="button" class="btn btn-danger btn-acao deletar"
+                                                        title="Excluir Seção de Menu">
+                                                    <i class="material-icons">close</i>
+                                                </button>
 
-                                        </form>
+                                            </form>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
-                        <?php
-                            }
-                        } else {
-                            echo '<tr><td class="text-center text-muted" colspan="4">Nenhuma seção de menu cadastrada</td></tr>';
-                        }
+									<?php
+								}
+							} else {
+								echo '<tr><td class="text-center text-muted" colspan="4">Nenhuma seção de menu cadastrada</td></tr>';
+							}
 
-                        ?>
+						?>
 
                         </tbody>
 
@@ -194,9 +213,9 @@ if (!empty($_SERVER["QUERY_STRING"]))
 
                 </div>
 
-                <?php
-                paginacao($paginacao->total_registros,$paginacao->registros_paginas,$paginacao->pagina_atual,$paginacao->range_paginas)
-                ?>
+				<?php
+					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas)
+				?>
 
             </div>
 

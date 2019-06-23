@@ -127,11 +127,17 @@ class SecaoMenu extends SecaoMenuDao
 	}
 
 	public function alterarOrdem($ordem) {
+		$query_uri = '';
+
+		if (!empty($_SERVER["QUERY_STRING"]))
+			$query_uri .= "?" . $_SERVER["QUERY_STRING"];
 
     	if ($ordem === 1) {
     		$retorno = $this->alterarOrdemProximoDAO();
+			$retorno['proximo']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['proximo']['idsecao_menu'] . $query_uri;
 		} else {
     		$retorno = $this->alterarOrdemAnteriorDAO();
+			$retorno['anterior']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['anterior']['idsecao_menu'] . $query_uri;
 		}
 
     	return $retorno;

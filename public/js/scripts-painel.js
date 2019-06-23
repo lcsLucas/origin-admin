@@ -511,8 +511,7 @@ window.onload = function() {
     $(".alterar-ordem").click(function () {
         var $this = $(this);
         var parent_form = $this.parents('form');
-
-        console.log(parent_form.serialize());
+        var table = parent_form.parents('tbody');
 
         $.ajax({
             type: 'POST',
@@ -520,12 +519,66 @@ window.onload = function() {
             data: parent_form.serialize(),
             dataType: 'json',
             beforeSend: function () {
-                
+                table.fadeOut('fast');
             }
-        }).done(function () {
+        }).done(function (retorno) {
+
+            if (!retorno.erro && Object.keys(retorno.registros).length) {
+
+                var parent_tr = parent_form.parents('tr');
+
+                if (retorno.registros.proximo) {
+
+                    var sibling_tr = parent_tr.next();
+
+                    if (sibling_tr.length) {
+
+                        var clone_tr = parent_tr.clone(true);
+
+                        parent_tr.remove();
+                        clone_tr.insertAfter(sibling_tr);
+
+                    } else {
+
+                        var status = (retorno.registros.proximo.ativo === '1');
+
+                        parent_tr.children('td').first().html(retorno.registros.proximo.nome);
+                        parent_tr.find('input[name="codigo-acao"]').val(retorno.registros.proximo.idsecao_menu);
+                        parent_tr.find('input[name="alterar-status"]').prop('checked', status);
+                        parent_tr.find('.editar').prop('href', retorno.registros.proximo.url_editar);
+
+                    }
+
+                } else {
+
+                    var sibling_tr = parent_tr.prev();
+
+                    if (sibling_tr.length) {
+
+                        var clone_tr = parent_tr.clone(true);
+
+                        parent_tr.remove();
+                        clone_tr.insertBefore(sibling_tr);
+
+                    } else {
+
+                        var status = (retorno.registros.anterior.ativo === '1');
+
+                        parent_tr.children('td').first().html(retorno.registros.anterior.nome);
+                        parent_tr.find('input[name="codigo-acao"]').val(retorno.registros.anterior.idsecao_menu);
+                        parent_tr.find('input[name="alterar-status"]').prop('checked', status);
+                        parent_tr.find('.editar').prop('href', retorno.registros.anterior.url_editar);
+
+                    }
+
+                }
+
+            }
 
         }).fail(function () {
             
+        }).always(function () {
+            table.fadeIn('fast');
         });
 
         return false;

@@ -7,22 +7,4 @@
  - tirar os css inlines e arrumar a visualização no mobile
     - usar o print tirado como referencia na pasta downloads
 
-- fazer o cadastro dos menus do sistema
-
-- continuar no cadastro de seções de menu
-    - continuar no carregar dados de uma seção
-        - controller -> fazer o metodo carregar da Model
-
-[BUG] Arrumar as rotas dos formularios da pagina de cadastro
-    - as rotas dão erros, quando exclui um registro e depois tenta inserir um novo registro em seguida
-    - não esqucer desse codigo
-         if (!empty($_SERVER["QUERY_STRING"]))
-            $url_editar .= "?" . $_SERVER["QUERY_STRING"];
--continuar vendo o tópico de cima em todos os formularios, no seções de menus já tá certo(usar como modelo)
-
-- continuar vendo a parde de alterar ordenação na seções de menus
-    - definir o modo que fará isso
-        * adicionar um icone que ordena o item atual na primeira posição e outro icone que ordene na ultima posição
-
-- continuar na ordenação das seções de menus, fiz a função para orderar o tual com o proximo
-    - requisição retornoa o registro atual e o proximo, falta validar e reorganizar com o javascript
+- começar a mexer no cadastro de menus

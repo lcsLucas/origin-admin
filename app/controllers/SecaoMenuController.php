@@ -124,6 +124,8 @@ class SecaoMenuController extends Action
 
 			if (!empty($retorno_reg))
 				$retorno = array("msg" => "", "erro" => false, "registros" => $retorno_reg);
+			elseif(empty($secao->getRetorno()['mensagem']))
+				$retorno = array("msg" => "", "erro" => false, "registros" => array());
 			else
 				$retorno = array("msg" => "Não foi possível alterar a ordem", "erro" => true);
 
