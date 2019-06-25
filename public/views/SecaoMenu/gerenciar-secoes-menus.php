@@ -34,35 +34,7 @@
 
     <div id="conteudo" class="container-fluid">
 
-        <div id="container-errors">
-
-			<?php
-
-				if (!empty($retorno)) {
-
-					if (empty($retorno["status"])) {
-						?>
-
-                        <div class="alert alert-block alert-danger text-center">
-							<?= $retorno["mensagem"] ?>
-                        </div>
-
-						<?php
-					} else {
-						?>
-
-                        <div class="alert alert-block alert-success text-center">
-							<?= $retorno["mensagem"] ?>
-                        </div>
-
-						<?php
-					}
-
-				}
-
-			?>
-
-        </div>
+		<?php include_once PATH_VIEWS . 'shared/mensagens-retorno.php' ?>
 
         <div class="card border-0">
 
@@ -179,7 +151,7 @@
 
                                             <a class="btn btn-primary btn-acao editar" title="Editar"
                                                href="<?= URL . 'permissoes/gerenciar-secoes-menus/edit/' . $registro['idsecao_menu'] . $query_uri ?>">
-                                                <i class="material-icons">edit</i>
+                                                <i class="fas fa-pen"></i>
                                             </a>
 
                                             <form class="d-inline"
@@ -191,7 +163,7 @@
                                                        value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                                 <button type="button" class="btn btn-danger btn-acao deletar"
                                                         title="Excluir Seção de Menu">
-                                                    <i class="material-icons">close</i>
+                                                    <i class="fas fa-times"></i>
                                                 </button>
 
                                             </form>

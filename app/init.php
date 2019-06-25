@@ -234,6 +234,20 @@ class Init extends Bootstrap
 			'action' => 'requestAlterarOrdem'
 		);
 
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-menus\/?$/',
+			'method' => 'GET',
+			'controller' => 'Menu',
+			'action' => 'pageGerenciarMenus'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-menus\/?$/',
+			'method' => 'POST',
+			'controller' => 'Menu',
+			'action' => 'requestGerenciarMenus'
+		);
+
         /*--------------*/
 
         /*Setando na propriedades as rotas definidas à cima.*/

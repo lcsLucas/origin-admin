@@ -30,9 +30,9 @@ body {
     font-size: 18px;
 }
 
-.btn-acao .material-icons {
-    display: flex;
-    padding: 0.1rem .6rem;
+.btn-acao > i {
+    padding: .4rem .85rem;
+    font-size: 1.15em;
 }
 
 table td, table th{

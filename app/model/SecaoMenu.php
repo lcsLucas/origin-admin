@@ -143,4 +143,8 @@ class SecaoMenu extends SecaoMenuDao
     	return $retorno;
 	}
 
+	public function listarTodas() {
+    	return $this->listarTodasDAO();
+	}
+
 }

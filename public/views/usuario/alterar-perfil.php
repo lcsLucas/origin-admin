@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="form-group form-group-lg">
-                        <label for="apelido" class="font-weight-bold">Apelido:</label>
+                        <label for="apelido" class="font-weight-bold">Apelido <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                         <input maxlength="20" type="text" class="form-control form-control-lg" id="apelido"
                                name="apelido" value="<?= $usuario->getApelido() ?>"
                                title="Por favor, informe um apelido">

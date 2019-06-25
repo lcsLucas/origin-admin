@@ -19,38 +19,7 @@ if (!empty($this->dados->retorno))
 
         <div id="conteudo" class="container">
 
-            <div id="container-errors">
-
-                <?php
-
-                if (!empty($retorno)) {
-
-                    if (empty($retorno["status"])) {
-                        ?>
-
-                        <div class="alert alert-block alert-danger text-center">
-                            <a href="javascript:void(0)" class="alert-link position-relative">
-                                <i class="fas fa-thumbs-up fa-rotate-180" style="position: absolute;left: -25px;top: 5px;"></i>
-                            </a>
-                            <?= $retorno["mensagem"] ?>
-                        </div>
-
-                        <?php
-                    } else {
-                        ?>
-
-                        <div class="alert alert-block alert-success text-center">
-                            <a href="javascript:void(0)" class="alert-link position-relative"><i class="fas fa-thumbs-up" style="position: absolute;left: -25px;top: 3px;"></i></a> <?= $retorno["mensagem"] ?>
-                        </div>
-
-                        <?php
-                    }
-
-                }
-
-                ?>
-
-            </div>
+			<?php include_once PATH_VIEWS . 'shared/mensagens-retorno.php' ?>
 
             <div class="card border-0">
 

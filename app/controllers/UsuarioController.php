@@ -267,7 +267,7 @@ class UsuarioController extends Action
             $this->setRetorno($erro, true, false);
         }
 
-        if (empty($this->getRetorno()["status"])) { //devove os parametros passados para view, e coloca nos campos correspondente
+        if (empty($this->getRetorno()["status"])) { //quando dar erro, devove os parametros passados para view, e coloca nos campos correspondente
 
             $this->dados->parametros =
                 array(

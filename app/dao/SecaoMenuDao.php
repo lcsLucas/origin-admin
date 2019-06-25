@@ -321,4 +321,27 @@ class SecaoMenuDao extends Banco
 
 	}
 
+	protected function listarTodasDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare("SELECT idsecao_menu, nome FROM secao_menu ORDER BY ordem");
+
+				$stms->execute();
+				return $stms->fetchAll();
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return array();
+	}
+
 }

@@ -34,35 +34,7 @@
 
     <div id="conteudo" class="container-fluid">
 
-        <div id="container-errors">
-
-			<?php
-
-				if (!empty($retorno)) {
-
-					if (empty($retorno["status"])) {
-						?>
-
-                        <div class="alert alert-block alert-danger text-center">
-							<?= $retorno["mensagem"] ?>
-                        </div>
-
-						<?php
-					} else {
-						?>
-
-                        <div class="alert alert-block alert-success text-center">
-							<?= $retorno["mensagem"] ?>
-                        </div>
-
-						<?php
-					}
-
-				}
-
-			?>
-
-        </div>
+		<?php include_once PATH_VIEWS . 'shared/mensagens-retorno.php' ?>
 
         <div class="card border-0">
 
@@ -182,7 +154,7 @@
                                                title="Editar"
                                                href="<?= URL . 'usuarios/gerenciar-tipos-usuarios/edit/' . $registro['tip_id'] ?>">
 
-                                                <i class="material-icons">edit</i>
+                                                <i class="fas fa-pen"></i>
 
                                             </a>
 
@@ -196,7 +168,7 @@
                                                 <button type="button" class="btn btn-danger btn-acao deletar-tipo"
                                                         title="<?= $title_excluir ?>" <?= !empty($disabled) ? 'disabled' : '' ?> >
 
-                                                    <i class="material-icons">close</i>
+                                                    <i class="fas fa-times"></i>
 
                                                 </button>
 
