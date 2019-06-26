@@ -248,6 +248,27 @@ class Init extends Bootstrap
 			'action' => 'requestGerenciarMenus'
 		);
 
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-menus\/alterar-status\/?$/',
+			'method' => 'POST',
+			'controller' => 'Menu',
+			'action' => 'requestAlterarStatus'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-menus\/edit\/([0-9]+)\/?$/',
+			'method' => 'GET',
+			'controller' => 'Menu',
+			'action' => 'pageMenusEdit'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-menus\/edit\/([0-9]+)\/?$/',
+			'method' => 'POST',
+			'controller' => 'Menu',
+			'action' => 'requestMenusEdit'
+		);
+
         /*--------------*/
 
         /*Setando na propriedades as rotas definidas à cima.*/

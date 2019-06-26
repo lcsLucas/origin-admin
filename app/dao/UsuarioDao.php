@@ -438,10 +438,7 @@ class UsuarioDao extends Banco
                 $stms->bindValue(":tipo", $this->usuario->getTipo(), \PDO::PARAM_INT);
                 $stms->bindValue(":id", $this->usuario->getId(), \PDO::PARAM_INT);
 
-                if ($stms->execute())
-                    return $stms->rowCount();
-                else
-                    return false;
+				return $stms->execute();
 
             }
             catch(\PDOException $e)

@@ -180,10 +180,7 @@ class SecaoMenuDao extends Banco
 				$stms->bindValue(":nome", $this->secao->getNome(), \PDO::PARAM_STR);
 				$stms->bindValue(":id", $this->secao->getId(), \PDO::PARAM_INT);
 
-				if ($stms->execute())
-					return $stms->rowCount();
-				else
-					return false;
+				return $stms->execute();
 
 			}
 			catch(\PDOException $e)

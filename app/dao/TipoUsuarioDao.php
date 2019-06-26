@@ -146,10 +146,8 @@ class TipoUsuarioDao extends Banco
                 $stms = $this->getCon()->prepare('UPDATE tipo_usuario SET tip_nome = :nome WHERE tip_id = :id');
                 $stms->bindValue(':nome', $this->tipo_usuario->getNome(), \PDO::PARAM_STR);
                 $stms->bindValue(':id', $this->tipo_usuario->getId(), \PDO::PARAM_INT);
-                if ($stms->execute())
-                    return $stms->rowCount();
-                else
-                    return false;
+
+				return $stms->execute();
 
             }
             catch(\PDOException $e)

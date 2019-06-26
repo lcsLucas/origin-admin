@@ -471,7 +471,7 @@ window.onload = function() {
                     title: '<i class="fas fa-times-circle mr-2"></i> ' + retorno['msg'],
                     customClass: {
                         popup: 'btn-danger active mr-3',
-                        title: 'text-white p-2 font-weight-normal'
+                        title: 'text-white p-2 font-weight-normal align-items-center'
                     }
                 });
             } else {
@@ -494,8 +494,11 @@ window.onload = function() {
             });
 
             Toast.fire({
-                type: 'error',
-                title: 'Não foi possível alterar status',
+                title: '<i class="fas fa-times-circle mr-2"></i> Não foi possível alterar status',
+                customClass: {
+                    popup: 'btn-danger active mr-3',
+                    title: 'text-white p-2 font-weight-normal align-items-center'
+                }
             });
 
         }).always(function () {
@@ -511,7 +514,6 @@ window.onload = function() {
     $(".alterar-ordem").click(function () {
         var $this = $(this);
         var parent_form = $this.parents('form');
-        var table = parent_form.parents('tbody');
 
         $.ajax({
             type: 'POST',
@@ -519,7 +521,7 @@ window.onload = function() {
             data: parent_form.serialize(),
             dataType: 'json',
             beforeSend: function () {
-                table.fadeOut('fast');
+
             }
         }).done(function (retorno) {
 
@@ -572,13 +574,12 @@ window.onload = function() {
                     }
 
                 }
-
             }
 
         }).fail(function () {
             
         }).always(function () {
-            table.fadeIn('fast');
+
         });
 
         return false;

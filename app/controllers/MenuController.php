@@ -78,8 +78,9 @@
 
 					$menus->setNome($nome);
 					$menus->setUrl($url);
-					$menus->setSecaoMenu($id_secao);
 					$menus->setIcone($icone);
+					if (!empty($id_secao))
+						$menus->setSecaoMenu($id_secao);
 
 					if ($menus->cadastrar())
 						$this->setRetorno("Menu cadastrado com sucesso", true, true);
@@ -113,6 +114,131 @@
 			$this->dados->retorno = $this->getRetorno();
 			$this->pageGerenciarMenus();
 
+		}
+
+		public function requestAlterarStatus() {
+			$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+			$status = filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
+
+			if (!empty($id)) {
+
+				$menu = new Menu();
+				$menu->setId($id);
+				$menu->setAtivo($status);
+
+				if (!empty($menu->alterarStatus()))
+					$retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
+				else
+					$retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+
+			} else
+				$retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+
+			echo json_encode($retorno, JSON_FORCE_OBJECT);
+		}
+
+		public function pageMenusEdit() {
+			$menu = new Menu();
+
+			$id = $this->getIdUri();
+
+			if (!empty($id)) {
+				$menu->setId($id);
+
+				if ($menu->carregar()) {
+					$this->dados->editar = true;
+					$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menu->getNome(), 'param_url' => $menu->getUrl(), 'param_secao' => $menu->getSecaoMenu(), 'param_icone' => $menu->getIcone());
+					$carregado = true;
+				}
+
+			}
+
+			if (!empty($carregado))
+				$this->pageGerenciarMenus();
+			else {
+				header("Location: " . URL . "permissoes/gerenciar-menus");
+				die();
+			}
+
+		}
+
+		public function requestMenusEdit() {
+			$validate = new Data_Validator();
+			$menus = new Menu();
+
+			$id = $this->getIdUri();
+
+			if (!empty($id)) {
+				$menus->setId($id);
+				$nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+				$url = trim(filter_input(INPUT_POST, 'url', FILTER_SANITIZE_SPECIAL_CHARS));
+				$id_secao = filter_input(INPUT_POST, "sel_secao", FILTER_VALIDATE_INT);
+				$icone = trim(filter_input(INPUT_POST, 'icone', FILTER_SANITIZE_SPECIAL_CHARS));
+				$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+				$validate->define_pattern('erro_');
+
+				$validate
+					->set('nome', $nome)->is_required()->max_length(40)
+					->set('url', $url)->is_required()->max_length(255)
+					->set("token", $token)->is_required();
+
+				if ($validate->validate()) {
+
+					if (password_verify(TOKEN_SESSAO, $token)) {
+
+						$menus->setNome($nome);
+						$menus->setUrl($url);
+						$menus->setIcone($icone);
+						if (!empty($id_secao))
+							$menus->setSecaoMenu($id_secao);
+
+						if ($menus->alterar())
+							$this->setRetorno("Menu alterado com sucesso", true, true);
+						else if(!empty($menus->getRetorno()["exibir"]))
+							$this->setRetorno($menus->getRetorno()["mensagem"], $menus->getRetorno()["exibir"], $menus->getRetorno()["status"]);
+						else
+							$this->setRetorno("Não foi possível alterar o menu, tente novamente", true, false);
+
+					} else
+						$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+
+				} else {
+					$array_erros = $validate->get_errors();
+					$array_erro = array_shift($array_erros);
+					$erro = array_shift($array_erro);
+					$this->setRetorno($erro, true, false);
+				}
+
+			} else
+				$this->setRetorno("Não foi possível alterar esse menu, tente novamente", true, false);
+
+			$this->dados->retorno = $this->getRetorno();
+			$this->pageMenusEdit();
+		}
+
+		private function getIdUri() {
+			$url = $_SERVER["REQUEST_URI"];
+
+			//Remove as barras e também remove URI caso tenha
+			$url = trim($url,'/');
+			if(SUBDOMINIO)
+				$url = trim(substr($url, strlen(URI)),"/");
+
+			if (".php" === substr($url,-4))
+				$url = substr($url,0,-4);
+
+			$pos = strripos($url, "/");
+			$valor = substr($url,$pos+1);
+
+			$pos = strpos($valor,"?");
+			if (!empty($pos)) {
+				$valor = substr($valor, 0, $pos);
+			}
+
+			$id = filter_var($valor, FILTER_VALIDATE_INT);
+
+			return $id;
 		}
 
 	}

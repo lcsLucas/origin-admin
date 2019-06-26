@@ -77,7 +77,123 @@
 		}
 
 		protected function cadastrarDAO() {
+			$ordem = 1;
+			if(!empty($this->Conectar())) :
 
+				try
+				{
+
+					$result = $this->getCon()->query('SELECT MAX(ordem) + 1 as ordem FROM menu');
+
+					foreach ($result->fetch() as $result_ordem)
+						if ((int) $result_ordem)
+							$ordem = (int) $result_ordem;
+
+					$stms = $this->getCon()->prepare('INSERT INTO menu(nome, url, icone, menu_pai, idsecao_menu, ordem) VALUES(:nome, :url, :icone, :pai, :secao, :ordem)');
+					$stms->bindValue(':nome', $this->menu->getNome(), \PDO::PARAM_STR);
+					$stms->bindValue(':url', $this->menu->getUrl(), \PDO::PARAM_STR);
+					$stms->bindValue(':icone', $this->menu->getIcone(), \PDO::PARAM_STR);
+					$stms->bindValue(':pai', $this->menu->getMenuPai(), \PDO::PARAM_INT);
+					$stms->bindValue(':secao', $this->menu->getSecaoMenu(), \PDO::PARAM_INT);
+					$stms->bindValue(':ordem', $ordem, \PDO::PARAM_INT);
+
+					return $stms->execute();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return false;
+		}
+
+		protected function alterarStatusDAO() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+
+					$stms = $this->getCon()->prepare("UPDATE menu SET ativo = :status WHERE id = :id LIMIT 1");
+					$stms->bindValue(":status", $this->menu->getAtivo(), \PDO::PARAM_STR);
+					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+					if ($stms->execute())
+						return ($stms->rowCount() > 0) ? true : false;
+					else
+						return false;
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return false;
+
+		}
+
+		protected function carregarDAO() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT id, nome, url, idsecao_menu, icone FROM menu WHERE id = :id LIMIT 1");
+					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+
+					$stms->execute();
+
+					$result = $stms->fetch();
+
+					if (!empty($result)) {
+						$this->menu->setNome($result['nome']);
+						$this->menu->setUrl($result['url']);
+						$this->menu->setSecaoMenu((int) $result['idsecao_menu']);
+						$this->menu->setIcone($result['icone']);
+						return true;
+					}
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function alterarDAO() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+
+					$stms = $this->getCon()->prepare("UPDATE menu SET nome = :nome, url = :url, idsecao_menu = :secao, icone = :icone WHERE id = :id");
+					$stms->bindValue(':nome', $this->menu->getNome(), \PDO::PARAM_STR);
+					$stms->bindValue(':url', $this->menu->getUrl(), \PDO::PARAM_STR);
+					$stms->bindValue(':secao', $this->menu->getSecaoMenu(), \PDO::PARAM_INT);
+					$stms->bindValue(':icone', $this->menu->getIcone(), \PDO::PARAM_STR);
+					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+
+					return $stms->execute();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return false;
 		}
 
 	}

@@ -21,5 +21,5 @@
 - remover a chamada do link style do icones do material icons, pois não está mais sendo usado
 
 - continuar no cadastro de menus
-    - fazer o metodo cadstrar do MenuDao
-    - verificar o erro de retorno que tá dando
+    - fazer o excluir
+    - alterar ordem

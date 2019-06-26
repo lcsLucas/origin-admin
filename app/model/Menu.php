@@ -17,6 +17,7 @@
 		private $url;
 		private $icone;
 		private $ordem;
+		private $ativo;
 		private $menu_pai;
 		private $secao_menu;
 
@@ -24,13 +25,15 @@
 		 * Menu constructor.
 		 * @param $nome
 		 * @param $url
+		 * @param $ativo
 		 * @param $ordem
 		 */
-		public function __construct($nome='', $url='', $ordem=null)
+		public function __construct($nome='', $url='', $ativo = '0', $ordem=null)
 		{
 			parent::__construct($this);
 			$this->nome = $nome;
 			$this->url = $url;
+			$this->ativo = $ativo;
 			$this->ordem = $ordem;
 			$this->icone = null;
 			$this->menu_pai = null;
@@ -149,6 +152,22 @@
 			$this->secao_menu = $secao_menu;
 		}
 
+		/**
+		 * @return string
+		 */
+		public function getAtivo(): string
+		{
+			return $this->ativo;
+		}
+
+		/**
+		 * @param string $ativo
+		 */
+		public function setAtivo(string $ativo): void
+		{
+			$this->ativo = $ativo;
+		}
+
 		public function getRetorno() {
 			return parent::getRetorno();
 		}
@@ -163,6 +182,18 @@
 
 		public function cadastrar() {
 			return $this->cadastrarDAO();
+		}
+
+		public function alterarStatus() {
+			return $this->alterarStatusDAO();
+		}
+
+		public function carregar() {
+			return $this->carregarDAO();
+		}
+
+		public function alterar() {
+			return $this->alterarDAO();
 		}
 
 	}
