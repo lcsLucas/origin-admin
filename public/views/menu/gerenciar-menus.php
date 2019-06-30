@@ -2,7 +2,7 @@
 
 	$retorno = null;
 
-	include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
+	include_once ABSPATH . 'app/funcoesGlobais/paginacao.php';
 
 	if (!empty($this->dados->retorno))
 		$retorno = $this->dados->retorno;
@@ -16,8 +16,8 @@
 
 	$this->dados->alert = true;
 
-	if (!empty($_SERVER["QUERY_STRING"]))
-		$query_uri .= "?" . $_SERVER["QUERY_STRING"];
+	if (!empty($_SERVER['QUERY_STRING']))
+		$query_uri .= '?' . $_SERVER['QUERY_STRING'];
 ?>
 
 <!-- Breadcrumb-->
@@ -39,7 +39,7 @@
 
 			<div class="card-header bg-primary py-3">
 				<h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? "Editar o Menu \"" . $parametros["param_nome"] . "\"" : "Gerenciar Menus" ?>
+					<?= !empty($this->dados->editar) ? 'Editar o Menu \'' . $parametros['param_nome'] . '\'' : 'Gerenciar Menus' ?>
 				</h5>
 			</div>
 
@@ -58,7 +58,7 @@
                                 <label for="nome" class="font-weight-bold">Nome do Menu <sup
                                             class="text-danger">*</sup>:</label>
                                 <input tabindex="1" required maxlength="40" autofocus type="text" class="form-control form-control-lg"
-                                       value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : '' ?>"
+                                       value="<?= !empty($parametros['param_nome']) ? $parametros['param_nome'] : '' ?>"
                                        id="nome" name="nome" title="Por favor, informe o nome do menu">
                             </div>
 
@@ -166,12 +166,12 @@
 									?>
 
                                     <tr>
-                                        <td class="font-weight-lighter lead text-muted"><?= $registro["nome"] ?></td>
+                                        <td class="font-weight-lighter lead text-muted"><?= $registro['nome'] ?></td>
                                         <td class="text-center font-weight-bold text-muted">
                                             <form action="<?= URL ?>permissoes/gerenciar-menus/alterar-status"
                                                   method="post">
                                                 <input type="hidden" name="codigo-acao"
-                                                       value="<?= $registro["id"] ?>">
+                                                       value="<?= $registro['id'] ?>">
                                                 <label class="switch switch-label switch-pill switch-success switch-sm">
                                                     <input class="switch-input desativar" type="checkbox"
 														<?= !empty($registro['ativo']) ? 'checked' : '' ?> <?= !empty($disabled) ? 'disabled' : '' ?>
@@ -188,7 +188,7 @@
                                             <form action="<?= URL ?>permissoes/gerenciar-menus/alterar-ordem<?= $query_uri ?>"
                                                   method="post">
                                                 <input type="hidden" name="codigo-acao"
-                                                       value="<?= $registro["id"] ?>">
+                                                       value="<?= $registro['id'] ?>">
 
                                                 <label class="btn btn-lg btn-link p-1 text-danger">
                                                     <input type="radio" value="1" name="ordem"
@@ -216,7 +216,7 @@
                                                   action="<?= URL ?>permissoes/gerenciar-menus/deletar"
                                                   method="post">
                                                 <input type="hidden" name="codigo-acao"
-                                                       value="<?= $registro["id"] ?>">
+                                                       value="<?= $registro['id'] ?>">
                                                 <input type="hidden" name="token"
                                                        value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                                 <button type="button" class="btn btn-danger btn-acao deletar"

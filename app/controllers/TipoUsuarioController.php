@@ -7,10 +7,8 @@ use ProjetoMvc\render\Action;
 use App\model\TipoUsuario;
 use App\model\Data_Validator;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class TipoUsuarioController extends Action
 {
@@ -21,13 +19,13 @@ class TipoUsuarioController extends Action
         /**
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
          */
-        $this->layoutPadrao = PATH_VIEWS."shared/layoutPadrao";
+        $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
     }
 
     public function pageTiposUsuarios() {
         $tipo = new TipoUsuario();
 
-        $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+        $pagina_atual = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
         $qtde_registros = 5;
@@ -53,7 +51,7 @@ class TipoUsuarioController extends Action
         $tipo->carregarTipoUsuario();
         $this->dados->tipo_usuario = $tipo->getId();
 
-        $this->dados->title = "Gerenciar Tipos de Usuarios";
+        $this->dados->title = 'Gerenciar Tipos de Usuarios';
         $this->dados->validation = true;
         $this->render('gerenciar-tipos-usuarios.php');
     }
@@ -61,20 +59,20 @@ class TipoUsuarioController extends Action
     public function pageTiposUsuariosEdit() {
         $tipo = new TipoUsuario();
 
-        $url = $_SERVER["REQUEST_URI"];
+        $url = $_SERVER['REQUEST_URI'];
 
         //Remove as barras e também remove URI caso tenha
         $url = trim($url,'/');
         if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),"/");
+            $url = trim(substr($url, strlen(URI)),'/');
 
-        if (".php" === substr($url,-4))
+        if ('.php' === substr($url,-4))
             $url = substr($url,0,-4);
 
-        $pos = strripos($url, "/");
+        $pos = strripos($url, '/');
         $valor = substr($url,$pos+1);
 
-        $pos = strpos($valor,"?");
+        $pos = strpos($valor,'?');
         if (!empty($pos)) {
             $valor = substr($valor, 0, $pos);
         }
@@ -97,7 +95,7 @@ class TipoUsuarioController extends Action
         if (!empty($carregado))
             $this->pageTiposUsuarios();
         else {
-            header("Location: " . URL . "usuarios/gerenciar-tipos-usuarios");
+            header('Location: ' . URL . 'usuarios/gerenciar-tipos-usuarios');
             die();
         }
     }
@@ -112,7 +110,7 @@ class TipoUsuarioController extends Action
 
         $validate->define_pattern('erro_');
         $validate
-            ->set("nome", $nome)->is_required();
+            ->set('nome', $nome)->is_required();
 
         if ($validate->validate()) {
 
@@ -121,14 +119,14 @@ class TipoUsuarioController extends Action
                 $tipo->setNome($nome);
 
                 if ($tipo->cadastrar())
-                    $this->setRetorno("Novo tipo de usuário foi cadastrado com sucesso", true, true);
-                else if($tipo->getRetorno()["exibir"])
-                    $this->setRetorno($tipo->getRetorno()["mensagem"], $tipo->getRetorno()["exibir"], $tipo->getRetorno()["status"]);
+                    $this->setRetorno('Novo tipo de usuário foi cadastrado com sucesso', true, true);
+                else if($tipo->getRetorno()['exibir'])
+                    $this->setRetorno($tipo->getRetorno()['mensagem'], $tipo->getRetorno()['exibir'], $tipo->getRetorno()['status']);
                 else
-                    $this->setRetorno("Não foi possível cadastrar o novo tipo de usuário, tente novamente", true, false);
+                    $this->setRetorno('Não foi possível cadastrar o novo tipo de usuário, tente novamente', true, false);
 
             } else
-                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
         } else {
             $array_erros = $validate->get_errors();
@@ -143,20 +141,20 @@ class TipoUsuarioController extends Action
 
     public function requestTiposUsuariosEdit() {
 
-        $url = $_SERVER["REQUEST_URI"];
+        $url = $_SERVER['REQUEST_URI'];
 
         //Remove as barras e também remove URI caso tenha
         $url = trim($url,'/');
         if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),"/");
+            $url = trim(substr($url, strlen(URI)),'/');
 
-        if (".php" === substr($url,-4))
+        if ('.php' === substr($url,-4))
             $url = substr($url,0,-4);
 
-        $pos = strripos($url, "/");
+        $pos = strripos($url, '/');
         $valor = substr($url,$pos+1);
 
-        $pos = strpos($valor,"?");
+        $pos = strpos($valor,'?');
         if (!empty($pos)) {
             $valor = substr($valor, 0, $pos);
         }
@@ -174,7 +172,7 @@ class TipoUsuarioController extends Action
 
             $validate->define_pattern('erro_');
             $validate
-                ->set("nome", $nome)->is_required();
+                ->set('nome', $nome)->is_required();
 
             if ($validate->validate()) {
 
@@ -183,14 +181,14 @@ class TipoUsuarioController extends Action
                     $tipo->setNome($nome);
 
                     if ($tipo->alterar())
-                        $this->setRetorno("Tipo de usuários foi alterado com sucesso", true, true);
-                    else if($tipo->getRetorno()["exibir"])
-                        $this->setRetorno($tipo->getRetorno()["mensagem"], $tipo->getRetorno()["exibir"], $tipo->getRetorno()["status"]);
+                        $this->setRetorno('Tipo de usuários foi alterado com sucesso', true, true);
+                    else if($tipo->getRetorno()['exibir'])
+                        $this->setRetorno($tipo->getRetorno()['mensagem'], $tipo->getRetorno()['exibir'], $tipo->getRetorno()['status']);
                     else
-                        $this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+                        $this->setRetorno('Não foi possível alterar esse tipo de usuários, tente novamente', true, false);
 
                 } else
-                    $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                    $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
             } else {
                 $array_erros = $validate->get_errors();
@@ -200,7 +198,7 @@ class TipoUsuarioController extends Action
             }
 
         } else
-            $this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+            $this->setRetorno('Não foi possível alterar esse tipo de usuários, tente novamente', true, false);
 
         $this->dados->retorno = $this->getRetorno();
         $this->pageTiposUsuariosEdit();
@@ -208,7 +206,7 @@ class TipoUsuarioController extends Action
 
     public function requestAlterarStatus() {
         $id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
-        $status = !filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
+        $status = !filter_has_var(INPUT_POST, 'alterar-status') ? '1' : '0';
 
         if (!empty($id)) {
 
@@ -217,12 +215,12 @@ class TipoUsuarioController extends Action
             $tipo->setAtivo($status);
 
             if (!empty($tipo->alterarStatus()))
-                $retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
+                $retorno = array('status' => $status ? true : false, 'msg' => '', 'erro' => false);
             else
-                $retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+                $retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
         } else
-            $retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+            $retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
         echo json_encode($retorno, JSON_FORCE_OBJECT);
     }
@@ -238,34 +236,34 @@ class TipoUsuarioController extends Action
 
         $validate->define_pattern('erro_');
         $validate
-            ->set("id", $id)->is_required()
-            ->set("senha", $senha)->is_required()
-            ->set("token", $token)->is_required();
+            ->set('id', $id)->is_required()
+            ->set('senha', $senha)->is_required()
+            ->set('token', $token)->is_required();
 
         if ($validate->validate()) {
 
             if (password_verify(TOKEN_SESSAO, $token)) {
 
-                $usuario->setId($_SESSION["_idusuario"]);
+                $usuario->setId($_SESSION['_idusuario']);
                 $usuario->setSenha($senha);
 
                 $senha_atual = $usuario->obterSenha();
 
-                if (password_verify($senha, $senha_atual["usu_senha"])) {
+                if (password_verify($senha, $senha_atual['usu_senha'])) {
 
                     $tipo->setId($id);
                     if ($tipo->excluir())
-                        $this->setRetorno("Tipo de usuários excluído com sucesso", true, true);
-                    else if($tipo->getRetorno()["exibir"])
-                        $this->setRetorno($tipo->getRetorno()["mensagem"], $tipo->getRetorno()["exibir"], $tipo->getRetorno()["status"]);
+                        $this->setRetorno('Tipo de usuários excluído com sucesso', true, true);
+                    else if($tipo->getRetorno()['exibir'])
+                        $this->setRetorno($tipo->getRetorno()['mensagem'], $tipo->getRetorno()['exibir'], $tipo->getRetorno()['status']);
                     else
-                        $this->setRetorno("Não foi possível excluir o tipo de usuários, tente novamente", true, false);
+                        $this->setRetorno('Não foi possível excluir o tipo de usuários, tente novamente', true, false);
 
                 } else
-                    $this->setRetorno("Senha informada inválida, tente novamente", true, false);
+                    $this->setRetorno('Senha informada inválida, tente novamente', true, false);
 
             } else
-                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
         } else {
             $array_erros = $validate->get_errors();
@@ -275,7 +273,7 @@ class TipoUsuarioController extends Action
         }
 
         $this->dados->retorno = $this->getRetorno();
-        $this->ModificaURL(URL . "usuarios/gerenciar-tipos-usuarios"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+        $this->ModificaURL(URL . 'usuarios/gerenciar-tipos-usuarios'); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
         $this->pageTiposUsuarios();
     }
 

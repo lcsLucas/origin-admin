@@ -6,10 +6,8 @@
 	use App\model\Banco;
 	use App\model\Menu;
 
-	if (! defined('ABSPATH')){
-		header('Location: /');
-		exit();
-	}
+    if (! defined('ABSPATH'))
+        die;
 
 
 	class MenuDao extends Banco
@@ -33,9 +31,9 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare("SELECT * FROM menu WHERE menu_pai IS NULL ORDER BY ordem LIMIT :inicio,:fim");
-					$stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
-					$stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
+					$stms = $this->getCon()->prepare('SELECT * FROM menu WHERE menu_pai IS NULL ORDER BY ordem LIMIT :inicio,:fim');
+					$stms->bindValue(':inicio', $inicio, \PDO::PARAM_INT);
+					$stms->bindValue(':fim', $fim, \PDO::PARAM_INT);
 
 					$stms->execute();
 					return $stms->fetchAll();
@@ -43,7 +41,7 @@
 				}
 				catch(\PDOException $e)
 				{
-					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
 				}
 
 			endif;
@@ -58,17 +56,17 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM menu WHERE menu_pai IS NULL");
+					$stms = $this->getCon()->prepare('SELECT COUNT(*) total FROM menu WHERE menu_pai IS NULL');
 					$stms->execute();
 					$result = $stms->fetch(\PDO::FETCH_ASSOC);
 
 					if (!empty($result))
-						return $result["total"];
+						return $result['total'];
 
 				}
 				catch(\PDOException $e)
 				{
-					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
 				}
 
 			endif;
@@ -117,9 +115,9 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare("UPDATE menu SET ativo = :status WHERE id = :id LIMIT 1");
-					$stms->bindValue(":status", $this->menu->getAtivo(), \PDO::PARAM_STR);
-					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+					$stms = $this->getCon()->prepare('UPDATE menu SET ativo = :status WHERE id = :id LIMIT 1');
+					$stms->bindValue(':status', $this->menu->getAtivo(), \PDO::PARAM_STR);
+					$stms->bindValue(':id', $this->menu->getId(), \PDO::PARAM_INT);
 					if ($stms->execute())
 						return ($stms->rowCount() > 0) ? true : false;
 					else
@@ -128,7 +126,7 @@
 				}
 				catch(\PDOException $e)
 				{
-					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
 				}
 
 			endif;
@@ -143,8 +141,8 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT id, nome, url, idsecao_menu, icone FROM menu WHERE id = :id LIMIT 1");
-					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+					$stms = $this->getCon()->prepare('SELECT id, nome, url, idsecao_menu, icone FROM menu WHERE id = :id LIMIT 1');
+					$stms->bindValue(':id', $this->menu->getId(), \PDO::PARAM_INT);
 
 					$stms->execute();
 
@@ -161,7 +159,7 @@
 				}
 				catch(\PDOException $e)
 				{
-					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
 				}
 
 			endif;
@@ -176,19 +174,19 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare("UPDATE menu SET nome = :nome, url = :url, idsecao_menu = :secao, icone = :icone WHERE id = :id");
+					$stms = $this->getCon()->prepare('UPDATE menu SET nome = :nome, url = :url, idsecao_menu = :secao, icone = :icone WHERE id = :id');
 					$stms->bindValue(':nome', $this->menu->getNome(), \PDO::PARAM_STR);
 					$stms->bindValue(':url', $this->menu->getUrl(), \PDO::PARAM_STR);
 					$stms->bindValue(':secao', $this->menu->getSecaoMenu(), \PDO::PARAM_INT);
 					$stms->bindValue(':icone', $this->menu->getIcone(), \PDO::PARAM_STR);
-					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+					$stms->bindValue(':id', $this->menu->getId(), \PDO::PARAM_INT);
 
 					return $stms->execute();
 
 				}
 				catch(\PDOException $e)
 				{
-					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
 				}
 
 			endif;

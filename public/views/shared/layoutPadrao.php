@@ -1,8 +1,6 @@
 <?php
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 include_once PATH_VIEWS.'shared/cabecalho.php';
 

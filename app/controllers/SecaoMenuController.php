@@ -12,10 +12,8 @@ use App\model\SecaoMenu;
 use ProjetoMvc\render\Action;
 use App\model\Data_Validator;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class SecaoMenuController extends Action
 {
@@ -25,13 +23,13 @@ class SecaoMenuController extends Action
         /**
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
          */
-        $this->layoutPadrao = PATH_VIEWS."shared/layoutPadrao";
+        $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
     }
 
     public function pageGerenciarSecoesMenus() {
         $secao = new SecaoMenu();
 
-        $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+        $pagina_atual = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
         $qtde_registros = 5;
@@ -53,7 +51,7 @@ class SecaoMenuController extends Action
         // Total de registros
         $this->dados->paginacao->total_registros = $secao->totalRegistros();
 
-        $this->dados->title = "Gerenciar Seções de Menus";
+        $this->dados->title = 'Gerenciar Seções de Menus';
         $this->dados->validation = true;
         $this->render('gerenciar-secoes-menus.php');
 
@@ -72,18 +70,18 @@ class SecaoMenuController extends Action
                 $secao->setNome($nome);
 
                 if ($secao->cadastrar())
-                    $this->setRetorno("Nova seção foi cadastrada com sucesso", true, true);
-                else if($secao->getRetorno()["exibir"])
+                    $this->setRetorno('Nova seção foi cadastrada com sucesso', true, true);
+                else if($secao->getRetorno()['exibir'])
                     $this->retorno = $secao->getRetorno();
                 else
-                    $this->setRetorno("Não foi possível cadastrar a nova seção, tente novamente", true, false);
+                    $this->setRetorno('Não foi possível cadastrar a nova seção, tente novamente', true, false);
 
             } else
-                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 
         } else
-            $this->setRetorno("Você não informou corretamente o nome da seção", true, false);
+            $this->setRetorno('Você não informou corretamente o nome da seção', true, false);
 
         $this->dados->retorno = $this->getRetorno();
         $this->pageGerenciarSecoesMenus();
@@ -91,7 +89,7 @@ class SecaoMenuController extends Action
 
 	public function requestAlterarStatus() {
 		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
-		$status = filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
+		$status = filter_has_var(INPUT_POST, 'alterar-status') ? '1' : '0';
 
 		if (!empty($id)) {
 
@@ -100,12 +98,12 @@ class SecaoMenuController extends Action
 			$secao->setAtivo($status);
 
 			if (!empty($secao->alterarStatus()))
-				$retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
+				$retorno = array('status' => $status ? true : false, 'msg' => '', 'erro' => false);
 			else
-				$retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+				$retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
 		} else
-			$retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+			$retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
 		echo json_encode($retorno, JSON_FORCE_OBJECT);
 
@@ -113,7 +111,7 @@ class SecaoMenuController extends Action
 
 	public function requestAlterarOrdem() {
 		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
-		$ordem = filter_input(INPUT_POST, "ordem", FILTER_VALIDATE_INT, array("min_range" => 1, "max_range" => 2));
+		$ordem = filter_input(INPUT_POST, 'ordem', FILTER_VALIDATE_INT, array('min_range' => 1, 'max_range' => 2));
 
 		if (!empty($id)) {
 
@@ -123,14 +121,14 @@ class SecaoMenuController extends Action
 			$retorno_reg = $secao->alterarOrdem($ordem);
 
 			if (!empty($retorno_reg))
-				$retorno = array("msg" => "", "erro" => false, "registros" => $retorno_reg);
+				$retorno = array('msg' => '', 'erro' => false, 'registros' => $retorno_reg);
 			elseif(empty($secao->getRetorno()['mensagem']))
-				$retorno = array("msg" => "", "erro" => false, "registros" => array());
+				$retorno = array('msg' => '', 'erro' => false, 'registros' => array());
 			else
-				$retorno = array("msg" => "Não foi possível alterar a ordem", "erro" => true);
+				$retorno = array('msg' => 'Não foi possível alterar a ordem', 'erro' => true);
 
 		} else
-			$retorno = array("msg" => "Não foi possível alterar a ordem", "erro" => true);
+			$retorno = array('msg' => 'Não foi possível alterar a ordem', 'erro' => true);
 
 		echo json_encode($retorno, JSON_FORCE_OBJECT);
 
@@ -155,7 +153,7 @@ class SecaoMenuController extends Action
 		if (!empty($carregado))
 			$this->pageGerenciarSecoesMenus();
 		else {
-			header("Location: " . URL . "permissoes/gerenciar-secoes-menus");
+			header('Location: ' . URL . 'permissoes/gerenciar-secoes-menus');
 			die();
 		}
 
@@ -178,21 +176,21 @@ class SecaoMenuController extends Action
 					$secao->setNome($nome);
 
 					if ($secao->alterar())
-						$this->setRetorno("Seção alterada com sucesso", true, true);
-					else if($secao->getRetorno()["exibir"])
+						$this->setRetorno('Seção alterada com sucesso', true, true);
+					else if($secao->getRetorno()['exibir'])
 						$this->retorno = $secao->getRetorno();
 					else
-						$this->setRetorno("Não foi possível alterar a seção, tente novamente", true, false);
+						$this->setRetorno('Não foi possível alterar a seção, tente novamente', true, false);
 
 				} else
-					$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+					$this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 
 			} else
-				$this->setRetorno("Você não informou corretamente o nome da seção", true, false);
+				$this->setRetorno('Você não informou corretamente o nome da seção', true, false);
 
 		} else
-			$this->setRetorno("Não foi possível alterar o status dessa seção, tente novamente", true, false);
+			$this->setRetorno('Não foi possível alterar o status dessa seção, tente novamente', true, false);
 
 		$this->dados->retorno = $this->getRetorno();
 		$this->pageSecoesMenusEdit();
@@ -211,38 +209,38 @@ class SecaoMenuController extends Action
 				$secao->setId($id);
 
 				if ($secao->excluir())
-					$this->setRetorno("Seção excluída com sucesso", true, true);
-				else if($secao->getRetorno()["exibir"])
+					$this->setRetorno('Seção excluída com sucesso', true, true);
+				else if($secao->getRetorno()['exibir'])
 					$this->retorno = $secao->getRetorno();
 				else
-					$this->setRetorno("Não foi possível excluir a seção, tente novamente", true, false);
+					$this->setRetorno('Não foi possível excluir a seção, tente novamente', true, false);
 
 			} else
-				$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+				$this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 		} else
-			$this->setRetorno("Não foi possível deletar a Seção de Menus, tente novamente", true, false);
+			$this->setRetorno('Não foi possível deletar a Seção de Menus, tente novamente', true, false);
 
 		$this->dados->retorno = $this->getRetorno();
-		$this->ModificaURL(URL . "permissoes/gerenciar-secoes-menus"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+		$this->ModificaURL(URL . 'permissoes/gerenciar-secoes-menus'); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
 		$this->pageGerenciarSecoesMenus();
 	}
 
 	private function getIdUri() {
-		$url = $_SERVER["REQUEST_URI"];
+		$url = $_SERVER['REQUEST_URI'];
 
 		//Remove as barras e também remove URI caso tenha
 		$url = trim($url,'/');
 		if(SUBDOMINIO)
-			$url = trim(substr($url, strlen(URI)),"/");
+			$url = trim(substr($url, strlen(URI)),'/');
 
-		if (".php" === substr($url,-4))
+		if ('.php' === substr($url,-4))
 			$url = substr($url,0,-4);
 
-		$pos = strripos($url, "/");
+		$pos = strripos($url, '/');
 		$valor = substr($url,$pos+1);
 
-		$pos = strpos($valor,"?");
+		$pos = strpos($valor,'?');
 		if (!empty($pos)) {
 			$valor = substr($valor, 0, $pos);
 		}

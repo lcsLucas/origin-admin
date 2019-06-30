@@ -71,7 +71,7 @@ window.onload = function() {
                 zoomable: true,
                 movable: true,
                 scalable: true,
-                background: false,
+                background: true,
                 ready() {
 
                     modalFoto.find('#confirmaFoto').html('Confirmar <i class="fa fa-fw fa-check"></i>').prop('disabled', false).on('click', function () {

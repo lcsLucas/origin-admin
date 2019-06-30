@@ -13,10 +13,8 @@
  * @return string A paginação montada
  */
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $range_paginas)
 {
@@ -46,13 +44,13 @@ function paginacao($total_registros, $registros_por_paginas, $pagina_atual, $ran
     $exibir_botao_final = ($range_final > $pagina_atual) ? '' : 'd-none d-md-none d-lg-none';
 
     /* Loop para montar a páginação central com os números */
-    $url = rtrim($_SERVER["REQUEST_URI"],'/');
-    $pos = strpos($url,"?");
+    $url = rtrim($_SERVER['REQUEST_URI'],'/');
+    $pos = strpos($url,'?');
     $parametros = '';
 
     if (!empty($pos)) {
-        $url = substr($_SERVER["REQUEST_URI"], 0, $pos);
-        $url = rtrim($url, "/");
+        $url = substr($_SERVER['REQUEST_URI'], 0, $pos);
+        $url = rtrim($url, '/');
 
         $query = preg_replace('/(&|\?)?page=([0-9]+)/', '', $_SERVER['QUERY_STRING']);
 

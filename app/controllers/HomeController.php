@@ -6,10 +6,8 @@ use ProjetoMvc\render\Action;
 use App\model\Usuario;
 use App\model\Data_Validator;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class HomeController extends Action
 {
@@ -19,7 +17,7 @@ class HomeController extends Action
         /**
          * caminho com o arquivo do layout padrão que todasas paginas dessa controller poderá usar
          */
-        $this->layoutPadrao = PATH_VIEWS."shared/layoutPadrao";
+        $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
     }
 
     /**
@@ -30,7 +28,7 @@ class HomeController extends Action
         if (isset($_SESSION['_idusuario'])) :
             header('Location: '. URL .'dashboard');
         else :
-            $this->dados->title = "Página de login";
+            $this->dados->title = 'Página de login';
             header('Location: '. URL .'login');
         endif;
         exit();
@@ -42,7 +40,7 @@ class HomeController extends Action
      */
     public function pageDashboard()
     {
-        $this->dados->title = "Dashboard";
+        $this->dados->title = 'Dashboard';
         $this->render('dashboard.php');
     }
 
@@ -51,7 +49,7 @@ class HomeController extends Action
      */
     public function pageError404()
     {
-            $this->dados->title = "Página Não Encontrada";
+            $this->dados->title = 'Página Não Encontrada';
             http_response_code(404);
             $this->render('error404.html');
     }
@@ -62,7 +60,7 @@ class HomeController extends Action
             header('Location: '. URL .'dashboard');
             exit();
         } else {
-            $this->dados->title = "Página de login";
+            $this->dados->title = 'Página de login';
             $this->render('login.php', false);
         }
 
@@ -80,9 +78,9 @@ class HomeController extends Action
 
             $validate->define_pattern('erro_');
             $validate
-                ->set("login", $login)->is_required()
-                ->set("senha", $senha)->is_required()
-                ->set("token", $token)->is_required();
+                ->set('login', $login)->is_required()
+                ->set('senha', $senha)->is_required()
+                ->set('token', $token)->is_required();
 
             if ($validate->validate()) {
 
@@ -97,21 +95,21 @@ class HomeController extends Action
 
                     if (!empty($usu->login())) {
 
-                        $this->setRetorno("Logado com sucesso, aguarde estamos te direcionando...", true, true);
+                        $this->setRetorno('Logado com sucesso, aguarde estamos te direcionando...', true, true);
                         $this->setExtra(
                             array(
-                                "url_direcionar" => URL . "dashboard"
+                                'url_direcionar' => URL . 'dashboard'
                             )
                         );
 
-                    } else if($usu->getRetorno()["exibir"]) {
-                        $this->setRetorno($usu->getRetorno()["mensagem"], $usu->getRetorno()["exibir"], $usu->getRetorno()["status"]);
+                    } else if($usu->getRetorno()['exibir']) {
+                        $this->setRetorno($usu->getRetorno()['mensagem'], $usu->getRetorno()['exibir'], $usu->getRetorno()['status']);
                     } else {
-                        $this->setRetorno("Não foi possível fazer o login", true, false);
+                        $this->setRetorno('Não foi possível fazer o login', true, false);
                     }
 
                 } else {
-                    $this->setRetorno("Token de autenticação inválido", true, false);
+                    $this->setRetorno('Token de autenticação inválido', true, false);
                 }
 
             } else {

@@ -10,11 +10,8 @@ namespace App\dao;
 use App\model\Banco;
 use App\model\TipoUsuario;
 
-if (! defined('ABSPATH')){
-    header('Location: /');
-    exit();
-}
-
+if (! defined('ABSPATH'))
+    die;
 
 class TipoUsuarioDao extends Banco
 {

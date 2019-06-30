@@ -13,10 +13,8 @@ namespace ProjetoMvc\render;
 use App\model\Retorno;
 use App\controllers\MiddleWarePrincipal;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 abstract class Action
 {

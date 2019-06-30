@@ -4,10 +4,8 @@ namespace App\model;
 
 use App\model\Retorno;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 /**
  * Classe responsavel pela coneção com o banco de dados, utilizando o PDO
  */
@@ -48,7 +46,7 @@ class Banco{
             }
             catch(\PDOException $e)
             {
-                $this->setRetorno("Erro Ao Conectar Com o Banco de Dados | ".$e->getMessage(), false, false);
+                $this->setRetorno('Erro Ao Conectar Com o Banco de Dados | '.$e->getMessage(), false, false);
                 return null;
             }
 
@@ -98,7 +96,7 @@ class Banco{
         $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
 
         if (!$flag_exibir)
-            error_log('['. date('Y-m-d H:i:s') .'] ' . $mensagem."\n", 3, ABSPATH . "erros-sistema.log");
+            error_log('['. date('Y-m-d H:i:s') .'] ' . $mensagem.'\n', 3, ABSPATH . 'erros-sistema.log');
     }
 
     public function getRetorno() {

@@ -3,10 +3,9 @@
 namespace App\controllers;
 use App\model\Usuario;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
+
 
 abstract class MiddlewarePrincipal {
 
@@ -14,7 +13,7 @@ abstract class MiddlewarePrincipal {
 
         // fazer a autenticação de usuário nessa url, e se tiver autenticado carregar a foto e o nome (se necessario)
 
-        return empty($_SESSION["_logado"]) ? false : true;
+        return empty($_SESSION['_logado']) ? false : true;
     }
 
 }

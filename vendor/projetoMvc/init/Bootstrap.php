@@ -8,10 +8,8 @@
  */
 namespace ProjetoMVC\init;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 /**
  * Classe responsavel pelo funcionanmento do padrão MVC
@@ -70,18 +68,6 @@ abstract class Bootstrap
      */
     protected function run($url)
     {
-
-        //Remove as barras e também remove URI caso tenha
-        $url = trim($url,'/');
-        if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),"/");
-
-        if (".php" === substr($url,-4))
-            $url = substr($url,0,-4);
-
-        $achou = false;
-        $tam = count($this->routes);
-
         /**
          * Se por acaso não encontrar nenhuma rota no site, que corresponde ao que o usuário passou,
          * então já é definido que será instanciado a controller 'home', e será chamado a Action 'pageError404'
@@ -89,19 +75,42 @@ abstract class Bootstrap
         $rota['controller'] = 'home';
         $rota['action'] = 'pageError404';
 
-        //busca a rota informada pela url no array de rotas do site
+        /*index pre-definido para o array de rotas*/
+        $index = '_';
 
-        for ($i = 0; $i < $tam && !$achou; $i++) {
-            if (preg_match($this->routes[$i]["exp_reg"], $url) && $this->routes[$i]["method"] === $_SERVER["REQUEST_METHOD"]) {
-                $achou = true;
-                $rota['controller'] = $this->routes[$i]['controller'];
-                $rota['action'] = $this->routes[$i]['action'];
+        //Remove as barras e também remove URI caso tenha
+        $url = trim($url,'/');
+        if(SUBDOMINIO)
+            $url = trim(substr($url, strlen(URI)),'/');
+
+        if ('.php' === substr($url,-4))
+            $url = substr($url,0,-4);
+
+        $partes_url = explode('/', $url);
+
+        if (count($partes_url) > 1)
+            $index = $partes_url[0];
+
+        if (!empty($this->routes[$index])) {
+
+            $achou = false;
+            $tam = count($this->routes[$index]);
+
+            //busca a rota informada pela url no array de rotas do site
+
+            for ($i = 0; $i < $tam && !$achou; $i++) {
+                if (preg_match($this->routes[$index][$i]['exp_reg'], $url) && $this->routes[$index][$i]['method'] === $_SERVER['REQUEST_METHOD']) {
+                    $achou = true;
+                    $rota['controller'] = $this->routes[$index][$i]['controller'];
+                    $rota['action'] = $this->routes[$index][$i]['action'];
+                }
             }
+
         }
 
         /*Instancia a controller da rota, e chama a action passada*/
-        $class = "App\\controllers\\"
-        .ucfirst($rota['controller']."Controller");
+        $class = 'App\\controllers\\'
+        .ucfirst($rota['controller'].'Controller');
         $rota['controller'] = new $class;
         $action = $rota['action'];
         $rota['controller']->$action();

@@ -5,10 +5,8 @@
 
 	use App\dao\MenuDao;
 
-	if (! defined('ABSPATH')){
-		header('Location: /');
-		exit();
-	}
+    if (! defined('ABSPATH'))
+        die;
 
 	class Menu extends MenuDao
 	{

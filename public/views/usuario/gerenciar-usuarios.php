@@ -2,7 +2,7 @@
 
 	$retorno = null;
 
-	include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
+	include_once ABSPATH . 'app/funcoesGlobais/paginacao.php';
 
 	if (!empty($this->dados->retorno))
 		$retorno = $this->dados->retorno;
@@ -17,8 +17,8 @@
 	$this->dados->alert = true;
 
 	$query_uri = '';
-	if (!empty($_SERVER["QUERY_STRING"]))
-		$query_uri .= "?" . $_SERVER["QUERY_STRING"];
+	if (!empty($_SERVER['QUERY_STRING']))
+		$query_uri .= '?' . $_SERVER['QUERY_STRING'];
 
 ?>
 
