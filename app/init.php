@@ -58,28 +58,28 @@ class Init extends Bootstrap
             'action' => 'logout'
         );
 
-        $array['usuarios'][] = array(
+        $array['_'][] = array(
             'exp_reg' => '/^alterar-perfil\/?$/',
             'method' => 'GET',
             'controller' => 'usuario',
             'action' => 'pageAlterarPerfil'
         );
 
-        $array['usuarios'][] = array(
+        $array['_'][] = array(
             'exp_reg' => '/^alterar-perfil\/?$/',
             'method' => 'POST',
             'controller' => 'usuario',
             'action' => 'requestAlterarPerfil'
         );
 
-        $array['usuarios'][] = array(
+        $array['_'][] = array(
             'exp_reg' => '/^alterar-senha\/?$/',
             'method' => 'GET',
             'controller' => 'usuario',
             'action' => 'pageAlterarSenha'
         );
 
-        $array['usuarios'][] = array(
+        $array['_'][] = array(
             'exp_reg' => '/^alterar-senha\/?$/',
             'method' => 'POST',
             'controller' => 'usuario',
