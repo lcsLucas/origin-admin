@@ -1,5 +1,6 @@
 ########
 - Core Design
+- Code Design
 
 - arrumar a mensagem de retorno ao usuário no mobile
 
@@ -7,19 +8,27 @@
  - tirar os css inlines e arrumar a visualização no mobile
     - usar o print tirado como referencia na pasta downloads
 
+- [ideia] Fazer uma unica pagina de Controle de menus
+    - Utilizar abas para [Permissões de menus] e [Ordenação de Menus]
+        - Nas permissões de menus ver a ideia abaixo de como fazer
+        - Para ordenação de menus utilizar o codigo de "ordenação de categorias de produtos" do projeto da loja virtual
+
 - no controle de acesso
     - usar o muitos-para-muitos entre o tipo e o menu para indicar quais tabelas os usuarios que pertentece a esse tipo poderá utilizar, usar isso apenas como uma recomensação generica para esse usuarios
     - usar o muitos-para-muitos entre usuarios e menus para gerenciar as permissões de acesso, isso permite que mesmo que um usuário pertença a um tipo de usuario que pode acessar determinada pagina, possa gerenciar os
         usuarios individualmente caso necessário
 
-- ideiaas de modo fazer a pagina de controle de permissões
+- ideias de modo fazer a pagina de controle de permissões
     - abrir um modal com todos os menus e submenus listados, onde é selecionado as permissões e ao clicar em confirmar defina essas permissões para esse usuário
         - criar uma opção para permissões no cadastro de usuários e tipos de usuários
     - ao criar na opção carregar todos os menus e submenus em baixo do registro na tabela, onde seleciona as permissões e depois de clicar em confirmar dáas permissões e remove essa seção dinamicas das listagens
         dos menus, voltando ao normal a tabela de listagens dos registros
 
-- remover a chamada do link style do icones do material icons, pois não está mais sendo usado
+- talves fazer apenas a tela para organizar as permissões e remover as opções de ordenação no menu e submenu
 
-- continuar no cadastro de menus
-    - fazer o excluir
-    - alterar ordem
+- continuar no cadastro dos submenus
+
+- arrumar o metodo de editar registros em todos os formularios
+    - depois do requestEdit, ele chama o metodo de pageEdit
+        - quando dar erro no editar, ao inves de mostrar os dados novos que o usuário digitou ele no caso recarrega as informações do registro que tá no banco
+            - perdendo as alterações do usuário

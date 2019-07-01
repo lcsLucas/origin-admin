@@ -263,10 +263,38 @@ class Init extends Bootstrap
 		);
 
 		$array[] = array(
-			'exp_reg' => '/^permissoes\/gerenciar-menus\/edit\/([0-9]+)\/?$/',
+			'exp_reg' => '/^permissoes\/(gerenciar-menus|gerenciar-submenus)\/edit\/([0-9]+)\/?$/',
 			'method' => 'POST',
 			'controller' => 'Menu',
 			'action' => 'requestMenusEdit'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-menus\/deletar\/?$/',
+			'method' => 'POST',
+			'controller' => 'Menu',
+			'action' => 'requestMenusDeletar'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-submenus\/?$/',
+			'method' => 'GET',
+			'controller' => 'Menu',
+			'action' => 'pageGerenciarSubMenus'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-submenus\/?$/',
+			'method' => 'POST',
+			'controller' => 'Menu',
+			'action' => 'requestGerenciarMenus'
+		);
+
+		$array[] = array(
+			'exp_reg' => '/^permissoes\/gerenciar-submenus\/edit\/([0-9]+)\/?$/',
+			'method' => 'GET',
+			'controller' => 'Menu',
+			'action' => 'pageSubMenusEdit'
 		);
 
         /*--------------*/

@@ -221,7 +221,7 @@ class SecaoMenuController extends Action
 				$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
 
 		} else
-			$this->setRetorno("Não foi possível deletar a Seção de Menus, tente novamente", true, false);
+			$this->setRetorno("Não foi possível excluir a Seção de Menus, tente novamente", true, false);
 
 		$this->dados->retorno = $this->getRetorno();
 		$this->ModificaURL(URL . "permissoes/gerenciar-secoes-menus"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'

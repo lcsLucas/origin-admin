@@ -301,7 +301,6 @@ if (! defined('ABSPATH')){
 </footer>
 
 <link rel="stylesheet" href="<?= URL_PUBLIC ?>vendors/font-awesome/css/all.min.css" >
-<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 <link href="<?= URL_CSS ?>estilo-painel.css" rel="stylesheet">
 <!-- CoreUI and necessary plugins-->
 <script src="<?= URL_PUBLIC ?>vendors/jquery/dist/jquery.min.js"></script>

@@ -26,7 +26,7 @@
 		<a href="<?= URL ?>">Dashboard</a>
 	</li>
 	<li class="breadcrumb-item active">Permissões</li>
-	<li class="breadcrumb-item active">Menus</li>
+	<li class="breadcrumb-item active">SubMenus</li>
 </ol>
 
 <div class="animated fadeIn">
@@ -39,39 +39,26 @@
 
 			<div class="card-header bg-primary py-3">
 				<h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? "Editar o Menu \"" . $parametros["param_nome"] . "\"" : "Gerenciar Menus" ?>
+					<?= !empty($this->dados->editar) ? "Editar o SubMenu \"" . $parametros["param_nome"] . "\"" : "Gerenciar SubMenus" ?>
 				</h5>
 			</div>
 
 			<div class="card-body border border-top-0 border-primary">
 
-				<form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-menus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-menus' . $query_uri ?>"
+				<form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-submenus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-submenus' . $query_uri ?>"
 					  method="post" class="form-validate" id="formMenus">
 
 					<p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
                     <div class="row clearfix">
 
-                        <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-12 col-md-12">
 
                             <div class="form-group form-group-lg">
-                                <label for="nome" class="font-weight-bold">Nome do Menu <sup
-                                            class="text-danger">*</sup>:</label>
+                                <label for="nome" class="font-weight-bold">Nome do SubMenu <sup class="text-danger">*</sup>:</label>
                                 <input tabindex="1" required maxlength="40" autofocus type="text" class="form-control form-control-lg"
                                        value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : '' ?>"
-                                       id="nome" name="nome" title="Por favor, informe o nome do menu">
-                            </div>
-
-                        </div>
-
-                        <div class="col-xs-12 col-md-6">
-
-                            <div class="form-group form-group-lg">
-                                <label for="url" class="font-weight-bold">URI do Menu <sup
-                                            class="text-muted font-weight-normal">(opcional)</sup>:</label>
-                                <input tabindex="2" maxlength="255" type="text" class="form-control form-control-lg"
-                                       value="<?= !empty($parametros['param_url']) ? $parametros['param_url'] : '' ?>"
-                                       id="url" name="url" title="Por favor, informe a uri do menu">
+                                       id="nome" name="nome" title="Por favor, informe o nome do submenu">
                             </div>
 
                         </div>
@@ -79,18 +66,18 @@
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="sel_secao" class="font-weight-bold">Seção de Menu <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
-                                <select tabindex="3" title="Por favor, selecione a seção de menu"
-                                        name="sel_secao" id="sel_secao" class="form-control form-control-lg">
+                                <label for="sel_menu" class="font-weight-bold">Menu Principal <sup class="text-danger">*</sup>:</label>
+                                <select tabindex="3" title="Por favor, selecione o menu principal"
+                                        name="sel_menu" id="sel_menu" class="form-control form-control-lg" required>
 
                                     <option value="">Selecione um Menu</option>
 
 									<?php
 
-										if (!empty($this->dados->todasSecoes)) {
-											foreach ($this->dados->todasSecoes as $sec) {
+										if (!empty($this->dados->todosMenus)) {
+											foreach ($this->dados->todosMenus as $men) {
 												?>
-                                                <option <?= !empty($parametros['param_secao']) && $parametros['param_secao'] === (int) $sec['idsecao_menu']  ? 'selected' : '' ?> value="<?= $sec['idsecao_menu'] ?>"><?= $sec['nome'] ?></option>
+                                                <option <?= !empty($parametros['param_menu']) && $parametros['param_menu'] === (int) $men['id']  ? 'selected' : '' ?> value="<?= $men['id'] ?>"><?= $men['nome'] ?></option>
 												<?php
 											}
 										}
@@ -105,13 +92,10 @@
                         <div class="col-xs-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="icone" class="font-weight-bold">
-                                    Ícone do Menu
-                                    <sup class="text-muted font-weight-normal"><a target="_blank" rel="noopener" href="https://fontawesome.com/icons"><i class="fas fa-external-link-alt"></i></a> (opcional)</sup>:
-                                </label>
-                                <input tabindex="4" maxlength="60" type="text" class="form-control form-control-lg"
-                                       value="<?= !empty($parametros['param_icone']) ? $parametros['param_icone'] : '' ?>"
-                                       id="icone" name="icone" title="Por favor, informe o ícone do menu">
+                                <label for="url" class="font-weight-bold">URI do SubMenu <sup class="text-danger">*</sup>:</label>
+                                <input tabindex="2" maxlength="255" type="text" class="form-control form-control-lg"
+                                       value="<?= !empty($parametros['param_url']) ? $parametros['param_url'] : '' ?>"
+                                       id="url" name="url" title="Por favor, informe a uri do submenu" required>
                             </div>
 
                         </div>
@@ -119,8 +103,9 @@
                     </div>
 
 					<div class="form-group form-group-lg text-right mt-5 mb-0">
+                        <input type="hidden" name="sub_on" value="">
 						<input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
-						<a tabindex="6" role="button" href="<?= URL ?>permissoes/gerenciar-menus"
+						<a tabindex="6" role="button" href="<?= URL ?>permissoes/gerenciar-submenus"
 						   class="btn btn-lg active btn-link text-primary">Cancelar</a>
 						<button tabindex="5" type="submit" class="btn btn-success active text-white btn-lg" name="btnConfirmar">
 							Confirmar <i class="fa fa-check fa-fw"></i></button>
@@ -135,7 +120,7 @@
         <div class="card border-primary">
 
             <div class="card-header bg-primary py-3">
-                <h5 class="text-uppercase m-0 text-white text-center text-md-left">Menus Cadastrados</h5>
+                <h5 class="text-uppercase m-0 text-white text-center text-md-left">SubMenus Cadastrados</h5>
             </div>
 
             <div class="card-body p-0">
@@ -185,7 +170,7 @@
                                         <td class="text-center">
 
                                             <a class="btn btn-primary btn-acao editar" title="Editar"
-                                               href="<?= URL . 'permissoes/gerenciar-menus/edit/' . $registro['id'] . $query_uri ?>">
+                                               href="<?= URL . 'permissoes/gerenciar-submenus/edit/' . $registro['id'] . $query_uri ?>">
                                                 <i class="fas fa-pen"></i>
                                             </a>
 
@@ -197,7 +182,7 @@
                                                 <input type="hidden" name="token"
                                                        value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                                                 <button type="button" class="btn btn-danger btn-acao deletar"
-                                                        title="Excluir Menu">
+                                                        title="Excluir SubMenu">
                                                     <i class="fas fa-times"></i>
                                                 </button>
 
@@ -209,7 +194,7 @@
 									<?php
 								}
 							} else {
-								echo '<tr><td class="text-center text-muted" colspan="4">Nenhum menu cadastrado</td></tr>';
+								echo '<tr><td class="text-center text-muted" colspan="4">Nenhum submenu cadastrado</td></tr>';
 							}
 
 						?>

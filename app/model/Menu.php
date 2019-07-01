@@ -180,6 +180,14 @@
 			return $this->totalRegistrosDAO();
 		}
 
+		public  function paginacao2($incio, $fim) {
+			return $this->limiteRegistroDAO2($incio, $fim);
+		}
+
+		public function totalRegistros2() {
+			return $this->totalRegistrosDAO2();
+		}
+
 		public function cadastrar() {
 			return $this->cadastrarDAO();
 		}
@@ -194,6 +202,14 @@
 
 		public function alterar() {
 			return $this->alterarDAO();
+		}
+
+		public function excluir() {
+			return $this->excluirDAO();
+		}
+
+		public function listarTodosMenus() {
+			return $this->listarTodosMenusDAO();
 		}
 
 	}

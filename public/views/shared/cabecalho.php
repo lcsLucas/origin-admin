@@ -179,7 +179,7 @@ $usuario_logado = UsuarioController::carregarInformacoes2();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= URL ?>" target="_top">
+                            <a class="nav-link" href="<?= URL ?>permissoes/gerenciar-submenus" target="_top">
                                 Gerenciar SubMenus
                             </a>
                         </li>

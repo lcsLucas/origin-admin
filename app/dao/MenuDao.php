@@ -33,7 +33,32 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare("SELECT * FROM menu WHERE menu_pai IS NULL ORDER BY ordem LIMIT :inicio,:fim");
+					$stms = $this->getCon()->prepare("SELECT * FROM menu m WHERE menu_pai IS NULL ORDER BY ordem LIMIT :inicio,:fim");
+					$stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
+					$stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
+
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return array();
+		}
+
+		protected function limiteRegistroDAO2($inicio, $fim) {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+
+					$stms = $this->getCon()->prepare("SELECT * FROM menu m WHERE menu_pai IS NOT NULL ORDER BY nome LIMIT :inicio,:fim");
 					$stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
 					$stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
 
@@ -59,6 +84,31 @@
 				{
 
 					$stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM menu WHERE menu_pai IS NULL");
+					$stms->execute();
+					$result = $stms->fetch(\PDO::FETCH_ASSOC);
+
+					if (!empty($result))
+						return $result["total"];
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return 0;
+		}
+
+		protected function totalRegistrosDAO2() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+
+					$stms = $this->getCon()->prepare("SELECT COUNT(*) total FROM menu WHERE menu_pai IS NOT NULL");
 					$stms->execute();
 					$result = $stms->fetch(\PDO::FETCH_ASSOC);
 
@@ -143,7 +193,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT id, nome, url, idsecao_menu, icone FROM menu WHERE id = :id LIMIT 1");
+					$stms = $this->getCon()->prepare("SELECT id, nome, url, idsecao_menu, icone, menu_pai FROM menu WHERE id = :id LIMIT 1");
 					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
 
 					$stms->execute();
@@ -155,6 +205,7 @@
 						$this->menu->setUrl($result['url']);
 						$this->menu->setSecaoMenu((int) $result['idsecao_menu']);
 						$this->menu->setIcone($result['icone']);
+						$this->menu->setMenuPai((int) $result['menu_pai']);
 						return true;
 					}
 
@@ -194,6 +245,54 @@
 			endif;
 
 			return false;
+		}
+
+		protected function excluirDAO() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+
+					$stms = $this->getCon()->prepare("DELETE FROM menu WHERE id = :id");
+					$stms->bindValue(":id", $this->menu->getId(), \PDO::PARAM_INT);
+					if ($stms->execute())
+						return $stms->rowCount();
+					else
+						return false;
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return false;
+		}
+
+		protected function listarTodosMenusDAO() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu ORDER BY nome");
+
+					$stms->execute();
+
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
 		}
 
 	}
