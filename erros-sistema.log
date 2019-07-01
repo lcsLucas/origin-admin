@@ -3,3 +3,4 @@
 [2019-06-19 13:51:11] Erro Ao Fazer a Consulta No Banco de Dados | SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
 [2019-06-21 12:36:46] Erro Ao Conectar Com o Banco de Dados | SQLSTATE[HY000] [1049] Unknown database 'projeto_ddmvc'
 [2019-06-26 08:28:46] Erro Ao Fazer a Consulta No Banco de Dados | SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`projeto_mvc`.`menu`, CONSTRAINT `fk_menu_adminitrativo_secao_menu1` FOREIGN KEY (`idsecao_menu`) REFERENCES `secao_menu` (`idsecao_menu`) ON DELETE NO ACTION ON UPDATE NO ACTION)
+[2019-06-30 14:41:58] Erro Ao Fazer a Consulta No Banco de Dados | SQLSTATE[42S02]: Base table or view not found: 1146 Table 'projeto_mvc.menu' doesn't exist\n[2019-06-30 14:41:58] Erro Ao Fazer a Consulta No Banco de Dados | SQLSTATE[42S02]: Base table or view not found: 1146 Table 'projeto_mvc.menu' doesn't exist\n

@@ -2,16 +2,13 @@
 
 	namespace App\controllers;
 
-	use App\model\Usuario;
 	use ProjetoMvc\render\Action;
 	use App\model\Data_Validator;
 	use App\model\Menu;
 	use App\model\SecaoMenu;
 
-	if (! defined('ABSPATH')){
-		header("Location: /");
-		exit();
-	}
+    if (! defined('ABSPATH'))
+        die;
 
 	class MenuController extends Action
 	{
@@ -21,14 +18,14 @@
 			/**
 			 * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
 			 */
-			$this->layoutPadrao = PATH_VIEWS."shared/layoutPadrao";
+			$this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
 		}
 
 		public function pageGerenciarMenus() {
 			$secao_menu = new SecaoMenu();
 			$menus = new Menu();
 
-			$pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+			$pagina_atual = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
 			$pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
 			$qtde_registros = 5;
@@ -51,7 +48,7 @@
 			$this->dados->paginacao->total_registros = $menus->totalRegistros();
 
 			$this->dados->todasSecoes = $secao_menu->listarTodas();
-			$this->dados->title = "Gerenciar Menus";
+			$this->dados->title = 'Gerenciar Menus';
 			$this->dados->validation = true;
 			$this->render('gerenciar-menus.php');
 		}
@@ -93,6 +90,7 @@
 
 			$nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
 			$url = trim(filter_input(INPUT_POST, 'url', FILTER_SANITIZE_SPECIAL_CHARS));
+			$id_secao = filter_input(INPUT_POST, 'sel_secao', FILTER_VALIDATE_INT);
 			$id_secao = filter_input(INPUT_POST, "sel_secao", FILTER_VALIDATE_INT);
 			$id_menu = filter_input(INPUT_POST, "sel_menu", FILTER_VALIDATE_INT);
 			$icone = trim(filter_input(INPUT_POST, 'icone', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -103,8 +101,10 @@
 
 			$validate
 				->set('nome', $nome)->is_required()->max_length(40)
+				->set('url', $url)->is_required()->max_length(255)
+				->set('token', $token)->is_required()
 				->set('url', $url)->max_length(255)
-				->set("token", $token)->is_required();
+				->set('token', $token)->is_required();
 
 			if ($cad_submenu) {
 				$validate->set('url', $url)->is_required();
@@ -126,14 +126,14 @@
 						$menus->setMenuPai($id_menu);
 
 					if ($menus->cadastrar())
-						$this->setRetorno("Menu cadastrado com sucesso", true, true);
-					else if(!empty($menus->getRetorno()["exibir"]))
-						$this->setRetorno($menus->getRetorno()["mensagem"], $menus->getRetorno()["exibir"], $menus->getRetorno()["status"]);
+						$this->setRetorno('Menu cadastrado com sucesso', true, true);
+					else if(!empty($menus->getRetorno()['exibir']))
+						$this->setRetorno($menus->getRetorno()['mensagem'], $menus->getRetorno()['exibir'], $menus->getRetorno()['status']);
 					else
-						$this->setRetorno("Não foi possível cadastrar o menu, tente novamente", true, false);
+						$this->setRetorno('Não foi possível cadastrar o menu, tente novamente', true, false);
 
 				} else
-					$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+					$this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 			} else {
 				$array_erros = $validate->get_errors();
@@ -142,15 +142,15 @@
 				$this->setRetorno($erro, true, false);
 			}
 
-			if (empty($this->getRetorno()["status"])) { //quando dar erro, devove os parametros passados para view, e coloca nos campos correspondente
+			if (empty($this->getRetorno()['status'])) { //quando dar erro, devove os parametros passados para view, e coloca nos campos correspondente
 
 				$this->dados->parametros =
 					array(
-						"param_nome" => $nome,
-						"param_url" => $url,
-						"param_secao" => $id_secao,
-						"param_icone" => $icone,
-						"param_menu" => $id_menu
+						'param_nome' => $nome,
+						'param_url' => $url,
+						'param_secao' => $id_secao,
+						'param_icone' => $icone,
+						'param_menu' => $id_menu
 					);
 
 			}
@@ -164,7 +164,7 @@
 
 		public function requestAlterarStatus() {
 			$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
-			$status = filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
+			$status = filter_has_var(INPUT_POST, 'alterar-status') ? '1' : '0';
 
 			if (!empty($id)) {
 
@@ -173,12 +173,12 @@
 				$menu->setAtivo($status);
 
 				if (!empty($menu->alterarStatus()))
-					$retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
+					$retorno = array('status' => $status ? true : false, 'msg' => '', 'erro' => false);
 				else
-					$retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+					$retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
 			} else
-				$retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+				$retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
 			echo json_encode($retorno, JSON_FORCE_OBJECT);
 		}
@@ -202,7 +202,7 @@
 			if (!empty($carregado))
 				$this->pageGerenciarMenus();
 			else {
-				header("Location: " . URL . "permissoes/gerenciar-menus");
+				header('Location: ' . URL . 'permissoes/gerenciar-menus');
 				die();
 			}
 
@@ -240,8 +240,8 @@
 			$id = $this->getIdUri();
 			$nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
 			$url = trim(filter_input(INPUT_POST, 'url', FILTER_SANITIZE_SPECIAL_CHARS));
-			$id_secao = filter_input(INPUT_POST, "sel_secao", FILTER_VALIDATE_INT);
-			$id_menu = filter_input(INPUT_POST, "sel_menu", FILTER_VALIDATE_INT);
+			$id_secao = filter_input(INPUT_POST, 'sel_secao', FILTER_VALIDATE_INT);
+			$id_menu = filter_input(INPUT_POST, 'sel_menu', FILTER_VALIDATE_INT);
 			$icone = trim(filter_input(INPUT_POST, 'icone', FILTER_SANITIZE_SPECIAL_CHARS));
 			$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 			$cad_submenu = filter_has_var(INPUT_POST, 'sub_on');
@@ -254,7 +254,7 @@
 				$validate
 					->set('nome', $nome)->is_required()->max_length(40)
 					->set('url', $url)->max_length(255)
-					->set("token", $token)->is_required();
+					->set('token', $token)->is_required();
 
 				if ($cad_submenu) {
 					$validate->set('url', $url)->is_required();
@@ -275,14 +275,14 @@
 							$menus->setMenuPai($id_menu);
 
 						if ($menus->alterar())
-							$this->setRetorno("Menu alterado com sucesso", true, true);
-						else if(!empty($menus->getRetorno()["exibir"]))
-							$this->setRetorno($menus->getRetorno()["mensagem"], $menus->getRetorno()["exibir"], $menus->getRetorno()["status"]);
+							$this->setRetorno('Menu alterado com sucesso', true, true);
+						else if(!empty($menus->getRetorno()['exibir']))
+							$this->setRetorno($menus->getRetorno()['mensagem'], $menus->getRetorno()['exibir'], $menus->getRetorno()['status']);
 						else
-							$this->setRetorno("Não foi possível alterar o menu, tente novamente", true, false);
+							$this->setRetorno('Não foi possível alterar o menu, tente novamente', true, false);
 
 					} else
-						$this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+						$this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 				} else {
 					$array_erros = $validate->get_errors();
@@ -292,7 +292,7 @@
 				}
 
 			} else
-				$this->setRetorno("Não foi possível alterar esse menu, tente novamente", true, false);
+				$this->setRetorno('Não foi possível alterar esse menu, tente novamente', true, false);
 
 			$this->dados->retorno = $this->getRetorno();
 			if ($cad_submenu)
@@ -333,20 +333,20 @@
 		}
 
 		private function getIdUri() {
-			$url = $_SERVER["REQUEST_URI"];
+			$url = $_SERVER['REQUEST_URI'];
 
 			//Remove as barras e também remove URI caso tenha
 			$url = trim($url,'/');
 			if(SUBDOMINIO)
-				$url = trim(substr($url, strlen(URI)),"/");
+				$url = trim(substr($url, strlen(URI)),'/');
 
-			if (".php" === substr($url,-4))
+			if ('.php' === substr($url,-4))
 				$url = substr($url,0,-4);
 
-			$pos = strripos($url, "/");
+			$pos = strripos($url, '/');
 			$valor = substr($url,$pos+1);
 
-			$pos = strpos($valor,"?");
+			$pos = strpos($valor,'?');
 			if (!empty($pos)) {
 				$valor = substr($valor, 0, $pos);
 			}

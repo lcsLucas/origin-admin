@@ -129,13 +129,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-0">
+            <div class="modal-body py-5">
                 <div id="wrapper-img-crop"></div>
-                <p class="text-white text-center mt-5 mb-2 mx-0 font-weight-light">Arraste para posicionar a foto e
-                    clique em "Confirmar"</p>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                </div>
             </div>
             <div class="modal-footer">
                 <button id="confirmaFoto" disabled type="button" class="btn btn-primary btn-lg"><i

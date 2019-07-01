@@ -3,10 +3,8 @@ namespace App\model;
 
 use App\dao\UsuarioDao;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class Usuario extends UsuarioDao{
     private $id;
@@ -34,7 +32,7 @@ class Usuario extends UsuarioDao{
     public function __construct($data_cadastro = null, $nome = null, $login = null, $senha = null, $email = null, $ativo = 0, $tipo = null, $apelido = null)
     {
         parent::__construct($this);
-        $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date("Y-m-d");
+        $this->data_cadastro = !empty($data_cadastro) ? $data_cadastro : date('Y-m-d');
         $this->nome = $nome;
         $this->login = $login;
         $this->senha = $senha;
@@ -211,21 +209,21 @@ class Usuario extends UsuarioDao{
 
         if (!empty($result)) {
 
-            if (password_verify($this->senha, $result["usu_senha"])) {
-                $this->id = $result["usu_id"];
+            if (password_verify($this->senha, $result['usu_senha'])) {
+                $this->id = $result['usu_id'];
                 $this->UltimoAcessoDAO();
-                $_SESSION["_idusuario"] = $result["usu_id"];
-                $_SESSION["_logado"] = true;
+                $_SESSION['_idusuario'] = $result['usu_id'];
+                $_SESSION['_logado'] = true;
                 session_write_close();
 
                 return true;
 
             } else {
-                $this->setRetorno("usuário ou senha estão incorretos", true, false);
+                $this->setRetorno('usuário ou senha estão incorretos', true, false);
             }
 
-        } elseif(empty($this->getRetorno()["exibir"])) {
-            $this->setRetorno("Não foi possível fazer o login", true, false);
+        } elseif(empty($this->getRetorno()['exibir'])) {
+            $this->setRetorno('Não foi possível fazer o login', true, false);
         }
 
     	return false;
@@ -267,11 +265,11 @@ class Usuario extends UsuarioDao{
 
                 if ($result && !empty($img_excluir) && $img_excluir !== $this->imagem->getNomeImagem()) {
 
-					if (file_exists(PATH_IMG . "usuarios/" . $img_excluir))
-						unlink(PATH_IMG . "usuarios/" . $img_excluir);
+					if (file_exists(PATH_IMG . 'usuarios/' . $img_excluir))
+						unlink(PATH_IMG . 'usuarios/' . $img_excluir);
 
-					if (file_exists(PATH_IMG . "usuarios/thumbs/" . $img_excluir))
-						unlink(PATH_IMG . "usuarios/thumbs/" . $img_excluir);
+					if (file_exists(PATH_IMG . 'usuarios/thumbs/' . $img_excluir))
+						unlink(PATH_IMG . 'usuarios/thumbs/' . $img_excluir);
 
 				}
 
@@ -298,13 +296,13 @@ class Usuario extends UsuarioDao{
 
         if (!empty($result)) {
 
-            if (password_verify($senha_atual, $result["usu_senha"])) {
+            if (password_verify($senha_atual, $result['usu_senha'])) {
 
                 $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
                 return $this->alterarSenhaDAO();
 
             } else
-                $this->setRetorno("Senha atual informada está incorreta", true, false);
+                $this->setRetorno('Senha atual informada está incorreta', true, false);
 
         }
 
@@ -337,10 +335,10 @@ class Usuario extends UsuarioDao{
                     return true;
 
             } else
-                $this->setRetorno("O usuário informado já existe no sistema", true, false);
+                $this->setRetorno('O usuário informado já existe no sistema', true, false);
 
         } else
-            $this->setRetorno("O email informado já existe no sistema", true, false);
+            $this->setRetorno('O email informado já existe no sistema', true, false);
 
         return false;
     }
@@ -351,10 +349,10 @@ class Usuario extends UsuarioDao{
 
         if (!empty($result)) {
 
-            $this->nome = $result["usu_nome"];
-            $this->login = $result["usu_login"];
-            $this->email = $result["usu_email"];
-            $this->tipo = $result["tip_id"];
+            $this->nome = $result['usu_nome'];
+            $this->login = $result['usu_login'];
+            $this->email = $result['usu_email'];
+            $this->tipo = $result['tip_id'];
 
             return true;
         }

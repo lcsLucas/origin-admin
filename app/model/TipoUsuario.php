@@ -3,10 +3,8 @@ namespace App\model;
 
 use App\dao\TipoUsuarioDao;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class TipoUsuario extends TipoUsuarioDao{
     private $id;
@@ -26,7 +24,7 @@ class TipoUsuario extends TipoUsuarioDao{
         $this->nome = $nome;
         $this->ativo = $ativo;
         $this->flag_adm = '0';
-        $this->data_cadastro = date("Y-m-d");
+        $this->data_cadastro = date('Y-m-d');
     }
 
 
@@ -132,7 +130,7 @@ class TipoUsuario extends TipoUsuarioDao{
 
         if (!empty($result)) {
 
-            $this->nome = $result["tip_nome"];
+            $this->nome = $result['tip_nome'];
             return true;
 
         }
@@ -150,10 +148,10 @@ class TipoUsuario extends TipoUsuarioDao{
         return false;
     }
     public function carregarTipoUsuario() {
-        $retorno = $this->carregarTipoUsuarioDAO($_SESSION["_idusuario"]);
+        $retorno = $this->carregarTipoUsuarioDAO($_SESSION['_idusuario']);
 
         if (!empty($retorno)) {
-            $this->id = $retorno["tip_id"];
+            $this->id = $retorno['tip_id'];
             $this->flag_adm = $retorno['tip_administrador'];
             return true;
         }

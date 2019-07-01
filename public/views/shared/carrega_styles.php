@@ -1,8 +1,6 @@
 <?php
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 ?>
 
 <link href="<?= URL_CSS ?>estilo.css" rel="stylesheet" type="text/css" />

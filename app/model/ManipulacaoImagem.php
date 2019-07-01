@@ -4,10 +4,8 @@ namespace App\model;
 
 use WideImage\WideImage;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class ManipulacaoImagem
 {
@@ -112,26 +110,26 @@ class ManipulacaoImagem
 
         $tamanho_maximo = !empty($tamanho_maximo) ? $tamanho_maximo : 1572864;
 
-        if (!empty($this->file_imagem["error"]) && $this->file_imagem["error"] !== 4) {
+        if (!empty($this->file_imagem['error']) && $this->file_imagem['error'] !== 4) {
 
-            if ($this->file_imagem["error"] === 1 || $this->file_imagem["error"] === 2)
-                $this->setRetorno("O arquivo \"". $this->file_imagem["name"] ."\" excede o tamanho máximo permitido no servidor.", true, false);
-            elseif($this->file_imagem["error"] === 3)
-                $this->setRetorno("Não foi possível fazer o upload completo do arquivo, tente novamente", true, false);
-            elseif($this->file_imagem["error"] === 6)
-                $this->setRetorno("Não foi possível fazer o upload do arquivo (pasta temporária ausente)", true, false);
+            if ($this->file_imagem['error'] === 1 || $this->file_imagem['error'] === 2)
+                $this->setRetorno('O arquivo \''. $this->file_imagem['name'] .'\' excede o tamanho máximo permitido no servidor.', true, false);
+            elseif($this->file_imagem['error'] === 3)
+                $this->setRetorno('Não foi possível fazer o upload completo do arquivo, tente novamente', true, false);
+            elseif($this->file_imagem['error'] === 6)
+                $this->setRetorno('Não foi possível fazer o upload do arquivo (pasta temporária ausente)', true, false);
             else
-                $this->setRetorno("Erro inesperável no upload do arquivo, tente novamente", true, false);
+                $this->setRetorno('Erro inesperável no upload do arquivo, tente novamente', true, false);
 
             $erro_img = true;
-        } else if($this->file_imagem["size"] > $tamanho_maximo) {
-            $this->setRetorno("O arquivo \"" . $this->file_imagem["name"] . "\" excede o tamanho máximo permitido de 1,5MB.", true, false);
+        } else if($this->file_imagem['size'] > $tamanho_maximo) {
+            $this->setRetorno('O arquivo \'' . $this->file_imagem['name'] . '\' excede o tamanho máximo permitido de 1,5MB.', true, false);
             $erro_img = true;
         }
 
         if (!$erro_img) {
 
-            $this->tipo_imagem = ".jpg";
+            $this->tipo_imagem = '.jpg';
             $this->parametro_imagem = null;
 
             $ind_img = array_search($this->getFileImagem()['type'], $tipos_permitidos);
@@ -151,7 +149,7 @@ class ManipulacaoImagem
 
             } else {
                 $erro_img = true;
-                $this->setRetorno("O Tipo do arquivo enviado é inválido. Por favor, envie um arquivo do tipo \"". implode(', ', $tipos_permitidos) ."\"", true, false);
+                $this->setRetorno('O Tipo do arquivo enviado é inválido. Por favor, envie um arquivo do tipo \''. implode(', ', $tipos_permitidos) .'\'', true, false);
             }
 
         }
@@ -178,7 +176,7 @@ class ManipulacaoImagem
         if (empty($this->objetoWide)) {
 
         	try {
-				$this->objetoWide = WideImage::loadFromFile($this->file_imagem["tmp_name"]);
+				$this->objetoWide = WideImage::loadFromFile($this->file_imagem['tmp_name']);
 				return true;
 			} catch(\Exception $e) {
 				$this->setRetorno($e->getMessage(), true, false);

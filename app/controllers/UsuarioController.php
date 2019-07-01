@@ -7,10 +7,8 @@ use App\model\Usuario;
 use App\model\TipoUsuario;
 use App\model\Data_Validator;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class UsuarioController extends Action
 {
@@ -22,7 +20,7 @@ class UsuarioController extends Action
         /**
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
          */
-        $this->layoutPadrao = PATH_VIEWS."shared/layoutPadrao";
+        $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
     }
 
     /**
@@ -33,19 +31,19 @@ class UsuarioController extends Action
     public function pageAlterarPerfil()
     {
         $usu = new Usuario();
-        $usu->setId($_SESSION["_idusuario"]);
+        $usu->setId($_SESSION['_idusuario']);
         $usu->carregarInformacoes();
 
         $this->dados->informacoes = $usu;
         $this->dados->input_drop = true;
         $this->dados->cropjs = true;
         $this->dados->validation = true;
-        $this->dados->title = "Alterar Perfil";
+        $this->dados->title = 'Alterar Perfil';
         $this->render('alterar-perfil.php');
     }
 
     public function pageAlterarSenha() {
-        $this->dados->title = "Alterar Senha";
+        $this->dados->title = 'Alterar Senha';
         $this->dados->validation = true;
         $this->render('alterar-senha.php');
     }
@@ -60,10 +58,10 @@ class UsuarioController extends Action
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
         $validate
-            ->set("senha atual", $senha_atual)->is_required()->max_length(30)
-            ->set("\"nova senha\"", $senha_nova)->is_required()->max_length(30)
-            ->set("\"repita senha\"", $senha_nova2)->is_required()->max_length(30)
-            ->set("token", $token)->is_required();
+            ->set('senha atual', $senha_atual)->is_required()->max_length(30)
+            ->set('\'nova senha\'', $senha_nova)->is_required()->max_length(30)
+            ->set('\'repita senha\'', $senha_nova2)->is_required()->max_length(30)
+            ->set('token', $token)->is_required();
 
         if ($validate->validate()) {
 
@@ -71,22 +69,22 @@ class UsuarioController extends Action
 
                 if (password_verify(TOKEN_SESSAO, $token)) {
 
-                    $usuario->setId($_SESSION["_idusuario"]);
+                    $usuario->setId($_SESSION['_idusuario']);
                     $usuario->setSenha($senha_nova);
 
                     if ($usuario->alterarSenha($senha_atual))
-                        $this->setRetorno("Senha alterada com sucesso", true, true);
-                    else if($usuario->getRetorno()["exibir"])
-                        $this->setRetorno($usuario->getRetorno()["mensagem"], $usuario->getRetorno()["exibir"], $usuario->getRetorno()["status"]);
+                        $this->setRetorno('Senha alterada com sucesso', true, true);
+                    else if($usuario->getRetorno()['exibir'])
+                        $this->setRetorno($usuario->getRetorno()['mensagem'], $usuario->getRetorno()['exibir'], $usuario->getRetorno()['status']);
                     else
-                        $this->setRetorno("Não foi possível alterar a senha, tente novamente", true, false);
+                        $this->setRetorno('Não foi possível alterar a senha, tente novamente', true, false);
 
                 } else
-                    $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                    $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 
             } else
-                $this->setRetorno("As senhas informadas não batem", true, false);
+                $this->setRetorno('As senhas informadas não batem', true, false);
 
 
         } else {
@@ -108,12 +106,12 @@ class UsuarioController extends Action
         $apelido = trim(filter_input(INPUT_POST, 'apelido', FILTER_SANITIZE_SPECIAL_CHARS));
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
         $dados_imagem = trim(filter_input(INPUT_POST, 'dados_imagem', FILTER_DEFAULT));
-        $file = !empty($_FILES["avatar"]["tmp_name"]) ? $_FILES["avatar"] : array();
+        $file = !empty($_FILES['avatar']['tmp_name']) ? $_FILES['avatar'] : array();
 
         $validate->define_pattern('erro_');
         $validate
-            ->set("nome", $nome)->is_required()
-            ->set("token", $token)->is_required();
+            ->set('nome', $nome)->is_required()
+            ->set('token', $token)->is_required();
 
         if ($validate->validate()) {
 
@@ -134,7 +132,7 @@ class UsuarioController extends Action
 
                     $usuario->setNome($nome);
                     $usuario->setApelido($apelido);
-                    $usuario->setId($_SESSION["_idusuario"]);
+                    $usuario->setId($_SESSION['_idusuario']);
 
                     $dados_imagem = json_decode($dados_imagem, true);
                     if (json_last_error() === JSON_ERROR_NONE)
@@ -144,17 +142,17 @@ class UsuarioController extends Action
                         $usuario->getImagem()->setDadosImagem($dados_imagem);
 
                     if ($usuario->alterarPerfil())
-                        $this->setRetorno("Perfil foi alterado com sucesso", true, true);
-                    else if($usuario->getRetorno()["exibir"])
-                        $this->setRetorno($usuario->getRetorno()["mensagem"], $usuario->getRetorno()["exibir"], $usuario->getRetorno()["status"]);
+                        $this->setRetorno('Perfil foi alterado com sucesso', true, true);
+                    else if($usuario->getRetorno()['exibir'])
+                        $this->setRetorno($usuario->getRetorno()['mensagem'], $usuario->getRetorno()['exibir'], $usuario->getRetorno()['status']);
                     else
-                        $this->setRetorno("Não foi possível alterar seu perfil, tente novamente", true, false);
+                        $this->setRetorno('Não foi possível alterar seu perfil, tente novamente', true, false);
 
                 } else
                     $this->retorno = $usuario->getImagem()->getRetorno();
 
             } else
-                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
         } else {
             $array_erros = $validate->get_errors();
@@ -172,7 +170,7 @@ class UsuarioController extends Action
         $usuario = new Usuario();
         $tipo = new TipoUsuario();
 
-        $pagina_atual = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+        $pagina_atual = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
 
         $qtde_registros = 5;
@@ -206,7 +204,7 @@ class UsuarioController extends Action
         $this->dados->tipo_id = $tipo->getId();
         $this->dados->todosTipos = $tipo->listarTodos();
 
-        $this->dados->title = "Gerenciar usuários";
+        $this->dados->title = 'Gerenciar usuários';
         $this->dados->validation = true;
         $this->render('gerenciar-usuarios.php');
     }
@@ -221,17 +219,17 @@ class UsuarioController extends Action
         $senha_nova = trim(filter_input(INPUT_POST, 'senha_nova', FILTER_SANITIZE_SPECIAL_CHARS));
         $senha_nova2 = trim(filter_input(INPUT_POST, 'senha_nova2', FILTER_SANITIZE_SPECIAL_CHARS));
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
-        $id_tipo = filter_input(INPUT_POST, "sel_tipo", FILTER_VALIDATE_INT);
+        $id_tipo = filter_input(INPUT_POST, 'sel_tipo', FILTER_VALIDATE_INT);
 
         $validate->define_pattern('erro_');
         $validate
-            ->set("nome", $nome)->is_required()
-            ->set("email", $email)->is_required()->is_email()
-            ->set("tipo de usuario", $id_tipo)->is_required()
-            ->set("usuario", $usuario)->is_required()
-            ->set("\"nova senha\"", $senha_nova)->is_required()->max_length(30)
-            ->set("\"repita senha\"", $senha_nova2)->is_required()->max_length(30)
-            ->set("token", $token)->is_required();
+            ->set('nome', $nome)->is_required()
+            ->set('email', $email)->is_required()->is_email()
+            ->set('tipo de usuario', $id_tipo)->is_required()
+            ->set('usuario', $usuario)->is_required()
+            ->set('\'nova senha\'', $senha_nova)->is_required()->max_length(30)
+            ->set('\'repita senha\'', $senha_nova2)->is_required()->max_length(30)
+            ->set('token', $token)->is_required();
 
         if ($validate->validate()) {
 
@@ -246,18 +244,18 @@ class UsuarioController extends Action
                     $usu->setTipo($id_tipo);
 
                     if ($usu->inserir())
-                        $this->setRetorno("Usuário cadastrado com sucesso", true, true);
-                    else if(!empty($usu->getRetorno()["exibir"]))
-                        $this->setRetorno($usu->getRetorno()["mensagem"], $usu->getRetorno()["exibir"], $usu->getRetorno()["status"]);
+                        $this->setRetorno('Usuário cadastrado com sucesso', true, true);
+                    else if(!empty($usu->getRetorno()['exibir']))
+                        $this->setRetorno($usu->getRetorno()['mensagem'], $usu->getRetorno()['exibir'], $usu->getRetorno()['status']);
                     else
-                        $this->setRetorno("Não foi possível cadastrar o usuário, tente novamente", true, false);
+                        $this->setRetorno('Não foi possível cadastrar o usuário, tente novamente', true, false);
 
                 } else
-                    $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                    $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 
             } else
-                $this->setRetorno("As senhas informadas não batem", true, false);
+                $this->setRetorno('As senhas informadas não batem', true, false);
 
 
         } else {
@@ -267,14 +265,14 @@ class UsuarioController extends Action
             $this->setRetorno($erro, true, false);
         }
 
-        if (empty($this->getRetorno()["status"])) { //quando dar erro, devove os parametros passados para view, e coloca nos campos correspondente
+        if (empty($this->getRetorno()['status'])) { //quando dar erro, devove os parametros passados para view, e coloca nos campos correspondente
 
             $this->dados->parametros =
                 array(
-                    "param_nome" => $nome,
-                    "param_email" => $email,
-                    "param_tipo" => $id_tipo,
-                    "param_usuario" => $usuario
+                    'param_nome' => $nome,
+                    'param_email' => $email,
+                    'param_tipo' => $id_tipo,
+                    'param_usuario' => $usuario
                 );
 
         }
@@ -287,20 +285,20 @@ class UsuarioController extends Action
     public function pageUsuariosEdit() {
         $usuario = new Usuario();
 
-        $url = $_SERVER["REQUEST_URI"];
+        $url = $_SERVER['REQUEST_URI'];
 
         //Remove as barras e também remove URI caso tenha
         $url = trim($url,'/');
         if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),"/");
+            $url = trim(substr($url, strlen(URI)),'/');
 
-        if (".php" === substr($url,-4))
+        if ('.php' === substr($url,-4))
             $url = substr($url,0,-4);
 
-        $pos = strripos($url, "/");
+        $pos = strripos($url, '/');
         $valor = substr($url,$pos+1);
 
-        $pos = strpos($valor,"?");
+        $pos = strpos($valor,'?');
         if (!empty($pos)) {
             $valor = substr($valor, 0, $pos);
         }
@@ -316,11 +314,11 @@ class UsuarioController extends Action
 
                 $this->dados->parametros =
                     array(
-                        "param_id" => $usuario->getId(),
-                        "param_nome" => $usuario->getNome(),
-                        "param_email" => $usuario->getEmail(),
-                        "param_tipo" => $usuario->getTipo(),
-                        "param_usuario" => $usuario->getLogin()
+                        'param_id' => $usuario->getId(),
+                        'param_nome' => $usuario->getNome(),
+                        'param_email' => $usuario->getEmail(),
+                        'param_tipo' => $usuario->getTipo(),
+                        'param_usuario' => $usuario->getLogin()
                     );
 
                 $carregado = true;
@@ -331,7 +329,7 @@ class UsuarioController extends Action
         if (!empty($carregado))
             $this->pageGerenciarUsuarios();
         else {
-            header("Location: " . URL . "usuarios/gerenciar-usuarios");
+            header('Location: ' . URL . 'usuarios/gerenciar-usuarios');
             die();
         }
 
@@ -339,20 +337,20 @@ class UsuarioController extends Action
 
     public function requestUsuariosEdit() {
 
-        $url = $_SERVER["REQUEST_URI"];
+        $url = $_SERVER['REQUEST_URI'];
 
         //Remove as barras e também remove URI caso tenha
         $url = trim($url,'/');
         if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),"/");
+            $url = trim(substr($url, strlen(URI)),'/');
 
-        if (".php" === substr($url,-4))
+        if ('.php' === substr($url,-4))
             $url = substr($url,0,-4);
 
-        $pos = strripos($url, "/");
+        $pos = strripos($url, '/');
         $valor = substr($url,$pos+1);
 
-        $pos = strpos($valor,"?");
+        $pos = strpos($valor,'?');
         if (!empty($pos)) {
             $valor = substr($valor, 0, $pos);
         }
@@ -370,15 +368,15 @@ class UsuarioController extends Action
             $senha_nova = trim(filter_input(INPUT_POST, 'senha_nova', FILTER_SANITIZE_SPECIAL_CHARS));
             $senha_nova2 = trim(filter_input(INPUT_POST, 'senha_nova2', FILTER_SANITIZE_SPECIAL_CHARS));
             $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
-            $id_tipo = filter_input(INPUT_POST, "sel_tipo", FILTER_VALIDATE_INT);
+            $id_tipo = filter_input(INPUT_POST, 'sel_tipo', FILTER_VALIDATE_INT);
 
             $validate->define_pattern('erro_');
             $validate
-                ->set("nome", $nome)->is_required()
-                ->set("tipo de usuario", $id_tipo)->is_required()
-                ->set("\"nova senha\"", $senha_nova)->is_required()->max_length(30)
-                ->set("\"repita senha\"", $senha_nova2)->is_required()->max_length(30)
-                ->set("token", $token)->is_required();
+                ->set('nome', $nome)->is_required()
+                ->set('tipo de usuario', $id_tipo)->is_required()
+                ->set('\'nova senha\'', $senha_nova)->is_required()->max_length(30)
+                ->set('\'repita senha\'', $senha_nova2)->is_required()->max_length(30)
+                ->set('token', $token)->is_required();
 
             if ($validate->validate()) {
 
@@ -391,18 +389,18 @@ class UsuarioController extends Action
                         $usu->setTipo($id_tipo);
 
                         if ($usu->alterar())
-                            $this->setRetorno("Usuário alterado com sucesso", true, true);
-                        else if(!empty($usu->getRetorno()["exibir"]))
-                            $this->setRetorno($usu->getRetorno()["mensagem"], $usu->getRetorno()["exibir"], $usu->getRetorno()["status"]);
+                            $this->setRetorno('Usuário alterado com sucesso', true, true);
+                        else if(!empty($usu->getRetorno()['exibir']))
+                            $this->setRetorno($usu->getRetorno()['mensagem'], $usu->getRetorno()['exibir'], $usu->getRetorno()['status']);
                         else
-                            $this->setRetorno("Não foi possível alterar o usuário, tente novamente", true, false);
+                            $this->setRetorno('Não foi possível alterar o usuário, tente novamente', true, false);
 
                     } else
-                        $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                        $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
 
                 } else
-                    $this->setRetorno("As senhas informadas não batem", true, false);
+                    $this->setRetorno('As senhas informadas não batem', true, false);
 
 
             } else {
@@ -412,18 +410,18 @@ class UsuarioController extends Action
                 $this->setRetorno($erro, true, false);
             }
 
-            if (empty($this->getRetorno()["status"])) { //devove os parametros passados para view, e coloca nos campos correspondente
+            if (empty($this->getRetorno()['status'])) { //devove os parametros passados para view, e coloca nos campos correspondente
 
                 $this->dados->parametros =
                     array(
-                        "param_nome" => $nome,
-                        "param_tipo" => $id_tipo,
+                        'param_nome' => $nome,
+                        'param_tipo' => $id_tipo,
                     );
 
             }
 
         } else
-            $this->setRetorno("Não foi possível alterar esse tipo de usuários, tente novamente", true, false);
+            $this->setRetorno('Não foi possível alterar esse tipo de usuários, tente novamente', true, false);
 
         $this->dados->retorno = $this->getRetorno();
         $this->pageUsuariosEdit();
@@ -431,7 +429,7 @@ class UsuarioController extends Action
 
     public function requestAlterarStatus() {
         $id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
-        $status = !filter_has_var(INPUT_POST, "alterar-status") ? "1" : "0";
+        $status = !filter_has_var(INPUT_POST, 'alterar-status') ? '1' : '0';
 
         if (!empty($id)) {
 
@@ -440,12 +438,12 @@ class UsuarioController extends Action
             $usuario->setAtivo($status);
 
             if (!empty($usuario->alterarStatus()))
-                $retorno = array("status" => $status ? true : false, "msg" => "", "erro" => false);
+                $retorno = array('status' => $status ? true : false, 'msg' => '', 'erro' => false);
             else
-                $retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+                $retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
         } else
-            $retorno = array("status" => !$status ? true : false, "msg" => "Não foi possível alterar o status", "erro" => true);
+            $retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
 
         echo json_encode($retorno, JSON_FORCE_OBJECT);
     }
@@ -460,34 +458,34 @@ class UsuarioController extends Action
 
         $validate->define_pattern('erro_');
         $validate
-            ->set("id", $id)->is_required()
-            ->set("senha", $senha)->is_required()
-            ->set("token", $token)->is_required();
+            ->set('id', $id)->is_required()
+            ->set('senha', $senha)->is_required()
+            ->set('token', $token)->is_required();
 
         if ($validate->validate()) {
 
             if (password_verify(TOKEN_SESSAO, $token)) {
 
-                $usuario->setId($_SESSION["_idusuario"]);
+                $usuario->setId($_SESSION['_idusuario']);
                 $usuario->setSenha($senha);
 
                 $senha_atual = $usuario->obterSenha();
 
-                if (password_verify($senha, $senha_atual["usu_senha"])) {
+                if (password_verify($senha, $senha_atual['usu_senha'])) {
 
                     $usuario->setId($id);
                     if ($usuario->excluir())
-                        $this->setRetorno("Usuário excluído com sucesso", true, true);
-                    else if($usuario->getRetorno()["exibir"])
-                        $this->setRetorno($usuario->getRetorno()["mensagem"], $usuario->getRetorno()["exibir"], $usuario->getRetorno()["status"]);
+                        $this->setRetorno('Usuário excluído com sucesso', true, true);
+                    else if($usuario->getRetorno()['exibir'])
+                        $this->setRetorno($usuario->getRetorno()['mensagem'], $usuario->getRetorno()['exibir'], $usuario->getRetorno()['status']);
                     else
-                        $this->setRetorno("Não foi possível excluir o usuário, tente novamente", true, false);
+                        $this->setRetorno('Não foi possível excluir o usuário, tente novamente', true, false);
 
                 } else
-                    $this->setRetorno("Senha informada inválida, tente novamente", true, false);
+                    $this->setRetorno('Senha informada inválida, tente novamente', true, false);
 
             } else
-                $this->setRetorno("Token de autenticação inválido, recarregue a página e tente novamente", true, false);
+                $this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
 
         } else {
             $array_erros = $validate->get_errors();
@@ -497,7 +495,7 @@ class UsuarioController extends Action
         }
 
         $this->dados->retorno = $this->getRetorno();
-        $this->ModificaURL(URL . "usuarios/gerenciar-usuarios"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+        $this->ModificaURL(URL . 'usuarios/gerenciar-usuarios'); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
         $this->pageGerenciarUsuarios();
 
     }

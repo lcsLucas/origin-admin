@@ -2,10 +2,8 @@
 
 namespace App\model;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class Retorno {
     /*private $codigo;
@@ -24,7 +22,7 @@ class Retorno {
      * @param $status
      * @param $extra
      */
-    public function __construct($mensagem="", $exibir=false, $status=false, $extra = array())
+    public function __construct($mensagem='', $exibir=false, $status=false, $extra = array())
     {
         $this->mensagem = $mensagem;
         $this->exibir = $exibir;
@@ -47,10 +45,10 @@ class Retorno {
     public function getRetorno(){
 
         return array(
-            "status" => $this->status,
-            "mensagem" => $this->mensagem,
-            "exibir" => $this->exibir,
-            "extra" => json_encode($this->extra)
+            'status' => $this->status,
+            'mensagem' => $this->mensagem,
+            'exibir' => $this->exibir,
+            'extra' => json_encode($this->extra)
         );
 
     }

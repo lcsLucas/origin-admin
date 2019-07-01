@@ -5,10 +5,8 @@ namespace App\model;
 
 use App\dao\SecaoMenuDao;
 
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
 class SecaoMenu extends SecaoMenuDao
 {
@@ -129,8 +127,8 @@ class SecaoMenu extends SecaoMenuDao
 	public function alterarOrdem($ordem) {
 		$query_uri = '';
 
-		if (!empty($_SERVER["QUERY_STRING"]))
-			$query_uri .= "?" . $_SERVER["QUERY_STRING"];
+		if (!empty($_SERVER['QUERY_STRING']))
+			$query_uri .= '?' . $_SERVER['QUERY_STRING'];
 
     	if ($ordem === 1) {
     		$retorno = $this->alterarOrdemProximoDAO();

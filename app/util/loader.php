@@ -1,12 +1,10 @@
 <?php
 
 //Não permitir acesso direto no arquivo
-if (! defined('ABSPATH')){
-    header("Location: /");
-    exit();
-}
+if (! defined('ABSPATH'))
+    die;
 
-date_default_timezone_set("Brazil/East");
+date_default_timezone_set('Brazil/East');
 
 //configura para o cookie da sessão ser acessado somente por HTTP
 //impedindo acesso via javascript
@@ -22,10 +20,10 @@ session_start();
 if (! defined('DEBUG') || DEBUG === false ) :
 	 // Esconde todos os erros
 	 error_reporting(0);
-	 ini_set("display_errors", 0);
+	 ini_set('display_errors', 0);
 else :
 	 // Mostra todos os erros
 	 error_reporting(E_ALL);
-	 ini_set("display_errors", 1);
+	 ini_set('display_errors', 1);
 endif;
-ini_set("log_errors", 1);
+ini_set('log_errors', 1);
