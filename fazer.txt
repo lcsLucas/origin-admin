@@ -32,3 +32,8 @@
     - depois do requestEdit, ele chama o metodo de pageEdit
         - quando dar erro no editar, ao inves de mostrar os dados novos que o usuário digitou ele no caso recarrega as informações do registro que tá no banco
             - perdendo as alterações do usuário
+
+- Fazer o controle de acesso de usuários
+    - após realizar o controle de acesso, arrumar o metodo de carregar menu para o usuário
+
+- continuar no carregar os menus no cabeçalho do sistema

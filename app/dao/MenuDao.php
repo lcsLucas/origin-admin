@@ -277,9 +277,50 @@
 				try
 				{
 					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu ORDER BY nome");
-
 					$stms->execute();
+					return $stms->fetchAll();
 
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function carregarMenusUsuarioDAO($idusuario) {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare('SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone FROM menu m LEFT JOIN secao_menu sm on m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND ((m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\') OR m.idsecao_menu IS NULL) AND m.ativo =\'1\' ORDER BY sm.ordem IS NOT NULL, sm.ordem, m.ordem');
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function carregarSubMenusUsuario($idusuario, $idmenu) {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare('SELECT m.id, m.nome, m.url, m.icone FROM menu m WHERE menu_pai = :id AND ativo = \'1\' ORDER BY ordem');
+					$stms->bindValue(":id", $idmenu, \PDO::PARAM_INT);
+					$stms->execute();
 					return $stms->fetchAll();
 
 				}

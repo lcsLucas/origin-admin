@@ -210,4 +210,28 @@
 			return $this->listarTodosMenusDAO();
 		}
 
+		public function carregarMenusUsuario($idusuario) {
+			$retorno = array();
+			$result_menus = $this->carregarMenusUsuarioDAO($idusuario);
+
+			foreach ($result_menus as $result) {
+
+				$index_secao = (!empty($result['id_secao'])) ? $result['id_secao'] : 0;
+
+				if (!empty($retorno[$index_secao]))
+					$retorno[$index_secao]['nome'] = $result['nome_secao'];
+
+				$retorno[$index_secao]['menus'][(int)$result['id']] = array('nome' => $result['nome'], 'icone' => $result['icone'], 'url' => $result['url']);
+
+				$result_submenus = $this->carregarSubMenusUsuario($idusuario, (int)$result['id']);
+
+				if (!empty($result_menus))
+					foreach ($result_submenus as $result_sub)
+						$retorno[$index_secao]['menus'][(int)$result['id']]['submenus'][] = array('nome' => $result_sub['nome'], 'icone' => $result_sub['icone'], 'url' => $result_sub['url']);
+
+			}
+
+			return $retorno;
+		}
+
 	}

@@ -1,3 +1,8 @@
+<?php
+	if (! defined('ABSPATH'))
+		die;
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

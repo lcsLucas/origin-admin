@@ -91,7 +91,6 @@
 			$nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
 			$url = trim(filter_input(INPUT_POST, 'url', FILTER_SANITIZE_SPECIAL_CHARS));
 			$id_secao = filter_input(INPUT_POST, 'sel_secao', FILTER_VALIDATE_INT);
-			$id_secao = filter_input(INPUT_POST, "sel_secao", FILTER_VALIDATE_INT);
 			$id_menu = filter_input(INPUT_POST, "sel_menu", FILTER_VALIDATE_INT);
 			$icone = trim(filter_input(INPUT_POST, 'icone', FILTER_SANITIZE_SPECIAL_CHARS));
 			$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -101,12 +100,12 @@
 
 			$validate
 				->set('nome', $nome)->is_required()->max_length(40)
-				->set('url', $url)->is_required()->max_length(255)
+				->set('url', $url)->max_length(255)
 				->set('token', $token)->is_required()
 				->set('url', $url)->max_length(255)
 				->set('token', $token)->is_required();
 
-			if ($cad_submenu) {
+			if (!empty($cad_submenu)) {
 				$validate->set('url', $url)->is_required();
 				$validate->set('Menu Principal', $id_menu)->is_required();
 			}
@@ -256,7 +255,7 @@
 					->set('url', $url)->max_length(255)
 					->set('token', $token)->is_required();
 
-				if ($cad_submenu) {
+				if (!empty($cad_submenu)) {
 					$validate->set('url', $url)->is_required();
 					$validate->set('Menu Principal', $id_menu)->is_required();
 				}
@@ -330,6 +329,11 @@
 			$this->ModificaURL(URL . "permissoes/gerenciar-menus"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
 			$this->pageGerenciarMenus();
 
+		}
+
+		public function carregarMenusUsuario() {
+			$menus = new Menu();
+			return $menus->carregarMenusUsuario($_SESSION['_idusuario']);
 		}
 
 		private function getIdUri() {

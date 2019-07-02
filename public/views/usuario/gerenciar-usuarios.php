@@ -1,5 +1,7 @@
 <?php
-
+	if (! defined('ABSPATH'))
+		die;
+	
 	$retorno = null;
 
 	include_once ABSPATH . 'app/funcoesGlobais/paginacao.php';

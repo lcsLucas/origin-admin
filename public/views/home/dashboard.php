@@ -1,3 +1,8 @@
+<?php
+	if (! defined('ABSPATH'))
+		die;
+?>
+
     <!-- Breadcrumb-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item active">

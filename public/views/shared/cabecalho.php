@@ -3,7 +3,14 @@ if (! defined('ABSPATH'))
     die;
 
 use App\controllers\UsuarioController;
-$usuario_logado = UsuarioController::carregarInformacoes2();
+use App\controllers\MenuController;
+
+$usu_controller = new UsuarioController();
+$menus_controller = new MenuController();
+
+$usuario_logado = $usu_controller->carregarInformacoes2();
+$todos_menus = $menus_controller->carregarMenusUsuario();
+
 
 ?>
 

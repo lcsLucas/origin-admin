@@ -1,3 +1,7 @@
+<?php
+	if (! defined('ABSPATH'))
+		die;
+?>
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav" id="nav-opcoes">
@@ -42,7 +46,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= URL ?>" target="_top">
+                        <a class="nav-link" href="<?= URL ?>permissoes/gerenciar-submenus" target="_top">
                             Gerenciar SubMenus
                         </a>
                     </li>

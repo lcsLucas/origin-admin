@@ -500,7 +500,7 @@ class UsuarioController extends Action
 
     }
 
-    public static function carregarInformacoes2() {
+    public function carregarInformacoes2() {
         $usuario = new Usuario();
         $usuario->setId($_SESSION['_idusuario']);
         $usuario->carregarInformacoes2();

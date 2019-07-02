@@ -1,3 +1,8 @@
+<?php
+	if (! defined('ABSPATH'))
+		die;
+?>
+
 <div id="container-errors">
 
 	<?php
