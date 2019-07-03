@@ -303,6 +303,7 @@
 		public function requestMenusDeletar() {
 			$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
 			$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+			$cad_submenu = filter_has_var(INPUT_POST, 'sub_on');
 
 			$menus = new Menu();
 
@@ -326,8 +327,14 @@
 				$this->setRetorno("Não foi possível excluir o menu, tente novamente", true, false);
 
 			$this->dados->retorno = $this->getRetorno();
-			$this->ModificaURL(URL . "permissoes/gerenciar-menus"); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
-			$this->pageGerenciarMenus();
+
+			if ($cad_submenu) {
+				$this->pageGerenciarSubMenus();
+				$this->ModificaURL(URL . "permissoes/gerenciar-submenus");
+			} else {
+				$this->pageGerenciarMenus();
+				$this->ModificaURL(URL . "permissoes/gerenciar-menus");
+			}
 
 		}
 

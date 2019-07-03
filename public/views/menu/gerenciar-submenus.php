@@ -41,7 +41,7 @@
 
 			<div class="card-header bg-primary py-3">
 				<h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? "Editar o SubMenu \"" . $parametros["param_nome"] . "\"" : "Gerenciar SubMenus" ?>
+					<?= !empty($this->dados->editar) ? "\"" . $parametros["param_nome"] . "\" <strong class='ml-1'>[Editar]</strong>" : "Gerenciar SubMenus" ?>
 				</h5>
 			</div>
 
@@ -183,6 +183,7 @@
                                                        value="<?= $registro["id"] ?>">
                                                 <input type="hidden" name="token"
                                                        value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
+                                                <input type="hidden" name="sub_on" value="">
                                                 <button type="button" class="btn btn-danger btn-acao deletar"
                                                         title="Excluir SubMenu">
                                                     <i class="fas fa-times"></i>

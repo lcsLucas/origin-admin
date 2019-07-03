@@ -218,8 +218,10 @@
 
 				$index_secao = (!empty($result['id_secao'])) ? $result['id_secao'] : 0;
 
-				if (!empty($retorno[$index_secao]))
+				if (!empty($result['nome_secao']))
 					$retorno[$index_secao]['nome'] = $result['nome_secao'];
+				else
+					$retorno[$index_secao]['nome'] = '';
 
 				$retorno[$index_secao]['menus'][(int)$result['id']] = array('nome' => $result['nome'], 'icone' => $result['icone'], 'url' => $result['url']);
 
