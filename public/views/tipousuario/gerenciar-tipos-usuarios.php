@@ -62,6 +62,110 @@
                                title="Por favor, informe o nome do novo tipo de usuário">
                     </div>
 
+                    <div class="form-group form-group-lg mt-4">
+                        <h4 class="text-muted text-uppercase">Controle de Acesso</h4>
+                        <hr>
+
+                        <?php
+
+                            if (!empty($this->dados->todosMenus)) {
+                                ?>
+
+                                <div id="controle-acesso" class="row">
+
+                                    <?php
+
+                                        foreach ($this->dados->todosMenus as $id => $men) {
+                                            ?>
+
+                                            <div class="col-lg-4 col-md-6 col-12">
+
+                                                <div class="form-group">
+
+                                                    <label>
+                                                        <input class="d-none" type="checkbox" name="menu[]" value="<?= $id ?>" <?= !empty($men['ativo']) ? 'checked' : '' ?>>
+                                                            <?php
+
+                                                                if (!empty($men['ativo'])) {
+                                                                    ?>
+                                                                    <i class="fas fa-fw fa-lock-open text-success"></i>
+                                                            <?php
+                                                                } else {
+                                                                 ?>
+                                                                    <i class="far fa-fw fa-square text-danger"></i>
+                                                            <?php
+                                                                }
+
+                                                            ?>
+                                                        <?= $men['nome'] ?>
+                                                    </label>
+
+                                                    <?php
+
+                                                        if (!empty($men['submenu'])) {
+                                                            ?>
+
+                                                            <ul class="nav flex-column ml-4">
+
+                                                                <?php
+
+                                                                    foreach ($men['submenu'][0] as $sub) {
+                                                                        ?>
+                                                                        <li class="nav-item">
+                                                                            <label>
+                                                                                <input class="d-none" type="checkbox" name="menu[]" value="<?= $sub['id'] ?>" <?= !empty($sub['ativo']) ? 'checked' : '' ?>>
+                                                                                    <?php
+
+                                                                                        if (!empty($sub['ativo'])) {
+                                                                                            ?>
+                                                                                            <i class="fas fa-fw fa-lock-open text-success"></i>
+                                                                                            <?php
+                                                                                        } else {
+                                                                                            ?>
+                                                                                            <i class="far fa-fw fa-square text-danger"></i>
+                                                                                            <?php
+                                                                                        }
+
+                                                                                    ?>
+																				<?= $sub['nome'] ?>
+                                                                            </label>
+                                                                        </li>
+                                                                <?php
+                                                                    }
+
+                                                                ?>
+
+                                                            </ul>
+
+                                                    <?php
+                                                        }
+
+                                                    ?>
+
+                                                </div>
+
+                                            </div>
+
+                                    <?php
+                                        }
+
+                                    ?>
+
+                                </div>
+
+                        <?php
+                            } else {
+                             ?>
+
+                                <p class="text-center text-muted">Não há nenhum Menu à ser listado no momento</p>
+
+                        <?php
+                            }
+
+                        ?>
+
+                    </div>
+
                     <div class="form-group form-group-lg text-right mt-5 mb-0">
                         <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
                         <a role="button" href="<?= URL ?>usuarios/gerenciar-tipos-usuarios"

@@ -236,4 +236,38 @@
 			return $retorno;
 		}
 
+		//$tipo == 1 -> tipos de usuarios, $tipo == 2 -> usuarios
+		public function listarMenus($tipo = null, $id = null) {
+			$retorno = array();
+
+			if ($tipo === 1) { // listar menus para um tipo de usuarios
+
+				if (!empty($id))
+					$result_menus = $this->carregarMenusTipoUsuarioDAO($id);
+				else
+					$result_menus = $this->listarTodosMenusPermissaoDAO();
+
+				if (!empty($result_menus)) {
+
+					foreach ($result_menus as $id => $men) {
+
+						$retorno[$men['id']]['nome'] = $men['nome'];
+
+						$result_submenus = $this->listarTodosSubMenusPermissaoDAO($men['id']);
+
+						if (!empty($result_submenus)) {
+							$retorno[$men['id']]['submenu'][] = $result_submenus;
+						}
+
+					}
+
+				}
+
+			} else { // listar menus para um usuário
+
+			}
+
+			return $retorno;
+		}
+
 	}

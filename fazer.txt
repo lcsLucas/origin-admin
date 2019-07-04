@@ -33,3 +33,5 @@
 
 - Fazer o controle de acesso de usuários
     - após realizar o controle de acesso, arrumar o metodo de carregar menu para o usuário
+
+- continuar a fazer o controle de acesso no tipso de usuarios

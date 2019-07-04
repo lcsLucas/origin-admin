@@ -5,6 +5,7 @@ namespace App\controllers;
 use App\model\Usuario;
 use ProjetoMvc\render\Action;
 use App\model\TipoUsuario;
+use App\model\Menu;
 use App\model\Data_Validator;
 
 if (! defined('ABSPATH'))
@@ -24,6 +25,7 @@ class TipoUsuarioController extends Action
 
     public function pageTiposUsuarios() {
         $tipo = new TipoUsuario();
+        $menus = new Menu();
 
         $pagina_atual = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $pagina_atual = empty($pagina_atual) ? 1 : $pagina_atual;
@@ -50,6 +52,11 @@ class TipoUsuarioController extends Action
         /***/
         $tipo->carregarTipoUsuario();
         $this->dados->tipo_usuario = $tipo->getId();
+
+        if (!empty($this->dados->editar))
+        	$this->dados->todosMenus = $menus->listarMenus(1, $this->dados->id);
+        else
+        	$this->dados->todosMenus = $menus->listarMenus(1);
 
         $this->dados->title = 'Gerenciar Tipos de Usuarios';
         $this->dados->validation = true;

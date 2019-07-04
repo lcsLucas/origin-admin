@@ -585,6 +585,18 @@ window.onload = function() {
         return false;
     });
 
+    $('#controle-acesso').on('change', 'input[type="checkbox"]', function () {
+        var $this = $(this);
+        var icone = $this.siblings('i');
+
+        if ($this.prop('checked'))
+            icone.removeClass('far fa-square text-danger').addClass('fas fa-check text-success');
+        else
+            icone.removeClass('fas fa-check text-success').addClass('far fa-square text-danger');
+
+
+    });
+
 };
 
 function exibiSenha(target) {

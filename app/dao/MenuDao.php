@@ -291,6 +291,50 @@
 			return null;
 		}
 
+		protected function listarTodosMenusPermissaoDAO() {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu WHERE menu_pai IS NULL AND ativo = '1' ORDER BY nome");
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function listarTodosSubMenusPermissaoDAO($idmenu) {
+
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu WHERE menu_pai = :pai AND ativo = '1' ORDER BY nome");
+					$stms->bindValue(":pai", $idmenu, \PDO::PARAM_INT);
+
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
 		protected function carregarMenusUsuarioDAO($idusuario) {
 
 			if(!empty($this->Conectar())) :
