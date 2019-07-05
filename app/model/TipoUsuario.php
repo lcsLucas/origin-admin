@@ -12,6 +12,7 @@ class TipoUsuario extends TipoUsuarioDao{
     private $data_cadastro;
     private $ativo;
     private $flag_adm;
+    private $menus;
 
     /**
      * TipoUsuario constructor.
@@ -25,6 +26,7 @@ class TipoUsuario extends TipoUsuarioDao{
         $this->ativo = $ativo;
         $this->flag_adm = '0';
         $this->data_cadastro = date('Y-m-d');
+        $this->menus = array();
     }
 
 
@@ -108,12 +110,50 @@ class TipoUsuario extends TipoUsuarioDao{
         $this->flag_adm = $flag_adm;
     }
 
+	/**
+	 * @return array
+	 */
+	public function getMenus(): array
+	{
+		return $this->menus;
+	}
+
+	/**
+	 * @param array $menus
+	 */
+	public function setMenus(array $menus): void
+	{
+		$this->menus = $menus;
+	}
+
     public function getRetorno() {
         return parent::getRetorno();
     }
 
     public function cadastrar() {
-        return $this->cadastrarDAO();
+		$result = false;
+
+		if ($this->conectar()) {
+			$this->beginTransaction();
+
+			$result = $this->cadastrarDAO();
+
+			if ($result && !empty($this->menus)) {
+				$total = count($this->menus);
+
+				for ($i = 0; $i < $total && $result; $i++)
+					$result = $this->cadastrarPermissaoTipoDAO($this->menus[$i]);
+
+				if (!$result)
+					$this->setRetorno('Não foi possível definir as permissões para esse tipo de usuário', true, false);
+
+			}
+
+			$this->commitar($result);
+		}
+
+		return $result;
+
     }
 
     public  function paginacao($incio, $fim) {

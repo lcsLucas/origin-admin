@@ -588,12 +588,40 @@ window.onload = function() {
     $('#controle-acesso').on('change', 'input[type="checkbox"]', function () {
         var $this = $(this);
         var icone = $this.siblings('i');
+        var parent = $this.parent();
+        var uncle = parent.siblings('ul');
 
         if ($this.prop('checked'))
             icone.removeClass('far fa-square text-danger').addClass('fas fa-check text-success');
         else
             icone.removeClass('fas fa-check text-success').addClass('far fa-square text-danger');
 
+        if (uncle.length) {
+
+            if ($this.prop('checked')) {
+                uncle.find('input[type="checkbox"]').prop('checked', true);
+                uncle.find('i').removeClass('far fa-square text-danger').addClass('fas fa-check text-success');
+
+            } else {
+                uncle.find('input[type="checkbox"]').prop('checked', false);
+                uncle.find('i').removeClass('fas fa-check text-success').addClass('far fa-square text-danger');
+            }
+
+        } else {
+
+            var parent_ul = $this.parents('ul');
+
+            if (parent_ul.length) {
+                var input_parent = parent_ul.siblings('label').children('input[type="checkbox"]');
+                var icone_parent = input_parent.siblings('i');
+
+                if ($this.prop('checked') && !input_parent.prop('checked')) {
+                    input_parent.prop('checked', true);
+                    icone_parent.removeClass('far fa-square text-danger').addClass('fas fa-check text-success');
+                }
+
+            }
+        }
 
     });
 

@@ -297,7 +297,52 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu WHERE menu_pai IS NULL AND ativo = '1' ORDER BY nome");
+					$stms = $this->getCon()->prepare("SELECT id, nome, '0' as status FROM menu WHERE menu_pai IS NULL AND ativo = '1' ORDER BY nome");
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function carregarMenusTipoUsuarioDAO($id) {
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :id) > 0, 1, 0) as status FROM menu mp WHERE menu_pai IS NULL AND mp.ativo = '1' ORDER BY mp.nome");
+					$stms->bindValue(":id", $id, \PDO::PARAM_INT);
+
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function carregarSubMenusTipoUsuarioDAO($idmenu, $idtipo) {
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :idtipo) > 0, 1, 0) as ativo FROM menu mp WHERE menu_pai = :idmenu AND mp.ativo = '1' ORDER BY mp.nome");
+					$stms->bindValue(":idtipo", $idtipo, \PDO::PARAM_INT);
+					$stms->bindValue(":idmenu", $idmenu, \PDO::PARAM_INT);
+
 					$stms->execute();
 					return $stms->fetchAll();
 
@@ -318,7 +363,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu WHERE menu_pai = :pai AND ativo = '1' ORDER BY nome");
+					$stms = $this->getCon()->prepare("SELECT m.id, m.nome, IF(mu.tip_id IS NOT NULL, 1, 0) ativo FROM menu m LEFT JOIN menu_has_tipo_usuario mu on m.id = mu.menu_id WHERE m.menu_pai = :pai AND m.ativo = '1' ORDER BY m.nome");
 					$stms->bindValue(":pai", $idmenu, \PDO::PARAM_INT);
 
 					$stms->execute();
@@ -341,7 +386,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare('SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone FROM menu m LEFT JOIN secao_menu sm on m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND ((m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\') OR m.idsecao_menu IS NULL) AND m.ativo =\'1\' ORDER BY sm.ordem IS NULL, sm.ordem, m.ordem');
+					$stms = $this->getCon()->prepare('SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone FROM menu m LEFT JOIN secao_menu sm on m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND ((m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\') OR m.idsecao_menu IS NULL) AND m.ativo =\'1\' ORDER BY sm.ordem IS NULL, sm.ordem, m.ordem, m.nome');
 					$stms->execute();
 					return $stms->fetchAll();
 

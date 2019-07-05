@@ -88,7 +88,7 @@
 
                                                                 if (!empty($men['ativo'])) {
                                                                     ?>
-                                                                    <i class="fas fa-fw fa-lock-open text-success"></i>
+                                                                    <i class="fas fa-fw fa-check text-success"></i>
                                                             <?php
                                                                 } else {
                                                                  ?>
@@ -118,7 +118,7 @@
 
                                                                                         if (!empty($sub['ativo'])) {
                                                                                             ?>
-                                                                                            <i class="fas fa-fw fa-lock-open text-success"></i>
+                                                                                            <i class="fas fa-fw fa-check text-success"></i>
                                                                                             <?php
                                                                                         } else {
                                                                                             ?>

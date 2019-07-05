@@ -44,7 +44,10 @@ class TipoUsuarioDao extends Banco
                 $stms->bindValue(':ativo', $this->tipo_usuario->getAtivo(), \PDO::PARAM_STR);
                 $stms->bindValue(':adm', $this->tipo_usuario->getFlagAdm(), \PDO::PARAM_STR);
 
-                return $stms->execute();
+                $resp = $stms->execute();
+                $this->tipo_usuario->setId($this->getLastInsertId());
+
+                return $resp;
 
             }
             catch(\PDOException $e)
@@ -246,5 +249,30 @@ class TipoUsuarioDao extends Banco
         return null;
 
     }
+
+    protected function cadastrarPermissaoTipoDAO($menu) {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare('INSERT INTO menu_has_tipo_usuario (menu_id, tip_id) VALUES (:menu, :tipo)');
+				$stms->bindValue(':menu', $menu, \PDO::PARAM_INT);
+				$stms->bindValue(':tipo', $this->tipo_usuario->getId(), \PDO::PARAM_INT);
+
+				return $stms->execute();
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+
+	}
 
 }

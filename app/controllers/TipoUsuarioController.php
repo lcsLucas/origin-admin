@@ -115,6 +115,13 @@ class TipoUsuarioController extends Action
         $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
+		if (filter_has_var(INPUT_POST, 'menu')) {
+			$array_menus = array_filter($_POST['menu']);
+			$array_menus = filter_var_array($array_menus, FILTER_VALIDATE_INT);
+
+			$tipo->setMenus($array_menus);
+		}
+
         $validate->define_pattern('erro_');
         $validate
             ->set('nome', $nome)->is_required();
