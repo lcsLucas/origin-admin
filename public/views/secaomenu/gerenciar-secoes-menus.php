@@ -42,7 +42,7 @@
 
             <div class="card-header bg-primary py-3">
                 <h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? 'Editar a Seção \'' . $parametros['param_nome'] . '\'' : 'Gerenciar Seções de Menus' ?>
+					<?= !empty($this->dados->editar) ? 'Seção "' . $parametros['param_nome'] . '" [<strong>Editar</strong>]' : 'Gerenciar Seções de Menus' ?>
                 </h5>
             </div>
 

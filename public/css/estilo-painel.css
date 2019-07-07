@@ -325,3 +325,7 @@ button[type="submit"] {
 #controle-acesso label {
     cursor: pointer;
 }
+
+#controle-acesso label.disabled {
+    cursor: not-allowed;
+}

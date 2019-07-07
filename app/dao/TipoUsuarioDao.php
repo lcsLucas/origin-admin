@@ -232,6 +232,28 @@ class TipoUsuarioDao extends Banco
         return false;
     }
 
+    protected function excluirPermissoesTipoDAO() {
+
+        if(!empty($this->Conectar())) :
+
+            try
+            {
+                $stms = $this->getCon()->prepare('DELETE FROM menu_has_tipo_usuario WHERE tip_id = :id AND tip_id <> 1');
+                $stms->bindValue(':id', $this->tipo_usuario->getId(), \PDO::PARAM_INT);
+
+                return $stms->execute();
+
+            }
+            catch(\PDOException $e)
+            {
+                $this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+            }
+
+        endif;
+
+        return false;
+    }
+
     protected function listarTodosDAO() {
 
         if(!empty($this->Conectar())) :

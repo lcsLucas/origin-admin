@@ -41,7 +41,7 @@
 
 			<div class="card-header bg-primary py-3">
 				<h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? 'Editar o Menu \'' . $parametros['param_nome'] . '\'' : 'Gerenciar Menus' ?>
+					<?= !empty($this->dados->editar) ? 'Menu "' . $parametros['param_nome'] . '" [<strong>Editar</strong>]' : 'Gerenciar Menus' ?>
 				</h5>
 			</div>
 

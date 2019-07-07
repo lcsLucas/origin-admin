@@ -54,9 +54,9 @@ class TipoUsuarioController extends Action
         $this->dados->tipo_usuario = $tipo->getId();
 
         if (!empty($this->dados->editar))
-        	$this->dados->todosMenus = $menus->listarMenus(1, $this->dados->id);
+        	$this->dados->todosMenus = $menus->listarMenus($this->dados->id);
         else
-        	$this->dados->todosMenus = $menus->listarMenus(1);
+        	$this->dados->todosMenus = $menus->listarMenus();
 
         $this->dados->title = 'Gerenciar Tipos de Usuarios';
         $this->dados->validation = true;
@@ -183,6 +183,13 @@ class TipoUsuarioController extends Action
             $tipo->setId($id);
             $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
             $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+            if (filter_has_var(INPUT_POST, 'menu')) {
+                $array_menus = array_filter($_POST['menu']);
+                $array_menus = filter_var_array($array_menus, FILTER_VALIDATE_INT);
+
+                $tipo->setMenus($array_menus);
+            }
 
             $validate->define_pattern('erro_');
             $validate

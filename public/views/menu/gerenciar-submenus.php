@@ -41,7 +41,7 @@
 
 			<div class="card-header bg-primary py-3">
 				<h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? "\"" . $parametros["param_nome"] . "\" <strong class='ml-1'>[Editar]</strong>" : "Gerenciar SubMenus" ?>
+					<?= !empty($this->dados->editar) ? "SubMenu \"" . $parametros["param_nome"] . "\" <strong class='ml-1'>[Editar]</strong>" : "Gerenciar SubMenus" ?>
 				</h5>
 			</div>
 
@@ -69,7 +69,7 @@
 
                             <div class="form-group form-group-lg">
                                 <label for="sel_menu" class="font-weight-bold">Menu Principal <sup class="text-danger">*</sup>:</label>
-                                <select tabindex="3" title="Por favor, selecione o menu principal"
+                                <select tabindex="2" title="Por favor, selecione o menu principal"
                                         name="sel_menu" id="sel_menu" class="form-control form-control-lg" required>
 
                                     <option value="">Selecione um Menu</option>
@@ -95,7 +95,7 @@
 
                             <div class="form-group form-group-lg">
                                 <label for="url" class="font-weight-bold">URI do SubMenu <sup class="text-danger">*</sup>:</label>
-                                <input tabindex="2" maxlength="255" type="text" class="form-control form-control-lg"
+                                <input tabindex="3" maxlength="255" type="text" class="form-control form-control-lg"
                                        value="<?= !empty($parametros['param_url']) ? $parametros['param_url'] : '' ?>"
                                        id="url" name="url" title="Por favor, informe a uri do submenu" required>
                             </div>

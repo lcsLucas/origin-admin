@@ -1,13 +1,13 @@
 <?php
 
 namespace App\controllers;
-use App\model\Usuario;
+use App\model\Menu;
 
 if (! defined('ABSPATH'))
     die;
 
 
-abstract class MiddlewarePrincipal {
+abstract class MiddleWarePrincipal {
 
     public static function autenticacao($uri) {
 

@@ -42,7 +42,7 @@
 
             <div class="card-header bg-primary py-3">
                 <h5 class="text-uppercase m-0 text-center text-md-left">
-					<?= !empty($this->dados->editar) ? "Editar o Tipo de Usuários \"" . $nome . "\"" : "Gerenciar Tipos de Usuários" ?>
+					<?= !empty($this->dados->editar) ? "Tipo de Usuários \"" . $nome . "\" [<strong>Editar</strong>]" : "Gerenciar Tipos de Usuários" ?>
                 </h5>
             </div>
 
@@ -82,8 +82,8 @@
 
                                                 <div class="form-group">
 
-                                                    <label>
-                                                        <input class="d-none" type="checkbox" name="menu[]" value="<?= $id ?>" <?= !empty($men['ativo']) ? 'checked' : '' ?>>
+                                                    <label class="<?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>" <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'title="Não é possível alterar as permissões do Administrador do Sistema"' : '' ?>>
+                                                        <input class="d-none" type="checkbox" name="menu[]" value="<?= $id ?>" <?= !empty($men['ativo']) ? 'checked' : '' ?> <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>>
                                                             <?php
 
                                                                 if (!empty($men['ativo'])) {
@@ -112,8 +112,8 @@
                                                                     foreach ($men['submenu'][0] as $sub) {
                                                                         ?>
                                                                         <li class="nav-item">
-                                                                            <label>
-                                                                                <input class="d-none" type="checkbox" name="menu[]" value="<?= $sub['id'] ?>" <?= !empty($sub['ativo']) ? 'checked' : '' ?>>
+                                                                            <label class="<?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>" <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'title="Não é possível alterar as permissões do Administrador do Sistema"' : '' ?>>
+                                                                                <input class="d-none" type="checkbox" name="menu[]" value="<?= $sub['id'] ?>" <?= !empty($sub['ativo']) ? 'checked' : '' ?> <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>>
                                                                                     <?php
 
                                                                                         if (!empty($sub['ativo'])) {

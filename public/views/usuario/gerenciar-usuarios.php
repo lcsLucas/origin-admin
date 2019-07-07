@@ -43,7 +43,7 @@
 
             <div class="card-header bg-primary py-3">
                 <h5 class="text-uppercase m-0">
-					<?= !empty($this->dados->editar) ? "Editar o usuário \"" . $parametros["param_nome"] . "\"" : "Gerenciar Usuários" ?>
+					<?= !empty($this->dados->editar) ? "usuário \"" . $parametros["param_nome"] . "\" [<strong>Editar</strong>]" : "Gerenciar Usuários" ?>
                 </h5>
             </div>
 

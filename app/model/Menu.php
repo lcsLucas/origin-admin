@@ -214,6 +214,7 @@
 			$retorno = array();
 			$result_menus = $this->carregarMenusUsuarioDAO($idusuario);
 
+			if (!empty($result_menus))
 			foreach ($result_menus as $result) {
 
 				$index_secao = (!empty($result['id_secao'])) ? $result['id_secao'] : 0;
@@ -236,40 +237,33 @@
 			return $retorno;
 		}
 
-		//$tipo == 1 -> tipos de usuarios, $tipo == 2 -> usuarios
-		public function listarMenus($tipo = null, $idtipo = null) {
+		public function listarMenus($idtipo = null) {
 			$retorno = array();
 
-			if ($tipo === 1) { // listar menus para um tipo de usuarios
+            if (!empty($idtipo))
+                $result_menus = $this->carregarMenusTipoUsuarioDAO($idtipo);
+            else
+                $result_menus = $this->listarTodosMenusPermissaoDAO();
 
-				if (!empty($idtipo))
-					$result_menus = $this->carregarMenusTipoUsuarioDAO($idtipo);
-				else
-					$result_menus = $this->listarTodosMenusPermissaoDAO();
+            if (!empty($result_menus)) {
 
-				if (!empty($result_menus)) {
+                foreach ($result_menus as $id => $men) {
 
-					foreach ($result_menus as $id => $men) {
+                    $retorno[$men['id']]['nome'] = $men['nome'];
+                    $retorno[$men['id']]['ativo'] = $men['status'];
 
-						$retorno[$men['id']]['nome'] = $men['nome'];
-						$retorno[$men['id']]['ativo'] = $men['status'];
+                    if (!empty($idtipo))
+                        $result_submenus = $this->carregarSubMenusTipoUsuarioDAO($men['id'], $idtipo);
+                    else
+                        $result_submenus = $this->listarTodosSubMenusPermissaoDAO($men['id']);
 
-						if (!empty($idtipo))
-							$result_submenus = $this->carregarSubMenusTipoUsuarioDAO($men['id'], $idtipo);
-						else
-							$result_submenus = $this->listarTodosSubMenusPermissaoDAO($men['id']);
+                    if (!empty($result_submenus)) {
+                        $retorno[$men['id']]['submenu'][] = $result_submenus;
+                    }
 
-						if (!empty($result_submenus)) {
-							$retorno[$men['id']]['submenu'][] = $result_submenus;
-						}
+                }
 
-					}
-
-				}
-
-			} else { // listar menus para um usuário
-
-			}
+            }
 
 			return $retorno;
 		}

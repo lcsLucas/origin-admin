@@ -179,13 +179,34 @@ class TipoUsuario extends TipoUsuarioDao{
     }
 
     public function alterar() {
+        $result = false;
 
-        $retorno = $this->alterarDAO();
+        if ($this->conectar()) {
+            $this->beginTransaction();
 
-        if (!empty($retorno) || $retorno === 0)
-            return true;
+            $result = $this->alterarDAO();
 
-        return false;
+            if ($result && $this->id !== 1) {
+
+                $result = $this->excluirPermissoesTipoDAO();
+
+                if ($result && !empty($this->menus)) {
+                    $total = count($this->menus);
+
+                    for ($i = 0; $i < $total && $result; $i++)
+                        $result = $this->cadastrarPermissaoTipoDAO($this->menus[$i]);
+
+                    if (!$result)
+                        $this->setRetorno('Não foi possível definir as permissões para esse tipo de usuário', true, false);
+
+                }
+
+            }
+
+            $this->commitar($result);
+        }
+
+        return $result;
     }
     public function carregarTipoUsuario() {
         $retorno = $this->carregarTipoUsuarioDAO($_SESSION['_idusuario']);
