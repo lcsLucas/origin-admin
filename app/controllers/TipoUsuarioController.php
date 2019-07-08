@@ -66,38 +66,45 @@ class TipoUsuarioController extends Action
     public function pageTiposUsuariosEdit() {
         $tipo = new TipoUsuario();
 
-        $url = $_SERVER['REQUEST_URI'];
+        if (empty($this->dados->editar)) {
 
-        //Remove as barras e também remove URI caso tenha
-        $url = trim($url,'/');
-        if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),'/');
+			$url = $_SERVER['REQUEST_URI'];
 
-        if ('.php' === substr($url,-4))
-            $url = substr($url,0,-4);
+			//Remove as barras e também remove URI caso tenha
+			$url = trim($url,'/');
+			if(SUBDOMINIO)
+				$url = trim(substr($url, strlen(URI)),'/');
 
-        $pos = strripos($url, '/');
-        $valor = substr($url,$pos+1);
+			if ('.php' === substr($url,-4))
+				$url = substr($url,0,-4);
 
-        $pos = strpos($valor,'?');
-        if (!empty($pos)) {
-            $valor = substr($valor, 0, $pos);
-        }
+			$pos = strripos($url, '/');
+			$valor = substr($url,$pos+1);
 
-        $id = filter_var($valor, FILTER_VALIDATE_INT);
+			$pos = strpos($valor,'?');
+			if (!empty($pos)) {
+				$valor = substr($valor, 0, $pos);
+			}
 
-        if (!empty($id)) {
-            $tipo->setId($id);
+			$id = filter_var($valor, FILTER_VALIDATE_INT);
 
-            if ($tipo->carregar()) {
+			if (!empty($id)) {
+				$tipo->setId($id);
 
-                $this->dados->editar = true;
-                $this->dados->id = $id;
-                $this->dados->nome = $tipo->getNome();
-                $carregado = true;
-            }
+				if ($tipo->carregar()) {
 
-        }
+					$this->dados->editar = true;
+					$this->dados->id = $id;
+					$this->dados->nome = $tipo->getNome();
+					$carregado = true;
+				}
+
+			}
+
+		} else
+			$carregado = true;
+
+
 
         if (!empty($carregado))
             $this->pageTiposUsuarios();
@@ -154,6 +161,8 @@ class TipoUsuarioController extends Action
     }
 
     public function requestTiposUsuariosEdit() {
+		$validate = new Data_Validator();
+		$tipo = new TipoUsuario();
 
         $url = $_SERVER['REQUEST_URI'];
 
@@ -176,9 +185,6 @@ class TipoUsuarioController extends Action
         $id = filter_var($valor, FILTER_VALIDATE_INT);
 
         if (!empty($id)) {
-
-            $validate = new Data_Validator();
-            $tipo = new TipoUsuario();
 
             $tipo->setId($id);
             $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -222,6 +228,13 @@ class TipoUsuarioController extends Action
             $this->setRetorno('Não foi possível alterar esse tipo de usuários, tente novamente', true, false);
 
         $this->dados->retorno = $this->getRetorno();
+
+        if (!empty($this->dados->retorno['mensagem'])) {
+			$this->dados->editar = true;
+			$this->dados->id = $id;
+			$this->dados->nome = $tipo->getNome();
+		}
+
         $this->pageTiposUsuariosEdit();
     }
 

@@ -310,7 +310,11 @@ class UsuarioController extends Action
 
             if ($usuario->carregar()) {
 
-                $this->dados->editar = true;
+            	if (!empty($this->dados->editar)) {
+            		$usuario->setNome($this->dados->parametros['param_nome']);
+            		$usuario->setTipo($this->dados->parametros['param_tipo']);
+				} else
+                	$this->dados->editar = true;
 
                 $this->dados->parametros =
                     array(
@@ -336,6 +340,8 @@ class UsuarioController extends Action
     }
 
     public function requestUsuariosEdit() {
+		$validate = new Data_Validator();
+		$usu = new Usuario();
 
         $url = $_SERVER['REQUEST_URI'];
 
@@ -358,9 +364,6 @@ class UsuarioController extends Action
         $id = filter_var($valor, FILTER_VALIDATE_INT);
 
         if (!empty($id)) {
-
-            $validate = new Data_Validator();
-            $usu = new Usuario();
 
             $usu->setId($id);
 
@@ -424,6 +427,17 @@ class UsuarioController extends Action
             $this->setRetorno('Não foi possível alterar esse tipo de usuários, tente novamente', true, false);
 
         $this->dados->retorno = $this->getRetorno();
+
+		if (!empty($this->dados->retorno['mensagem'])) {
+			$this->dados->editar = true;
+
+			$this->dados->parametros =
+				array(
+					'param_nome' => $usu->getNome(),
+					'param_tipo' => $usu->getTipo()
+				);
+		}
+
         $this->pageUsuariosEdit();
     }
 

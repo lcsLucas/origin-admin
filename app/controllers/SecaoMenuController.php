@@ -137,18 +137,21 @@ class SecaoMenuController extends Action
 	public function pageSecoesMenusEdit() {
     	$secao = new SecaoMenu();
 
-    	$id = $this->getIdUri();
+		if (empty($this->dados->editar)) {
+			$id = $this->getIdUri();
 
-		if (!empty($id)) {
-			$secao->setId($id);
+			if (!empty($id)) {
+				$secao->setId($id);
 
-			if ($secao->carregar()) {
-				$this->dados->editar = true;
-				$this->dados->parametros = array('param_id' => $id, 'param_nome' => $secao->getNome());
-				$carregado = true;
+				if ($secao->carregar()) {
+					$this->dados->editar = true;
+					$this->dados->parametros = array('param_id' => $id, 'param_nome' => $secao->getNome());
+					$carregado = true;
+				}
+
 			}
-
-		}
+		} else
+			$carregado = true;
 
 		if (!empty($carregado))
 			$this->pageGerenciarSecoesMenus();
@@ -193,6 +196,12 @@ class SecaoMenuController extends Action
 			$this->setRetorno('Não foi possível alterar o status dessa seção, tente novamente', true, false);
 
 		$this->dados->retorno = $this->getRetorno();
+
+		if (!empty($this->dados->retorno['mensagem'])) {
+			$this->dados->editar = true;
+			$this->dados->parametros = array('param_id' => $id, 'param_nome' => $secao->getNome());
+		}
+
 		$this->pageSecoesMenusEdit();
 	}
 

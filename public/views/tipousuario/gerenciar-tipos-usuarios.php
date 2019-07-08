@@ -83,7 +83,7 @@
                                                 <div class="form-group">
 
                                                     <label class="<?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>" <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'title="Não é possível alterar as permissões do Administrador do Sistema"' : '' ?>>
-                                                        <input class="d-none" type="checkbox" name="menu[]" value="<?= $id ?>" <?= !empty($men['ativo']) ? 'checked' : '' ?> <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>>
+                                                        <input class="d-none" type="checkbox" name="menu[]" value="<?= $id ?>" <?= !empty($men['ativo']) ? 'checked' : '' ?>>
                                                             <?php
 
                                                                 if (!empty($men['ativo'])) {
@@ -113,7 +113,7 @@
                                                                         ?>
                                                                         <li class="nav-item">
                                                                             <label class="<?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>" <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'title="Não é possível alterar as permissões do Administrador do Sistema"' : '' ?>>
-                                                                                <input class="d-none" type="checkbox" name="menu[]" value="<?= $sub['id'] ?>" <?= !empty($sub['ativo']) ? 'checked' : '' ?> <?= !empty($this->dados->id) && $this->dados->id === 1 ? 'disabled' : '' ?>>
+                                                                                <input class="d-none" type="checkbox" name="menu[]" value="<?= $sub['id'] ?>" <?= !empty($sub['ativo']) ? 'checked' : '' ?> >
                                                                                     <?php
 
                                                                                         if (!empty($sub['ativo'])) {

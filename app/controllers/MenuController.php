@@ -185,18 +185,21 @@
 		public function pageMenusEdit() {
 			$menu = new Menu();
 
-			$id = $this->getIdUri();
+			if (empty($this->dados->editar)) {
+				$id = $this->getIdUri();
 
-			if (!empty($id)) {
-				$menu->setId($id);
+				if (!empty($id)) {
+					$menu->setId($id);
 
-				if ($menu->carregar()) {
-					$this->dados->editar = true;
-					$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menu->getNome(), 'param_url' => $menu->getUrl(), 'param_secao' => $menu->getSecaoMenu(), 'param_icone' => $menu->getIcone());
-					$carregado = true;
+					if ($menu->carregar()) {
+						$this->dados->editar = true;
+						$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menu->getNome(), 'param_url' => $menu->getUrl(), 'param_secao' => $menu->getSecaoMenu(), 'param_icone' => $menu->getIcone());
+						$carregado = true;
+					}
+
 				}
-
-			}
+			} else
+				$carregado = true;
 
 			if (!empty($carregado))
 				$this->pageGerenciarMenus();
@@ -210,18 +213,21 @@
 		public function pageSubMenusEdit() {
 			$menu = new Menu();
 
-			$id = $this->getIdUri();
+			if (empty($this->dados->editar)) {
+				$id = $this->getIdUri();
 
-			if (!empty($id)) {
-				$menu->setId($id);
+				if (!empty($id)) {
+					$menu->setId($id);
 
-				if ($menu->carregar()) {
-					$this->dados->editar = true;
-					$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menu->getNome(), 'param_url' => $menu->getUrl(), 'param_menu' => $menu->getMenuPai(), 'param_icone' => $menu->getIcone());
-					$carregado = true;
+					if ($menu->carregar()) {
+						$this->dados->editar = true;
+						$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menu->getNome(), 'param_url' => $menu->getUrl(), 'param_menu' => $menu->getMenuPai(), 'param_icone' => $menu->getIcone());
+						$carregado = true;
+					}
+
 				}
-
-			}
+			} else
+				$carregado = true;
 
 			if (!empty($carregado))
 				$this->pageGerenciarSubMenus();
@@ -294,6 +300,12 @@
 				$this->setRetorno('Não foi possível alterar esse menu, tente novamente', true, false);
 
 			$this->dados->retorno = $this->getRetorno();
+
+			if (!empty($this->dados->retorno['mensagem'])) {
+				$this->dados->editar = true;
+				$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menus->getNome(), 'param_url' => $menus->getUrl(), 'param_menu' => $menus->getMenuPai(), 'param_icone' => $menus->getIcone(), 'param_secao' => $menus->getSecaoMenu());
+			}
+
 			if ($cad_submenu)
 				$this->pageSubMenusEdit();
 			else

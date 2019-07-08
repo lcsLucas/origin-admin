@@ -14,12 +14,4 @@ Senha BD: admin-lcs@2019
  - tirar os css inlines e arrumar a visualização no mobile
     - usar o print tirado como referencia na pasta downloads
 
-- [ideia] Fazer uma unica pagina de Controle de menus
-    - Utilizar abas para [Permissões de menus] e [Ordenação de Menus]
-        - Nas permissões de menus ver a ideia abaixo de como fazer
-        - Para ordenação de menus utilizar o codigo de "ordenação de categorias de produtos" do projeto da loja virtual
-
-[BUG] arrumar o metodo de editar registros em todos os formularios
-    - depois do requestEdit, ele chama o metodo de pageEdit
-        - quando dar erro no editar, ao inves de mostrar os dados novos que o usuário digitou ele no caso recarrega as informações do registro que tá no banco
-            - perdendo as alterações do usuário
+- No editar usuário, tirar a obrigatoriedade da senha, ao alterar

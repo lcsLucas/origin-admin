@@ -19,7 +19,7 @@ class TipoUsuario extends TipoUsuarioDao{
      * @param $nome
      * @param $ativo
      */
-    public function __construct($nome=null, $ativo='0')
+    public function __construct($nome='', $ativo='0')
     {
         parent::__construct($this);
         $this->nome = $nome;
@@ -186,7 +186,7 @@ class TipoUsuario extends TipoUsuarioDao{
 
             $result = $this->alterarDAO();
 
-            if ($result && $this->id !== 1) {
+            if ($result) { //&& $this->id !== 1
 
                 $result = $this->excluirPermissoesTipoDAO();
 
