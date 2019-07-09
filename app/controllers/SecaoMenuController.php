@@ -19,6 +19,7 @@ class SecaoMenuController extends Action
 {
     public function __construct()
     {
+        $this->autenticacao = true;
         parent::__construct();
         /**
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
@@ -84,6 +85,10 @@ class SecaoMenuController extends Action
             $this->setRetorno('Você não informou corretamente o nome da seção', true, false);
 
         $this->dados->retorno = $this->getRetorno();
+
+        if (empty($this->getRetorno()['status']))
+            $this->dados->parametros = array('param_nome' => $nome);
+
         $this->pageGerenciarSecoesMenus();
     }
 
@@ -166,11 +171,11 @@ class SecaoMenuController extends Action
 		$secao = new SecaoMenu();
 
 		$id = $this->getIdUri();
+        $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
 		if (!empty($id)) {
 			$secao->setId($id);
-			$nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
-			$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
 			if (!empty($nome)) {
 
@@ -196,11 +201,9 @@ class SecaoMenuController extends Action
 			$this->setRetorno('Não foi possível alterar o status dessa seção, tente novamente', true, false);
 
 		$this->dados->retorno = $this->getRetorno();
+        $this->dados->editar = true;
 
-		if (!empty($this->dados->retorno['mensagem'])) {
-			$this->dados->editar = true;
-			$this->dados->parametros = array('param_id' => $id, 'param_nome' => $secao->getNome());
-		}
+        $this->dados->parametros = array('param_id' => $id, 'param_nome' => $nome);
 
 		$this->pageSecoesMenusEdit();
 	}

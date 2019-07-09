@@ -13,6 +13,7 @@ class HomeController extends Action
 {
     public function __construct()
     {
+        $this->autenticacao = false;
         parent::__construct();
         /**
          * caminho com o arquivo do layout padrão que todasas paginas dessa controller poderá usar
@@ -49,9 +50,9 @@ class HomeController extends Action
      */
     public function pageError404()
     {
-            $this->dados->title = 'Página Não Encontrada';
-            http_response_code(404);
-            $this->render('error404.html');
+        $this->dados->title = 'Página Não Encontrada';
+        http_response_code(404);
+        $this->render('error404.html');
     }
 
     public function pageLogin() {
@@ -59,10 +60,10 @@ class HomeController extends Action
         if (isset($_SESSION['_idusuario'])) {
             header('Location: '. URL .'dashboard');
             exit();
-        } else {
-            $this->dados->title = 'Página de login';
-            $this->render('login.php', false);
         }
+
+        $this->dados->title = 'Página de login';
+        $this->render('login.php', false);
 
     }
 

@@ -225,7 +225,7 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare('UPDATE mefnu SET nome = :nome, url = :url, idsecao_menu = :secao, icone = :icone, menu_pai = :pai WHERE id = :id');
+					$stms = $this->getCon()->prepare('UPDATE menu SET nome = :nome, url = :url, idsecao_menu = :secao, icone = :icone, menu_pai = :pai WHERE id = :id');
 					$stms->bindValue(':nome', $this->menu->getNome(), \PDO::PARAM_STR);
 					$stms->bindValue(':url', $this->menu->getUrl(), \PDO::PARAM_STR);
 					$stms->bindValue(':secao', $this->menu->getSecaoMenu(), \PDO::PARAM_INT);

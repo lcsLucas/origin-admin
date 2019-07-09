@@ -126,10 +126,11 @@
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="senha_nova" class="font-weight-bold">Senha do usuário <sup
-                                            class="text-danger">*</sup>:</label>
+                                <label for="senha_nova" class="font-weight-bold">Senha do usuário
+                                    <?= !empty($this->dados->editar) ? '<sup class="text-muted font-weight-normal">(opcional)</sup>' : '<sup class="text-danger">*</sup>' ?>:
+                                </label>
                                 <div class="input-group">
-                                    <input required maxlength="30" tabindex="5" type="password"
+                                    <input <?= !empty($this->dados->editar) ? '' : 'required' ?>  maxlength="30" tabindex="5" type="password"
                                            class="form-control form-control-lg b-r-0" id="senha_nova" name="senha_nova"
                                            title="Por favor, informe a senha do usuário">
                                     <div class="input-group-append b-l-0">
@@ -146,10 +147,11 @@
                         <div class="col-12 col-md-6">
 
                             <div class="form-group form-group-lg">
-                                <label for="senha_nova2" class="font-weight-bold">Repita a senha <sup
-                                            class="text-danger">*</sup>:</label>
+                                <label for="senha_nova2" class="font-weight-bold">Repita a senha
+                                    <?= !empty($this->dados->editar) ? '<sup class="text-muted font-weight-normal">(opcional)</sup>' : '<sup class="text-danger">*</sup>' ?>:
+                                </label>
                                 <div class="input-group">
-                                    <input required maxlength="30" tabindex="6" type="password"
+                                    <input <?= !empty($this->dados->editar) ? '' : 'required' ?> maxlength="30" tabindex="6" type="password"
                                            class="form-control form-control-lg b-r-0" id="senha_nova2"
                                            name="senha_nova2" title="Por favor, repita a senha do usuário">
                                     <div class="input-group-append b-l-0">

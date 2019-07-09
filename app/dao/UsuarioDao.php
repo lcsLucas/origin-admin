@@ -430,9 +430,17 @@ class UsuarioDao extends Banco
             try
             {
 
-                $stms = $this->getCon()->prepare('UPDATE usuario SET usu_nome = :nome, usu_senha = :senha, tip_id = :tipo WHERE usu_id = :id');
+                $string_senha = '';
+
+                if (!empty($this->usuario->getSenha()))
+                    $string_senha = 'usu_senha = :senha,';
+
+                $stms = $this->getCon()->prepare('UPDATE usuario SET usu_nome = :nome, '.$string_senha.' tip_id = :tipo WHERE usu_id = :id');
                 $stms->bindValue(':nome', $this->usuario->getNome(), \PDO::PARAM_STR);
-                $stms->bindValue(':senha', $this->usuario->getSenha(), \PDO::PARAM_STR);
+
+                if (!empty($this->usuario->getSenha()))
+                    $stms->bindValue(':senha', $this->usuario->getSenha(), \PDO::PARAM_STR);
+
                 $stms->bindValue(':tipo', $this->usuario->getTipo(), \PDO::PARAM_INT);
                 $stms->bindValue(':id', $this->usuario->getId(), \PDO::PARAM_INT);
 

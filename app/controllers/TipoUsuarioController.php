@@ -16,6 +16,7 @@ class TipoUsuarioController extends Action
 
     public function __construct()
     {
+        $this->autenticacao = true;
         parent::__construct();
         /**
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
@@ -68,25 +69,7 @@ class TipoUsuarioController extends Action
 
         if (empty($this->dados->editar)) {
 
-			$url = $_SERVER['REQUEST_URI'];
-
-			//Remove as barras e também remove URI caso tenha
-			$url = trim($url,'/');
-			if(SUBDOMINIO)
-				$url = trim(substr($url, strlen(URI)),'/');
-
-			if ('.php' === substr($url,-4))
-				$url = substr($url,0,-4);
-
-			$pos = strripos($url, '/');
-			$valor = substr($url,$pos+1);
-
-			$pos = strpos($valor,'?');
-			if (!empty($pos)) {
-				$valor = substr($valor, 0, $pos);
-			}
-
-			$id = filter_var($valor, FILTER_VALIDATE_INT);
+            $id = $this->getIdUri();
 
 			if (!empty($id)) {
 				$tipo->setId($id);
@@ -157,6 +140,11 @@ class TipoUsuarioController extends Action
         }
 
         $this->dados->retorno = $this->getRetorno();
+
+        if (empty($this->dados->retorno['status'])) {
+            $this->dados->nome = $tipo->getNome();
+        }
+
         $this->pageTiposUsuarios();
     }
 
@@ -164,31 +152,13 @@ class TipoUsuarioController extends Action
 		$validate = new Data_Validator();
 		$tipo = new TipoUsuario();
 
-        $url = $_SERVER['REQUEST_URI'];
+		$id = $this->getIdUri();
 
-        //Remove as barras e também remove URI caso tenha
-        $url = trim($url,'/');
-        if(SUBDOMINIO)
-            $url = trim(substr($url, strlen(URI)),'/');
-
-        if ('.php' === substr($url,-4))
-            $url = substr($url,0,-4);
-
-        $pos = strripos($url, '/');
-        $valor = substr($url,$pos+1);
-
-        $pos = strpos($valor,'?');
-        if (!empty($pos)) {
-            $valor = substr($valor, 0, $pos);
-        }
-
-        $id = filter_var($valor, FILTER_VALIDATE_INT);
+        $tipo->setId($id);
+        $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
+        $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
         if (!empty($id)) {
-
-            $tipo->setId($id);
-            $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
-            $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
 
             if (filter_has_var(INPUT_POST, 'menu')) {
                 $array_menus = array_filter($_POST['menu']);
@@ -228,12 +198,10 @@ class TipoUsuarioController extends Action
             $this->setRetorno('Não foi possível alterar esse tipo de usuários, tente novamente', true, false);
 
         $this->dados->retorno = $this->getRetorno();
+        $this->dados->editar = true;
 
-        if (!empty($this->dados->retorno['mensagem'])) {
-			$this->dados->editar = true;
-			$this->dados->id = $id;
-			$this->dados->nome = $tipo->getNome();
-		}
+        $this->dados->id = $id;
+        $this->dados->nome = $nome;
 
         $this->pageTiposUsuariosEdit();
     }
@@ -309,6 +277,30 @@ class TipoUsuarioController extends Action
         $this->dados->retorno = $this->getRetorno();
         $this->ModificaURL(URL . 'usuarios/gerenciar-tipos-usuarios'); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
         $this->pageTiposUsuarios();
+    }
+
+    private function getIdUri() {
+        $url = $_SERVER['REQUEST_URI'];
+
+        //Remove as barras e também remove URI caso tenha
+        $url = trim($url,'/');
+        if(SUBDOMINIO)
+            $url = trim(substr($url, strlen(URI)),'/');
+
+        if ('.php' === substr($url,-4))
+            $url = substr($url,0,-4);
+
+        $pos = strripos($url, '/');
+        $valor = substr($url,$pos+1);
+
+        $pos = strpos($valor,'?');
+        if (!empty($pos)) {
+            $valor = substr($valor, 0, $pos);
+        }
+
+        $id = filter_var($valor, FILTER_VALIDATE_INT);
+
+        return $id;
     }
 
 }

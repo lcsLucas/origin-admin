@@ -11,7 +11,6 @@ $menus_controller = new MenuController();
 $usuario_logado = $usu_controller->carregarInformacoes2();
 $todos_menus = $menus_controller->carregarMenusUsuario();
 
-
 ?>
 
 <!DOCTYPE html>

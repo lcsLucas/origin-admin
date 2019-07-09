@@ -14,6 +14,7 @@
 	{
 		public function __construct()
 		{
+		    $this->autenticacao = true;
 			parent::__construct();
 			/**
 			 * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
@@ -303,7 +304,7 @@
 
 			if (!empty($this->dados->retorno['mensagem'])) {
 				$this->dados->editar = true;
-				$this->dados->parametros = array('param_id' => $id, 'param_nome' => $menus->getNome(), 'param_url' => $menus->getUrl(), 'param_menu' => $menus->getMenuPai(), 'param_icone' => $menus->getIcone(), 'param_secao' => $menus->getSecaoMenu());
+				$this->dados->parametros = array('param_id' => $id, 'param_nome' => $nome, 'param_url' => $url, 'param_menu' => $id_menu, 'param_icone' => $icone, 'param_secao' => $id_secao);
 			}
 
 			if ($cad_submenu)
