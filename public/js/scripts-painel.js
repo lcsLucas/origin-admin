@@ -212,13 +212,19 @@ window.onload = function() {
 
                     if (retorno["erro"]) {
                         Toast.fire({
-                            type: 'error',
-                            title: retorno['msg']
+                            title: '<i class="fas fa-times-circle mr-2"></i> ' + retorno['msg'],
+                            customClass: {
+                                popup: 'btn-danger active mr-3',
+                                title: 'text-white p-2 font-weight-normal align-items-center'
+                            }
                         });
                     } else {
                         Toast.fire({
-                            type: 'success',
-                            title: 'Status alterado com sucesso'
+                            title: '<i class="fas fa-check-circle mr-2"></i> Status alterado com sucesso',
+                            customClass: {
+                                popup: 'btn-success active mr-3',
+                                title: 'text-white p-2 font-weight-normal align-items-center'
+                            }
                         });
                     }
 
@@ -235,8 +241,11 @@ window.onload = function() {
                     });
 
                     Toast.fire({
-                        type: 'error',
-                        title: 'Não foi possível alterar status'
+                        title: '<i class="fas fa-times-circle mr-2"></i> Não foi possível alterar status',
+                        customClass: {
+                            popup: 'btn-danger active mr-3',
+                            title: 'text-white p-2 font-weight-normal align-items-center'
+                        }
                     });
 
                 });
@@ -300,13 +309,19 @@ window.onload = function() {
 
                     if (retorno["erro"]) {
                         Toast.fire({
-                            type: 'error',
-                            title: retorno['msg']
+                            title: '<i class="fas fa-times-circle mr-2"></i> ' + retorno['msg'],
+                            customClass: {
+                                popup: 'btn-danger active mr-3',
+                                title: 'text-white p-2 font-weight-normal align-items-center'
+                            }
                         });
                     } else {
                         Toast.fire({
-                            type: 'success',
-                            title: 'Status alterado com sucesso'
+                            title: '<i class="fas fa-check-circle mr-2"></i> Status alterado com sucesso',
+                            customClass: {
+                                popup: 'btn-success active mr-3',
+                                title: 'text-white p-2 font-weight-normal align-items-center'
+                            }
                         });
                     }
 
@@ -323,8 +338,11 @@ window.onload = function() {
                     });
 
                     Toast.fire({
-                        type: 'error',
-                        title: 'Não foi possível alterar status'
+                        title: '<i class="fas fa-times-circle mr-2"></i> Não foi possível alterar status',
+                        customClass: {
+                            popup: 'btn-danger active mr-3',
+                            title: 'text-white p-2 font-weight-normal align-items-center'
+                        }
                     });
 
                 });

@@ -1,17 +1,10 @@
 ########
 - Core Design
 - Code Design
+- Parallax Design
 
 #######
 
 Nome BD: id10116465_painel_admin_lcs
 Usuario BD: id10116465_lcs_admin
 Senha BD: admin-lcs@2019
-
-- arrumar a mensagem de retorno ao usuário no mobile
-
-- mexer no style do campo filtro do formulario dos usuarios
- - tirar os css inlines e arrumar a visualização no mobile
-    - usar o print tirado como referencia na pasta downloads
-
-- No editar usuário, tirar a obrigatoriedade da senha, ao alterar

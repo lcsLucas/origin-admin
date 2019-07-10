@@ -64,7 +64,7 @@
                                 <input required maxlength="60" autofocus tabindex="1" type="text"
                                        class="form-control form-control-lg"
                                        value="<?= !empty($parametros["param_nome"]) ? $parametros["param_nome"] : "" ?>"
-                                       id="nome" name="nome" title="Por favor, informe o nome do novo usuário">
+                                       id="nome" name="nome" title="Por favor, informe o nome do novo usuário" autocomplete="name">
                             </div>
 
                         </div>
@@ -78,7 +78,7 @@
                                        type="email" <?= !empty($this->dados->editar) ? "disabled" : "" ?> tabindex="2"
                                        class="form-control form-control-lg" id="email" name="email"
                                        value="<?= !empty($parametros["param_email"]) ? $parametros["param_email"] : "" ?>"
-                                       title="<?= !empty($this->dados->editar) ? "Você não pode alterar o email do usuário" : "Por favor, informe um email válido para o usuário" ?>">
+                                       title="<?= !empty($this->dados->editar) ? "Você não pode alterar o email do usuário" : "Por favor, informe um email válido para o usuário" ?>" autocomplete="email">
                             </div>
 
                         </div>
@@ -118,7 +118,7 @@
                                        tabindex="4" type="text" class="form-control form-control-lg" id="usuario"
                                        name="usuario"
                                        value="<?= !empty($parametros["param_usuario"]) ? $parametros["param_usuario"] : "" ?>"
-                                       title="<?= !empty($this->dados->editar) ? "Você não pode alterar o login do usuário" : "Por favor, informe um login para o usuário" ?>">
+                                       title="<?= !empty($this->dados->editar) ? "Você não pode alterar o login do usuário" : "Por favor, informe um login para o usuário" ?>" autocomplete="username">
                             </div>
 
                         </div>
@@ -194,18 +194,16 @@
 
             <div class="card-body p-0">
 
-                <form method="get">
+                <form method="get" class="form-pesquisa">
 
-                    <div class="d-flex align-items-center"
-                         style="max-width: 500px;margin-left: auto;margin-right: 30px;">
+                    <div class="d-flex align-items-center container-form" >
 
                         <label class="font-weight-bold m-0 text-muted mr-2" for="sel-busca">Pesquisar:</label>
 
                         <div class="input-group my-4">
                             <div class="input-group-prepend">
 
-                                <select style="border-top-right-radius: 0; border-bottom-right-radius: 0" name="tipo"
-                                        id="sel-busca" class="form-control">
+                                <select name="tipo" id="sel-busca" class="form-control">
 
 									<?php
 
@@ -214,28 +212,28 @@
 									?>
 
                                     <option <?= empty($param_tipo) ? 'checked' : '' ?> value="">Nome</option>
-                                    <option <?= (!empty($param_tipo) && $param_tipo === 2) ? 'selected' : '' ?>
-                                            value="2">Email
+                                    <option <?= (!empty($param_tipo) && $param_tipo === 2) ? 'selected' : '' ?> value="2">
+                                        Email
                                     </option>
-                                    <option <?= (!empty($param_tipo) && $param_tipo === 3) ? 'selected' : '' ?>
-                                            value="3">Login
+                                    <option <?= (!empty($param_tipo) && $param_tipo === 3) ? 'selected' : '' ?> value="3">
+                                        Login
                                     </option>
 
                                 </select>
 
                             </div>
-                            <input type="text" class="form-control border-right-0"
-                                   aria-label="Text input com dropdown button" name="termo"
-                                   value="<?= filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_STRING) ?>">
+                            <input required type="text" class="form-control border-right-0" aria-label="Text input com dropdown button" name="termo" value="<?= filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_STRING) ?>">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary border-left-0" type="submit"><i
-                                            class="fa fa-search"></i></button>
+                                <button class="btn btn-outline-secondary border-left-0" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
                             </div>
 							<?php
 								if (filter_has_var(INPUT_GET, 'termo')) {
 									?>
-                                    <a href="<?= URL ?>usuarios/gerenciar-usuarios"
-                                       class="btn btn-link text-danger pr-0"><i class="fas fa-times"></i></a>
+                                    <a href="<?= URL ?>usuarios/gerenciar-usuarios" class="btn btn-link text-danger pr-0">
+                                        <i class="fas fa-times"></i>
+                                    </a>
 									<?php
 								}
 							?>

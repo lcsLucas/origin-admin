@@ -228,10 +228,6 @@ button[name="btnConfirmar"] {
     display: none;
 }
 
-/*.input-group.focus .input-group-prepend::after {
-    background: #8ad4ee;
-}*/
-
 .input-group.focus .input-group-text{
     border-color: #8ad4ee;
     background: rgba(138, 212, 238,.05) !important;
@@ -297,11 +293,6 @@ div#profile img {
     border-radius: 50em;
 }
 
-/*
-button[type="submit"] {
-    border-radius: 0 !important;
-}*/
-
 #modalFoto .modal-header {
     color: rgba(0,0,0,.6);
 }
@@ -328,4 +319,15 @@ button[type="submit"] {
 
 #controle-acesso label.disabled {
     cursor: not-allowed;
+}
+
+.form-pesquisa .container-form {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.form-pesquisa .container-form select {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0
 }
