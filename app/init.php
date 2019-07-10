@@ -257,6 +257,7 @@
 			);
 
 			/*--------------*/
+
 			/*Setando na propriedades as rotas definidas à cima.*/
 			$this->setRoutes($array);
 		}
