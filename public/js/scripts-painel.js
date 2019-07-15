@@ -34,7 +34,6 @@ window.onload = function() {
             showRemove: false,
             showUpload: false,
             browseOnZoneClick: true,
-            elErrorContainer: "#erro-file-input",
             msgErrorClass: 'alert alert-block alert-danger',
             cancelClass: 'text-danger',
             language: "pt-BR",
@@ -50,12 +49,10 @@ window.onload = function() {
             $(modal).find('#wrapper-img-crop').html(image);
             $(modal).modal('show');
 
-            console.log(previewId);
-
-            $(previewId).parents('.file-preview').children('.fileinput-remove').css('opacity', '1');
+            //$(previewId).parents('.file-preview').children('.fileinput-remove').css('opacity', '1');
 
         }).on('filecleared', function(event) {
-            $('.file-preview .fileinput-remove').css('opacity', 0);
+            //$('.file-preview .fileinput-remove').css('opacity', 0);
         });
 
         modalFoto.on('shown.bs.modal', function (e) {
@@ -642,6 +639,38 @@ window.onload = function() {
         }
 
     });
+
+    const input_file = $('.file-input-bootstrap');
+
+    if (input_file.length) {
+
+        input_file.each(function (i, obj) {
+
+            var data_src = $(obj).data('preview');
+            console.log(data_src);
+
+            var image_preview = '<img class="d-block w-100 img-fluid" src="'+data_src+'" />';
+
+            $(obj).fileinput({
+                overwriteInitial: true,
+                autoOrientImage: false,
+                maxFileSize: 2500,
+                showCaption: false,
+                showBrowse: false,
+                showRemove: false,
+                showUpload: false,
+                browseOnZoneClick: true,
+                msgErrorClass: 'alert alert-block alert-danger',
+                cancelClass: 'text-danger',
+                language: "pt-BR",
+                theme: "fa",
+                defaultPreviewContent: image_preview,
+                allowedFileExtensions: ["jpg", "jpeg", "png"]
+            });
+
+        });
+
+    }
 
 };
 

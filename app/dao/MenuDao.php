@@ -387,7 +387,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare('SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone FROM menu m INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id LEFT JOIN secao_menu sm ON m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND mt.tip_id = :tipo AND ((m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\') OR m.idsecao_menu IS NULL) AND m.ativo =\'1\' ORDER BY sm.ordem IS NULL, sm.ordem, m.ordem, m.nome');
+					$stms = $this->getCon()->prepare('SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone FROM menu m INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id LEFT JOIN secao_menu sm ON m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND mt.tip_id = :tipo AND ((m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\') OR m.idsecao_menu IS NULL) AND m.ativo =\'1\' ORDER BY sm.ordem, m.ordem, m.nome');
                     $stms->bindValue(":tipo", $idtipo, \PDO::PARAM_INT);
 					$stms->execute();
 					return $stms->fetchAll();

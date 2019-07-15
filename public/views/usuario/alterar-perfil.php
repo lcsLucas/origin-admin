@@ -94,7 +94,7 @@
                                value="<?= $usuario->getLogin() ?>" title="Você não pode alterar esse campo">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="container-file">
                         <input type="hidden" id="img_avatar"
                                value="<?= !empty($usuario->getImagem()->getNomeImagem()) && is_file(PATH_IMG . "usuarios/thumbs/" . $usuario->getImagem()->getNomeImagem()) ? URL_IMG . "usuarios/thumbs/" . $usuario->getImagem()->getNomeImagem() . "?random=" . rand() : '' ?>">
                         <div class="kv-avatar">

@@ -256,7 +256,50 @@
 				'action' => 'pageSubMenusEdit'
 			);
 
-			/*--------------*/
+			/*-------Rotas dos Banners-------*/
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/?$/',
+				'method' => 'GET',
+				'controller' => 'Banner',
+				'action' => 'pageGerenciarBanners'
+			);
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/?$/',
+				'method' => 'POST',
+				'controller' => 'Banner',
+				'action' => 'requestNovoBanner'
+			);
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/edit\/([0-9]+)\/?$/',
+				'method' => 'GET',
+				'controller' => 'Banner',
+				'action' => 'pageBannerEdit'
+			);
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/edit\/([0-9]+)\/?$/',
+				'method' => 'POST',
+				'controller' => 'Banner',
+				'action' => 'requestBannerEdit'
+			);
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/alterar-status\/?$/',
+				'method' => 'POST',
+				'controller' => 'Banner',
+				'action' => 'requestAlterarStatus'
+			);
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/deletar\/?$/',
+				'method' => 'GET',
+				'controller' => 'Banner',
+				'action' => 'pageGerenciarBanners'
+			);
+			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/deletar\/?$/',
+				'method' => 'POST',
+				'controller' => 'Banner',
+				'action' => 'requestDeletar'
+			);
+			/*-------Rotas dos Banners-------*/
 
 			/*Setando na propriedades as rotas definidas à cima.*/
 			$this->setRoutes($array);

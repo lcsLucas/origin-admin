@@ -124,6 +124,7 @@ button[name="btnConfirmar"] {
 
 .krajee-default.file-preview-frame .kv-file-content {
     width: auto !important;
+    height: auto !important;
 }
 
 .krajee-default.file-preview-frame {
@@ -246,7 +247,8 @@ button[name="btnConfirmar"] {
     cursor: not-allowed;
 }
 
-.file-preview .fileinput-remove {
+/*
+#container-file .file-preview .fileinput-remove {
     bottom: -12px;
     left: 50%;
     top: auto !important;
@@ -260,13 +262,13 @@ button[name="btnConfirmar"] {
     font-size: .875rem;
     line-height: 1.5;
     border-radius: .25rem;
-    opacity: 0;
+    opacity: .8;
 }
 
-.file-preview .fileinput-remove:hover, .file-preview .fileinput-remove:active {
+#container-file .file-preview .fileinput-remove:hover, #container-file .file-preview .fileinput-remove:active {
     background-color: #f63c3a !important;
     border-color: #f63c3a !important;
-}
+}*/
 
 .sidebar .nav-dropdown .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link {
     transition: padding-left .8s;
