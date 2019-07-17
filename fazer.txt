@@ -8,3 +8,15 @@
 Nome BD: id10116465_painel_admin_lcs
 Usuario BD: id10116465_lcs_admin
 Senha BD: admin-lcs@2019
+
+------------------
+
+- 66 exemplos de Radio Buttons em Html
+
+- https://freefrontend.com/css-radio-buttons/
+
+------------------
+
+- quando enviar uma imagem muito grande dá a opção de "cortar", "cortar automaticamente", "Cancelar"
+
+- continuar na ideia da opção crop na hora de cadastrar o banner

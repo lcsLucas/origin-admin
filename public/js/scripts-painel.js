@@ -643,6 +643,7 @@ window.onload = function() {
     const input_file = $('.file-input-bootstrap');
 
     if (input_file.length) {
+        const modalEditorFoto = $('#modalEditorFoto');
 
         input_file.each(function (i, obj) {
 
@@ -666,8 +667,67 @@ window.onload = function() {
                 theme: "fa",
                 defaultPreviewContent: image_preview,
                 allowedFileExtensions: ["jpg", "jpeg", "png"]
+            }).on('fileloaded', function(event, file, previewId, index, reader) {
+                const seletor = '#' + previewId;
+
+                $(seletor).children('.kv-file-content').prepend(
+                    $('<a href>')
+                        .addClass('btn-crop-foto')
+                        .html($('<i>').addClass('fas fa-fw fa-crop-alt'))
+                        .data('id-container', previewId)
+                );
             });
 
+        });
+
+        $('body').on('click', '.btn-crop-foto', function () {
+            var $this = $(this);
+            var container_cropimg = document.getElementById($this.data('id-container'));
+            var image_target = container_cropimg.querySelector('img').cloneNode();
+            image_target.classList= 'img-fluid';
+            modalEditorFoto.children('#modal-body').html(image_target);
+
+            cropper = new Cropper(image_target, {
+                viewMode: '1',
+                dragMode: 'crop',
+                responsive: true,
+                zoomable: true,
+                movable: true,
+                scalable: true,
+                background: true,
+                ready() {
+
+                    modalFoto.find('#confirmaFoto').html('Confirmar <i class="fa fa-fw fa-check"></i>').prop('disabled', false).on('click', function () {
+
+                        cropper.getCroppedCanvas().toBlob((blob) => {
+                            var modal = document.getElementById('modalFoto');
+                            const blobUrl = URL.createObjectURL(blob);
+                            var image = container_img.querySelector('img');
+                            image.src = blobUrl;
+
+                            var input_data = $('<input>')
+                                .prop({
+                                    'type': 'hidden',
+                                    'name': 'dados_imagem',
+                                    'value': JSON.stringify(cropper.getData())
+                                });
+
+                            input_data.insertAfter($(image));
+                            $(modal).modal('hide');
+                        });
+                    });
+
+                }
+            });
+
+            $('body').css('overflow', 'hidden');
+            modalEditorFoto.fadeIn();
+
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.btn-close-crop', function () {
+            modalEditorFoto.fadeOut();
         });
 
     }

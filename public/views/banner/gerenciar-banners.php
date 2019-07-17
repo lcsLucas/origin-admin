@@ -49,7 +49,7 @@
 			<div class="card-body border border-top-0 border-primary">
 
 				<form action="<?= !empty($this->dados->editar) ? URL . 'cadastros/banners/edit/' . $parametros['param_id'] . $query_uri : URL . 'cadastros/banners/gerenciar-banners' . $query_uri ?>"
-					  method="post" class="form-validate" id="formBanners">
+					  method="post" class="form-validate" id="formBanners" enctype="multipart/form-data">
 
 					<p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
@@ -75,19 +75,19 @@
 					</div>
 
                     <div class="col-xs-12 text-center">
+
                         <label>Abrir em <sup class="col-pink">*</sup>:</label>
 
-                        <div class="radio-group">
+                        <div class="form-group">
 
-                            <label title="Link direciona para o próprio site">
-                                <input type="radio" value="0" required="" checked="" name="optExterno" aria-required="true">
-                                <span>Mesma janela<sup class="fa fa-question-circle" aria-hidden="true"></sup></span>
-                            </label>
-
-                            <label title="Link direciona para fora do site (abre em uma nova janela do navegador)">
-                                <input type="radio" value="1" required="" name="optExterno" aria-required="true">
-                                <span>Nova janela<sup class="fa fa-question-circle" aria-hidden="true"></sup></span>
-                            </label>
+                            <div class="inputGroup">
+                                <input required id="radio1" name="optExterno" type="radio" value="0" checked />
+                                <label title="Link direciona para o próprio site" for="radio1">Mesma Janela</label>
+                            </div>
+                            <div class="inputGroup">
+                                <input required id="radio2" name="optExterno" type="radio" value="1" />
+                                <label title="Link direciona para fora do site (abre em uma nova janela do navegador)" for="radio2">Nova Janela</label>
+                            </div>
 
                         </div>
 
@@ -96,56 +96,22 @@
                     <div class="col-xs-12 text-center">
                         <label for="txtLink">Mostrar os titulos no banner? <sup class="col-pink">*</sup>:</label>
 
-                        <div class="radio-group">
+                        <div class="form-group">
 
-                            <label title="Apenas a imagem do banner será mostrado">
-                                <input type="radio" value="0" required="" checked="" name="optTitulo" aria-required="true">
-                                <span>Não<sup class="fa fa-question-circle" aria-hidden="true"></sup></span>
-                            </label>
-
-                            <label title="O título será mostrado junto com a imagem do banner">
-                                <input type="radio" value="1" required="" name="optTitulo" aria-required="true">
-                                <span>Sim<sup class="fa fa-question-circle" aria-hidden="true"></sup></span>
-                            </label>
+                            <div class="inputGroup">
+                                <input required id="radio3" name="optTitulo" type="radio" value="0" checked />
+                                <label title="Apenas a imagem do banner será mostrado" for="radio3">Não</label>
+                            </div>
+                            <div class="inputGroup">
+                                <input required id="radio4" name="optTitulo" type="radio" value="1" />
+                                <label title="O título será mostrado junto com a imagem do banner" for="radio4">Sim</label>
+                            </div>
 
                         </div>
 
                     </div>
 
-                    <div class="col-xs-12">
-
-                        <style>
-
-                            #tab-banners i {
-                                margin-bottom: 8px;
-                                font-size: 1.8rem;
-                            }
-
-                            #tab-banners a {
-                                text-transform: uppercase;
-                                background: #F8F8F8;
-                                padding: 10px 35px;
-                                color: #444;
-                                font-weight: 600;
-                                border: 1px solid #DFDFDF;
-                                border-radius: 2px;
-                                text-decoration: none;
-                            }
-
-                            #tab-banners a:hover {
-                                background: #EEE;
-                            }
-
-                            #tab-banners a.active {
-                                color: #FFF;
-                                background: #20a8d8;
-                            }
-
-                            #tab-content-banners .file-preview {
-                                max-width: 100%;
-                            }
-
-                        </style>
+                    <div class="col-xs-12 mt-5">
 
                         <ul class="nav nav-tabs d-flex justify-content-center text-center border-0" role="tablist" id="tab-banners">
                             <li class="nav-item">
@@ -181,7 +147,7 @@
                                     <label class="font-weight-bold">Selecione a imagem para Tablets <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_tablet" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/1024x400">
+                                            <input class="file-input-bootstrap" name="img_tablet" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/1024x500">
                                         </div>
                                     </div>
                                 </div>
@@ -191,7 +157,7 @@
                                     <label class="font-weight-bold">Selecione a imagem para Mobile <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_mobile" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/768x768">
+                                            <input class="file-input-bootstrap" name="img_mobile" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/540x540">
                                         </div>
                                     </div>
                                 </div>
@@ -381,5 +347,108 @@
 		</div>
 
 	</div>
+
+</div>
+
+<style>
+
+    #modalEditorFoto {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999999999999999999999999999999999999999999;
+        background: #666;
+        display: none;
+    }
+
+    #modal-header {
+        padding: 15px 20px;
+        /*font-weight: 100;*/
+        background: #555;
+    }
+
+    #modal-header h2 {
+        color: #FFF;
+        font-size: 1.2rem;
+    }
+
+    #modal-header .btn-confirmar {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: .9rem;
+    }
+
+    #modal-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: rgba(0,0,0,.9);
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #modal-footer a {
+        padding: 8px;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #modal-footer a.active {
+        background: #20a8d8;
+        color: #FFF;
+    }
+
+</style>
+
+<div id="modalEditorFoto">
+
+    <div id="modal-header" class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Editor de Imagens</h2>
+
+        <div>
+            <button class="btn-close-crop btn btn-link text-white">Cancelar</button>
+            <button class="btn btn-primary px-4 py-2 btn-confirmar-crop">Salvar</button>
+        </div>
+
+    </div>
+
+    <div id="modal-body" class="h-100">
+
+    </div>
+
+    <div id="modal-footer">
+        <a href="" class="active" title="Cortar">
+            <i class="fas fa-crop-alt"></i>
+        </a>
+        <a href="" title="Mover">
+            <i class="fas fa-arrows-alt"></i>
+        </a>
+        <a href="" class="" title="Zoom +">
+            <i class="fas fa-search-plus"></i>
+        </a>
+        <a href="" class="" title="Zoom -">
+            <i class="fas fa-search-minus"></i>
+        </a>
+        <a href="" class="" title="Rotacionar para esquerda">
+            <i class="fas fa-redo fa-rotate-180"></i>
+        </a>
+        <a href="" class="" title="Rotacionar para direita">
+            <i class="fas fa-redo"></i>
+        </a>
+        <a href="" class="" title="Inverter Horizontalmente">
+            <i class="fas fa-arrows-alt-h"></i>
+        </a>
+        <a href="" class="" title="Inverter Verticalmente">
+            <i class="fas fa-arrows-alt-v"></i>
+        </a>
+    </div>
 
 </div>

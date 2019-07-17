@@ -72,4 +72,39 @@ class BannerDao extends Banco
 		return 0;
 	}
 
+	protected function cadastrarDAO() {
+		$ordem = 1;
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$result = $this->getCon()->query('SELECT MAX(ordem) + 1 as ordem FROM banner');
+
+				foreach ($result->fetch() as $result_ordem)
+					if ((int) $result_ordem)
+						$ordem = (int) $result_ordem;
+
+				$stms = $this->getCon()->prepare('INSERT INTO banner(titulo, subtitulo, link, opt_titulos, opt_externo, ativo, ordem) VALUES(:titulo, :subtitulo, :link, :opt_titulos, :opt_externo, :ativo, :ordem)');
+				$stms->bindValue(':titulo', $this->banner->getTitulo(), \PDO::PARAM_STR);
+				$stms->bindValue(':subtitulo', $this->banner->getSubTitulo(), \PDO::PARAM_STR);
+				$stms->bindValue(':link', $this->banner->getLinkBanner(), \PDO::PARAM_STR);
+				$stms->bindValue(':opt_titulos', $this->banner->getOptExibirTexto(), \PDO::PARAM_STR);
+				$stms->bindValue(':opt_externo', $this->banner->getOptJanela(), \PDO::PARAM_STR);
+				$stms->bindValue(':ativo', $this->banner->getAtivo(), \PDO::PARAM_STR);
+				$stms->bindValue(':ordem', $ordem, \PDO::PARAM_INT);
+
+				return $stms->execute();
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+	}
+
 }
