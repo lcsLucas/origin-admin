@@ -465,3 +465,72 @@ div#profile img {
     color: #FFF;
     font-size: 1.15rem;
 }
+
+#modalEditorFoto {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999999999999999999999;
+    background: #222;
+    display: none;
+}
+
+#modal-header {
+    padding: 15px 20px;
+    background: #555;
+}
+
+#modal-header h2 {
+    color: #FFF;
+    font-size: 1.2rem;
+}
+
+#modal-body {
+    overflow: hidden;
+}
+
+#modal-body .img-fluid {
+    max-width: 90% !important;
+}
+
+#modal-footer {
+    position: absolute;
+    bottom: 0;
+    padding: 4px;
+    background: rgba(0,0,0,.8);
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+#modal-footer a {
+    padding: 8px;
+    text-decoration: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+#modal-footer a.active {
+    background: #20a8d8;
+    color: #FFF;
+}

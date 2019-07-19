@@ -98,7 +98,6 @@ window.onload = function() {
 
         modalFoto.on('hidden.bs.modal', function (e) {
             $('body').css('overflow', 'auto');
-            console.log(cropper);
             cropper.destroy();
         });
 
@@ -648,7 +647,6 @@ window.onload = function() {
         input_file.each(function (i, obj) {
 
             var data_src = $(obj).data('preview');
-            console.log(data_src);
 
             var image_preview = '<img class="d-block w-100 img-fluid" src="'+data_src+'" />';
 
@@ -675,6 +673,7 @@ window.onload = function() {
                         .addClass('btn-crop-foto')
                         .html($('<i>').addClass('fas fa-fw fa-crop-alt'))
                         .data('id-container', previewId)
+                        .data('target', $(obj).prop('name'))
                 );
             });
 
@@ -682,6 +681,7 @@ window.onload = function() {
 
         $('body').on('click', '.btn-crop-foto', function () {
             var $this = $(this);
+            var input_target = $this.data('target');
             var container_cropimg = document.getElementById($this.data('id-container'));
             var image_target = container_cropimg.querySelector('img').cloneNode();
             image_target.classList= 'img-fluid';
@@ -689,31 +689,32 @@ window.onload = function() {
 
             cropper = new Cropper(image_target, {
                 viewMode: '1',
-                dragMode: 'crop',
+                autoCropArea: '.9',
+                dragMode: 'move',
+                background: false,
                 responsive: true,
                 zoomable: true,
                 movable: true,
                 scalable: true,
-                background: true,
                 ready() {
 
-                    modalFoto.find('#confirmaFoto').html('Confirmar <i class="fa fa-fw fa-check"></i>').prop('disabled', false).on('click', function () {
+                    modalEditorFoto.find('.btn-confirmar-crop').html('Confirmar <small><i class="fa fa-fw fa-check"></i></small>').prop('disabled', false).on('click', function () {
 
                         cropper.getCroppedCanvas().toBlob((blob) => {
-                            var modal = document.getElementById('modalFoto');
+                            //var modal = document.getElementById('modalFoto');
                             const blobUrl = URL.createObjectURL(blob);
-                            var image = container_img.querySelector('img');
+                            var image = container_cropimg.querySelector('img');
                             image.src = blobUrl;
 
                             var input_data = $('<input>')
                                 .prop({
                                     'type': 'hidden',
-                                    'name': 'dados_imagem',
+                                    'name': 'dados_' + input_target,
                                     'value': JSON.stringify(cropper.getData())
                                 });
 
                             input_data.insertAfter($(image));
-                            $(modal).modal('hide');
+                            modalEditorFoto.modal('hide');
                         });
                     });
 
@@ -728,6 +729,84 @@ window.onload = function() {
 
         modalEditorFoto.on('click', '.btn-close-crop', function () {
             modalEditorFoto.fadeOut();
+        });
+
+        modalEditorFoto.on('click', '.crop-mover', function () {
+            cropper.setDragMode('move');
+            modalEditorFoto.find('a').removeClass('active');
+            $(this).addClass('active');
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-cortar', function () {
+            cropper.setDragMode('crop');
+            modalEditorFoto.find('a').removeClass('active');
+            $(this).addClass('active');
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-zoomup', function () {
+            cropper.zoom(0.1);
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-zoomdown', function () {
+            cropper.zoom(-0.1);
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-rotaesquerda', function () {
+            cropper.rotate(-90);
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-rotadireita', function () {
+            cropper.rotate(90);
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-iverter-h', function () {
+
+            if(!cropper.toggleScaleH && !cropper.toggleScaleV) {
+                cropper.toggleScaleH = 1;
+                cropper.scale(-1, 1); // Flip horizontal
+            } else if(cropper.toggleScaleH && !cropper.toggleScaleV) {
+                cropper.toggleScaleH = 0;
+                cropper.scale(1, 1); // Flip horizontal
+            } else if(!cropper.toggleScaleH && cropper.toggleScaleV) {
+                cropper.toggleScaleH = 1;
+                cropper.scale(-1, -1); // Flip horizontal
+            } else if (cropper.toggleScaleH && cropper.toggleScaleV) {
+                cropper.toggleScaleH = 0;
+                cropper.scale(1, -1); // Flip horizontal
+            }
+
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.crop-iverter-v', function () {
+
+            if(!cropper.toggleScaleH && !cropper.toggleScaleV) {
+                cropper.toggleScaleV = 1;
+                cropper.scale(1, -1); // Flip horizontal
+            } else if(cropper.toggleScaleH && !cropper.toggleScaleV) {
+                cropper.toggleScaleV = 1;
+                cropper.scale(-1, -1); // Flip horizontal
+            } else if(!cropper.toggleScaleH && cropper.toggleScaleV) {
+                cropper.toggleScaleV = 0;
+                cropper.scale(1, 1); // Flip horizontal
+            } else if (cropper.toggleScaleH && cropper.toggleScaleV) {
+                cropper.toggleScaleV = 0;
+                cropper.scale(-1, 1); // Flip horizontal
+            }
+
+            return false;
+        });
+
+        modalEditorFoto.on('click', '.btn-confirmar-crop', function () {
+
+
+
         });
 
     }

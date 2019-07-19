@@ -350,64 +350,6 @@
 
 </div>
 
-<style>
-
-    #modalEditorFoto {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999999999999999999999999999999999999999999999;
-        background: #666;
-        display: none;
-    }
-
-    #modal-header {
-        padding: 15px 20px;
-        /*font-weight: 100;*/
-        background: #555;
-    }
-
-    #modal-header h2 {
-        color: #FFF;
-        font-size: 1.2rem;
-    }
-
-    #modal-header .btn-confirmar {
-        text-transform: uppercase;
-        font-weight: 600;
-        font-size: .9rem;
-    }
-
-    #modal-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 20px;
-        background: rgba(0,0,0,.9);
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #modal-footer a {
-        padding: 8px;
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #modal-footer a.active {
-        background: #20a8d8;
-        color: #FFF;
-    }
-
-</style>
-
 <div id="modalEditorFoto">
 
     <div id="modal-header" class="d-flex justify-content-between align-items-center">
@@ -420,33 +362,31 @@
 
     </div>
 
-    <div id="modal-body" class="h-100">
-
-    </div>
+    <div id="modal-body" class="h-100 mh-100"></div>
 
     <div id="modal-footer">
-        <a href="" class="active" title="Cortar">
+        <a href="" class="active crop-cortar" title="Cortar" >
             <i class="fas fa-crop-alt"></i>
         </a>
-        <a href="" title="Mover">
+        <a href="" title="Mover" class="crop-mover">
             <i class="fas fa-arrows-alt"></i>
         </a>
-        <a href="" class="" title="Zoom +">
+        <a href="" title="Zoom +" class="crop-zoomup">
             <i class="fas fa-search-plus"></i>
         </a>
-        <a href="" class="" title="Zoom -">
+        <a href="" title="Zoom -" class="crop-zoomdown">
             <i class="fas fa-search-minus"></i>
         </a>
-        <a href="" class="" title="Rotacionar para esquerda">
+        <a href="" title="Rotacionar para esquerda" class="crop-rotaesquerda">
             <i class="fas fa-redo fa-rotate-180"></i>
         </a>
-        <a href="" class="" title="Rotacionar para direita">
+        <a href="" title="Rotacionar para direita" class="crop-rotadireita">
             <i class="fas fa-redo"></i>
         </a>
-        <a href="" class="" title="Inverter Horizontalmente">
+        <a href="" title="Inverter Horizontalmente" class="crop-iverter-h">
             <i class="fas fa-arrows-alt-h"></i>
         </a>
-        <a href="" class="" title="Inverter Verticalmente">
+        <a href="" title="Inverter Verticalmente" class="crop-iverter-v">
             <i class="fas fa-arrows-alt-v"></i>
         </a>
     </div>
