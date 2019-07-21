@@ -489,10 +489,7 @@ div#profile img {
 
 #modal-body {
     overflow: hidden;
-}
-
-#modal-body .img-fluid {
-    max-width: 90% !important;
+    max-height: 600px;
 }
 
 #modal-footer {

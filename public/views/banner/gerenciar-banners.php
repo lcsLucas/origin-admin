@@ -362,7 +362,7 @@
 
     </div>
 
-    <div id="modal-body" class="h-100 mh-100"></div>
+    <div id="modal-body" class=""></div>
 
     <div id="modal-footer">
         <a href="" class="active crop-cortar" title="Cortar" >

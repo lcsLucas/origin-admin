@@ -643,6 +643,9 @@ window.onload = function() {
 
     if (input_file.length) {
         const modalEditorFoto = $('#modalEditorFoto');
+        var input_target = null;
+        var container_cropimg = null;
+        var id_container = null;
 
         input_file.each(function (i, obj) {
 
@@ -681,44 +684,55 @@ window.onload = function() {
 
         $('body').on('click', '.btn-crop-foto', function () {
             var $this = $(this);
-            var input_target = $this.data('target');
-            var container_cropimg = document.getElementById($this.data('id-container'));
-            var image_target = container_cropimg.querySelector('img').cloneNode();
-            image_target.classList= 'img-fluid';
-            modalEditorFoto.children('#modal-body').html(image_target);
+            id_container = $this.data('id-container');
+            input_target = $this.data('target');
+            container_cropimg = document.getElementById(id_container);
+            var image_target = container_cropimg.querySelector('img');
+            var image_clone = image_target.cloneNode();
+            image_clone.classList= 'img-fluid';
 
-            cropper = new Cropper(image_target, {
+            var target_image = $('#' + 'img-' + id_container);
+
+            if (target_image.length) {
+                image_clone.setAttribute('src', target_image.val());
+
+            } else {
+                var input_img_original = $('<input>').prop({
+                    'type': 'hidden',
+                    'value': image_target.getAttribute('src'),
+                    'id': 'img-' + id_container
+                });
+
+                input_img_original.insertAfter(image_target);
+
+            }
+
+            var target_input = $('#' + 'dados-' + id_container);
+            var obj_data = null;
+            var flag_autoCrop = false;
+
+            if (target_input.length) {
+                obj_data = JSON.parse(target_input.val());
+
+                if (obj_data.width && obj_data.height)
+                    flag_autoCrop = true;
+            }
+
+            modalEditorFoto.children('#modal-body').html(image_clone);
+
+            modalEditorFoto.find('a').removeClass('active');
+            modalEditorFoto.find('.crop-cortar').addClass('active');
+
+            cropper = new Cropper(image_clone, {
                 viewMode: '1',
+                autoCrop: flag_autoCrop,
                 autoCropArea: '.9',
-                dragMode: 'move',
                 background: false,
                 responsive: true,
                 zoomable: true,
                 movable: true,
                 scalable: true,
-                ready() {
-
-                    modalEditorFoto.find('.btn-confirmar-crop').html('Confirmar <small><i class="fa fa-fw fa-check"></i></small>').prop('disabled', false).on('click', function () {
-
-                        cropper.getCroppedCanvas().toBlob((blob) => {
-                            //var modal = document.getElementById('modalFoto');
-                            const blobUrl = URL.createObjectURL(blob);
-                            var image = container_cropimg.querySelector('img');
-                            image.src = blobUrl;
-
-                            var input_data = $('<input>')
-                                .prop({
-                                    'type': 'hidden',
-                                    'name': 'dados_' + input_target,
-                                    'value': JSON.stringify(cropper.getData())
-                                });
-
-                            input_data.insertAfter($(image));
-                            modalEditorFoto.modal('hide');
-                        });
-                    });
-
-                }
+                data: obj_data
             });
 
             $('body').css('overflow', 'hidden');
@@ -727,8 +741,46 @@ window.onload = function() {
             return false;
         });
 
+        modalEditorFoto.find('.btn-confirmar-crop').html('Confirmar <small><i class="fa fa-fw fa-check"></i></small>').prop('disabled', false).on('click', function () {
+
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                //var modal = document.getElementById('modalFoto');
+                const blobUrl = URL.createObjectURL(blob);
+                var image = container_cropimg.querySelector('img');
+                image.src = blobUrl;
+
+                var target_input = $('#' + 'dados-' + id_container);
+
+                if (target_input.length)
+                    target_input.val(JSON.stringify(cropper.getData()));
+                else {
+                    var input_data = $('<input>')
+                        .prop({
+                            'id': 'dados-' + id_container,
+                            'type': 'hidden',
+                            'name': 'dados_' + input_target,
+                            'value': JSON.stringify(cropper.getData())
+                        });
+
+                    input_data.insertAfter($(image));
+                }
+
+                cropper.destroy();
+                delete cropper.toggleScaleH;
+                delete cropper.toggleScaleV;
+                modalEditorFoto.children('#modal-body').html('');
+                modalEditorFoto.fadeOut();
+                $('body').css('overflow', 'auto');
+            });
+        });
+
         modalEditorFoto.on('click', '.btn-close-crop', function () {
+            cropper.destroy();
+            delete cropper.toggleScaleH;
+            delete cropper.toggleScaleV;
+            modalEditorFoto.children('#modal-body').html('');
             modalEditorFoto.fadeOut();
+            $('body').css('overflow', 'auto');
         });
 
         modalEditorFoto.on('click', '.crop-mover', function () {
