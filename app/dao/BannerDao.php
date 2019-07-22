@@ -29,7 +29,7 @@ class BannerDao extends Banco
 			try
 			{
 
-				$stms = $this->getCon()->prepare('SELECT * FROM banners ORDER BY ordem, idbanner LIMIT :inicio,:fim');
+				$stms = $this->getCon()->prepare('SELECT * FROM banner ORDER BY ordem, idbanner LIMIT :inicio,:fim');
 				$stms->bindValue(':inicio', $inicio, \PDO::PARAM_INT);
 				$stms->bindValue(':fim', $fim, \PDO::PARAM_INT);
 
@@ -85,8 +85,9 @@ class BannerDao extends Banco
 					if ((int) $result_ordem)
 						$ordem = (int) $result_ordem;
 
-				$stms = $this->getCon()->prepare('INSERT INTO banner(titulo, subtitulo, link, opt_titulos, opt_externo, ativo, ordem) VALUES(:titulo, :subtitulo, :link, :opt_titulos, :opt_externo, :ativo, :ordem)');
+				$stms = $this->getCon()->prepare('INSERT INTO banner(data_cadastro, titulo, subtitulo, link, opt_titulos, opt_externo, ativo, ordem) VALUES(:dt_cadastro, :titulo, :subtitulo, :link, :opt_titulos, :opt_externo, :ativo, :ordem)');
 				$stms->bindValue(':titulo', $this->banner->getTitulo(), \PDO::PARAM_STR);
+				$stms->bindValue(':dt_cadastro', $this->banner->getDataCadastro(), \PDO::PARAM_STR);
 				$stms->bindValue(':subtitulo', $this->banner->getSubTitulo(), \PDO::PARAM_STR);
 				$stms->bindValue(':link', $this->banner->getLinkBanner(), \PDO::PARAM_STR);
 				$stms->bindValue(':opt_titulos', $this->banner->getOptExibirTexto(), \PDO::PARAM_STR);

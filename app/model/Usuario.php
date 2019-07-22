@@ -188,17 +188,17 @@ class Usuario extends UsuarioDao{
     }
 
     /**
-     * @return \App\model\ManipulacaoImagem
+     * @return ManipulacaoImagem
      */
-    public function getImagem(): \App\model\ManipulacaoImagem
+    public function getImagem(): ManipulacaoImagem
     {
         return $this->imagem;
     }
 
     /**
-     * @param \App\model\ManipulacaoImagem $imagem
+     * @param ManipulacaoImagem $imagem
      */
-    public function setImagem(\App\model\ManipulacaoImagem $imagem): void
+    public function setImagem(ManipulacaoImagem $imagem): void
     {
         $this->imagem = $imagem;
     }

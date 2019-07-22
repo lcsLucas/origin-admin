@@ -105,7 +105,7 @@ class UsuarioController extends Action
         $nome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS));
         $apelido = trim(filter_input(INPUT_POST, 'apelido', FILTER_SANITIZE_SPECIAL_CHARS));
         $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
-        $dados_imagem = trim(filter_input(INPUT_POST, 'dados_imagem', FILTER_DEFAULT));
+        $dados_imagem = trim(filter_input(INPUT_POST, 'dados_imagem', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $file = !empty($_FILES['avatar']['tmp_name']) ? $_FILES['avatar'] : array();
 
         $validate->define_pattern('erro_');

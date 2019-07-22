@@ -66,11 +66,89 @@ class BannerController extends Action
 		}
 
 		$this->dados->retorno = $this->getRetorno();
-		$this->pageGerenciarBanners();
+		var_dump($this->dados->retorno);
+		//$this->pageGerenciarBanners();
 	}
+
+	private function requestParametersImages(Banner $banner) {
+	    $retorno = false;
+        $dados_principal = trim(filter_input(INPUT_POST, 'dados_img', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $dados_tablet = trim(filter_input(INPUT_POST, 'dados_img_tablet', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $dados_mobile = trim(filter_input(INPUT_POST, 'dados_img_mobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
+        $file_destaque = $_FILES['img_destaque'];
+        $file_tablet = $_FILES['img_tablet'];
+        $file_mobile = $_FILES['img_mobile'];
+
+        if (!empty($file_destaque['name'])) {
+
+            $restricoes = array();
+
+            $restricoes[0] = 2560000;
+            $restricoes[1] = array('image/png', 'image/gif', 'image/jpeg');
+
+            $banner->getFileImagem()->setFileImagem($file_destaque);
+            $erro_img = $banner->getFileImagem()->verificaImagem($restricoes);
+
+            if (empty($erro_img)) {
+                $retorno = true;
+
+                $dados_principal = json_decode($dados_principal, true);
+                if (json_last_error() === JSON_ERROR_NONE)
+                    $banner->getFileImagem()->setDadosImagem($dados_principal);
+
+            } else
+                $this->retorno = $banner->getFileImagem()->getRetorno();
+
+            if (!empty($file_tablet['name'])) {
+
+                $banner->getFileTablet()->setFileImagem($file_tablet);
+                $erro_img = $banner->getFileTablet()->verificaImagem($restricoes);
+
+                if (empty($erro_img)) {
+
+                    $dados_tablet = json_decode($dados_tablet, true);
+                    if (json_last_error() === JSON_ERROR_NONE)
+                        $banner->getFileTablet()->setDadosImagem($dados_tablet);
+
+                } else {
+                    $retorno = false;
+                    $this->retorno = $banner->getFileTablet()->getRetorno();
+                }
+
+            } else
+                $banner->setFileTablet($banner->getFileImagem());
+
+            if (!empty($file_mobile['name'])) {
+
+                $banner->getFileMobile()->setFileImagem($file_mobile);
+                $erro_img = $banner->getFileMobile()->verificaImagem($restricoes);
+
+                if (empty($erro_img)) {
+
+                    $dados_mobile = json_decode($dados_mobile, true);
+                    if (json_last_error() === JSON_ERROR_NONE)
+                        $banner->getFileMobile()->setDadosImagem($dados_mobile);
+
+                } else {
+                    $retorno = false;
+                    $this->retorno = $banner->getFileMobile()->getRetorno();
+                }
+
+            } else
+                $banner->setFileMobile($banner->getFileImagem());
+
+
+        } else {
+            $this->setRetorno('Imagem Principal não foi enviada', true, false);
+        }
+
+        return $retorno;
+    }
 
 	private function requestParameters(Banner $banner) {
 		$validate = new Data_Validator();
+		$result = false;
 
 		$titulo = trim(filter_input(INPUT_POST, 'titulo', FILTER_SANITIZE_SPECIAL_CHARS));
 		$subtitulo = trim(filter_input(INPUT_POST, 'subtitulo', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -78,6 +156,7 @@ class BannerController extends Action
 		$optionExterno = filter_input(INPUT_POST, 'optExterno', FILTER_VALIDATE_INT, array("options" => array("min_range"=>0, "max_range"=>1)));
 		$optionTitulos = filter_input(INPUT_POST, 'optTitulo', FILTER_VALIDATE_INT, array("options" => array("min_range"=>0, "max_range"=>1)));
 		$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
 
 		$validate
 			->set('titulo', $titulo)->is_required()->max_length(255)
@@ -95,8 +174,7 @@ class BannerController extends Action
 				$banner->setOptJanela($optionExterno);
 				$banner->setOptExibirTexto($optionTitulos);
 
-
-				return true;
+				$result = $this->requestParametersImages($banner);
 
 			} else
 				$this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
@@ -117,7 +195,7 @@ class BannerController extends Action
 				'param_opttitulos' => $optionTitulos,
 			);
 
-		return false;
+		return $result;
 	}
 
 }

@@ -19,4 +19,5 @@ Senha BD: admin-lcs@2019
 
 - quando enviar uma imagem muito grande dá a opção de "cortar", "cortar automaticamente", "Cancelar"
 
-- continuar na ideia da opção crop na hora de cadastrar o banner
+- continuar no cadastrar banners
+    - gravar as imagens do banner

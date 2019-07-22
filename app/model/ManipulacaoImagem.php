@@ -130,11 +130,11 @@ class ManipulacaoImagem
         if (!$erro_img) {
 
             $this->tipo_imagem = '.jpg';
-            $this->parametro_imagem = null;
+            $this->parametro_imagem = 90;
 
             $ind_img = array_search($this->getFileImagem()['type'], $tipos_permitidos);
 
-            if (intval($ind_img) >= 0) {
+            if ((int) $ind_img >= 0) {
 
                 $tipo_arquivo = $tipos_permitidos[$ind_img];
                 $tipo_arquivo = str_replace('image/','', $tipo_arquivo);

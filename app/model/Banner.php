@@ -11,6 +11,8 @@ class Banner extends BannerDao
 {
 	private $id;
 	private $titulo;
+	private $data_cadastro;
+	private $data_alteracao;
 	private $sub_titulo;
 	private $link_banner;
 	private $ativo;
@@ -35,13 +37,14 @@ class Banner extends BannerDao
 	public function __construct($titulo='', $sub_titulo='', $link_banner='', $ativo='0', $opt_janela='0', $opt_exibir_texto='0')
 	{
 		parent::__construct($this);
+		$this->data_cadastro = $this->data_alteracao = date('Y-m-d');
 		$this->titulo = $titulo;
 		$this->sub_titulo = $sub_titulo;
 		$this->link_banner = $link_banner;
 		$this->ativo = $ativo;
 		$this->opt_janela = $opt_janela;
 		$this->opt_exibir_texto = $opt_exibir_texto;
-		$this->file_imagem = $this->file_tablet = $this->file_mobile = null;
+		$this->file_imagem = $this->file_tablet = $this->file_mobile = new ManipulacaoImagem();
 		$this->nome_imagem = $this->nome_tablet = $this->nome_mobile = '';
 	}
 
@@ -60,6 +63,38 @@ class Banner extends BannerDao
 	{
 		$this->id = $id;
 	}
+
+    /**
+     * @return false|string
+     */
+    public function getDataCadastro()
+    {
+        return $this->data_cadastro;
+    }
+
+    /**
+     * @param false|string $data_cadastro
+     */
+    public function setDataCadastro($data_cadastro): void
+    {
+        $this->data_cadastro = $data_cadastro;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDataAlteracao()
+    {
+        return $this->data_alteracao;
+    }
+
+    /**
+     * @param mixed $data_alteracao
+     */
+    public function setDataAlteracao($data_alteracao): void
+    {
+        $this->data_alteracao = $data_alteracao;
+    }
 
 	/**
 	 * @return string
@@ -157,53 +192,55 @@ class Banner extends BannerDao
 		$this->opt_exibir_texto = $opt_exibir_texto;
 	}
 
-	/**
-	 * @return null
-	 */
-	public function getFileImagem()
-	{
-		return $this->file_imagem;
-	}
+    /**
+     * @return ManipulacaoImagem
+     */
+    public function getFileImagem(): ManipulacaoImagem
+    {
+        return $this->file_imagem;
+    }
 
-	/**
-	 * @param null $file_imagem
-	 */
-	public function setFileImagem($file_imagem): void
-	{
-		$this->file_imagem = $file_imagem;
-	}
+    /**
+     * @param ManipulacaoImagem $file_imagem
+     */
+    public function setFileImagem(ManipulacaoImagem $file_imagem)
+    {
+        $this->file_imagem = $file_imagem;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getFileTablet()
-	{
-		return $this->file_tablet;
-	}
+    /**
+     * @return mixed
+     */
+    public function getFileTablet(): ManipulacaoImagem
+    {
+        return $this->file_tablet;
+    }
 
-	/**
-	 * @param mixed $file_tablet
-	 */
-	public function setFileTablet($file_tablet): void
-	{
-		$this->file_tablet = $file_tablet;
-	}
+    /**
+     * @param mixed $file_tablet
+     */
+    public function setFileTablet(ManipulacaoImagem $file_tablet)
+    {
+        $this->file_tablet = $file_tablet;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getFileMobile()
-	{
-		return $this->file_mobile;
-	}
+    /**
+     * @return mixed
+     */
+    public function getFileMobile(): ManipulacaoImagem
+    {
+        return $this->file_mobile;
+    }
 
-	/**
-	 * @param mixed $file_mobile
-	 */
-	public function setFileMobile($file_mobile): void
-	{
-		$this->file_mobile = $file_mobile;
-	}
+    /**
+     * @param mixed $file_mobile
+     */
+    public function setFileMobile(ManipulacaoImagem $file_mobile)
+    {
+        $this->file_mobile = $file_mobile;
+    }
+
+
 
 	/**
 	 * @return string
@@ -266,7 +303,38 @@ class Banner extends BannerDao
 	}
 
 	public function cadastrar() {
-		return $this->cadastrarDAO();
+	    $result = false;
+
+        if ($this->conectar()) {
+            $this->beginTransaction();
+            $result = $this->cadastrarDAO();
+
+            if ($result && !empty($this->file_imagem)) {
+                $this->file_imagem->setNomeImagem($this->slug($this->titulo) .'-'. $this->getId() . $this->file_imagem->getTipoImagem());
+
+                /* Gravar as imagens do banner
+                 *
+                 *
+                if (!empty($this->file_imagem->getDadosImagem())) {
+
+                    $result = $this->file_imagem->salvarImagemDados(PATH_IMG . 'banners/', 200, 200);
+
+                    if (!$result && !empty($this->file_imagem->getRetorno()))
+                        $this->setRetorno($this->file_imagem->getRetorno()['mensagem'], $this->file_imagem->getRetorno()['exibir'], $this->file_imagem->getRetorno()['status']);
+
+
+                } else {
+
+                }*/
+
+            }
+
+            $this->commitar(false);
+
+        }
+
+
+        return $result;
 	}
 
 	public function alterarStatus() {
@@ -301,5 +369,24 @@ class Banner extends BannerDao
 
 		return $retorno;
 	}
+
+	private function slug($string) {
+        $table = array(
+            'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
+            'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+            'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss',
+            'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
+            'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
+            'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b',
+            'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', '/' => '-', ' ' => '-'
+        );
+
+        // -- Remove duplicated spaces
+        $stripped = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $string);
+
+        // -- Returns the slug
+        return strtolower(strtr($string, $table));
+    }
 
 }
