@@ -56,25 +56,84 @@ class BannerController extends Action
 
 		if ($this->requestParameters($banner)) {
 
-			if ($banner->cadastrar())
+			if ($banner->cadastrar()) {
+				$this->dados->parametros = null;
 				$this->setRetorno('Banner cadastrado com sucesso', true, true);
-			else if(!empty($banner->getRetorno()['exibir']))
-				$this->retorno = $banner->getRetorno();
+			} else if(!empty($banner->getRetorno()['exibir']))
+				$this->setRetorno($banner->getRetorno()['mensagem'], $banner->getRetorno()['exibir'], $banner->getRetorno()['status']);
 			else
 				$this->setRetorno('Não foi possível cadastrar o banner, tente novamente', true, false);
-
 		}
 
 		$this->dados->retorno = $this->getRetorno();
-		var_dump($this->dados->retorno);
-		//$this->pageGerenciarBanners();
+		$this->pageGerenciarBanners();
+	}
+
+	public function requestAlterarStatus() {
+		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+		$status = filter_has_var(INPUT_POST, 'alterar-status') ? '1' : '0';
+
+		if (!empty($id)) {
+
+			$banner = new Banner();
+			$banner->setId($id);
+			$banner->setAtivo($status);
+
+			if (!empty($banner->alterarStatus()))
+				$retorno = array('status' => $status ? true : false, 'msg' => '', 'erro' => false);
+			else
+				$retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
+
+		} else
+			$retorno = array('status' => !$status ? true : false, 'msg' => 'Não foi possível alterar o status', 'erro' => true);
+
+		echo json_encode($retorno, JSON_FORCE_OBJECT);
+
+	}
+
+	public function pageBannerEdit() {
+		$banner = new Banner();
+
+		if (empty($this->dados->editar)) {
+			$id = $this->getIdUri();
+
+			if (!empty($id)) {
+				$banner->setId($id);
+
+				if ($banner->carregar()) {
+					$this->dados->editar = true;
+					$this->dados->parametros =
+						array(
+							'param_titulo' => $banner->getTitulo(),
+							'param_subtitulo' => $banner->getSubTitulo(),
+							'param_link' => $banner->getLinkBanner(),
+							'param_optExterno' => $banner->getOptJanela(),
+							'param_opttitulos' => $banner->getOptExibirTexto(),
+							'param_img_principal' => $banner->getFileImagem()->getNomeImagem(),
+							'param_img_tablet' => $banner->getFileTablet()->getNomeImagem(),
+							'param_img_mobile' => $banner->getFileMobile()->getNomeImagem(),
+						);
+					$carregado = true;
+				}
+
+			}
+		} else
+			$carregado = true;
+
+		if (!empty($carregado))
+			$this->pageGerenciarBanners();
+		else {
+			header('Location: ' . URL . 'permissoes/gerenciar-secoes-menus');
+			die();
+		}
+
 	}
 
 	private function requestParametersImages(Banner $banner) {
 	    $retorno = false;
-        $dados_principal = trim(filter_input(INPUT_POST, 'dados_img', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-        $dados_tablet = trim(filter_input(INPUT_POST, 'dados_img_tablet', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-        $dados_mobile = trim(filter_input(INPUT_POST, 'dados_img_mobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $dados_principal = trim(filter_input(INPUT_POST, 'dados_img_destaque', FILTER_DEFAULT));
+        $dados_tablet = trim(filter_input(INPUT_POST, 'dados_img_tablet', FILTER_DEFAULT));
+        $dados_mobile = trim(filter_input(INPUT_POST, 'dados_img_mobile', FILTER_DEFAULT));
 
         $file_destaque = $_FILES['img_destaque'];
         $file_tablet = $_FILES['img_tablet'];
@@ -83,7 +142,6 @@ class BannerController extends Action
         if (!empty($file_destaque['name'])) {
 
             $restricoes = array();
-
             $restricoes[0] = 2560000;
             $restricoes[1] = array('image/png', 'image/gif', 'image/jpeg');
 
@@ -98,9 +156,9 @@ class BannerController extends Action
                     $banner->getFileImagem()->setDadosImagem($dados_principal);
 
             } else
-                $this->retorno = $banner->getFileImagem()->getRetorno();
+				$this->setRetorno($banner->getFileImagem()->getRetorno()['mensagem'], $banner->getFileImagem()->getRetorno()['exibir'], $banner->getFileImagem()->getRetorno()['status']);
 
-            if (!empty($file_tablet['name'])) {
+            if (empty($erro_img) && !empty($file_tablet['name'])) {
 
                 $banner->getFileTablet()->setFileImagem($file_tablet);
                 $erro_img = $banner->getFileTablet()->verificaImagem($restricoes);
@@ -113,13 +171,13 @@ class BannerController extends Action
 
                 } else {
                     $retorno = false;
-                    $this->retorno = $banner->getFileTablet()->getRetorno();
+					$this->setRetorno($banner->getFileTablet()->getRetorno()['mensagem'], $banner->getFileTablet()->getRetorno()['exibir'], $banner->getFileTablet()->getRetorno()['status']);
                 }
 
             } else
-                $banner->setFileTablet($banner->getFileImagem());
+				$banner->setFileTablet($banner->getFileImagem());
 
-            if (!empty($file_mobile['name'])) {
+            if (empty($erro_img) && !empty($file_mobile['name'])) {
 
                 $banner->getFileMobile()->setFileImagem($file_mobile);
                 $erro_img = $banner->getFileMobile()->verificaImagem($restricoes);
@@ -132,15 +190,14 @@ class BannerController extends Action
 
                 } else {
                     $retorno = false;
-                    $this->retorno = $banner->getFileMobile()->getRetorno();
+					$this->setRetorno($banner->getFileMobile()->getRetorno()['mensagem'], $banner->getFileMobile()->getRetorno()['exibir'], $banner->getFileMobile()->getRetorno()['status']);
                 }
 
             } else
-                $banner->setFileMobile($banner->getFileImagem());
-
+				$banner->setFileMobile($banner->getFileImagem());
 
         } else {
-            $this->setRetorno('Imagem Principal não foi enviada', true, false);
+            $this->setRetorno('A Imagem Principal do Banner não foi enviada', true, false);
         }
 
         return $retorno;
@@ -186,7 +243,7 @@ class BannerController extends Action
 			$this->setRetorno($erro, true, false);
 		}
 
-		$this->dados->prametros =
+		$this->dados->parametros =
 			array(
 				'param_titulo' => $titulo,
 				'param_subtitulo' => $subtitulo,
@@ -196,6 +253,30 @@ class BannerController extends Action
 			);
 
 		return $result;
+	}
+
+	private function getIdUri() {
+		$url = $_SERVER['REQUEST_URI'];
+
+		//Remove as barras e também remove URI caso tenha
+		$url = trim($url,'/');
+		if(SUBDOMINIO)
+			$url = trim(substr($url, strlen(URI)),'/');
+
+		if ('.php' === substr($url,-4))
+			$url = substr($url,0,-4);
+
+		$pos = strripos($url, '/');
+		$valor = substr($url,$pos+1);
+
+		$pos = strpos($valor,'?');
+		if (!empty($pos)) {
+			$valor = substr($valor, 0, $pos);
+		}
+
+		$id = filter_var($valor, FILTER_VALIDATE_INT);
+
+		return $id;
 	}
 
 }

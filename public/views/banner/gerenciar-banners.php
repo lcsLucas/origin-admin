@@ -48,7 +48,7 @@
 
 			<div class="card-body border border-top-0 border-primary">
 
-				<form action="<?= !empty($this->dados->editar) ? URL . 'cadastros/banners/edit/' . $parametros['param_id'] . $query_uri : URL . 'cadastros/banners/gerenciar-banners' . $query_uri ?>"
+				<form action="<?= !empty($this->dados->editar) ? URL . 'cadastros/banners/gerenciar-banners/edit/' . $parametros['param_id'] . $query_uri : URL . 'cadastros/banners/gerenciar-banners' . $query_uri ?>"
 					  method="post" class="form-validate" id="formBanners" enctype="multipart/form-data">
 
 					<p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
@@ -70,7 +70,7 @@
 					<div class="form-group form-group-lg">
 						<label for="url" class="font-weight-bold">Link do Banner <sup class="text-danger">*</sup>:</label>
 						<input required maxlength="400" type="text" class="form-control form-control-lg"
-							   value="<?= !empty($parametros['param_url']) ? $parametros['param_url'] : '' ?>"
+							   value="<?= !empty($parametros['param_link']) ? $parametros['param_link'] : '' ?>"
 							   id="url" name="url" title="Por favor, informe o link do banner">
 					</div>
 
@@ -81,11 +81,11 @@
                         <div class="form-group">
 
                             <div class="inputGroup">
-                                <input required id="radio1" name="optExterno" type="radio" value="0" checked />
+                                <input required id="radio1" name="optExterno" type="radio" value="0" <?= empty($parametros['param_optExterno']) ? 'checked' : '' ?> />
                                 <label title="Link direciona para o próprio site" for="radio1">Mesma Janela</label>
                             </div>
                             <div class="inputGroup">
-                                <input required id="radio2" name="optExterno" type="radio" value="1" />
+                                <input required id="radio2" name="optExterno" type="radio" value="1" <?= !empty($parametros['param_optExterno']) ? 'checked' : '' ?> />
                                 <label title="Link direciona para fora do site (abre em uma nova janela do navegador)" for="radio2">Nova Janela</label>
                             </div>
 
@@ -99,11 +99,11 @@
                         <div class="form-group">
 
                             <div class="inputGroup">
-                                <input required id="radio3" name="optTitulo" type="radio" value="0" checked />
+                                <input required id="radio3" name="optTitulo" type="radio" value="0" <?= empty($parametros['param_opttitulos']) ? 'checked' : '' ?> />
                                 <label title="Apenas a imagem do banner será mostrado" for="radio3">Não</label>
                             </div>
                             <div class="inputGroup">
-                                <input required id="radio4" name="optTitulo" type="radio" value="1" />
+                                <input required id="radio4" name="optTitulo" type="radio" value="1" <?= !empty($parametros['param_opttitulos']) ? 'checked' : '' ?> />
                                 <label title="O título será mostrado junto com a imagem do banner" for="radio4">Sim</label>
                             </div>
 
@@ -137,7 +137,7 @@
                                     <label class="font-weight-bold">Selecione a imagem de Destaque: <sup class="text-danger">*</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_destaque" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/1600x520">
+                                            <input class="file-input-bootstrap" name="img_destaque" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_principal']) && file_exists(PATH_IMG . 'banners/' . $parametros['param_img_principal']) ? URL_IMG . 'banners/' . $parametros['param_img_principal'] : 'https://via.placeholder.com/1600x520' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                                     <label class="font-weight-bold">Selecione a imagem para Tablets <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_tablet" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/1024x500">
+                                            <input class="file-input-bootstrap" name="img_tablet" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_tablet']) && file_exists(PATH_IMG . 'banners/tablet/' . $parametros['param_img_tablet']) ? URL_IMG . 'banners/tablet/' . $parametros['param_img_tablet'] : 'https://via.placeholder.com/1024x500' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                     <label class="font-weight-bold">Selecione a imagem para Mobile <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_mobile" type="file" accept=".jpeg,.jpg,.png" data-preview="https://via.placeholder.com/540x540">
+                                            <input class="file-input-bootstrap" name="img_mobile" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_mobile']) && file_exists(PATH_IMG . 'banners/mobile/' . $parametros['param_img_mobile']) ? URL_IMG . 'banners/mobile/' . $parametros['param_img_mobile'] : 'https://via.placeholder.com/540x540' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +243,7 @@
 						<tr class="bg-gray-100">
 
 							<th class="border-0 font-weight-bold text-uppercase text-dark">Título</th>
-							<th class="border-0 font-weight-bold text-uppercase text-dark">Link</th>
+							<th class="border-0 font-weight-bold text-uppercase text-dark text-center">Imagem <sup>(Mobile)</sup></th>
 							<th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ativado</th>
 							<th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ordem</th>
 							<th class="border-0 text-center font-weight-bold text-uppercase text-dark min-180">Ação</th>
@@ -261,9 +261,19 @@
 									?>
 
 									<tr>
-										<td class="font-weight-lighter lead text-muted"><?= $registro['nome'] ?></td>
+										<td class="font-weight-lighter lead text-muted"><?= $registro['titulo'] ?></td>
+                                        <td class="text-center">
+                                            <?php
+												if (file_exists(PATH_IMG . 'banners/mobile/' . $registro['img_mobile'])) {
+													?>
+                                                    <img width="80" class="img-fluid" src="<?= URL_IMG . 'banners/mobile/' . $registro['img_mobile'] ?>" alt="imagem do banner <?= $registro['titulo'] ?>">
+                                            <?php
+                                                }
+
+                                            ?>
+                                        </td>
 										<td class="text-center font-weight-bold text-muted">
-											<form action="<?= URL ?>cadastros/banners/alterar-status"
+											<form action="<?= URL ?>cadastros/banners/gerenciar-banners/alterar-status"
 												  method="post">
 												<input type="hidden" name="codigo-acao"
 													   value="<?= $registro['idbanner'] ?>">
@@ -280,7 +290,7 @@
 										</td>
 										<td class="text-center font-weight-bold text-muted">
 
-											<form action="<?= URL ?>cadastros/banners/alterar-ordem<?= $query_uri ?>"
+											<form action="<?= URL ?>cadastros/banners/gerenciar-banners/alterar-ordem<?= $query_uri ?>"
 												  method="post">
 												<input type="hidden" name="codigo-acao"
 													   value="<?= $registro['idbanner'] ?>">
@@ -303,7 +313,7 @@
 										<td class="text-center">
 
 											<a class="btn btn-primary btn-acao editar" title="Editar"
-											   href="<?= URL . 'cadastros/banners/edit/' . $registro['idbanner'] . $query_uri ?>">
+											   href="<?= URL . 'cadastros/banners/gerenciar-banners/edit/' . $registro['idbanner'] . $query_uri ?>">
 												<i class="fas fa-pen"></i>
 											</a>
 

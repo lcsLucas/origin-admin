@@ -20,4 +20,4 @@ Senha BD: admin-lcs@2019
 - quando enviar uma imagem muito grande dá a opção de "cortar", "cortar automaticamente", "Cancelar"
 
 - continuar no cadastrar banners
-    - gravar as imagens do banner
+    - verificar se quando grava as imagens, esta gravando aplicando os dados de corte

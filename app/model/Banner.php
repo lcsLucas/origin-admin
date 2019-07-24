@@ -44,8 +44,10 @@ class Banner extends BannerDao
 		$this->ativo = $ativo;
 		$this->opt_janela = $opt_janela;
 		$this->opt_exibir_texto = $opt_exibir_texto;
-		$this->file_imagem = $this->file_tablet = $this->file_mobile = new ManipulacaoImagem();
 		$this->nome_imagem = $this->nome_tablet = $this->nome_mobile = '';
+		$this->file_imagem = new ManipulacaoImagem();
+		$this->file_tablet = new ManipulacaoImagem();
+		$this->file_mobile = new ManipulacaoImagem();
 	}
 
 	/**
@@ -305,35 +307,59 @@ class Banner extends BannerDao
 	public function cadastrar() {
 	    $result = false;
 
-        if ($this->conectar()) {
+		if ($this->conectar()) {
             $this->beginTransaction();
             $result = $this->cadastrarDAO();
 
-            if ($result && !empty($this->file_imagem)) {
-                $this->file_imagem->setNomeImagem($this->slug($this->titulo) .'-'. $this->getId() . $this->file_imagem->getTipoImagem());
+			$nome_imagem = $this->slug($this->titulo) .'-'. $this->getId();
 
-                /* Gravar as imagens do banner
-                 *
-                 *
-                if (!empty($this->file_imagem->getDadosImagem())) {
+            if ($result && !empty($this->file_imagem->getFileImagem())) { // grava imagem de destaque do banner
 
-                    $result = $this->file_imagem->salvarImagemDados(PATH_IMG . 'banners/', 200, 200);
+                $this->file_imagem->setNomeImagem($nome_imagem . $this->file_imagem->getTipoImagem());
 
-                    if (!$result && !empty($this->file_imagem->getRetorno()))
-                        $this->setRetorno($this->file_imagem->getRetorno()['mensagem'], $this->file_imagem->getRetorno()['exibir'], $this->file_imagem->getRetorno()['status']);
+				if (!empty($this->file_imagem->getDadosImagem()))
+					$result = $this->file_imagem->salvarImagemDados(PATH_IMG . 'banners/', 1600, 520);
+				else
+					$result = $this->file_imagem->salvarImagem(PATH_IMG . 'banners/', 1600, 520);
 
-
-                } else {
-
-                }*/
-
+				if (!$result)
+					$this->setRetorno($this->file_imagem->getRetorno()['mensagem'], $this->file_imagem->getRetorno()['exibir'], $this->file_imagem->getRetorno()['status']);
             }
 
-            $this->commitar(false);
+			if ($result && !empty($this->file_tablet->getFileImagem())) { // se tiver grava imagem de tablet do banner
 
+				$this->file_tablet->setNomeImagem($nome_imagem . $this->file_tablet->getTipoImagem());
+
+				if (!empty($this->file_tablet->getDadosImagem()))
+					$result = $this->file_tablet->salvarImagemDados(PATH_IMG . 'banners/tablet/', 1024, 500);
+				else
+					$result = $this->file_tablet->salvarImagem(PATH_IMG . 'banners/tablet/', 1024, 500);
+
+				if (!$result)
+					$this->setRetorno($this->file_tablet->getRetorno()['mensagem'], $this->file_tablet->getRetorno()['exibir'], $this->file_tablet->getRetorno()['status']);
+			}
+
+			if ($result && !empty($this->file_mobile->getFileImagem())) {
+
+				$this->file_mobile->setNomeImagem($nome_imagem . $this->file_mobile->getTipoImagem());
+
+				if (!empty($this->file_mobile->getDadosImagem()))
+					$result = $this->file_mobile->salvarImagemDados(PATH_IMG . 'banners/mobile/', 540, 540);
+				else
+					$result = $this->file_mobile->salvarImagem(PATH_IMG . 'banners/mobile/', 540, 540);
+
+				if (!$result)
+					$this->setRetorno($this->file_mobile->getRetorno()['mensagem'], $this->file_mobile->getRetorno()['exibir'], $this->file_mobile->getRetorno()['status']);
+			}
+
+			if ($result)
+				$result = $this->alterarImagensBancoDAO();
         }
 
+        if (!$result)
+        	$this->excluirImagens();
 
+		$this->commitar($result);
         return $result;
 	}
 
@@ -386,7 +412,20 @@ class Banner extends BannerDao
         $stripped = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $string);
 
         // -- Returns the slug
-        return strtolower(strtr($string, $table));
+        return strtolower(strtr($stripped, $table));
     }
+
+    private function excluirImagens() {
+
+		if (!empty($this->file_imagem->getFileImagem()) && file_exists(URL_IMG . $this->file_imagem->getNomeImagem()))
+			unlink(URL_IMG . $this->file_imagem->getNomeImagem());
+
+		if (!empty($this->file_tablet->getFileImagem()) && file_exists(URL_IMG . $this->file_tablet->getNomeImagem()))
+			unlink(URL_IMG . 'tablet/' . $this->file_tablet->getNomeImagem());
+
+		if (!empty($this->file_mobile->getFileImagem()) && file_exists(URL_IMG . $this->file_mobile->getNomeImagem()))
+			unlink(URL_IMG . 'mobile/' . $this->file_mobile->getNomeImagem());
+
+	}
 
 }

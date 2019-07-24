@@ -211,21 +211,50 @@ class ManipulacaoImagem
 
 				if (!empty($this->dados_imagem)) {
 
-					$resized2 = $this->objetoWide
-						->crop
-						(
-							$this->dados_imagem['x'],
-							$this->dados_imagem['y'],
-							$this->dados_imagem['width'],
-							$this->dados_imagem['height']
-						)
-						->resize
+					$resized2 = null;
+
+					if (!empty($this->dados_imagem['x']) && !empty($this->dados_imagem['y']) &&
+						!empty($this->dados_imagem['width']) && !empty($this->dados_imagem['height']))
+							$resized2 = $this->objetoWide
+								->crop
+								(
+									$this->dados_imagem['x'],
+									$this->dados_imagem['y'],
+									$this->dados_imagem['width'],
+									$this->dados_imagem['height']
+								);
+
+					if (!empty($this->dados_imagem['rotate'])) {
+						if (!empty($resized2))
+							$resized2 = $resized2->rotate($this->dados_imagem['rotate']);
+						else
+							$resized2 = $this->objetoWide->rotate($this->dados_imagem['rotate']);
+					}
+
+					if (!empty($this->dados_imagem['scaleX']) && $this->dados_imagem['scaleX'] === -1) {
+						if (!empty($resized2))
+							$resized2 = $resized2->flip();
+						else
+							$resized2 = $this->objetoWide->flip();
+					}
+
+					if (!empty($resized2))
+						$resized2 = $resized2->resize
+							(
+								$width,
+								$height,
+								'inside',
+								'down'
+							);
+					else
+						$resized2 = $this->objetoWide->resize
 						(
 							$width,
 							$height,
 							'inside',
 							'down'
 						);
+
 					$resized2->saveToFile( $pasta . $this->nome_imagem, $this->parametro_imagem);
 				} else {
 

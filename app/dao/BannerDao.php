@@ -86,8 +86,8 @@ class BannerDao extends Banco
 						$ordem = (int) $result_ordem;
 
 				$stms = $this->getCon()->prepare('INSERT INTO banner(data_cadastro, titulo, subtitulo, link, opt_titulos, opt_externo, ativo, ordem) VALUES(:dt_cadastro, :titulo, :subtitulo, :link, :opt_titulos, :opt_externo, :ativo, :ordem)');
-				$stms->bindValue(':titulo', $this->banner->getTitulo(), \PDO::PARAM_STR);
 				$stms->bindValue(':dt_cadastro', $this->banner->getDataCadastro(), \PDO::PARAM_STR);
+				$stms->bindValue(':titulo', $this->banner->getTitulo(), \PDO::PARAM_STR);
 				$stms->bindValue(':subtitulo', $this->banner->getSubTitulo(), \PDO::PARAM_STR);
 				$stms->bindValue(':link', $this->banner->getLinkBanner(), \PDO::PARAM_STR);
 				$stms->bindValue(':opt_titulos', $this->banner->getOptExibirTexto(), \PDO::PARAM_STR);
@@ -95,7 +95,10 @@ class BannerDao extends Banco
 				$stms->bindValue(':ativo', $this->banner->getAtivo(), \PDO::PARAM_STR);
 				$stms->bindValue(':ordem', $ordem, \PDO::PARAM_INT);
 
-				return $stms->execute();
+				if ($stms->execute()) {
+					$this->banner->setId($this->getCon()->lastInsertId());
+					return true;
+				}
 
 			}
 			catch(\PDOException $e)
@@ -106,6 +109,97 @@ class BannerDao extends Banco
 		endif;
 
 		return false;
+	}
+
+	protected function alterarImagensBancoDAO() {
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare('UPDATE banner SET img_principal = :destaque, img_tablet = :tablet, img_mobile = :mobile WHERE idbanner = :id LIMIT 1');
+				$stms->bindValue(':destaque', $this->banner->getFileImagem()->getNomeImagem(), \PDO::PARAM_STR);
+				$stms->bindValue(':tablet', $this->banner->getFileTablet()->getNomeImagem(), \PDO::PARAM_STR);
+				$stms->bindValue(':mobile', $this->banner->getFileMobile()->getNomeImagem(), \PDO::PARAM_STR);
+				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+				if ($stms->execute())
+					return ($stms->rowCount() > 0) ? true : false;
+				else
+					return false;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+	}
+
+	protected function alterarStatusDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare('UPDATE banner SET ativo = :status WHERE idbanner = :id LIMIT 1');
+				$stms->bindValue(':status', $this->banner->getAtivo(), \PDO::PARAM_STR);
+				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+				if ($stms->execute())
+					return ($stms->rowCount() > 0) ? true : false;
+				else
+					return false;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+
+	}
+
+	protected function carregarDAO() {
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare('SELECT titulo, subtitulo, link, opt_titulos, opt_externo, img_principal, img_tablet, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
+				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+
+				$stms->execute();
+
+				$result = $stms->fetch();
+
+				if (!empty($result)) {
+					$this->banner->setTitulo($result['titulo']);
+					$this->banner->setSubTitulo($result['subtitulo']);
+					$this->banner->setLinkBanner($result['link']);
+					$this->banner->setOptExibirTexto($result['opt_titulos']);
+					$this->banner->setOptJanela($result['opt_externo']);
+					$this->banner->getFileImagem()->setNomeImagem($result['img_principal']);
+					$this->banner->getFileTablet()->setNomeImagem($result['img_tablet']);
+					$this->banner->getFileMobile()->setNomeImagem($result['img_mobile']);
+
+					return true;
+				}
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return null;
 	}
 
 }
