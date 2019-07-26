@@ -132,10 +132,12 @@ class SecaoMenu extends SecaoMenuDao
 
     	if ($ordem === 1) {
     		$retorno = $this->alterarOrdemProximoDAO();
-			$retorno['proximo']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['proximo']['idsecao_menu'] . $query_uri;
+			if (!empty($retorno))
+				$retorno['proximo']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['proximo']['id'] . $query_uri;
 		} else {
     		$retorno = $this->alterarOrdemAnteriorDAO();
-			$retorno['anterior']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['anterior']['idsecao_menu'] . $query_uri;
+			if (!empty($retorno))
+				$retorno['anterior']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['anterior']['id'] . $query_uri;
 		}
 
     	return $retorno;

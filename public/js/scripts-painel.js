@@ -525,7 +525,7 @@ window.onload = function() {
         return false;
     });
 
-    $(".alterar-ordem").click(function () {
+    $(".alterar-ordem, .alterar-ordem-banner").click(function () {
         var $this = $(this);
         var parent_form = $this.parents('form');
 
@@ -544,54 +544,67 @@ window.onload = function() {
                 var parent_tr = parent_form.parents('tr');
 
                 if (retorno.registros.proximo) {
-
                     var sibling_tr = parent_tr.next();
 
                     if (sibling_tr.length) {
-
                         var clone_tr = parent_tr.clone(true);
 
                         parent_tr.remove();
                         clone_tr.insertAfter(sibling_tr);
-
                     } else {
-
                         var status = (retorno.registros.proximo.ativo === '1');
-
-                        parent_tr.children('td').first().html(retorno.registros.proximo.nome);
-                        parent_tr.find('input[name="codigo-acao"]').val(retorno.registros.proximo.idsecao_menu);
                         parent_tr.find('input[name="alterar-status"]').prop('checked', status);
+
                         parent_tr.find('.editar').prop('href', retorno.registros.proximo.url_editar);
+                        parent_tr.find('input[name="codigo-acao"]').val(retorno.registros.proximo.id);
 
+                        if ($this.hasClass('alterar-ordem')) {
+                            parent_tr.children('td').first().html(retorno.registros.proximo.nome);
+                        } else {
+                            parent_tr.children('td').first().html(retorno.registros.proximo.titulo);
+                            parent_tr.children('td').eq(1).children('img').prop('src', retorno.registros.proximo.img_mobile);
+                        }
                     }
-
                 } else {
-
                     var sibling_tr = parent_tr.prev();
 
                     if (sibling_tr.length) {
-
                         var clone_tr = parent_tr.clone(true);
 
                         parent_tr.remove();
                         clone_tr.insertBefore(sibling_tr);
-
                     } else {
-
                         var status = (retorno.registros.anterior.ativo === '1');
-
-                        parent_tr.children('td').first().html(retorno.registros.anterior.nome);
-                        parent_tr.find('input[name="codigo-acao"]').val(retorno.registros.anterior.idsecao_menu);
                         parent_tr.find('input[name="alterar-status"]').prop('checked', status);
+
                         parent_tr.find('.editar').prop('href', retorno.registros.anterior.url_editar);
+                        parent_tr.find('input[name="codigo-acao"]').val(retorno.registros.anterior.id);
 
+                        if ($this.hasClass('alterar-ordem')) {
+                            parent_tr.children('td').first().html(retorno.registros.anterior.nome);
+                        } else {
+                            parent_tr.children('td').first().html(retorno.registros.anterior.titulo);
+                            parent_tr.children('td').eq(1).children('img').prop('src', retorno.registros.anterior.img_mobile);
+                        }
                     }
-
                 }
             }
 
         }).fail(function () {
-            
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            Toast.fire({
+                title: '<i class="fas fa-times-circle mr-2"></i> Não foi possível alterar a ordem',
+                customClass: {
+                    popup: 'btn-danger active mr-3',
+                    title: 'text-white p-2 font-weight-normal align-items-center'
+                }
+            });
         }).always(function () {
 
         });

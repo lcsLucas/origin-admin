@@ -22,14 +22,29 @@ class BannerDao extends Banco
 		return parent::getRetorno();
 	}
 
-	protected function limiteRegistroDAO($inicio, $fim) {
+	protected function limiteRegistroDAO($inicio, $fim, $parametros) {
+		$sql = 'SELECT * FROM banner ';
 
 		if(!empty($this->Conectar())) :
 
 			try
 			{
 
-				$stms = $this->getCon()->prepare('SELECT * FROM banner ORDER BY ordem, idbanner LIMIT :inicio,:fim');
+				if (!empty($parametros['filtro'])) {
+
+					if (!empty($parametros['tipo'])) {
+						if($parametros['tipo'] === 2)
+							$sql .= ' WHERE link like :filtro '; // filtrar pelo email
+					}
+					else
+						$sql .= ' WHERE titulo like :filtro '; //filtrar pelo nome
+				}
+
+				$sql .= 'ORDER BY ordem, idbanner LIMIT :inicio,:fim';
+
+				$stms = $this->getCon()->prepare($sql);
+				if (!empty($parametros['filtro']))
+					$stms->bindValue(':filtro', '%'.$parametros['filtro'].'%', \PDO::PARAM_STR);
 				$stms->bindValue(':inicio', $inicio, \PDO::PARAM_INT);
 				$stms->bindValue(':fim', $fim, \PDO::PARAM_INT);
 
@@ -47,14 +62,29 @@ class BannerDao extends Banco
 		return array();
 	}
 
-	protected function totalRegistrosDAO() {
+	protected function totalRegistrosDAO($parametros) {
+		$sql = 'SELECT COUNT(*) total FROM banner';
 
 		if(!empty($this->Conectar())) :
 
 			try
 			{
 
-				$stms = $this->getCon()->prepare('SELECT COUNT(*) total FROM banner');
+				if (!empty($parametros['filtro'])) {
+
+					if (!empty($parametros['tipo'])) {
+						if($parametros['tipo'] === 2)
+							$sql .= ' AND link like :filtro '; // filtrar pelo email
+					}
+					else
+						$sql .= ' AND titulo like :filtro '; //filtrar pelo nome
+				}
+
+				$stms = $this->getCon()->prepare($sql);
+
+				if (!empty($parametros['filtro']))
+					$stms->bindValue(':filtro', '%'.$parametros['filtro'].'%', \PDO::PARAM_STR);
+
 				$stms->execute();
 				$result = $stms->fetch(\PDO::FETCH_ASSOC);
 
@@ -200,6 +230,133 @@ class BannerDao extends Banco
 		endif;
 
 		return null;
+	}
+
+	protected function alterarOrdemAnteriorDAO() {
+		$array_retorno = array();
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+				$this->beginTransaction();
+
+				$stms = $this->getCon()->prepare('SELECT idbanner as id, titulo, ordem, ativo, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
+				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+				$stms->execute();
+				$result = $stms->fetch();
+
+				$stms = $this->getCon()->prepare('SELECT idbanner as id, titulo, ordem, ativo, img_mobile FROM banner WHERE ordem < :ordem ORDER BY ordem DESC LIMIT 1');
+				$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
+				$stms->execute();
+				$result2 = $stms->fetch();
+
+				if (!empty($result) && !empty($result2)) {
+
+					$stms = $this->getCon()->prepare('UPDATE banner SET ordem = :ordem WHERE idbanner = :id');
+					$stms->bindValue(':ordem', (int)$result2['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result['id'], \PDO::PARAM_INT);
+					$stms->execute();
+
+					$stms = $this->getCon()->prepare('UPDATE banner SET ordem = :ordem WHERE idbanner = :id');
+					$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result2['id'], \PDO::PARAM_INT);
+					$stms->execute();
+
+					//$array_retorno['atual'] = $result;
+					$array_retorno['anterior'] = $result2;
+
+				}
+
+				$this->commitar(!empty($array_retorno));
+				return $array_retorno;
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return $array_retorno;
+	}
+
+	protected function alterarOrdemProximoDAO() {
+		$array_retorno = array();
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+				$this->beginTransaction();
+
+				$stms = $this->getCon()->prepare('SELECT idbanner as id, titulo, ordem, ativo, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
+				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+				$stms->execute();
+				$result = $stms->fetch();
+
+				$stms = $this->getCon()->prepare('SELECT idbanner as id, titulo, ordem, ativo, img_mobile FROM banner WHERE ordem > :ordem ORDER BY ordem LIMIT 1');
+				$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
+				$stms->execute();
+				$result2 = $stms->fetch();
+
+				if (!empty($result) && !empty($result2)) {
+
+					$stms = $this->getCon()->prepare('UPDATE banner SET ordem = :ordem WHERE idbanner = :id');
+					$stms->bindValue(':ordem', (int)$result2['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result['id'], \PDO::PARAM_INT);
+					$stms->execute();
+
+					$stms = $this->getCon()->prepare('UPDATE banner SET ordem = :ordem WHERE idbanner = :id');
+					$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result2['id'], \PDO::PARAM_INT);
+					$stms->execute();
+
+					//$array_retorno['atual'] = $result;
+					$array_retorno['proximo'] = $result2;
+
+				}
+
+				$this->commitar(!empty($array_retorno));
+				return $array_retorno;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return $array_retorno;
+
+	}
+
+	protected function excluirDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			$stms = $this->getCon()->prepare('SELECT img_principal, img_tablet, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
+			$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+			$stms->execute();
+			$result = $stms->fetch();
+
+			if (!empty($result)) {
+				$this->banner->getFileImagem()->setNomeImagem($result['img_principal']);
+				$this->banner->getFileTablet()->setNomeImagem($result['img_tablet']);
+				$this->banner->getFileMobile()->setNomeImagem($result['img_mobile']);
+			}
+
+			$stms = $this->getCon()->prepare('DELETE FROM banner WHERE idbanner = :id');
+			$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+			if ($stms->execute())
+				return $stms->rowCount();
+			else
+				return false;
+
+		endif;
+
+		return false;
 	}
 
 }

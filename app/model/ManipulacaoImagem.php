@@ -213,8 +213,40 @@ class ManipulacaoImagem
 
 					$resized2 = null;
 
-					if (!empty($this->dados_imagem['x']) && !empty($this->dados_imagem['y']) &&
-						!empty($this->dados_imagem['width']) && !empty($this->dados_imagem['height']))
+					if (!empty($this->dados_imagem['rotate'])) {
+						if (!empty($resized2))
+							$resized2 = $resized2->rotate($this->dados_imagem['rotate']);
+						else
+							$resized2 = $this->objetoWide->rotate($this->dados_imagem['rotate']);
+					}
+
+					if (!empty($this->dados_imagem['scaleY']) && $this->dados_imagem['scaleY'] === -1) {
+						if (!empty($resized2))
+							$resized2 = $resized2->flip();
+						else
+							$resized2 = $this->objetoWide->flip();
+					}
+
+					if (!empty($this->dados_imagem['scaleX']) && $this->dados_imagem['scaleX'] === -1) {
+						if (!empty($resized2))
+							$resized2 = $resized2->mirror();
+						else
+							$resized2 = $this->objetoWide->mirror();
+					}
+
+					if (isset($this->dados_imagem['x']) && isset($this->dados_imagem['y']) &&
+						!empty($this->dados_imagem['width']) && !empty($this->dados_imagem['height'])) {
+
+						if (!empty($resized2))
+							$resized2 = $resized2
+								->crop
+								(
+									$this->dados_imagem['x'],
+									$this->dados_imagem['y'],
+									$this->dados_imagem['width'],
+									$this->dados_imagem['height']
+								);
+						else
 							$resized2 = $this->objetoWide
 								->crop
 								(
@@ -224,19 +256,8 @@ class ManipulacaoImagem
 									$this->dados_imagem['height']
 								);
 
-					if (!empty($this->dados_imagem['rotate'])) {
-						if (!empty($resized2))
-							$resized2 = $resized2->rotate($this->dados_imagem['rotate']);
-						else
-							$resized2 = $this->objetoWide->rotate($this->dados_imagem['rotate']);
 					}
 
-					if (!empty($this->dados_imagem['scaleX']) && $this->dados_imagem['scaleX'] === -1) {
-						if (!empty($resized2))
-							$resized2 = $resized2->flip();
-						else
-							$resized2 = $this->objetoWide->flip();
-					}
 
 					if (!empty($resized2))
 						$resized2 = $resized2->resize

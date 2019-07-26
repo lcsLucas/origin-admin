@@ -296,12 +296,12 @@ class Banner extends BannerDao
 		return parent::getRetorno();
 	}
 
-	public  function paginacao($incio, $fim) {
-		return $this->limiteRegistroDAO($incio, $fim);
+	public  function paginacao($incio, $fim, $parametros) {
+		return $this->limiteRegistroDAO($incio, $fim, $parametros);
 	}
 
-	public function totalRegistros() {
-		return $this->totalRegistrosDAO();
+	public function totalRegistros($parametros) {
+		return $this->totalRegistrosDAO($parametros);
 	}
 
 	public function cadastrar() {
@@ -343,10 +343,13 @@ class Banner extends BannerDao
 
 				$this->file_mobile->setNomeImagem($nome_imagem . $this->file_mobile->getTipoImagem());
 
-				if (!empty($this->file_mobile->getDadosImagem()))
+				if (!empty($this->file_mobile->getDadosImagem())) {
 					$result = $this->file_mobile->salvarImagemDados(PATH_IMG . 'banners/mobile/', 540, 540);
-				else
+					$this->file_mobile->salvarImagemDados(PATH_IMG . 'banners/thumbs/', 100, 100);
+				} else {
 					$result = $this->file_mobile->salvarImagem(PATH_IMG . 'banners/mobile/', 540, 540);
+					$this->file_mobile->salvarImagem(PATH_IMG . 'banners/thumbs/', 100, 100);
+				}
 
 				if (!$result)
 					$this->setRetorno($this->file_mobile->getRetorno()['mensagem'], $this->file_mobile->getRetorno()['exibir'], $this->file_mobile->getRetorno()['status']);
@@ -376,7 +379,12 @@ class Banner extends BannerDao
 	}
 
 	public function excluir() {
-		return $this->excluirDAO();
+		$retorno = $this->excluirDAO();
+
+		if ($retorno)
+			$this->excluirImagens();
+
+		return $retorno;
 	}
 
 	public function alterarOrdem($ordem) {
@@ -387,10 +395,16 @@ class Banner extends BannerDao
 
 		if ($ordem === 1) {
 			$retorno = $this->alterarOrdemProximoDAO();
-			$retorno['proximo']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['proximo']['idsecao_menu'] . $query_uri;
+			if (!empty($retorno)) {
+				$retorno['proximo']['img_mobile'] = URL_IMG . 'banners/mobile/' .$retorno['proximo']['img_mobile'];
+				$retorno['proximo']['url_editar'] = URL . 'cadastros/banners/gerenciar-banners/edit/' . $retorno['proximo']['id'] . $query_uri;
+			}
 		} else {
 			$retorno = $this->alterarOrdemAnteriorDAO();
-			$retorno['anterior']['url_editar'] = URL . 'permissoes/gerenciar-secoes-menus/edit/' . $retorno['anterior']['idsecao_menu'] . $query_uri;
+			if (!empty($retorno)) {
+				$retorno['anterior']['img_mobile'] = URL_IMG . 'banners/mobile/' .$retorno['anterior']['img_mobile'];
+				$retorno['anterior']['url_editar'] = URL . 'cadastros/banners/gerenciar-banners/edit/' . $retorno['anterior']['id'] . $query_uri;
+			}
 		}
 
 		return $retorno;
@@ -405,26 +419,33 @@ class Banner extends BannerDao
             'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
             'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
             'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b',
-            'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', '/' => '-', ' ' => '-'
+            'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', '/' => ' ', '-' => ' '
         );
 
         // -- Remove duplicated spaces
-        $stripped = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $string);
+		$stripped = filter_var($string, FILTER_SANITIZE_STRING, array('options' => array(FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH)));
+        $stripped = preg_replace(array('/[^A-z0-9]/'), ' ', $stripped);
+		$stripped = preg_replace('/\s\r\t\n/', ' ', $stripped);
+		$stripped = preg_replace('/ {2,}/', ' ', $stripped);
+		$stripped = str_replace(' ', '-', $stripped);
+		$stripped = strtolower(strtr($stripped, $table));
 
-        // -- Returns the slug
-        return strtolower(strtr($stripped, $table));
+		return $stripped;
     }
 
     private function excluirImagens() {
 
-		if (!empty($this->file_imagem->getFileImagem()) && file_exists(URL_IMG . $this->file_imagem->getNomeImagem()))
-			unlink(URL_IMG . $this->file_imagem->getNomeImagem());
+		if (!empty($this->file_imagem->getNomeImagem()) && file_exists(PATH_IMG . 'banners/' . $this->file_imagem->getNomeImagem()))
+			unlink(PATH_IMG . 'banners/' . $this->file_imagem->getNomeImagem());
 
-		if (!empty($this->file_tablet->getFileImagem()) && file_exists(URL_IMG . $this->file_tablet->getNomeImagem()))
-			unlink(URL_IMG . 'tablet/' . $this->file_tablet->getNomeImagem());
+		if (!empty($this->file_tablet->getNomeImagem()) && file_exists(PATH_IMG . 'banners/tablet/' . $this->file_tablet->getNomeImagem()))
+			unlink(PATH_IMG . 'banners/tablet/' . $this->file_tablet->getNomeImagem());
 
-		if (!empty($this->file_mobile->getFileImagem()) && file_exists(URL_IMG . $this->file_mobile->getNomeImagem()))
-			unlink(URL_IMG . 'mobile/' . $this->file_mobile->getNomeImagem());
+		if (!empty($this->file_mobile->getNomeImagem()) && file_exists(PATH_IMG . 'banners/mobile/' . $this->file_mobile->getNomeImagem()))
+			unlink(PATH_IMG . 'banners/mobile/' . $this->file_mobile->getNomeImagem());
+
+		if (!empty($this->file_imagem->getNomeImagem()) && file_exists(PATH_IMG . 'banners/thumbs/' . $this->file_imagem->getNomeImagem()))
+			unlink(PATH_IMG . 'banners/thumbs/' . $this->file_imagem->getNomeImagem());
 
 	}
 

@@ -37,11 +37,18 @@ class BannerController extends Action
 		// Calcula a linha inicial da consulta */
 		$inicio_registro = ($pagina_atual -1) * $qtde_registros;
 
+		$tipo_filtro = filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT);
+		$filtro = trim(filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS));
+
+		$parametros = array(
+			'tipo' => $tipo_filtro,
+			'filtro' => $filtro
+		);
 
 		// Consulta dos registros utilizando o LIMIT
-		$this->dados->registros = $banner->paginacao($inicio_registro, $qtde_registros);
+		$this->dados->registros = $banner->paginacao($inicio_registro, $qtde_registros, $parametros);
 		// Total de registros
-		$this->dados->paginacao->total_registros = $banner->totalRegistros();
+		$this->dados->paginacao->total_registros = $banner->totalRegistros($parametros);
 
 		$this->dados->title = 'Gerenciar Banners';
 		$this->dados->validation = true;
@@ -104,6 +111,7 @@ class BannerController extends Action
 					$this->dados->editar = true;
 					$this->dados->parametros =
 						array(
+							'param_id' => $banner->getId(),
 							'param_titulo' => $banner->getTitulo(),
 							'param_subtitulo' => $banner->getSubTitulo(),
 							'param_link' => $banner->getLinkBanner(),
@@ -127,6 +135,61 @@ class BannerController extends Action
 			die();
 		}
 
+	}
+
+	public function requestAlterarOrdem() {
+		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+		$ordem = filter_input(INPUT_POST, 'ordem', FILTER_VALIDATE_INT, array('min_range' => 1, 'max_range' => 2));
+
+		if (!empty($id)) {
+
+			$banner = new Banner();
+			$banner->setId($id);
+
+			$retorno_reg = $banner->alterarOrdem($ordem);
+
+			if (!empty($retorno_reg))
+				$retorno = array('msg' => '', 'erro' => false, 'registros' => $retorno_reg);
+			elseif(empty($banner->getRetorno()['mensagem']))
+				$retorno = array('msg' => '', 'erro' => false, 'registros' => array());
+			else
+				$retorno = array('msg' => 'Não foi possível alterar a ordem', 'erro' => true);
+
+		} else
+			$retorno = array('msg' => 'Não foi possível alterar a ordem', 'erro' => true);
+
+		echo json_encode($retorno, JSON_FORCE_OBJECT);
+
+	}
+
+	public function requestBannerDeletar() {
+		$id = filter_input(INPUT_POST, 'codigo-acao', FILTER_VALIDATE_INT);
+		$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+
+		$banner = new Banner();
+
+		if (!empty($id)) {
+
+			if (password_verify(TOKEN_SESSAO, $token)) {
+
+				$banner->setId($id);
+
+				if ($banner->excluir())
+					$this->setRetorno('Banner excluído com sucesso', true, true);
+				else if($banner->getRetorno()['exibir'])
+					$this->setRetorno($banner->getRetorno()['mensagem'], $banner->getRetorno()['exibir'], $banner->getRetorno()['status']);
+				else
+					$this->setRetorno('Não foi possível excluir a seção, tente novamente', true, false);
+
+			} else
+				$this->setRetorno('Token de autenticação inválido, recarregue a página e tente novamente', true, false);
+
+		} else
+			$this->setRetorno('Não foi possível deletar a Seção de Menus, tente novamente', true, false);
+
+		$this->dados->retorno = $this->getRetorno();
+		$this->ModificaURL(URL . 'cadastros/banners/gerenciar-banners'); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
+		$this->pageGerenciarBanners();
 	}
 
 	private function requestParametersImages(Banner $banner) {

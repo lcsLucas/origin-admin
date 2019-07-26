@@ -189,11 +189,11 @@
 
 				<form method="get" class="form-pesquisa">
 
-					<div class="d-flex align-items-center container-form" >
+					<div class="d-flex align-items-center container-form my-3" >
 
 						<label class="font-weight-bold m-0 text-muted mr-2" for="sel-busca">Pesquisar:</label>
 
-						<div class="input-group my-4">
+						<div class="input-group">
 							<div class="input-group-prepend">
 
 								<select name="tipo" id="sel-busca" class="form-control">
@@ -243,7 +243,7 @@
 						<tr class="bg-gray-100">
 
 							<th class="border-0 font-weight-bold text-uppercase text-dark">Título</th>
-							<th class="border-0 font-weight-bold text-uppercase text-dark text-center">Imagem <sup>(Mobile)</sup></th>
+							<th class="border-0 font-weight-bold text-uppercase text-dark text-center">Imagem</th>
 							<th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ativado</th>
 							<th class="border-0 text-center font-weight-bold text-uppercase text-dark">Ordem</th>
 							<th class="border-0 text-center font-weight-bold text-uppercase text-dark min-180">Ação</th>
@@ -264,9 +264,9 @@
 										<td class="font-weight-lighter lead text-muted"><?= $registro['titulo'] ?></td>
                                         <td class="text-center">
                                             <?php
-												if (file_exists(PATH_IMG . 'banners/mobile/' . $registro['img_mobile'])) {
+												if (file_exists(PATH_IMG . 'banners/thumbs/' . $registro['img_mobile'])) {
 													?>
-                                                    <img width="80" class="img-fluid" src="<?= URL_IMG . 'banners/mobile/' . $registro['img_mobile'] ?>" alt="imagem do banner <?= $registro['titulo'] ?>">
+                                                    <img width="80" class="img-fluid" src="<?= URL_IMG . 'banners/thumbs/' . $registro['img_mobile'] ?>" alt="imagem do banner <?= $registro['titulo'] ?>">
                                             <?php
                                                 }
 
@@ -297,13 +297,13 @@
 
 												<label class="btn btn-lg btn-link p-1 text-danger">
 													<input type="radio" value="1" name="ordem"
-														   class="d-none alterar-ordem">
+														   class="d-none alterar-ordem-banner">
 													<i class="fas fa-long-arrow-alt-down"></i>
 												</label>
 
 												<label class="btn btn-lg btn-link p-1 text-success">
 													<input type="radio" value="2" name="ordem"
-														   class="d-none alterar-ordem">
+														   class="d-none alterar-ordem-banner">
 													<i class="fas fa-long-arrow-alt-up"></i>
 												</label>
 
@@ -337,7 +337,7 @@
 									<?php
 								}
 							} else {
-								echo '<tr><td class="text-center text-muted" colspan="5">Nenhum banner cadastrado</td></tr>';
+								echo '<tr><td class="text-center text-muted" colspan="5">Nenhum banner encontrado no momento</td></tr>';
 							}
 
 						?>

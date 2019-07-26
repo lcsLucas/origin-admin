@@ -225,12 +225,12 @@ class SecaoMenuDao extends Banco
 			{
 				$this->beginTransaction();
 
-				$stms = $this->getCon()->prepare('SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE idsecao_menu = :id LIMIT 1');
+				$stms = $this->getCon()->prepare('SELECT idsecao_menu as id, nome, ordem, ativo FROM secao_menu WHERE idsecao_menu = :id LIMIT 1');
 				$stms->bindValue(':id', $this->secao->getId(), \PDO::PARAM_INT);
 				$stms->execute();
 				$result = $stms->fetch();
 
-				$stms = $this->getCon()->prepare('SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE ordem < :ordem ORDER BY ordem DESC LIMIT 1');
+				$stms = $this->getCon()->prepare('SELECT idsecao_menu as id, nome, ordem, ativo FROM secao_menu WHERE ordem < :ordem ORDER BY ordem DESC LIMIT 1');
 				$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
 				$stms->execute();
 				$result2 = $stms->fetch();
@@ -239,12 +239,12 @@ class SecaoMenuDao extends Banco
 
 					$stms = $this->getCon()->prepare('UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id');
 					$stms->bindValue(':ordem', (int)$result2['ordem'], \PDO::PARAM_INT);
-					$stms->bindValue(':id', $result['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result['id'], \PDO::PARAM_INT);
 					$stms->execute();
 
 					$stms = $this->getCon()->prepare('UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id');
 					$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
-					$stms->bindValue(':id', $result2['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result2['id'], \PDO::PARAM_INT);
 					$stms->execute();
 
 					//$array_retorno['atual'] = $result;
@@ -274,12 +274,12 @@ class SecaoMenuDao extends Banco
 			{
 				$this->beginTransaction();
 
-				$stms = $this->getCon()->prepare('SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE idsecao_menu = :id LIMIT 1');
+				$stms = $this->getCon()->prepare('SELECT idsecao_menu as id, nome, ordem, ativo FROM secao_menu WHERE idsecao_menu = :id LIMIT 1');
 				$stms->bindValue(':id', $this->secao->getId(), \PDO::PARAM_INT);
 				$stms->execute();
 				$result = $stms->fetch();
 
-				$stms = $this->getCon()->prepare('SELECT idsecao_menu, nome, ordem, ativo FROM secao_menu WHERE ordem > :ordem ORDER BY ordem LIMIT 1');
+				$stms = $this->getCon()->prepare('SELECT idsecao_menu as id, nome, ordem, ativo FROM secao_menu WHERE ordem > :ordem ORDER BY ordem LIMIT 1');
 				$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
 				$stms->execute();
 				$result2 = $stms->fetch();
@@ -288,12 +288,12 @@ class SecaoMenuDao extends Banco
 
 					$stms = $this->getCon()->prepare('UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id');
 					$stms->bindValue(':ordem', (int)$result2['ordem'], \PDO::PARAM_INT);
-					$stms->bindValue(':id', $result['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result['id'], \PDO::PARAM_INT);
 					$stms->execute();
 
 					$stms = $this->getCon()->prepare('UPDATE secao_menu SET ordem = :ordem WHERE idsecao_menu = :id');
 					$stms->bindValue(':ordem', (int)$result['ordem'], \PDO::PARAM_INT);
-					$stms->bindValue(':id', $result2['idsecao_menu'], \PDO::PARAM_INT);
+					$stms->bindValue(':id', $result2['id'], \PDO::PARAM_INT);
 					$stms->execute();
 
 					//$array_retorno['atual'] = $result;

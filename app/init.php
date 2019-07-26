@@ -288,6 +288,12 @@
 				'action' => 'requestAlterarStatus'
 			);
 			$array['cadastros'][] = array(
+				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/alterar-ordem\/?$/',
+				'method' => 'POST',
+				'controller' => 'Banner',
+				'action' => 'requestAlterarOrdem'
+			);
+			$array['cadastros'][] = array(
 				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/deletar\/?$/',
 				'method' => 'GET',
 				'controller' => 'Banner',
@@ -297,7 +303,7 @@
 				'exp_reg' => '/^cadastros\/banners\/gerenciar-banners\/deletar\/?$/',
 				'method' => 'POST',
 				'controller' => 'Banner',
-				'action' => 'requestDeletar'
+				'action' => 'requestBannerDeletar'
 			);
 			/*-------Rotas dos Banners-------*/
 
