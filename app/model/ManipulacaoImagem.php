@@ -136,16 +136,17 @@ class ManipulacaoImagem
 
             if ((int) $ind_img >= 0) {
 
-                $tipo_arquivo = $tipos_permitidos[$ind_img];
-                $tipo_arquivo = str_replace('image/','', $tipo_arquivo);
+				$tipo_arquivo = $tipos_permitidos[$ind_img];
+				$tipo_arquivo = str_replace('image/','', $tipo_arquivo);
 
-                $this->tipo_imagem = '.' . $tipo_arquivo;
-
-                if ($this->tipo_imagem === '.png') {
+                if ($tipo_arquivo === 'png') {
                     $this->parametro_imagem = 9;
-                } elseif ($this->tipo_imagem === '.jpg' || $this->tipo_imagem === '.jpeg') {
+					$this->tipo_imagem = '.png';
+                } elseif ($tipo_arquivo === 'jpg' || $tipo_arquivo === 'jpeg') {
                     $this->parametro_imagem = 90;
-                }
+					$this->tipo_imagem = '.jpg';
+				} else
+					$this->tipo_imagem = '.' . $tipo_arquivo;
 
             } else {
                 $erro_img = true;

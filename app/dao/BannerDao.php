@@ -142,6 +142,7 @@ class BannerDao extends Banco
 	}
 
 	protected function alterarImagensBancoDAO() {
+
 		if(!empty($this->Conectar())) :
 
 			try
@@ -153,7 +154,7 @@ class BannerDao extends Banco
 				$stms->bindValue(':mobile', $this->banner->getFileMobile()->getNomeImagem(), \PDO::PARAM_STR);
 				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
 				if ($stms->execute())
-					return ($stms->rowCount() > 0) ? true : false;
+					return ($stms->rowCount() >= 0) ? true : false;
 				else
 					return false;
 
@@ -201,7 +202,7 @@ class BannerDao extends Banco
 			try
 			{
 
-				$stms = $this->getCon()->prepare('SELECT titulo, subtitulo, link, opt_titulos, opt_externo, img_principal, img_tablet, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
+				$stms = $this->getCon()->prepare('SELECT data_alteracao, titulo, subtitulo, link, opt_titulos, opt_externo, img_principal, img_tablet, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
 				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
 
 				$stms->execute();
@@ -209,6 +210,7 @@ class BannerDao extends Banco
 				$result = $stms->fetch();
 
 				if (!empty($result)) {
+					$this->banner->setDataAlteracao($result['data_alteracao']);
 					$this->banner->setTitulo($result['titulo']);
 					$this->banner->setSubTitulo($result['subtitulo']);
 					$this->banner->setLinkBanner($result['link']);
@@ -357,6 +359,49 @@ class BannerDao extends Banco
 		endif;
 
 		return false;
+	}
+
+	protected function recuperarImagensDAO() {
+		if(!empty($this->Conectar())) :
+
+			$stms = $this->getCon()->prepare('SELECT img_principal, img_tablet, img_mobile FROM banner WHERE idbanner = :id LIMIT 1');
+			$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+			$stms->execute();
+			return $stms->fetch();
+
+		endif;
+
+		return false;
+	}
+
+	protected function alterarDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+
+				$stms = $this->getCon()->prepare('UPDATE banner SET data_alteracao = :alteracao, titulo = :titulo, subtitulo = :subtitulo, link = :link, opt_externo = :opt_externo, opt_titulos = :opt_titulos WHERE idbanner = :id LIMIT 1');
+				$stms->bindValue(':alteracao', $this->banner->getDataCadastro(), \PDO::PARAM_STR);
+				$stms->bindValue(':titulo', $this->banner->getTitulo(), \PDO::PARAM_STR);
+				$stms->bindValue(':subtitulo', $this->banner->getSubTitulo(), \PDO::PARAM_STR);
+				$stms->bindValue(':link', $this->banner->getLinkBanner(), \PDO::PARAM_STR);
+				$stms->bindValue(':opt_titulos', $this->banner->getOptExibirTexto(), \PDO::PARAM_STR);
+				$stms->bindValue(':opt_externo', $this->banner->getOptJanela(), \PDO::PARAM_STR);
+				$stms->bindValue(':id', $this->banner->getId(), \PDO::PARAM_INT);
+
+				return $stms->execute();
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+
 	}
 
 }

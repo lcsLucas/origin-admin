@@ -137,7 +137,7 @@
                                     <label class="font-weight-bold">Selecione a imagem de Destaque: <sup class="text-danger">*</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_destaque" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_principal']) && file_exists(PATH_IMG . 'banners/' . $parametros['param_img_principal']) ? URL_IMG . 'banners/' . $parametros['param_img_principal'] : 'https://via.placeholder.com/1600x520' ?>">
+                                            <input class="file-input-bootstrap" name="img_destaque" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_principal']) && file_exists(PATH_IMG . 'banners/' . $parametros['param_img_principal']) ? URL_IMG . 'banners/' . $parametros['param_img_principal'] . (!empty($parametros['param_alteracao']) ? '?versao=' . $parametros['param_alteracao'] : '') : 'https://via.placeholder.com/1600x520' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                                     <label class="font-weight-bold">Selecione a imagem para Tablets <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_tablet" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_tablet']) && file_exists(PATH_IMG . 'banners/tablet/' . $parametros['param_img_tablet']) ? URL_IMG . 'banners/tablet/' . $parametros['param_img_tablet'] : 'https://via.placeholder.com/1024x500' ?>">
+                                            <input class="file-input-bootstrap" name="img_tablet" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_tablet']) && file_exists(PATH_IMG . 'banners/tablet/' . $parametros['param_img_tablet']) ? URL_IMG . 'banners/tablet/' . $parametros['param_img_tablet'] . (!empty($parametros['param_alteracao']) ? '?versao=' . $parametros['param_alteracao'] : '') : 'https://via.placeholder.com/1024x500' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                     <label class="font-weight-bold">Selecione a imagem para Mobile <sup class="text-muted font-weight-normal">(opcional)</sup>:</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
-                                            <input class="file-input-bootstrap" name="img_mobile" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_mobile']) && file_exists(PATH_IMG . 'banners/mobile/' . $parametros['param_img_mobile']) ? URL_IMG . 'banners/mobile/' . $parametros['param_img_mobile'] : 'https://via.placeholder.com/540x540' ?>">
+                                            <input class="file-input-bootstrap" name="img_mobile" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_img_mobile']) && file_exists(PATH_IMG . 'banners/mobile/' . $parametros['param_img_mobile']) ? URL_IMG . 'banners/mobile/' . $parametros['param_img_mobile'] . (!empty($parametros['param_alteracao']) ? '?versao=' . $parametros['param_alteracao'] : '') : 'https://via.placeholder.com/540x540' ?>">
                                         </div>
                                     </div>
                                 </div>

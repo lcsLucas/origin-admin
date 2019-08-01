@@ -198,7 +198,7 @@ class SecaoMenuController extends Action
 				$this->setRetorno('Você não informou corretamente o nome da seção', true, false);
 
 		} else
-			$this->setRetorno('Não foi possível alterar o status dessa seção, tente novamente', true, false);
+			$this->setRetorno('Não foi possível recuperar os parametros dessa seção, tente novamente', true, false);
 
 		$this->dados->retorno = $this->getRetorno();
         $this->dados->editar = true;

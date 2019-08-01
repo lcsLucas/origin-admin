@@ -18,6 +18,4 @@ Senha BD: admin-lcs@2019
 ------------------
 
 - quando enviar uma imagem muito grande dá a opção de "cortar", "cortar automaticamente", "Cancelar"
-
-- continuar no cadastrar banners
-    - fazer o editar banner
+- fazer o editar banner -> DAO

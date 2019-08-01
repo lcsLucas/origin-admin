@@ -28,7 +28,7 @@
                             if (!empty($menus['submenus'])) {
                                 ?>
 
-                                <li class="nav-item nav-dropdown">
+                                <li class="nav-item nav-dropdown <?= (!empty($this->dados->menu) && strcasecmp($this->dados->menu, $menus['nome']) === 0) ? 'open' : '' ?>">
                                     <a class="nav-link nav-dropdown-toggle" href="<?= URL . $menus['url'] ?>">
                                         <i class="<?= $menus['icone'] ?>"></i> <?= $menus['nome'] ?></a>
                                     <ul class="nav-dropdown-items">
@@ -39,7 +39,7 @@
                                                 ?>
 
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="<?= URL . $submenus['url'] ?>" target="_top">
+                                                    <a class="nav-link <?= (!empty($this->dados->submenu) && strcasecmp($this->dados->submenu, $submenus['nome']) === 0) ? 'active' : '' ?>" href="<?= URL . $submenus['url'] ?>" target="_top">
                                                         <?= $submenus['nome'] ?>
                                                     </a>
                                                 </li>

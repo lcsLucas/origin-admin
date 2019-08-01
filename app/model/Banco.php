@@ -56,7 +56,7 @@ class Banco{
         endif;
     }
 
-    public function getCon()
+    public function getCon() : ?\PDO
     {
         return $this->con;
     }

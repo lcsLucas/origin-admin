@@ -16,6 +16,8 @@ class BannerController extends Action
 		 * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
 		 */
 		$this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
+		$this->dados->menu = 'cadastros';
+		$this->dados->submenu = 'gerenciar banners';
 	}
 
 	public function pageGerenciarBanners() {
@@ -112,6 +114,7 @@ class BannerController extends Action
 					$this->dados->parametros =
 						array(
 							'param_id' => $banner->getId(),
+							'param_alteracao' => !empty($banner->getDataAlteracao()) ? date('Ymd', strtotime($banner->getDataAlteracao())) : '',
 							'param_titulo' => $banner->getTitulo(),
 							'param_subtitulo' => $banner->getSubTitulo(),
 							'param_link' => $banner->getLinkBanner(),
@@ -135,6 +138,35 @@ class BannerController extends Action
 			die();
 		}
 
+	}
+
+	public function requestBannerEdit() {
+		$banner = new Banner();
+		$id = $this->getIdUri();
+		$this->dados->editar = true;
+
+		if (!empty($id)) {
+			$banner->setId($id);
+			$this->dados->parametros['param_id'] = $id;
+
+			if ($this->requestParameters($banner)) {
+
+				if ($banner->alterar()) {
+					$this->dados->parametros['param_img_principal'] = $banner->getFileImagem()->getNomeImagem();
+					$this->dados->parametros['param_img_tablet'] = $banner->getFileTablet()->getNomeImagem();
+					$this->dados->parametros['param_img_mobile'] = $banner->getFileMobile()->getNomeImagem();
+					$this->setRetorno('Banner alterado com sucesso', true, true);
+				} else if(!empty($banner->getRetorno()['exibir']))
+					$this->setRetorno($banner->getRetorno()['mensagem'], $banner->getRetorno()['exibir'], $banner->getRetorno()['status']);
+				else
+					$this->setRetorno('Não foi possível alterar o banner, tente novamente', true, false);
+			}
+
+		} else
+			$this->setRetorno('Não foi possível recuperar os parametros desse banner, tente novamente', true, false);
+
+		$this->dados->retorno = $this->getRetorno();
+		$this->pageBannerEdit();
 	}
 
 	public function requestAlterarOrdem() {
@@ -193,7 +225,11 @@ class BannerController extends Action
 	}
 
 	private function requestParametersImages(Banner $banner) {
-	    $retorno = false;
+		if (!empty($this->dados->editar))
+			$retorno = true;
+		else
+	    	$retorno = false;
+
         $dados_principal = trim(filter_input(INPUT_POST, 'dados_img_destaque', FILTER_DEFAULT));
         $dados_tablet = trim(filter_input(INPUT_POST, 'dados_img_tablet', FILTER_DEFAULT));
         $dados_mobile = trim(filter_input(INPUT_POST, 'dados_img_mobile', FILTER_DEFAULT));
@@ -202,11 +238,11 @@ class BannerController extends Action
         $file_tablet = $_FILES['img_tablet'];
         $file_mobile = $_FILES['img_mobile'];
 
-        if (!empty($file_destaque['name'])) {
+		$restricoes = array();
+		$restricoes[0] = 2560000;
+		$restricoes[1] = array('image/png', 'image/jpeg');
 
-            $restricoes = array();
-            $restricoes[0] = 2560000;
-            $restricoes[1] = array('image/png', 'image/gif', 'image/jpeg');
+        if (!empty($file_destaque['name'])) {
 
             $banner->getFileImagem()->setFileImagem($file_destaque);
             $erro_img = $banner->getFileImagem()->verificaImagem($restricoes);
@@ -221,47 +257,48 @@ class BannerController extends Action
             } else
 				$this->setRetorno($banner->getFileImagem()->getRetorno()['mensagem'], $banner->getFileImagem()->getRetorno()['exibir'], $banner->getFileImagem()->getRetorno()['status']);
 
-            if (empty($erro_img) && !empty($file_tablet['name'])) {
-
-                $banner->getFileTablet()->setFileImagem($file_tablet);
-                $erro_img = $banner->getFileTablet()->verificaImagem($restricoes);
-
-                if (empty($erro_img)) {
-
-                    $dados_tablet = json_decode($dados_tablet, true);
-                    if (json_last_error() === JSON_ERROR_NONE)
-                        $banner->getFileTablet()->setDadosImagem($dados_tablet);
-
-                } else {
-                    $retorno = false;
-					$this->setRetorno($banner->getFileTablet()->getRetorno()['mensagem'], $banner->getFileTablet()->getRetorno()['exibir'], $banner->getFileTablet()->getRetorno()['status']);
-                }
-
-            } else
-				$banner->setFileTablet($banner->getFileImagem());
-
-            if (empty($erro_img) && !empty($file_mobile['name'])) {
-
-                $banner->getFileMobile()->setFileImagem($file_mobile);
-                $erro_img = $banner->getFileMobile()->verificaImagem($restricoes);
-
-                if (empty($erro_img)) {
-
-                    $dados_mobile = json_decode($dados_mobile, true);
-                    if (json_last_error() === JSON_ERROR_NONE)
-                        $banner->getFileMobile()->setDadosImagem($dados_mobile);
-
-                } else {
-                    $retorno = false;
-					$this->setRetorno($banner->getFileMobile()->getRetorno()['mensagem'], $banner->getFileMobile()->getRetorno()['exibir'], $banner->getFileMobile()->getRetorno()['status']);
-                }
-
-            } else
-				$banner->setFileMobile($banner->getFileImagem());
-
-        } else {
+        } elseif (empty($this->dados->editar)){
+			$erro_img = true;
             $this->setRetorno('A Imagem Principal do Banner não foi enviada', true, false);
         }
+
+		if (empty($erro_img) && !empty($file_tablet['name'])) {
+
+			$banner->getFileTablet()->setFileImagem($file_tablet);
+			$erro_img = $banner->getFileTablet()->verificaImagem($restricoes);
+
+			if (empty($erro_img)) {
+
+				$dados_tablet = json_decode($dados_tablet, true);
+				if (json_last_error() === JSON_ERROR_NONE)
+					$banner->getFileTablet()->setDadosImagem($dados_tablet);
+
+			} else {
+				$retorno = false;
+				$this->setRetorno($banner->getFileTablet()->getRetorno()['mensagem'], $banner->getFileTablet()->getRetorno()['exibir'], $banner->getFileTablet()->getRetorno()['status']);
+			}
+
+		} elseif(empty($this->dados->editar))
+			$banner->setFileTablet($banner->getFileImagem());
+
+		if (empty($erro_img) && !empty($file_mobile['name'])) {
+
+			$banner->getFileMobile()->setFileImagem($file_mobile);
+			$erro_img = $banner->getFileMobile()->verificaImagem($restricoes);
+
+			if (empty($erro_img)) {
+
+				$dados_mobile = json_decode($dados_mobile, true);
+				if (json_last_error() === JSON_ERROR_NONE)
+					$banner->getFileMobile()->setDadosImagem($dados_mobile);
+
+			} else {
+				$retorno = false;
+				$this->setRetorno($banner->getFileMobile()->getRetorno()['mensagem'], $banner->getFileMobile()->getRetorno()['exibir'], $banner->getFileMobile()->getRetorno()['status']);
+			}
+
+		} elseif(empty($this->dados->editar))
+			$banner->setFileMobile($banner->getFileImagem());
 
         return $retorno;
     }
@@ -276,7 +313,6 @@ class BannerController extends Action
 		$optionExterno = filter_input(INPUT_POST, 'optExterno', FILTER_VALIDATE_INT, array("options" => array("min_range"=>0, "max_range"=>1)));
 		$optionTitulos = filter_input(INPUT_POST, 'optTitulo', FILTER_VALIDATE_INT, array("options" => array("min_range"=>0, "max_range"=>1)));
 		$token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
-
 
 		$validate
 			->set('titulo', $titulo)->is_required()->max_length(255)
@@ -306,14 +342,11 @@ class BannerController extends Action
 			$this->setRetorno($erro, true, false);
 		}
 
-		$this->dados->parametros =
-			array(
-				'param_titulo' => $titulo,
-				'param_subtitulo' => $subtitulo,
-				'param_link' => $link,
-				'param_optExterno' => $optionExterno,
-				'param_opttitulos' => $optionTitulos,
-			);
+		$this->dados->parametros['param_titulo'] = $titulo;
+		$this->dados->parametros['param_subtitulo'] = $subtitulo;
+		$this->dados->parametros['param_link'] = $link;
+		$this->dados->parametros['param_optExterno'] = $optionExterno;
+		$this->dados->parametros['param_opttitulos'] = $optionTitulos;
 
 		return $result;
 	}

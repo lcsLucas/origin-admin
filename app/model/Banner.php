@@ -37,7 +37,8 @@ class Banner extends BannerDao
 	public function __construct($titulo='', $sub_titulo='', $link_banner='', $ativo='0', $opt_janela='0', $opt_exibir_texto='0')
 	{
 		parent::__construct($this);
-		$this->data_cadastro = $this->data_alteracao = date('Y-m-d');
+		$this->data_cadastro = date('Y-m-d');
+		$this->data_alteracao = null;
 		$this->titulo = $titulo;
 		$this->sub_titulo = $sub_titulo;
 		$this->link_banner = $link_banner;
@@ -375,7 +376,116 @@ class Banner extends BannerDao
 	}
 
 	public function alterar() {
-		return $this->alterarDAO();
+		$result = false;
+
+		if ($this->conectar()) {
+			$this->beginTransaction();
+
+			$result = $this->alterarDAO();
+
+			if ($result && (!empty($this->file_imagem->getFileImagem()) || !empty($this->file_tablet->getFileImagem()) || !empty($this->file_mobile->getFileImagem()))) {
+				$nome_imagem = $this->slug($this->titulo) .'-'. $this->getId();
+
+				$resp_imgs = $this->recuperarImagensDAO();
+
+				$result = $this->gravarImagens($nome_imagem);
+
+				if ($result && !empty($resp_imgs)) {
+
+					$temp_img = $this->file_imagem->getNomeImagem();
+					$temp_tablet = $this->file_tablet->getNomeImagem();
+					$temp_mobile = $this->file_mobile->getNomeImagem();
+
+					if (empty($this->file_imagem->getFileImagem()) || $this->file_imagem->getNomeImagem() === $resp_imgs['img_principal'])
+						$this->file_imagem->setNomeImagem('');
+					else
+						$this->file_imagem->setNomeImagem($resp_imgs['img_principal']);
+
+					if (empty($this->file_tablet->getFileImagem()) || $this->file_tablet->getNomeImagem() === $resp_imgs['img_tablet'])
+						$this->file_tablet->setNomeImagem('');
+					else
+						$this->file_tablet->setNomeImagem($resp_imgs['img_tablet']);
+
+					if (empty($this->file_mobile->getFileImagem()) || $this->file_mobile->getNomeImagem() === $resp_imgs['img_mobile'])
+						$this->file_mobile->setNomeImagem('');
+					else
+						$this->file_mobile->setNomeImagem($resp_imgs['img_mobile']);
+
+					$this->excluirImagens();
+
+					if (!empty($temp_img))
+						$this->file_imagem->setNomeImagem($temp_img);
+					else
+						$this->file_imagem->setNomeImagem($resp_imgs['img_principal']);
+
+					if (!empty($temp_tablet))
+						$this->file_tablet->setNomeImagem($temp_tablet);
+					else
+						$this->file_tablet->setNomeImagem($resp_imgs['img_tablet']);
+
+					if (!empty($temp_mobile))
+						$this->file_mobile->setNomeImagem($temp_mobile);
+					else
+						$this->file_mobile->setNomeImagem($resp_imgs['img_mobile']);
+				}
+
+				if ($result)
+					$result = $this->alterarImagensBancoDAO();
+
+			}
+
+		}
+
+		$this->commitar($result);
+		return $result;
+	}
+
+	private function gravarImagens($nome_imagem) {
+		$result = true;
+
+		if ($result && !empty($this->file_imagem->getFileImagem())) { // grava imagem de destaque do banner
+
+			$this->file_imagem->setNomeImagem($nome_imagem . $this->file_imagem->getTipoImagem());
+
+			if (!empty($this->file_imagem->getDadosImagem()))
+				$result = $this->file_imagem->salvarImagemDados(PATH_IMG . 'banners/', 1600, 520);
+			else
+				$result = $this->file_imagem->salvarImagem(PATH_IMG . 'banners/', 1600, 520);
+
+			if (!$result)
+				$this->setRetorno($this->file_imagem->getRetorno()['mensagem'], $this->file_imagem->getRetorno()['exibir'], $this->file_imagem->getRetorno()['status']);
+		}
+
+		if ($result && !empty($this->file_tablet->getFileImagem())) { // se tiver grava imagem de tablet do banner
+
+			$this->file_tablet->setNomeImagem($nome_imagem . $this->file_tablet->getTipoImagem());
+
+			if (!empty($this->file_tablet->getDadosImagem()))
+				$result = $this->file_tablet->salvarImagemDados(PATH_IMG . 'banners/tablet/', 1024, 500);
+			else
+				$result = $this->file_tablet->salvarImagem(PATH_IMG . 'banners/tablet/', 1024, 500);
+
+			if (!$result)
+				$this->setRetorno($this->file_tablet->getRetorno()['mensagem'], $this->file_tablet->getRetorno()['exibir'], $this->file_tablet->getRetorno()['status']);
+		}
+
+		if ($result && !empty($this->file_mobile->getFileImagem())) {
+
+			$this->file_mobile->setNomeImagem($nome_imagem . $this->file_mobile->getTipoImagem());
+
+			if (!empty($this->file_mobile->getDadosImagem())) {
+				$result = $this->file_mobile->salvarImagemDados(PATH_IMG . 'banners/mobile/', 540, 540);
+				$this->file_mobile->salvarImagemDados(PATH_IMG . 'banners/thumbs/', 100, 100);
+			} else {
+				$result = $this->file_mobile->salvarImagem(PATH_IMG . 'banners/mobile/', 540, 540);
+				$this->file_mobile->salvarImagem(PATH_IMG . 'banners/thumbs/', 100, 100);
+			}
+
+			if (!$result)
+				$this->setRetorno($this->file_mobile->getRetorno()['mensagem'], $this->file_mobile->getRetorno()['exibir'], $this->file_mobile->getRetorno()['status']);
+		}
+
+		return $result;
 	}
 
 	public function excluir() {
@@ -411,7 +521,32 @@ class Banner extends BannerDao
 	}
 
 	private function slug($string) {
-        $table = array(
+		$a = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖFÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûÚªº·_,:;';
+		$b = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuuao------';
+		$string = utf8_decode($string);
+		$string = strtr($string, utf8_decode($a), $b); //substitui letras acentuadas por "normais"
+
+		$string = str_replace("(", " ", $string); // troca ( por -
+		$string = str_replace(")", " ", $string); // troca ) por -
+		$string = str_replace(".", " ", $string);
+		$string = str_replace("!", " ", $string);
+		$string = str_replace("?", " ", $string);
+		$string = str_replace("@", " ", $string);
+		$string = str_replace("-", " ", $string);
+		$string = str_replace("&", " e ", $string);
+		$string = str_replace(" de ", " ", $string);
+		$string = str_replace("+", " e ", $string);
+		$string = str_replace('\'', ' ', $string);
+		$string = str_replace('"', ' ', $string);
+		$string = preg_replace('/(\s{2,})/', ' ', $string);
+		$string = preg_replace('/(\s+)/', '-', $string);
+
+		$string = filter_var($string, FILTER_SANITIZE_STRING, array('options' => array(FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH)));
+		$string = strtolower(trim($string));
+		return $string;
+
+		/*
+		$table = array(
             'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
             'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
             'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
@@ -430,7 +565,7 @@ class Banner extends BannerDao
 		$stripped = str_replace(' ', '-', $stripped);
 		$stripped = strtolower(strtr($stripped, $table));
 
-		return $stripped;
+		return $stripped;*/
     }
 
     private function excluirImagens() {
@@ -444,8 +579,8 @@ class Banner extends BannerDao
 		if (!empty($this->file_mobile->getNomeImagem()) && file_exists(PATH_IMG . 'banners/mobile/' . $this->file_mobile->getNomeImagem()))
 			unlink(PATH_IMG . 'banners/mobile/' . $this->file_mobile->getNomeImagem());
 
-		if (!empty($this->file_imagem->getNomeImagem()) && file_exists(PATH_IMG . 'banners/thumbs/' . $this->file_imagem->getNomeImagem()))
-			unlink(PATH_IMG . 'banners/thumbs/' . $this->file_imagem->getNomeImagem());
+		if (!empty($this->file_mobile->getNomeImagem()) && file_exists(PATH_IMG . 'banners/thumbs/' . $this->file_mobile->getNomeImagem()))
+			unlink(PATH_IMG . 'banners/thumbs/' . $this->file_mobile->getNomeImagem());
 
 	}
 
