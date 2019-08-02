@@ -16,6 +16,18 @@ Senha BD: admin-lcs@2019
 - https://freefrontend.com/css-radio-buttons/
 
 ------------------
-
 - quando enviar uma imagem muito grande dá a opção de "cortar", "cortar automaticamente", "Cancelar"
-- fazer o editar banner -> DAO
+------------------
+
+- Começar o gerenciamento de Quem Somos
+    - Fazer duas seções(Tabs) no cadastro
+        - Pagina quem somos
+        - Pagina Index de informações
+
+-------------
+
+- criar uma tabela de configurações do site para:
+    - Analytics
+    - Google Maps
+    - Facebook Plugin Page
+    - Facebook Pixel
