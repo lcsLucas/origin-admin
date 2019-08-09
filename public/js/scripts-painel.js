@@ -663,8 +663,8 @@ window.onload = function() {
         input_file.each(function (i, obj) {
 
             var data_src = $(obj).data('preview');
-
             var image_preview = '<img class="d-block w-100 img-fluid" src="'+data_src+'" />';
+            var required = $(obj).hasClass('required');
 
             $(obj).fileinput({
                 overwriteInitial: true,
@@ -675,6 +675,7 @@ window.onload = function() {
                 showRemove: false,
                 showUpload: false,
                 browseOnZoneClick: true,
+                required: required,
                 msgErrorClass: 'alert alert-block alert-danger',
                 cancelClass: 'text-danger',
                 language: "pt-BR",

@@ -6,6 +6,9 @@ use App\model\Banner;
 use ProjetoMvc\render\Action;
 use App\model\Data_Validator;
 
+if (! defined('ABSPATH'))
+	die;
+
 class BannerController extends Action
 {
 	public function __construct()

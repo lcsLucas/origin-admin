@@ -307,6 +307,22 @@
 			);
 			/*-------Rotas dos Banners-------*/
 
+			/*-------Rotas das Configurações-------*/
+			$array['configuracoes'][] = array(
+				'exp_reg' => '/^configuracoes\/gerais\/?$/',
+				'method' => 'GET',
+				'controller' => 'Configuracao',
+				'action' => 'pageGerenciarConfiguracoes'
+			);
+
+			$array['configuracoes'][] = array(
+				'exp_reg' => '/^configuracoes\/gerais\/?$/',
+				'method' => 'POST',
+				'controller' => 'Configuracao',
+				'action' => 'requestGerenciarConfiguracoes'
+			);
+			/*-------Rotas das Configurações-------*/
+
 			/*Setando na propriedades as rotas definidas à cima.*/
 			$this->setRoutes($array);
 		}

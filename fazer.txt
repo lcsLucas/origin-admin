@@ -31,3 +31,23 @@ Senha BD: admin-lcs@2019
     - Google Maps
     - Facebook Plugin Page
     - Facebook Pixel
+
+--------------
+
+- Permitir um jeito de criar paginas dinamicas
+    - sugestão:
+        - sempre cadastrar no "/pagina"
+            - No htaccess sempre que a url tiver "/pagina/."
+                - abrir um arquivo que carrega uma pagina dinamica atraves da url da pagina
+
+------------------
+
+- Fazer configuração de envio de email
+    - SMTP
+    - API
+        - Sendgrid
+        - AWS
+
+------------------
+
+- continuar na requisição das imagens das configurações do site

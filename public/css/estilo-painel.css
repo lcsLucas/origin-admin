@@ -452,11 +452,11 @@ div#profile img {
 /**/
 
 
-#formBanners .kv-file-content {
+.kv-file-content {
     position: relative
 }
 
-#formBanners .btn-crop-foto {
+.btn-crop-foto {
     position: absolute;
     right: 0;
     top: 0;
@@ -571,4 +571,8 @@ div#profile img {
 .cropper-point.point-se {
     bottom: -7.5px !important;
     right: -7.5px !important;
+}
+
+textarea {
+    max-height: 200px;
 }
