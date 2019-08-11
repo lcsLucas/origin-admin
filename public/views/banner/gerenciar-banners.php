@@ -387,12 +387,6 @@
         <a href="" title="Zoom -" class="crop-zoomdown">
             <i class="fas fa-search-minus"></i>
         </a>
-        <a href="" title="Rotacionar para esquerda" class="crop-rotaesquerda">
-            <i class="fas fa-redo fa-rotate-180"></i>
-        </a>
-        <a href="" title="Rotacionar para direita" class="crop-rotadireita">
-            <i class="fas fa-redo"></i>
-        </a>
         <a href="" title="Inverter Horizontalmente" class="crop-iverter-h">
             <i class="fas fa-arrows-alt-h"></i>
         </a>

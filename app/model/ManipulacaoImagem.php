@@ -214,13 +214,6 @@ class ManipulacaoImagem
 
 					$resized2 = null;
 
-					if (!empty($this->dados_imagem['rotate'])) {
-						if (!empty($resized2))
-							$resized2 = $resized2->rotate($this->dados_imagem['rotate']);
-						else
-							$resized2 = $this->objetoWide->rotate($this->dados_imagem['rotate']);
-					}
-
 					if (!empty($this->dados_imagem['scaleY']) && $this->dados_imagem['scaleY'] === -1) {
 						if (!empty($resized2))
 							$resized2 = $resized2->flip();
