@@ -2,6 +2,18 @@
 - Core Design
 - Code Design
 - Parallax Design
+- Digital Monkey
+    - dominio do site:
+        - digitalmonkeysites.com.br
+        - sitesdigitalmonkey.com.br
+        - monkeywebsites.com.br
+        - sitesmonkey.com.br
+
+- Tank Web
+    - tankweb.com.br
+
+- Danki Web
+    dankiweb.com.br
 
 #######
 
@@ -50,4 +62,6 @@ Senha BD: admin-lcs@2019
 
 ------------------
 
-- continuar na requisição das imagens das configurações do site
+- continuar no alterar imagens da logo e favicon
+    - excluir imagens antigas
+        - testar pra ver se já tá excluindo

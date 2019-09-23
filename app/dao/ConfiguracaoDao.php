@@ -28,11 +28,14 @@ class ConfiguracaoDao extends Banco
 
 			try
 			{
-				$stms = $this->getCon()->prepare('SELECT COUNT(*) total FROM configuracao');
+				$stms = $this->getCon()->prepare('SELECT logo_site, favicon_site, COUNT(*) total FROM configuracao');
 				$stms->execute();
 				$result = $stms->fetch();
-				if (!empty($result['total']))
+				if (!empty($result)) {
+					$this->configuracao->getFileLogo()->setNomeImagem($result['logo_site']);
+					$this->configuracao->getFileFavicon()->setNomeImagem($result['logo_site']);
 					return true;
+				}
 				else
 					return false;
 			}
@@ -110,6 +113,36 @@ class ConfiguracaoDao extends Banco
 					return ($stms->rowCount() >= 0) ? true : false;
 				else
 					return false;
+
+			}
+			catch(\PDOException $e)
+			{
+				$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | '.$e->getMessage(), false, false);
+			}
+
+		endif;
+
+		return false;
+	}
+
+	protected function carregarDAO() {
+
+		if(!empty($this->Conectar())) :
+
+			try
+			{
+				$stms = $this->getCon()->prepare('SELECT * FROM configuracao LIMIT 1');
+				$stms->execute();
+				$result = $stms->fetch();
+
+				if (!empty($result)) {
+					$this->configuracao->setNomeSite($result['nome_site']);
+					$this->configuracao->setResumoSite($result['resumo_site']);
+					$this->configuracao->getFileLogo()->setNomeImagem($result['logo_site']);
+					$this->configuracao->getFileFavicon()->setNomeImagem($result['favicon_site']);
+
+					return true;
+				}
 
 			}
 			catch(\PDOException $e)

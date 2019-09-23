@@ -32,6 +32,14 @@ class ConfiguracaoController extends Action
 		$this->dados->input_drop = true;
 		$this->dados->cropjs = true;
 
+		if (empty($this->dados->editar) && $configuracao->carregar()) {
+			$this->dados->editar = true;
+			$this->dados->parametros['param_nome'] = $configuracao->getNomeSite();
+			$this->dados->parametros['param_resumo'] = $configuracao->getResumoSite();
+			$this->dados->parametros['param_logo'] = $configuracao->getFileLogo()->getNomeImagem();
+			$this->dados->parametros['param_favicon'] = $configuracao->getFileFavicon()->getNomeImagem();
+		}
+
 		$this->render('gerenciar-configuracoes.php');
 	}
 
@@ -49,9 +57,8 @@ class ConfiguracaoController extends Action
 				$this->setRetorno('Não foi possível cadastrar o banner, tente novamente', true, false);
 		}
 
-		/*
 		$this->dados->retorno = $this->getRetorno();
-		$this->pageGerenciarConfiguracoes();*/
+		$this->pageGerenciarConfiguracoes();
 	}
 
 	private function requestParameters(Configuracao $configuracao) {
@@ -85,6 +92,10 @@ class ConfiguracaoController extends Action
 			$erro = array_shift($array_erro);
 			$this->setRetorno($erro, true, false);
 		}
+
+		$this->dados->parametros['param_nome'] = $nome;
+		$this->dados->parametros['param_resumo'] = $resumo;
+		$this->dados->editar = true;
 
 		return $result;
 	}

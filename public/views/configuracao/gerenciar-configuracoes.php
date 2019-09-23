@@ -7,6 +7,8 @@
 	if (!empty($this->dados->retorno))
 		$retorno = $this->dados->retorno;
 
+	$parametros = !empty($this->dados->parametros) ? $this->dados->parametros : array();
+
 ?>
 
 <!-- Breadcrumb-->
@@ -45,7 +47,7 @@
 					<div class="form-group form-group-lg">
 						<label for="resumo" class="font-weight-bold">Resumo do Site <sup class="text-danger">*</sup>:</label>
 						<textarea name="resumo" id="resumo" cols="30" required rows="4" class="form-control form-control-lg" title="Por favor, informe o resumo do site"><?= !empty($parametros['param_resumo']) ? $parametros['param_resumo'] : '' ?></textarea>
-						<span class="form-text text-muted font-weight-light">Esse resumo será usado para encontrar o seu site na busca do Google</span>
+						<span class="form-text text-muted font-weight-light">Esse resumo será usado para encontrar o seu site no Google</span>
 					</div>
 
                     <div class="row">
