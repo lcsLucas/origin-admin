@@ -18,7 +18,7 @@ class ConfiguracaoController extends Action
 		parent::__construct();
 		/**
 		 * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
-		 */
+		 **/
 		$this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
 		$this->dados->menu = 'configurações';
 		$this->dados->submenu = 'gerais';
@@ -38,9 +38,18 @@ class ConfiguracaoController extends Action
 			$this->dados->parametros['param_resumo'] = $configuracao->getResumoSite();
 			$this->dados->parametros['param_logo'] = $configuracao->getFileLogo()->getNomeImagem();
 			$this->dados->parametros['param_favicon'] = $configuracao->getFileFavicon()->getNomeImagem();
+		} elseif (!empty($this->dados->editar) && $configuracao->verificar()) {
+			$this->dados->parametros['param_logo'] = $configuracao->getFileLogo()->getNomeImagem();
+			$this->dados->parametros['param_favicon'] = $configuracao->getFileFavicon()->getNomeImagem();
 		}
 
 		$this->render('gerenciar-configuracoes.php');
+	}
+
+	public function requestGerenciarConfiguracoesEdit() {
+		$this->dados->editar = true;
+		$this->requestGerenciarConfiguracoes();
+		$this->ModificaURL(URL . 'configuracoes/gerais/'); //altera url atual 'gerenciar-tipos-usuarios/deletar' para apenas '/gerenciar-tipos-usuarios/'
 	}
 
 	public function requestGerenciarConfiguracoes() {
@@ -49,7 +58,6 @@ class ConfiguracaoController extends Action
 		if ($this->requestParameters($configuracao)) {
 
 			if ($configuracao->cadastrar()) {
-				$this->dados->parametros = null;
 				$this->setRetorno('Informações registradas com sucesso', true, true);
 			} else if(!empty($configuracao->getRetorno()['exibir']))
 				$this->setRetorno($configuracao->getRetorno()['mensagem'], $configuracao->getRetorno()['exibir'], $configuracao->getRetorno()['status']);
@@ -117,7 +125,6 @@ class ConfiguracaoController extends Action
 		$restricoes[1] = array('image/png', 'image/jpeg');
 
 		if (!empty($file_logo['name'])) {
-
 			$configuracao->getFileLogo()->setFileImagem($file_logo);
 			$erro_img = $configuracao->getFileLogo()->verificaImagem($restricoes);
 
@@ -151,7 +158,6 @@ class ConfiguracaoController extends Action
 				$retorno = false;
 				$this->setRetorno($configuracao->getFileFavicon()->getRetorno()['mensagem'], $configuracao->getFileFavicon()->getRetorno()['exibir'], $configuracao->getFileFavicon()->getRetorno()['status']);
 			}
-
 		} elseif(empty($this->dados->editar))
 			$configuracao->setFileFavicon($configuracao->getFileLogo());
 

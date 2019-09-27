@@ -31,7 +31,7 @@ class ConfiguracaoDao extends Banco
 				$stms = $this->getCon()->prepare('SELECT logo_site, favicon_site, COUNT(*) total FROM configuracao');
 				$stms->execute();
 				$result = $stms->fetch();
-				if (!empty($result)) {
+				if (!empty($result['total'])) {
 					$this->configuracao->getFileLogo()->setNomeImagem($result['logo_site']);
 					$this->configuracao->getFileFavicon()->setNomeImagem($result['logo_site']);
 					return true;

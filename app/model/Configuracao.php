@@ -107,7 +107,7 @@ class Configuracao extends ConfiguracaoDao
 				$nome_logo = $this->file_logo->getNomeImagem();
 				$nome_favicon = $this->file_favicon->getNomeImagem();
 
-				if ($result && !empty($this->file_logo->getFileImagem())) { // grava imagem de destaque do banner
+				if ($result && !empty($this->file_logo->getFileImagem())) { // grava imagem logo
 
 					$this->file_logo->setNomeImagem($nome_imagem . $this->file_logo->getTipoImagem());
 
@@ -138,7 +138,7 @@ class Configuracao extends ConfiguracaoDao
 			if ($result)
 				$result = $this->alterarImagensBancoDAO();
 
-			if ($result && (!empty($nome_logo || !empty($nome_favicon)))) {
+			if ($result && (!empty($nome_logo) || !empty($nome_favicon))) {
 				if ($this->file_logo->getNomeImagem() !== $nome_logo)
 					$this->file_logo->setNomeImagem($nome_logo);
 				else
@@ -153,9 +153,6 @@ class Configuracao extends ConfiguracaoDao
 			}
 
 		}
-
-		if (!$result)
-			$this->excluirImagens();
 
 		$this->commitar($result);
 		return $result;
@@ -219,6 +216,10 @@ class Configuracao extends ConfiguracaoDao
 
 		if (!empty($this->file_favicon->getNomeImagem()) && file_exists(PATH_IMG . 'favicon/' . $this->file_favicon->getNomeImagem()))
 			unlink(PATH_IMG . 'favicon/' . $this->file_favicon->getNomeImagem());
+	}
+
+	public function verificar() {
+		return $this->verificaDAO();
 	}
 
 }

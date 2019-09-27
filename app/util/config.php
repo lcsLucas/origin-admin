@@ -24,6 +24,9 @@ define('DB_USER','root');
 define('DB_PASSWORD','');
 define('DB_CHARSET', 'utf8' );
 
+define('RECAPTCHA_SITE_KEY', '6LcPJ7oUAAAAAJxe_WxBDzLdhvu6J7Q34QKiYW0K');
+define('RECAPTCHA_SECRET_KEY', '6LcPJ7oUAAAAAF_u5hInxwYOCJWMeU-R1jMXXonM');
+
 define('TOKEN_SESSAO', 'seg_phpmvc_' . htmlspecialchars($_SERVER['REMOTE_ADDR']) . htmlspecialchars($_SERVER['HTTP_USER_AGENT']));
 
 define('DEBUG', true );

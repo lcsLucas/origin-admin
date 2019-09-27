@@ -55,13 +55,16 @@ Senha BD: admin-lcs@2019
 ------------------
 
 - Fazer configuração de envio de email
-    - SMTP
-    - API
-        - Sendgrid
-        - AWS
+    - permitir que o site configure um serviço de envio de email
+        - SMTP
+        - API
+            - Sendgrid
+            - AWS
 
 ------------------
 
 - continuar no alterar imagens da logo e favicon
     - excluir imagens antigas
         - testar pra ver se já tá excluindo
+
+- alterar o favicon está com problema

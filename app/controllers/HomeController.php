@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use Curl\Curl;
 use ProjetoMvc\render\Action;
 use App\model\Usuario;
 use App\model\Data_Validator;
@@ -76,6 +77,8 @@ class HomeController extends Action
             $login = trim(filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS));
             $senha = trim(filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_SPECIAL_CHARS));
             $token = trim(filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS));
+            $recaptcha = trim(filter_input(INPUT_POST, 'recaptcha_response', FILTER_SANITIZE_SPECIAL_CHARS));
+            $ip = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
 
             $validate->define_pattern('erro_');
             $validate
@@ -83,43 +86,75 @@ class HomeController extends Action
                 ->set('senha', $senha)->is_required()
                 ->set('token', $token)->is_required();
 
-            if ($validate->validate()) {
+            if (!empty($recaptcha)) {
 
-                if (password_verify(TOKEN_SESSAO, $token)) {
+            	$curl = new Curl();
+            	$curl->get(
+            		'https://www.google.com/recaptcha/api/siteverify',
+						array(
+							'secret' => RECAPTCHA_SECRET_KEY,
+							'response' => $recaptcha,
+							'remoteip' => $ip
+						)
+				);
 
-                    if (filter_var($login, FILTER_VALIDATE_EMAIL))
-                        $usu->setEmail($login);
-                    else
-                        $usu->setLogin($login);
+            	if (empty($curl->error)) {
 
-                    $usu->setSenha($senha);
+            		$response = $curl->response;
 
-                    if (!empty($usu->login())) {
+            		if (!empty($response)) {
 
-                        $this->setRetorno('Logado com sucesso, aguarde estamos te direcionando...', true, true);
-                        $this->setExtra(
-                            array(
-                                'url_direcionar' => URL . 'dashboard'
-                            )
-                        );
+						if (!empty($response->success) && !empty($response->score) && $response->score > 0.5) {
 
-                    } else if($usu->getRetorno()['exibir']) {
-                        $this->setRetorno($usu->getRetorno()['mensagem'], $usu->getRetorno()['exibir'], $usu->getRetorno()['status']);
-                    } else {
-                        $this->setRetorno('Não foi possível fazer o login', true, false);
-                    }
+							if ($validate->validate()) {
 
-                } else {
-                    $this->setRetorno('Token de autenticação inválido', true, false);
-                }
+								if (password_verify(TOKEN_SESSAO, $token)) {
 
-            } else {
+									if (filter_var($login, FILTER_VALIDATE_EMAIL))
+										$usu->setEmail($login);
+									else
+										$usu->setLogin($login);
 
-                $array_erros = $validate->get_errors();
-                $array_erro = array_shift($array_erros);
-                $erro = array_shift($array_erro);
-                $this->setRetorno($erro, true, false);
-            }
+									$usu->setSenha($senha);
+
+									if (!empty($usu->login())) {
+
+										$this->setRetorno('Logado com sucesso, aguarde estamos te direcionando...', true, true);
+										$this->setExtra(
+											array(
+												'url_direcionar' => URL . 'dashboard'
+											)
+										);
+
+									} else if($usu->getRetorno()['exibir']) {
+										$this->setRetorno($usu->getRetorno()['mensagem'], $usu->getRetorno()['exibir'], $usu->getRetorno()['status']);
+									} else {
+										$this->setRetorno('Não foi possível fazer o login', true, false);
+									}
+
+								} else {
+									$this->setRetorno('Token de autenticação inválido', true, false);
+								}
+
+							} else {
+
+								$array_erros = $validate->get_errors();
+								$array_erro = array_shift($array_erros);
+								$erro = array_shift($array_erro);
+								$this->setRetorno($erro, true, false);
+							}
+
+						} else
+							$this->setRetorno('Token do reCAPTCHA inválido, atualize a página e tente novamente', true, false);
+
+					} else
+						$this->setRetorno('Não foi possível validar o token do reCAPTCHA, tente novamente', true, false);
+
+				} else
+					$this->setRetorno('Não foi possível validar o token do reCAPTCHA, tente novamente', true, false);
+
+			} else
+				$this->setRetorno('Token do reCAPTCHA inválido, atualize a página e tente novamente', true, false);
 
             echo json_encode($this->getRetorno(), JSON_FORCE_OBJECT);
 

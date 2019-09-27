@@ -28,7 +28,7 @@ input:-webkit-autofill {
 #wrapper-login {
     width: 100%;
     max-width: 650px;
-    min-height: 450px;
+    margin: 40px auto 0;
 }
 
 #wrapper-login .card-body {

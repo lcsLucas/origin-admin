@@ -34,7 +34,7 @@
 
 			<div class="card-body border border-top-0 border-primary">
 
-				<form action="<?= URL ?>configuracoes/gerais" method="post" class="form-validate" id="formConfig" enctype="multipart/form-data">
+				<form action="<?= URL ?>configuracoes/gerais<?= !empty($parametros) ? '/editar' : '' ?>" method="post" class="form-validate" id="formConfig" enctype="multipart/form-data">
 					<p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
 
 					<div class="form-group form-group-lg">
@@ -57,7 +57,7 @@
                                 <label class="font-weight-bold mb-0">Selecione a Logo do Site: <sup class="text-danger">*</sup>:</label>
                                 <div class="kv-avatar">
                                     <div class="file-loading">
-                                        <input id="file-logo" title="Selecione uma imagem para a logo" class="file-input-bootstrap required" name="img_logo" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_logo']) && file_exists(PATH_IMG . $parametros['param_logo']) ? URL_IMG . $parametros['param_logo'] . (!empty($parametros['param_alteracao']) ? '?versao=' . $parametros['param_alteracao'] : '') : 'https://via.placeholder.com/350x350' ?>">
+                                        <input id="file-logo" title="Selecione uma imagem para a logo" class="file-input-bootstrap <?= empty($parametros) ? 'required' : '' ?>" name="img_logo" type="file" accept=".jpeg,.jpg,.png" data-preview="<?= !empty($parametros['param_logo']) && file_exists(PATH_IMG . $parametros['param_logo']) ? URL_IMG . $parametros['param_logo'] . (!empty($parametros['param_alteracao']) ? '?versao=' . $parametros['param_alteracao'] : '') : 'https://via.placeholder.com/350x350' ?>">
                                     </div>
                                 </div>
                             </div>

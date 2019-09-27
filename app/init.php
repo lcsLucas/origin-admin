@@ -321,6 +321,13 @@
 				'controller' => 'Configuracao',
 				'action' => 'requestGerenciarConfiguracoes'
 			);
+
+			$array['configuracoes'][] = array(
+				'exp_reg' => '/^configuracoes\/gerais\/editar\/?$/',
+				'method' => 'POST',
+				'controller' => 'Configuracao',
+				'action' => 'requestGerenciarConfiguracoesEdit'
+			);
 			/*-------Rotas das Configurações-------*/
 
 			/*Setando na propriedades as rotas definidas à cima.*/

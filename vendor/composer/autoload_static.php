@@ -11,6 +11,10 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
         array (
             'ProjetoMvc\\' => 11,
         ),
+        'C' => 
+        array (
+            'Curl\\' => 5,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -21,6 +25,10 @@ class ComposerStaticInit5ddc3d1db3ca42b3269ed4c86cd92a6d
         'ProjetoMvc\\' => 
         array (
             0 => __DIR__ . '/..' . '/projetoMvc',
+        ),
+        'Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
         ),
         'App\\' => 
         array (

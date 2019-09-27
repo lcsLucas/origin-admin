@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'ProjetoMvc\\' => array($vendorDir . '/projetoMvc'),
+    'Curl\\' => array($vendorDir . '/php-curl-class/php-curl-class/src/Curl'),
     'App\\' => array($baseDir . '/app'),
 );
