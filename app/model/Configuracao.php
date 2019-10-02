@@ -11,6 +11,7 @@ class Configuracao extends ConfiguracaoDao
 {
 	private $nome_site;
 	private $resumo_site;
+	private $data_alteracao;
 	private $file_logo;
 	private $file_favicon;
 
@@ -19,6 +20,7 @@ class Configuracao extends ConfiguracaoDao
 		parent::__construct($this);
 		$this->nome_site = $nome_site;
 		$this->resumo_site = $resumo_site;
+		$this->data_alteracao = date('Y-m-d H:i:s');
 		$this->file_logo = new ManipulacaoImagem();
 		$this->file_favicon = new ManipulacaoImagem();
 	}
@@ -87,6 +89,22 @@ class Configuracao extends ConfiguracaoDao
 		$this->file_favicon = $file_favicon;
 	}
 
+	/**
+	 * @return false|string
+	 */
+	public function getDataAlteracao()
+	{
+		return $this->data_alteracao;
+	}
+
+	/**
+	 * @param false|string $data_alteracao
+	 */
+	public function setDataAlteracao($data_alteracao): void
+	{
+		$this->data_alteracao = $data_alteracao;
+	}
+
 	public function getRetorno() {
 		return parent::getRetorno();
 	}
@@ -104,12 +122,14 @@ class Configuracao extends ConfiguracaoDao
 
 			if (!empty($result)) {
 				$nome_imagem = $this->slug($this->nome_site);
-				$nome_logo = $this->file_logo->getNomeImagem();
-				$nome_favicon = $this->file_favicon->getNomeImagem();
+				$logo_antigo = $this->file_logo->getNomeImagem();
+				$favicon_antigo = $this->file_favicon->getNomeImagem();
+				$logo_novo = $favicon_novo =  '';
 
 				if ($result && !empty($this->file_logo->getFileImagem())) { // grava imagem logo
 
 					$this->file_logo->setNomeImagem($nome_imagem . $this->file_logo->getTipoImagem());
+					$logo_novo = $this->file_logo->getNomeImagem();
 
 					if (!empty($this->file_logo->getDadosImagem()))
 						$result = $this->file_logo->salvarImagemDados(PATH_IMG, 250, 250);
@@ -125,6 +145,7 @@ class Configuracao extends ConfiguracaoDao
 			if ($result && !empty($this->file_favicon->getFileImagem())) { // se tiver grava imagem de tablet do banner
 
 				$this->file_favicon->setNomeImagem($nome_imagem . $this->file_favicon->getTipoImagem());
+				$favicon_novo = $this->file_favicon->getNomeImagem();
 
 				if (!empty($this->file_favicon->getDadosImagem()))
 					$result = $this->file_favicon->salvarImagemDados(PATH_IMG . 'favicon/', 32, 32);
@@ -138,18 +159,24 @@ class Configuracao extends ConfiguracaoDao
 			if ($result)
 				$result = $this->alterarImagensBancoDAO();
 
-			if ($result && (!empty($nome_logo) || !empty($nome_favicon))) {
-				if ($this->file_logo->getNomeImagem() !== $nome_logo)
-					$this->file_logo->setNomeImagem($nome_logo);
-				else
+			if ($result && (!empty($logo_antigo) || !empty($favicon_antigo))) {
+				if ($this->file_logo->getNomeImagem() !== $logo_antigo)
+					$this->file_logo->setNomeImagem($logo_antigo);
+				else {
+					$logo_novo = $this->file_logo->getNomeImagem();
 					$this->file_logo->setNomeImagem('');
+				}
 
-				if ($this->file_favicon->getNomeImagem() !== $nome_favicon)
-					$this->file_favicon->setNomeImagem($nome_favicon);
-				else
+				if ($this->file_favicon->getNomeImagem() !== $favicon_antigo)
+					$this->file_favicon->setNomeImagem($favicon_antigo);
+				else {
+					$favicon_novo = $this->file_favicon->getNomeImagem();
 					$this->file_favicon->setNomeImagem('');
-
+				}
 				$this->excluirImagens();
+
+				$this->file_logo->setNomeImagem($logo_novo);
+				$this->file_favicon->setNomeImagem($favicon_novo);
 			}
 
 		}

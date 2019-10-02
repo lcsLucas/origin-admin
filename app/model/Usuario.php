@@ -229,6 +229,23 @@ class Usuario extends UsuarioDao{
     	return false;
     }
 
+    public function login_logado()
+	{
+		$result = $this->loginDAO();
+
+		if (!empty($result)) {
+			$this->id = $result['usu_id'];
+			$this->UltimoAcessoDAO();
+			$_SESSION['_idusuario'] = $result['usu_id'];
+			$_SESSION['_logado'] = true;
+			session_write_close();
+
+			return true;
+		}
+
+		return false;
+	}
+
     public function alterarPerfil() {
         $result = false;
 

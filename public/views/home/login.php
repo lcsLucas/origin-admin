@@ -85,6 +85,8 @@
 
                 </div>
 
+                <div class="form-group d-none" id="wrapper-desafio"></div>
+
                 <div class="form-group mt-5 clearfix">
                     <button class="btn btn-primary btn-block btn-lg text-white" type="submit">ENTRAR</button>
                     <input type="hidden" name="token" value="<?= password_hash(TOKEN_SESSAO, PASSWORD_DEFAULT) ?>">
@@ -92,7 +94,7 @@
                     <input type="hidden" name="btnLogar">
                     <div class="mt-2">
                         <div class="wrapper-check float-left">
-                            <input type="checkbox" class="form-check-input" id="ckLogado">
+                            <input type="checkbox" class="form-check-input" id="ckLogado" name="ckLogado">
                             <label class="form-check-label" for="ckLogado">Permanecer logado</label>
                         </div>
                         <a class="float-right" href="">Esqueceu sua senha?</a>
@@ -105,8 +107,6 @@
 
     </div>
 
-    <p class="my-4 font-xs text-muted text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
-
 </div>
 
     <div class="text-center">
@@ -115,6 +115,8 @@
             <img src="<?= URL_IMG ?>logo.png" alt="logo Sites monkey" class="img-fluid" style="max-width: 160px">
         </a>
     </div>
+
+<p class="mt-5 mb-2 font-xs text-muted text-center">Copyright &copy; <?= date("Y") ?> Todos os diretos reservados</p>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,600" rel="stylesheet">
 <link href="<?= URL_PUBLIC ?>vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">

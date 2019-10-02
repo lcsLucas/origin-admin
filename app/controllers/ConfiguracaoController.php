@@ -36,6 +36,7 @@ class ConfiguracaoController extends Action
 			$this->dados->editar = true;
 			$this->dados->parametros['param_nome'] = $configuracao->getNomeSite();
 			$this->dados->parametros['param_resumo'] = $configuracao->getResumoSite();
+			$this->dados->parametros['param_alteracao'] = $configuracao->getDataAlteracao();
 			$this->dados->parametros['param_logo'] = $configuracao->getFileLogo()->getNomeImagem();
 			$this->dados->parametros['param_favicon'] = $configuracao->getFileFavicon()->getNomeImagem();
 		} elseif (!empty($this->dados->editar) && $configuracao->verificar()) {

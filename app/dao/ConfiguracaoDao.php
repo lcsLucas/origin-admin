@@ -33,7 +33,7 @@ class ConfiguracaoDao extends Banco
 				$result = $stms->fetch();
 				if (!empty($result['total'])) {
 					$this->configuracao->getFileLogo()->setNomeImagem($result['logo_site']);
-					$this->configuracao->getFileFavicon()->setNomeImagem($result['logo_site']);
+					$this->configuracao->getFileFavicon()->setNomeImagem($result['favicon_site']);
 					return true;
 				}
 				else
@@ -78,9 +78,10 @@ class ConfiguracaoDao extends Banco
 			try
 			{
 
-				$stms = $this->getCon()->prepare('UPDATE configuracao SET nome_site = :nome, resumo_site = :resumo LIMIT 1');
+				$stms = $this->getCon()->prepare('UPDATE configuracao SET nome_site = :nome, resumo_site = :resumo, data_alteracao = :data LIMIT 1');
 				$stms->bindValue(':nome', $this->configuracao->getNomeSite(), \PDO::PARAM_STR);
 				$stms->bindValue(':resumo', $this->configuracao->getResumoSite(), \PDO::PARAM_STR);
+				$stms->bindValue(':data', $this->configuracao->getDataAlteracao(), \PDO::PARAM_STR);
 
 				if ($stms->execute())
 					return ($stms->rowCount() >= 0) ? true : false;
@@ -138,6 +139,7 @@ class ConfiguracaoDao extends Banco
 				if (!empty($result)) {
 					$this->configuracao->setNomeSite($result['nome_site']);
 					$this->configuracao->setResumoSite($result['resumo_site']);
+					$this->configuracao->setDataAlteracao(date('YmdHis', strtotime($result['data_alteracao'])));
 					$this->configuracao->getFileLogo()->setNomeImagem($result['logo_site']);
 					$this->configuracao->getFileFavicon()->setNomeImagem($result['favicon_site']);
 

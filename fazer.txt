@@ -63,8 +63,8 @@ Senha BD: admin-lcs@2019
 
 ------------------
 
-- continuar no alterar imagens da logo e favicon
-    - excluir imagens antigas
-        - testar pra ver se já tá excluindo
+- testar as alterações da logo e favicon do site
 
-- alterar o favicon está com problema
+----
+
+- continuar no login da Controller da Home

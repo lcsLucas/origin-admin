@@ -66,6 +66,24 @@ function fazer_login(form, dados) {
             const extra = JSON.parse(retorno.extra);
             location.href = extra.url_direcionar;
         } else {
+            var wrapper_desafio = $('#wrapper-desafio');
+            wrapper_desafio.html('');
+
+            if (retorno.extra) {
+                var extra = JSON.parse(retorno.extra);
+
+                if (extra.desafio) {
+
+                    wrapper_desafio.append(
+                        '<label for="">Por favor, responda ao desafio abaixo:</label>\n' +
+                        '                    <img src="'+ extra.img_desafio +'" alt="" class="img-fluid d-block w-100">\n' +
+                        '                    <span class="d-block my-3 text-center">=</span>\n' +
+                        '                    <input type="number" min="0" max="10" class="form-control" required title="O desafio precisa ser respondido" name="resposta_desafio">'
+                    ).removeClass('d-none');
+                }
+
+            }
+
             alert.addClass("alert-danger");
             alert.html(retorno.mensagem);
             $(form).find("button").html("ENTRAR").prop("disabled",false);
