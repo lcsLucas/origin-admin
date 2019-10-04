@@ -105,25 +105,33 @@ class HomeController extends Action
                 ->set('login', $login)->is_required()
                 ->set('senha', $senha)->is_required()
                 ->set('token', $token)->is_required();
+            /*
+			$_SESSION['_tentativas'] = 6;
+			unset($_SESSION['_bloqueio_login']);
+			setcookie('_bloqueio_login', '', time() - 36000, '', '', false, true);
+            var_dump($_SESSION['_tentativas']);
+            */
+            if (!empty($_SESSION['_bloqueio_login']) || filter_has_var(INPUT_COOKIE, '_bloqueio_login')) {
 
-            if (filter_has_var(INPUT_SESSION, '_bloqueio_login') || filter_has_var(INPUT_COOKIE, '_bloqueio_login')) {
-            	if (filter_has_var(INPUT_SESSION, '_bloqueio_login')) {
-            		$tempo_bloqueio = filter_input(INPUT_SESSION, '_bloqueio_login', FILTER_VALIDATE_INT);
+            	if (!empty($_SESSION['_bloqueio_login'])) {
+            		$tempo_bloqueio = filter_var($_SESSION['_bloqueio_login'], FILTER_VALIDATE_INT);
 				} else {
 					$tempo_bloqueio = filter_input(INPUT_COOKIE, '_bloqueio_login', FILTER_VALIDATE_INT);
 				}
 
             	if (!empty($tempo_bloqueio)) {
 					$data_atual = new \DateTime();
+					$data_bloqueio = new \DateTime();
+					$data_bloqueio->setTimestamp($tempo_bloqueio);
 
-					if ($data_atual->getTimestamp() < $tempo_bloqueio) {
-						// tempo de bloqueio ainda valendo
+					if ($data_atual->getTimestamp() < $data_bloqueio->getTimestamp()) {
+						$this->setRetorno('Acesso bloqueado temporariamente até ás '. $data_bloqueio->format('H:i:s'), true, false);
 					} else {
-						// tempo de bloqueio foi expirado, pode tentar novamente
+						$continuar_login = true;
 					}
 
 				} else {
-            		// erro alguma coisa errada com o tempo de bloqueio
+					$this->setRetorno('Parametros inválidos, atualize a página e tente novamente', true, false);
 				}
 
 			} elseif (!empty($_SESSION['_tentativas']) && $_SESSION['_tentativas'] > 5) {
@@ -133,13 +141,31 @@ class HomeController extends Action
 
 				unset($_SESSION['_tentativas']);
 				$_SESSION['_bloqueio_login'] = $stamp;
-				setcookie('_bloqueio_login', $stamp, (time()+60*3), '', '', false, true); // 30 minutos para expirar
+				setcookie('_bloqueio_login', $stamp, $stamp, '', '', false, true); // 30 minutos para expirar
 
-				echo $data->getTimestamp() . "\n";
+				$this->setRetorno('Acesso bloqueado temporariamente até ás '. $data->format('H:i:s'), true, false);
 
 			} else if(!empty($_SESSION['_desafio'])) {
-            	// testar desafio
+
+            	if (!empty($_SESSION['_resp_desafio'])) {
+
+            		if ($_SESSION['_resp_desafio'] === $resp_desafio) {
+            			$continuar_login = true;
+					} else {
+						$this->setRetorno('Resposta do desafio incorreto, tente novamente', true, false);
+						$this->gerarDesafioLogin();
+					}
+
+				} else {
+					$this->setRetorno('Não foi possível validar o login, atualize a página e tente novamente', true, false);
+				}
+
 			} else {
+				$continuar_login = true;
+			}
+
+            if (!empty($continuar_login)) {
+
 				if (!empty($recaptcha)) {
 
 					$curl = new Curl();
@@ -160,7 +186,7 @@ class HomeController extends Action
 
 							if (!empty($response->success)) {
 
-								if (!empty($response->score) && $response->score < 0.5) {
+								if (!empty($response->score) && ($response->score > 0.9 || !empty($_SESSION['_resp_desafio']))) {
 
 									if ($validate->validate()) {
 
@@ -176,6 +202,15 @@ class HomeController extends Action
 											if (!empty($usu->login())) {
 												if (!empty($_SESSION['tentativas']))
 													unset($_SESSION['tentativas']);
+
+												if (!empty($_SESSION['_resp_desafio']))
+													unset($_SESSION['_resp_desafio']);
+
+												if (!empty($_SESSION['_desafio']))
+													unset($_SESSION['_desafio']);
+
+												if (!empty($_SESSION['_bloqueio_login']))
+													unset($_SESSION['_bloqueio_login']);
 
 												$this->setRetorno('Logado com sucesso, aguarde estamos te direcionando...', true, true);
 												$this->setExtra(
@@ -206,7 +241,7 @@ class HomeController extends Action
 									}
 
 								} else { //devolver o
-
+									$this->setRetorno('Por favor responda ao desafio, para continuar', true, false);
 									if (!$this->gerarDesafioLogin()) {
 										$this->setRetorno('Não foi possível validar o login, atualize a página e tente novamente', true, false);
 									}
@@ -223,6 +258,7 @@ class HomeController extends Action
 
 				} else
 					$this->setRetorno('Token do reCAPTCHA inválido, atualize a página e tente novamente', true, false);
+
 			}
 
             if (empty($this->getRetorno()['status'])) {
@@ -269,7 +305,6 @@ class HomeController extends Action
 			$imagem = base64_encode($response_img);
 			$src_img = 'data: image/png;base64,'.$imagem;
 
-			$this->setRetorno('Por favor responda ao desafio, para continuar', true, false);
 			$this->setExtra(array(
 				'desafio' => '1',
 				'img_desafio' => $src_img
