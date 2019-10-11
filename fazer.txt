@@ -65,6 +65,9 @@ Senha BD: admin-lcs@2019
 
 - testar as alterações da logo e favicon do site
 
-----
+- fazer o cadastrar Post(usar esse nome)
 
-- continuar no login da Controller da Home
+- continuar no ordenar menus
+    -verificar o metodo que ordena
+        - não está funcionando corretamente, tentei ordenar o "meu perfil" antes do "configurações" e não ordenou
+

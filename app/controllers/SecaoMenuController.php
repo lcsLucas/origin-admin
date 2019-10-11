@@ -25,6 +25,8 @@ class SecaoMenuController extends Action
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
          */
         $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
+		$this->dados->menu = 'permissões';
+		$this->dados->submenu = 'seções de menus';
     }
 
     public function pageGerenciarSecoesMenus() {

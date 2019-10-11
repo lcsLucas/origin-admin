@@ -210,6 +210,63 @@
 			return $this->listarTodosMenusDAO();
 		}
 
+		public function listarMenusOrdenacao() {
+			$retorno = array();
+			$result = $this->listarMenusOrdenacaoDAO();
+
+			if (!empty($result)) {
+
+				foreach ($result as $men) {
+
+					$result2 = $this->listarTodosSubMenusPermissaoDAO($men['id']);
+
+					if (!empty($men['idsecao_menu'])) {
+						if (!empty($retorno[$men['idsecao_menu']])) {
+							$retorno[$men['idsecao_menu']]['menus'][$men['id']]['nome'] = $men['nome'];
+							$retorno[$men['idsecao_menu']]['menus'][$men['id']]['submenus'] = $result2;
+						} else {
+							$retorno[$men['idsecao_menu']] =
+								array(
+									'nome' =>  $men['nome_secao'],
+									'menus' =>
+										array(
+											$men['id'] =>
+												array(
+													'nome' => $men['nome'],
+													'submenus' => $result2
+												)
+										)
+								);
+						}
+					} else {
+						if (!empty($retorno[0])) {
+							$retorno[0]['menus'][$men['id']]['nome'] = $men['nome'];
+							$retorno[0]['menus'][$men['id']]['submenus'] = $result2;
+						} else {
+							$retorno[0] =
+								array(
+									'nome' =>  $men['nome_secao'],
+									'menus' =>
+										array(
+											$men['id'] =>
+												array(
+													'nome' => $men['nome'],
+													'submenus' => $result2
+												)
+										)
+								);
+						}
+					}
+				}
+			}
+
+			/*
+			 * carregar essa nova estrutura na view separando por seçãoes os menus
+			 */
+
+			return $retorno;
+		}
+
 		public function carregarMenusUsuario($idusuario) {
 			$retorno = array();
 			$result_menus = $this->carregarMenusUsuarioDAO($idusuario);
@@ -266,6 +323,26 @@
             }
 
 			return $retorno;
+		}
+
+		public function ordenarMenus($array_menus) {
+			$result = false;
+
+			if ($this->conectar()) {
+				$this->beginTransaction();
+
+				$i = 0;
+				$total = count($array_menus);
+
+				do {
+					$result = $this->ordenarMenuDAO($i, $array_menus[$i]);
+					$i++;
+				} while ($result && $i < $total);
+
+				$this->commitar($result);
+			}
+
+			return $result;
 		}
 
 	}

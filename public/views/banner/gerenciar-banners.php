@@ -17,6 +17,7 @@
 	$this->dados->alert = true;
 
 	$query_uri = '';
+	$url = URL . 'cadastros/banners/gerenciar-banners' . (!empty($this->dados->editar) ? '/edit/' . $parametros['param_id'] : '');
 
 	if (!empty($_SERVER['QUERY_STRING']))
 		$query_uri .= '?' . $_SERVER['QUERY_STRING'];
@@ -48,7 +49,7 @@
 
 			<div class="card-body border border-top-0 border-primary">
 
-				<form action="<?= !empty($this->dados->editar) ? URL . 'cadastros/banners/gerenciar-banners/edit/' . $parametros['param_id'] . $query_uri : URL . 'cadastros/banners/gerenciar-banners' . $query_uri ?>"
+				<form action="<?= $url . $query_uri ?>"
 					  method="post" class="form-validate" id="formBanners" enctype="multipart/form-data">
 
 					<p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
@@ -199,9 +200,7 @@
 								<select name="tipo" id="sel-busca" class="form-control">
 
 									<?php
-
 										$param_tipo = filter_input(INPUT_GET, 'tipo', FILTER_VALIDATE_INT);
-
 									?>
 
 									<option <?= empty($param_tipo) ? 'checked' : '' ?> value="">Título</option>
@@ -349,7 +348,7 @@
 				</div>
 
 				<?php
-					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas)
+					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas, $url)
 				?>
 
 			</div>

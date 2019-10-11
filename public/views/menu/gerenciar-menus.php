@@ -15,6 +15,7 @@
 	$paginacao = $this->dados->paginacao;
 
 	$query_uri = '';
+	$url = URL . 'permissoes/gerenciar-menus' . (!empty($this->dados->editar) ? '/edit/' . $parametros['param_id'] : '');
 
 	$this->dados->alert = true;
 
@@ -47,7 +48,7 @@
 
 			<div class="card-body border border-top-0 border-primary">
 
-				<form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-menus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-menus' . $query_uri ?>"
+				<form action="<?= $url . $query_uri ?>"
 					  method="post" class="form-validate" id="formMenus">
 
 					<p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios</p>
@@ -223,7 +224,7 @@
                 </div>
 
 				<?php
-					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas)
+					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas, $url)
 				?>
 
             </div>

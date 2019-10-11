@@ -50,7 +50,6 @@ class UsuarioDao extends Banco
 	}
 
 	protected function alterarPerfilDAO() {
-
         $result = false;
 
         if (!empty($this->conectar())) {

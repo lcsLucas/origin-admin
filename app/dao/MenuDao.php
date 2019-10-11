@@ -31,7 +31,7 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare('SELECT * FROM menu m WHERE menu_pai IS NULL ORDER BY ordem LIMIT :inicio,:fim');
+					$stms = $this->getCon()->prepare('SELECT * FROM menu m WHERE menu_pai IS NULL ORDER BY ordem, nome LIMIT :inicio,:fim');
 					$stms->bindValue(':inicio', $inicio, \PDO::PARAM_INT);
 					$stms->bindValue(':fim', $fim, \PDO::PARAM_INT);
 
@@ -56,7 +56,7 @@
 				try
 				{
 
-					$stms = $this->getCon()->prepare("SELECT * FROM menu m WHERE menu_pai IS NOT NULL ORDER BY nome LIMIT :inicio,:fim");
+					$stms = $this->getCon()->prepare("SELECT * FROM menu m WHERE menu_pai IS NOT NULL ORDER BY ordem, nome LIMIT :inicio,:fim");
 					$stms->bindValue(":inicio", $inicio, \PDO::PARAM_INT);
 					$stms->bindValue(":fim", $fim, \PDO::PARAM_INT);
 
@@ -131,19 +131,12 @@
 				try
 				{
 
-					$result = $this->getCon()->query('SELECT MAX(ordem) + 1 as ordem FROM menu');
-
-					foreach ($result->fetch() as $result_ordem)
-						if ((int) $result_ordem)
-							$ordem = (int) $result_ordem;
-
-					$stms = $this->getCon()->prepare('INSERT INTO menu(nome, url, icone, menu_pai, idsecao_menu, ordem) VALUES(:nome, :url, :icone, :pai, :secao, :ordem)');
+					$stms = $this->getCon()->prepare('INSERT INTO menu(nome, url, icone, menu_pai, idsecao_menu) VALUES(:nome, :url, :icone, :pai, :secao, :ordem)');
 					$stms->bindValue(':nome', $this->menu->getNome(), \PDO::PARAM_STR);
 					$stms->bindValue(':url', $this->menu->getUrl(), \PDO::PARAM_STR);
 					$stms->bindValue(':icone', $this->menu->getIcone(), \PDO::PARAM_STR);
 					$stms->bindValue(':pai', $this->menu->getMenuPai(), \PDO::PARAM_INT);
 					$stms->bindValue(':secao', $this->menu->getSecaoMenu(), \PDO::PARAM_INT);
-					$stms->bindValue(':ordem', $ordem, \PDO::PARAM_INT);
 
 					return $stms->execute();
 
@@ -277,7 +270,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu WHERE menu_pai IS NULL ORDER BY nome");
+					$stms = $this->getCon()->prepare("SELECT id, nome FROM menu WHERE menu_pai IS NULL ORDER BY ordem, nome");
 					$stms->execute();
 					return $stms->fetchAll();
 
@@ -298,7 +291,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT id, nome, '0' as status FROM menu WHERE menu_pai IS NULL AND ativo = '1' ORDER BY nome");
+					$stms = $this->getCon()->prepare("SELECT id, nome, '0' as status FROM menu WHERE menu_pai IS NULL AND ativo = '1' ORDER BY ordem, nome");
 					$stms->execute();
 					return $stms->fetchAll();
 
@@ -318,7 +311,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :id) > 0, 1, 0) as status FROM menu mp WHERE menu_pai IS NULL AND mp.ativo = '1' ORDER BY mp.nome");
+					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :id) > 0, 1, 0) as status FROM menu mp WHERE menu_pai IS NULL AND mp.ativo = '1' ORDER BY mp.ordem, mp.nome");
 					$stms->bindValue(":id", $id, \PDO::PARAM_INT);
 
 					$stms->execute();
@@ -340,7 +333,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :idtipo) > 0, 1, 0) as ativo FROM menu mp WHERE menu_pai = :idmenu AND mp.ativo = '1' ORDER BY mp.nome");
+					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :idtipo) > 0, 1, 0) as ativo FROM menu mp WHERE menu_pai = :idmenu AND mp.ativo = '1' ORDER BY mp.ordem, mp.nome");
 					$stms->bindValue(":idtipo", $idtipo, \PDO::PARAM_INT);
 					$stms->bindValue(":idmenu", $idmenu, \PDO::PARAM_INT);
 
@@ -364,7 +357,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT m.id, m.nome, '0' ativo FROM menu m WHERE m.menu_pai = :pai AND m.ativo = '1' ORDER BY m.nome");
+					$stms = $this->getCon()->prepare("SELECT m.id, m.nome, '0' ativo FROM menu m WHERE m.menu_pai = :pai AND m.ativo = '1' ORDER BY m.ordem, m.nome");
 					$stms->bindValue(":pai", $idmenu, \PDO::PARAM_INT);
 
 					$stms->execute();
@@ -409,7 +402,7 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare('SELECT m.id, m.nome, m.url, m.icone FROM menu m INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id WHERE m.menu_pai = :id AND mt.tip_id = :tipo AND m.ativo = \'1\' ORDER BY m.ordem');
+					$stms = $this->getCon()->prepare('SELECT m.id, m.nome, m.url, m.icone FROM menu m INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id WHERE m.menu_pai = :id AND mt.tip_id = :tipo AND m.ativo = \'1\' ORDER BY m.ordem, m.nome');
 					$stms->bindValue(":id", $idmenu, \PDO::PARAM_INT);
 					$stms->bindValue(":tipo", $idusuario, \PDO::PARAM_INT);
 					$stms->execute();
@@ -424,6 +417,48 @@
 			endif;
 
 			return null;
+		}
+
+		protected function listarMenusOrdenacaoDAO() {
+			if(!empty($this->Conectar())) :
+
+				try
+				{
+					$stms = $this->getCon()->prepare("SELECT m.id, sm.idsecao_menu,  m.nome, sm.nome AS nome_secao FROM menu m LEFT JOIN secao_menu sm on m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND m.ativo = '1' AND sm.ativo = '1' ORDER BY sm.ordem, m.ordem, m.nome");
+					$stms->execute();
+					return $stms->fetchAll();
+
+				}
+				catch(\PDOException $e)
+				{
+					$this->setRetorno("Erro Ao Fazer a Consulta No Banco de Dados | ".$e->getMessage(), false, false);
+				}
+
+			endif;
+
+			return null;
+		}
+
+		protected function ordenarMenuDAO($pos, $id) {
+			$result = false;
+
+			if (!empty($this->conectar())) {
+
+				try {
+					$stms = $this->getCon()->prepare('UPDATE menu SET ordem = :pos WHERE id = :id LIMIT 1');
+					$stms->bindValue(':pos', $pos, \PDO::PARAM_INT);
+					$stms->bindValue(':id', $id, \PDO::PARAM_INT);
+
+					$result = $stms->execute();
+
+				} catch (\PDOException $e) {
+					$result = false;
+					$this->setRetorno('Erro Ao Fazer a Consulta No Banco de Dados | ' . $e->getMessage(), false, false);
+				}
+
+			}
+
+			return $result;
 		}
 
 	}

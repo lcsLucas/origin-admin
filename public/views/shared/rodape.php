@@ -360,7 +360,19 @@ if (!empty($this->dados->alert)) {
 
 ?>
 
-<script>const url_images = '<?= URL_IMG ?>';</script>
+<?php
+
+    if (!empty($this->dados->sortablejs)) {
+		?>
+        <script src="<?= URL_PUBLIC ?>vendors/sortablejs/Sortable.min.js"></script>
+		<?php
+	}
+?>
+
+<script>
+    const url_images = '<?= URL_IMG ?>';
+    const URL = '<?= URL ?>';
+</script>
 <script src="<?= URL_JS ?>scripts-painel.js"></script>
 </body>
 </html>

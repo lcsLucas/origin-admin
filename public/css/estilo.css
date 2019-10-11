@@ -181,6 +181,7 @@ input:-webkit-autofill {
 
 .wrapper-check label{
     color: #666;
+    cursor: pointer;
 }
 
 @media (max-width: 992px){

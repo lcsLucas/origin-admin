@@ -22,6 +22,8 @@ class TipoUsuarioController extends Action
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
          */
         $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
+		$this->dados->menu = 'usuários';
+		$this->dados->submenu = 'tipos de usuários';
     }
 
     public function pageTiposUsuarios() {

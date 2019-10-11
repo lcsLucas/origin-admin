@@ -20,6 +20,7 @@
 			 * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
 			 */
 			$this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
+			$this->dados->menu = 'permissões';
 		}
 
 		public function pageGerenciarMenus() {
@@ -50,6 +51,7 @@
 
 			$this->dados->todasSecoes = $secao_menu->listarTodas();
 			$this->dados->title = 'Gerenciar Menus';
+			$this->dados->submenu = 'gerenciar menus';
 			$this->dados->validation = true;
 			$this->render('gerenciar-menus.php');
 		}
@@ -81,6 +83,7 @@
 			$this->dados->todosMenus = $menus->listarTodosMenus();
 
 			$this->dados->title = "Gerenciar SubMenus";
+			$this->dados->submenu = 'gerenciar submenus';
 			$this->dados->validation = true;
 			$this->render('gerenciar-submenus.php');
 		}
@@ -354,6 +357,33 @@
 		public function carregarMenusUsuario() {
 			$menus = new Menu();
 			return $menus->carregarMenusUsuario($_SESSION['_idusuario']);
+		}
+
+		public function pageOrdenarMenus() {
+			$menus = new Menu();
+			$todos_menus = $menus->listarMenusOrdenacao();
+
+			$this->dados->sortablejs = true;
+			$this->dados->todos_menus = $todos_menus;
+			$this->dados->title = 'Ordenar Menus';
+			$this->dados->submenu = 'Ordenar menus';
+			$this->render('ordenar-menus.php');
+		}
+
+		public function requestOrdenarMenus() {
+			$retorno = false;
+			$menu = new Menu();
+
+
+			if (filter_has_var(INPUT_POST, 'men_id')) {
+				$array_menus = array_filter($_POST["men_id"]);
+				$array_menus = filter_var_array($array_menus, FILTER_VALIDATE_INT);
+
+				if (!empty($array_menus))
+					$retorno = $menu->ordenarMenus($array_menus);
+			}
+
+			echo json_encode($retorno);
 		}
 
 		private function getIdUri() {

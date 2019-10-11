@@ -9,8 +9,8 @@ body {
     color: #73818f;
     float: left;
     text-align: center;
-    font-size: 1rem;
-    line-height: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1rem;
     margin: 0 .9rem 0 0;
 }
 
@@ -575,4 +575,13 @@ div#profile img {
 
 textarea {
     max-height: 200px;
+}
+
+#sortable-menu li div {
+    background: #FFF;
+    cursor: all-scroll;
+}
+
+#sortable-menu li ul {
+    display: none;
 }

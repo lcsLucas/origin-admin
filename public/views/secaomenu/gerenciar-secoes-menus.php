@@ -17,6 +17,7 @@
 	$this->dados->alert = true;
 
 	$query_uri = '';
+	$url = URL . 'permissoes/gerenciar-secoes-menus' . (!empty($this->dados->editar) ? '/edit/' . $parametros['param_id'] : '');
 
 	if (!empty($_SERVER['QUERY_STRING']))
 		$query_uri .= '?' . $_SERVER['QUERY_STRING'];
@@ -48,7 +49,7 @@
 
             <div class="card-body border border-top-0 border-primary">
 
-                <form action="<?= !empty($this->dados->editar) ? URL . 'permissoes/gerenciar-secoes-menus/edit/' . $parametros['param_id'] . $query_uri : URL . 'permissoes/gerenciar-secoes-menus' . $query_uri ?>"
+                <form action="<?= $url . $query_uri ?>"
                       method="post" class="form-validate" id="formSecaoMenus">
 
                     <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios
@@ -188,7 +189,7 @@
                 </div>
 
 				<?php
-					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas)
+					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas, $url)
 				?>
 
             </div>

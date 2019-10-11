@@ -870,11 +870,68 @@ window.onload = function() {
         });
 
         modalEditorFoto.on('click', '.btn-confirmar-crop', function () {
-
-
-
+            
         });
 
+    }
+    
+    $('.toggle-menu').click(function () {
+        var $this = $(this);
+        $this.parent().siblings('ul').fadeToggle(function () {
+            if ($(this).is(':visible')) {
+                $this.children('i').removeClass('fa-plus').addClass('fa-minus text-danger');
+            } else {
+                $this.children('i').removeClass('fa-minus text-danger').addClass('fa-plus');
+            }
+        });
+
+        return false;
+    });
+
+    var sortable_menu = $('#sortable-menu');
+
+    if (sortable_menu.length) {
+        var ul_sortable = sortable_menu.find('ul:has(li)');
+
+        for (var i = 0; i < ul_sortable.length; i++) {
+            new Sortable(ul_sortable[i], {
+                animation: 150,
+                fallbackOnBody: true,
+                ghostClass: "bg-dark",  // Class name for the drop placeholder
+                swapThreshold: 0.65,
+                onEnd: function (event) {
+                    var $this = this;
+                    var parent = $(event.item).parent();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: URL + 'permissoes/ordernar-menus',
+                        dataType: 'json',
+                        data: parent.children('li').children('input[name="men_id[]"]'),
+                        beforeSend: function () {
+                            $this.option("disabled", true );
+                            parent.children('li').children('div').children('span').children('i.fas').removeClass('fa-arrows-alt-v').addClass('fa-spinner fa-spin');
+                        }
+                    }).done(function (retorno) {
+
+                        if (retorno) {
+                            parent.children('li').prop('title', 'Operação realizada com sucesso');
+                            parent.children('li').children('div').children('span').children('i.fas').removeClass('fa-spinner fa-spin text-muted fa-exclamation-circle text-danger').addClass('fa-check-circle text-success');
+                        } else {
+                            parent.children('li').prop('title', 'Não foi possível fazer a operação');
+                            parent.children('li').children('div').children('span').children('i.fas').removeClass('fa-spinner fa-spin text-muted fa-check-circle text-success').addClass('fa-exclamation-circle text-danger');
+                        }
+
+                    }).fail(function () {
+                        parent.children('li').prop('title', 'Não foi possível fazer a operação');
+                        parent.children('li').children('div').children('span').children('i.fas').removeClass('fa-spinner fa-spin text-muted fa-check-circle text-success').addClass('fa-exclamation-circle text-danger');
+                    }).always(function () {
+                        $this.option("disabled", false );
+                    });
+
+                }
+            });
+        }
     }
 
 };

@@ -17,6 +17,7 @@
 
 	$this->dados->alert = true;
 
+	$url = URL . 'usuarios/gerenciar-tipos-usuarios' . (!empty($this->dados->editar) ? '/edit/' . $this->dados->id : '');
 	$query_uri = '';
 	if (!empty($_SERVER['QUERY_STRING']))
 		$query_uri .= '?' . $_SERVER['QUERY_STRING'];
@@ -48,7 +49,7 @@
 
             <div class="card-body border border-top-0 border-primary">
 
-                <form action="<?= !empty($this->dados->editar) ? URL . 'usuarios/gerenciar-tipos-usuarios/edit/' . $this->dados->id . $query_uri : URL . 'usuarios/gerenciar-tipos-usuarios' . $query_uri ?>" method="post" class="form-validate"
+                <form action="<?= $url . $query_uri ?>" method="post" class="form-validate"
                       id="formTipoUsuario">
 
                     <p class="text-muted font-weight-lighter">(<span class="text-danger">*</span>) Campos obrigatórios
@@ -298,7 +299,7 @@
                 </div>
 
 				<?php
-					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas)
+					paginacao($paginacao->total_registros, $paginacao->registros_paginas, $paginacao->pagina_atual, $paginacao->range_paginas, $url)
 				?>
 
             </div>

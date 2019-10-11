@@ -255,6 +255,18 @@
 				'controller' => 'Menu',
 				'action' => 'pageSubMenusEdit'
 			);
+			$array['permissoes'][] = array(
+				'exp_reg' => '/^permissoes\/ordernar-menus\/?$/',
+				'method' => 'GET',
+				'controller' => 'Menu',
+				'action' => 'pageOrdenarMenus'
+			);
+			$array['permissoes'][] = array(
+				'exp_reg' => '/^permissoes\/ordernar-menus\/?$/',
+				'method' => 'POST',
+				'controller' => 'Menu',
+				'action' => 'requestOrdenarMenus'
+			);
 
 			/*-------Rotas dos Banners-------*/
 			$array['cadastros'][] = array(

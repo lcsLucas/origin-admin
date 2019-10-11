@@ -21,6 +21,7 @@ class UsuarioController extends Action
          * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
          */
         $this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
+		$this->dados->menu = 'usuários';
     }
 
     /**
@@ -205,7 +206,8 @@ class UsuarioController extends Action
         $this->dados->todosTipos = $tipo->listarTodos();
 
         $this->dados->title = 'Gerenciar usuários';
-        $this->dados->validation = true;
+		$this->dados->submenu = 'gerenciar usuários';
+		$this->dados->validation = true;
         $this->render('gerenciar-usuarios.php');
     }
 

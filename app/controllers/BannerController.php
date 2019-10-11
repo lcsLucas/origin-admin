@@ -19,7 +19,7 @@ class BannerController extends Action
 		 * caminho com o arquivo do layout padrão que todas as paginas dessa controller poderá usar
 		 */
 		$this->layoutPadrao = PATH_VIEWS.'shared/layoutPadrao';
-		$this->dados->menu = 'cadastros';
+		$this->dados->menu = 'conteúdos';
 		$this->dados->submenu = 'gerenciar banners';
 	}
 
