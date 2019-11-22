@@ -67,7 +67,4 @@ Senha BD: admin-lcs@2019
 
 - fazer o cadastrar Post(usar esse nome)
 
-- continuar no ordenar menus
-    -verificar o metodo que ordena
-        - não está funcionando corretamente, tentei ordenar o "meu perfil" antes do "configurações" e não ordenou
 

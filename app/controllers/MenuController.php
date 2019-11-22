@@ -379,7 +379,7 @@
 				$array_menus = array_filter($_POST["men_id"]);
 				$array_menus = filter_var_array($array_menus, FILTER_VALIDATE_INT);
 
-				if (!empty($array_menus))
+				if (!empty($array_menus) && count($array_menus) > 1)
 					$retorno = $menu->ordenarMenus($array_menus);
 			}
 

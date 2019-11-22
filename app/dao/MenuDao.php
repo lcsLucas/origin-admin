@@ -311,7 +311,16 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :id) > 0, 1, 0) as status FROM menu mp WHERE menu_pai IS NULL AND mp.ativo = '1' ORDER BY mp.ordem, mp.nome");
+					$stms = $this->getCon()->prepare("
+					SELECT mp.id, mp.nome, 
+					       					IF ((
+					       						SELECT COUNT(*) 
+					       							FROM menu_has_tipo_usuario mu 
+					       						WHERE mu.menu_id = mp.id AND mu.tip_id = :id) > 0, 1, 0
+					       					    ) as status 
+					FROM menu mp 
+					WHERE menu_pai IS NULL AND mp.ativo = '1' 
+					ORDER BY mp.ordem, mp.nome");
 					$stms->bindValue(":id", $id, \PDO::PARAM_INT);
 
 					$stms->execute();
@@ -333,7 +342,16 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT mp.id, mp.nome, IF ((SELECT COUNT(*) FROM menu_has_tipo_usuario mu WHERE mu.menu_id = mp.id AND mu.tip_id = :idtipo) > 0, 1, 0) as ativo FROM menu mp WHERE menu_pai = :idmenu AND mp.ativo = '1' ORDER BY mp.ordem, mp.nome");
+					$stms = $this->getCon()->prepare("
+					SELECT mp.id, mp.nome, 
+					       					IF ((
+					       					    	SELECT COUNT(*) 
+					       					    		FROM menu_has_tipo_usuario mu 
+					       					    	WHERE mu.menu_id = mp.id AND mu.tip_id = :idtipo
+					       					    ) > 0, 1, 0) as ativo 
+					FROM menu mp 
+					WHERE menu_pai = :idmenu AND mp.ativo = '1' 
+					ORDER BY mp.ordem, mp.nome");
 					$stms->bindValue(":idtipo", $idtipo, \PDO::PARAM_INT);
 					$stms->bindValue(":idmenu", $idmenu, \PDO::PARAM_INT);
 
@@ -380,7 +398,16 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare('SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone FROM menu m INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id LEFT JOIN secao_menu sm ON m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND mt.tip_id = :tipo AND ((m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\') OR m.idsecao_menu IS NULL) AND m.ativo =\'1\' ORDER BY sm.ordem, m.ordem, m.nome');
+					$stms = $this->getCon()->prepare('
+					SELECT sm.idsecao_menu as id_secao, sm.nome as nome_secao, m.id, m.nome, m.url, m.icone 
+						FROM menu m 
+						    	INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id 
+						    		LEFT JOIN secao_menu sm ON m.idsecao_menu = sm.idsecao_menu 
+					WHERE m.menu_pai IS NULL 
+					  	AND mt.tip_id = :tipo 
+							AND m.ativo =\'1\'
+					  			AND (m.idsecao_menu IS NULL OR (m.idsecao_menu IS NOT NULL AND sm.ativo = \'1\'))  
+					ORDER BY sm.ordem, m.ordem, m.nome');
                     $stms->bindValue(":tipo", $idtipo, \PDO::PARAM_INT);
 					$stms->execute();
 					return $stms->fetchAll();
@@ -402,7 +429,14 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare('SELECT m.id, m.nome, m.url, m.icone FROM menu m INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id WHERE m.menu_pai = :id AND mt.tip_id = :tipo AND m.ativo = \'1\' ORDER BY m.ordem, m.nome');
+					$stms = $this->getCon()->prepare('
+					SELECT m.id, m.nome, m.url, m.icone 
+						FROM menu m 
+						    INNER JOIN menu_has_tipo_usuario mt ON m.id = mt.menu_id 
+					WHERE m.menu_pai = :id 
+					  	AND mt.tip_id = :tipo 
+					  		AND m.ativo = \'1\' 
+					ORDER BY m.ordem, m.nome');
 					$stms->bindValue(":id", $idmenu, \PDO::PARAM_INT);
 					$stms->bindValue(":tipo", $idusuario, \PDO::PARAM_INT);
 					$stms->execute();
@@ -424,7 +458,12 @@
 
 				try
 				{
-					$stms = $this->getCon()->prepare("SELECT m.id, sm.idsecao_menu,  m.nome, sm.nome AS nome_secao FROM menu m LEFT JOIN secao_menu sm on m.idsecao_menu = sm.idsecao_menu WHERE m.menu_pai IS NULL AND m.ativo = '1' AND sm.ativo = '1' ORDER BY sm.ordem, m.ordem, m.nome");
+					$stms = $this->getCon()->prepare("
+					SELECT m.id, sm.idsecao_menu,  m.nome, sm.nome AS nome_secao 
+						FROM menu m 
+						    	LEFT JOIN secao_menu sm on m.idsecao_menu = sm.idsecao_menu 
+					WHERE m.menu_pai IS NULL AND m.ativo = '1' AND (sm.idsecao_menu IS NULL OR (sm.idsecao_menu IS NOT NULL AND sm.ativo = '1')) 
+					ORDER BY sm.ordem, m.ordem, m.nome");
 					$stms->execute();
 					return $stms->fetchAll();
 
@@ -445,7 +484,7 @@
 			if (!empty($this->conectar())) {
 
 				try {
-					$stms = $this->getCon()->prepare('UPDATE menu SET ordem = :pos WHERE id = :id LIMIT 1');
+					$stms = $this->getCon()->prepare('UPDATE menu SET ordem = :pos WHERE id = :id');
 					$stms->bindValue(':pos', $pos, \PDO::PARAM_INT);
 					$stms->bindValue(':id', $id, \PDO::PARAM_INT);
 

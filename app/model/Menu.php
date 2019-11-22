@@ -335,7 +335,7 @@
 				$total = count($array_menus);
 
 				do {
-					$result = $this->ordenarMenuDAO($i, $array_menus[$i]);
+					$result = $this->ordenarMenuDAO($i+1, $array_menus[$i]);
 					$i++;
 				} while ($result && $i < $total);
 

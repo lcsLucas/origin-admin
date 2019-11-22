@@ -22,16 +22,16 @@
                         foreach ($this->dados->todos_menus as $secao) {
 							?>
                             <h5 class="text-uppercase text-dark mb-2 mt-5">Ordenar menus da seção:
-                                <strong><?= $secao['nome'] ?></strong></h5>
+                                <strong><?= !empty($secao['nome']) ? $secao['nome'] : 'Sem seção' ?></strong></h5>
 
                             <ul class="nav flex-column">
 
 								<?php
-									foreach ($secao['menus'] as $menu) {
+									foreach ($secao['menus'] as $id_men => $menu) {
 										?>
 
                                         <li class="nav-item">
-                                            <input type="hidden" name="men_id[]" value="<?= $menu['id'] ?>"/>
+                                            <input type="hidden" name="men_id[]" value="<?= $id_men ?>"/>
                                             <div class="d-flex justify-content-between mb-2 py-3 px-3 text-uppercase text-dark">
 										<span>
 											<i class="fas fa-arrows-alt-v mr-2 text-muted"></i>

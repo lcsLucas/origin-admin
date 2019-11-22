@@ -75,7 +75,7 @@ window.onload = function() {
 
                         cropper.getCroppedCanvas().toBlob((blob) => {
                             var modal = document.getElementById('modalFoto');
-                            const blobUrl = URL.createObjectURL(blob);
+                            const blobUrl = window.URL.createObjectURL(blob);
                             var image = container_img.querySelector('img');
                             image.src = blobUrl;
 
@@ -759,7 +759,7 @@ window.onload = function() {
 
             cropper.getCroppedCanvas().toBlob((blob) => {
                 //var modal = document.getElementById('modalFoto');
-                const blobUrl = URL.createObjectURL(blob);
+                const blobUrl = window.URL.createObjectURL(blob);
                 var image = container_cropimg.querySelector('img');
                 image.src = blobUrl;
 
