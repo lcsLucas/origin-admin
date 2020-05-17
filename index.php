@@ -2,11 +2,11 @@
 /**
  * Autoload do Composer
  */
-require_once 'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+require_once 'backend/vendor/autoload.php';
 /*
  * configurações do sistema
  */
-require_once 'app'.DIRECTORY_SEPARATOR.'util'.DIRECTORY_SEPARATOR.'config.php';
+require_once 'backend/app/util/config.php';
 /*
  * Instancia a a aplicação
  */
