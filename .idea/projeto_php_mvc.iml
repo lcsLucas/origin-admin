@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/vendor/projetoMvc" isTestSource="false" packagePrefix="ProjetoMvc\" />
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-curl-class/php-curl-class" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/projetoMvc/init" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/projetoMvc/render" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/smottt/wideimage" />
