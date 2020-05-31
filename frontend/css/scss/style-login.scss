@@ -13,10 +13,18 @@
 @import "~@coreui/coreui/scss/grid";
 @import "~@coreui/coreui/scss/input-group";
 @import "~@coreui/coreui/scss/images";
+@import "~@coreui/coreui/scss/alert";
 @import "~@coreui/coreui/scss/transitions";
 @import "~@coreui/coreui/scss/type";
 @import "~@coreui/coreui/scss/utilities";
 @import "~@coreui/coreui/scss/ie-custom-properties";
+
+// import font-awesome
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
 
 @import "partials/geral";
 
@@ -63,6 +71,7 @@ body {
         font-weight: 800;
         text-align: center;
         text-transform: uppercase;
+        margin: 0 0 2rem;
     }
 
     .wrapper-input {
@@ -132,7 +141,7 @@ body {
             box-shadow: none;
             outline: none;
             font-family: "Poppins", $presets-family;
-            
+
             &::placeholder {
                 color: #BCBCBC;
             }
@@ -144,7 +153,7 @@ body {
                     }
                 }
             }
-            
+
         }
 
         .link-senha {
@@ -153,7 +162,7 @@ body {
             color: #007bff;
             margin: .4rem 0 0;
         }
-        
+
         &.focus {
 
             label {
@@ -163,7 +172,7 @@ body {
             .input-group-prepend {
                 color: $primary;
             }
-            
+
         }
 
     }
@@ -202,7 +211,7 @@ body {
                 margin-right: .4rem;
                 transform: translateY(-50%);
                 text-align: center;
-                font-size: 1.15rem;
+                font-size: .95rem;
                 @include flex-position();
                 transition: color .1s, background-color .1s, border-color .1s;
             }

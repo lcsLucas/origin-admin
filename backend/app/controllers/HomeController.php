@@ -186,7 +186,7 @@ class HomeController extends Action
 
 							if (!empty($response->success)) {
 
-								if (!empty($response->score) && ($response->score > 0.5 || !empty($_SESSION['_resp_desafio']))) {
+								if (!empty($response->score) && ($response->score > 0.9 || !empty($_SESSION['_resp_desafio']))) {
 
 									if ($validate->validate()) {
 

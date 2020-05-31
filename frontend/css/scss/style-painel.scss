@@ -1,8 +1,8 @@
-// import coreui
-    //@import "~@coreui/coreui/scss/coreui";
-
 // core do site
-    @import "mixins_vars/mixins-variables";
+@import "mixins_vars/mixins-variables";
 
-//partials do site    
+// import coreui
+    @import "~@coreui/coreui/scss/coreui";
+
+//partials do site
 //@import "partials/import-fonts";

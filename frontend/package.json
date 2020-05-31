@@ -65,11 +65,15 @@
   "dependencies": {
     "@beyonk/google-fonts-webpack-plugin": "^1.2.3",
     "@coreui/coreui": "^3.0.0",
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@popperjs/core": "^2.4.0",
+    "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "core-js": "^3.6.5",
     "cssnano": "^4.1.10",
     "jquery": "^3.4.1",
     "jquery-validation": "^1.19.1",
+    "perfect-scrollbar": "^1.5.0",
     "popper.js": "^1.16.0"
   }
 }

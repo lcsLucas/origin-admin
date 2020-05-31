@@ -1,4 +1,9 @@
-import {fadeIn, fadeOut} from "./effectFade";
+import {
+    fadeIn,
+    fadeOut
+} from "./effectFade";
+
+import axios from 'axios';
 
 (() => {
 
@@ -24,10 +29,12 @@ import {fadeIn, fadeOut} from "./effectFade";
             i.addEventListener('blur', blurInput);
         };
 
+        /*
         const inputFocus = document.querySelector('.container-login .wrapper-input .form-control:focus');
 
         if (inputFocus)
             focusInput(inputFocus);
+            */
 
         document.querySelectorAll('.container-login .wrapper-input .form-control').forEach((i) => {
             i.addEventListener('focus', () => {
@@ -38,19 +45,18 @@ import {fadeIn, fadeOut} from "./effectFade";
         $(".form-validate").validate({
             language: "pt-BR",
             highlight: function (element) {
-                $(element).closest('.form-group').addClass('has-error');
+                element.closest('.form-group').classList.add('has-error');
             },
             unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error');
+                element.closest('.form-group').classList.remove('has-error');
             },
             errorElement: 'label',
             errorClass: 'error',
             errorPlacement: function (error, element) {
-                if (element.parents('.form-group').length) {
+                if (element.parents('.form-group').length)
                     element.parents('.form-group').append(error);
-                } else {
+                else
                     error.insertAfter(element);
-                }
             },
             submitHandler: function (form) {
                 $(form).find("button").html("Aguarde...").append(
@@ -58,7 +64,9 @@ import {fadeIn, fadeOut} from "./effectFade";
                 ).prop("disabled", true)
                 $('#btnEnviarUsu').prop("disabled", true);
 
-                grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'login_sistema' }).then(function (token) {
+                grecaptcha.execute(RECAPTCHA_SITE_KEY, {
+                    action: 'login_sistema'
+                }).then(function (token) {
                     document.getElementById('recaptcha-response').value = token;
                     var dados = $(form).serialize();
                     fazer_login(form, dados);
@@ -96,7 +104,7 @@ import {fadeIn, fadeOut} from "./effectFade";
                             '<label for="">Por favor, responda ao desafio abaixo:</label>\n' +
                             '                    <img src="' + extra.img_desafio + '" alt="" class="img-fluid d-block w-100">\n' +
                             '                    <span class="d-block my-3 text-center">=</span>\n' +
-                            '                    <input type="number" min="0" max="10" class="form-control" required title="O desafio precisa ser respondido" name="resposta_desafio">'
+                            '                    <input type="number" min="0" max="10" class="form-control" required title="Responda ao desafio" name="resposta_desafio">'
                         ).removeClass('d-none');
                     }
 
