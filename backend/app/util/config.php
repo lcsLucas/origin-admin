@@ -26,10 +26,10 @@ define('DB_USER','root');
 define('DB_PASSWORD','');
 define('DB_CHARSET', 'utf8' );
 
-define('RECAPTCHA_SITE_KEY', '6LcPJ7oUAAAAAJxe_WxBDzLdhvu6J7Q34QKiYW0K');
-define('RECAPTCHA_SECRET_KEY', '6LcPJ7oUAAAAAF_u5hInxwYOCJWMeU-R1jMXXonM');
+define('RECAPTCHA_SITE_KEY', '6Lffia0ZAAAAALrx0zGXScykCh7ImI4AyW1GUuMY');
+define('RECAPTCHA_SECRET_KEY', '6Lffia0ZAAAAAJ0qvQWUntsgKYTq-aM2lUJUeu3y');
 
-define('TOKEN_SESSAO', 'sitesmonkey_' . htmlspecialchars($_SERVER['REMOTE_ADDR']) . htmlspecialchars($_SERVER['HTTP_USER_AGENT']));
+define('TOKEN_SESSAO', 'origin_' . htmlspecialchars($_SERVER['REMOTE_ADDR']) . htmlspecialchars($_SERVER['HTTP_USER_AGENT']));
 
 define('DEBUG', true );
 

@@ -1,34 +1,39 @@
-@charset "UTF-8";
-
 //mixins e vars
 @import "mixins_vars/mixins-variables";
-// import coreui
-@import "~@coreui/coreui/scss/functions";
-@import "~@coreui/coreui/scss/variables";
-@import "~@coreui/coreui/scss/mixins";
-@import "~@coreui/coreui/scss/root";
-@import "~@coreui/coreui/scss/reboot";
-@import "~@coreui/coreui/scss/buttons";
-@import "~@coreui/coreui/scss/forms";
-@import "~@coreui/coreui/scss/grid";
-@import "~@coreui/coreui/scss/input-group";
-@import "~@coreui/coreui/scss/images";
-@import "~@coreui/coreui/scss/alert";
-@import "~@coreui/coreui/scss/transitions";
-@import "~@coreui/coreui/scss/type";
-@import "~@coreui/coreui/scss/utilities";
-@import "~@coreui/coreui/scss/ie-custom-properties";
+
+// import bootstrap source
+// required
+// Configuration
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// optionals
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/transitions";
+
+@import "~bootstrap/scss/utilities";
 
 // import font-awesome
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/brands";
-@import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 
 @import "partials/geral";
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -36,12 +41,7 @@ body {
     font-family: "Poppins", $presets-family;
     -webkit-font-smoothing: antialiased !important;
     font-weight: 500;
-    color: #525252;
-    background: url("../../../public/img/bg-login.jpg") ;
-    background-color: #4158d0;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    background: #F1F1F1;
 
     &.load {
         overflow: auto !important;
@@ -49,144 +49,151 @@ body {
 
 }
 
-.container-login {
-    width: 100%;
-    min-height: 100vh;
-    padding: 1rem;
+#tudo {
+    min-height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#conteudo {
+    flex: 1;
     @include flex-position();
     flex-direction: column;
+}
 
-    .wrapper-login {
-        width: 100%;
-        max-width: 500px;
-        background: #FFF;
-        min-height: 300px;
-        border-radius: .5rem;
-        padding: 2rem;
-        margin: 0 0 1rem;
+#rodape {
+    background-color: #EEE;
+    text-align: center;
+
+    p {
+        margin: 0 0 .3rem;
+        font-size: .85rem;
+        font-weight: 300;
     }
 
-    .title-login {
-        color: #333;
-        font-weight: 800;
-        text-align: center;
-        text-transform: uppercase;
-        margin: 0 0 2rem;
+}
+
+.wrapper-img {
+    margin: 2rem auto 0;
+    text-align: center;
+
+    .logo {
+        width: 60px;
     }
 
-    .wrapper-input {
-        position: relative;
-        width: 100%;
-        border-bottom: 2px solid #d9d9d9;
+    @include media-queries("(max-width: 414px)") {
+        margin-top: 0;
+    }
+}
+
+
+
+#form-login {
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #FFF;
+    border: 1px solid #DFDFDF;
+
+    .form-group {
+
+        .input-group {
+            border: 1px solid #DDD;
+            border-radius: .5rem;
+            background: #FFF;
+            transition: border-color .3s;
+
+            .input-group-prepend {
+                margin: 0;
+                padding: 0 .8rem;
+                color: #AAA;
+                transition: color .3s;
+            }
+
+        }
 
         label {
+            margin: 0 0 .3rem;
+            font-size: .85rem;
             font-weight: 400;
-            font-size: 14px;
-            color: #333333;
-            line-height: 1.5;
-            padding-left: 7px;
-            margin: 0;
-            transition: color .2s;
-        }
-
-        .input-group-prepend {
-            padding: 1rem;
-            margin: 0;
-            color: #BBB;
-            transition: color .2s;
-        }
-
-        .focus-input {
-            position: absolute;
-            display: block;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-
-            &::before {
-                content: "";
-                display: block;
-                position: absolute;
-                bottom: -2px;
-                left: 0;
-                width: 0;
-                height: 2px;
-                background: $primary;
-                transition: all 0.4s;
-            }
-
-        }
-
-        input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 1000px white inset !important;
-
-            &:hover, &:focus, &:active {
-                -webkit-box-shadow: 0 0 0 1000px white inset !important;
-            }
-
-            -webkit-text-fill-color: #333 !important;
         }
 
         .form-control {
-            font-size: 1rem;
-            color: #333333;
-            line-height: 1.2;
-            display: block;
-            width: 100%;
-            height: 55px;
-            background: transparent;
             border: none;
+            border-radius: .5rem;
             box-shadow: none;
             outline: none;
-            font-family: "Poppins", $presets-family;
+            background: #FFF;
+            height: 55px;
+            font-weight: 500;
+            padding-left: .1rem;
 
-            &::placeholder {
-                color: #BCBCBC;
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 1000px #FFF inset !important;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    -webkit-box-shadow: 0 0 0 1000px #FFF inset !important;
+                }
+
+                -webkit-text-fill-color: #333 !important;
             }
 
-            &:focus {
-                ~ .focus-input {
-                    &::before {
-                        width: 100%;
-                    }
-                }
+            &::placeholder {
+                font-weight: 400;
+                font-size: .85rem;
+                color: #999;
             }
 
         }
 
         .link-senha {
+            display: block;
+            text-align: right;
             font-size: .8rem;
-            line-height: 1.7;
-            color: #007bff;
-            margin: .4rem 0 0;
+            font-weight: 300;
+            margin: .2rem 0 .3rem;
+        }
+
+        .btn {
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: .95rem;
+            letter-spacing: .04rem;
+            margin-top: 1.5rem;
+        }
+
+        .error {
+            margin-top: .3rem;
+            font-size: .75rem;
+            color: $danger;
+        }
+
+        &.has-error {
+            .input-group {
+                border-color: $danger;
+
+                .input-group-prepend {
+                    color: $danger;
+                }
+            }
         }
 
         &.focus {
 
-            label {
-                color: $primary;
+            .input-group {
+                border-color: $primary;
+
+                .input-group-prepend {
+                    color: $primary;
+                }
             }
 
-            .input-group-prepend {
-                color: $primary;
-            }
-
         }
 
-    }
-
-    .form-group {
-        .error {
-            margin-top: .2rem;
-            font-size: .8rem;
-            color: $danger-dark;
-        }
-
-        button[type="submit"] {
-            margin-top: 4rem;
-        }
     }
 
     .form-check-input {
@@ -196,7 +203,8 @@ body {
             cursor: pointer;
             position: relative;
             padding-left: 1.7rem;
-            margin-top: .4rem;
+            margin: .7rem 0 0;
+            font-weight: 500;
 
             &::before {
                 content: '';
@@ -221,6 +229,7 @@ body {
         &:checked {
             ~label {
                 color: #28a745;
+
                 &::before {
                     content: '✓';
                     color: #FFF;
@@ -230,6 +239,10 @@ body {
             }
         }
 
+    }
+
+    @include media-queries("(max-width: 414px)") {
+        padding: 2rem 1.5rem;
     }
 
 }

@@ -1,11 +1,83 @@
+import Swal from 'sweetalert2/dist/sweetalert2.all'
+
 import {
-    fadeIn,
-    fadeOut
-} from "./effectFade";
+    getParent,
+    fadeOut,
+    serialize
+} from "./utils";
 
 import axios from 'axios';
 
 (() => {
+
+    const focusInput = (i) => {
+        i.closest('.form-group').classList.add('focus');
+
+        const blurInput = () => {
+            i.closest('.form-group').classList.remove('focus');
+            i.removeEventListener('blur', blurInput);
+        };
+
+        i.addEventListener('blur', blurInput);
+    };
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 20000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
+    const fazerLogin = (form) => {
+        const buttonSubmit = form.querySelector("button[type=\"submit\"]");
+
+        buttonSubmit.innerHTML = "Login <i class=\"fas fa-spinner fa-pulse ml-2\"></i>";
+        buttonSubmit.disabled = true;
+
+        axios.post(form.action, serialize(form))
+            .then(function (response) {
+                const retorno = response.data;
+
+                if (retorno.status) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: retorno.mensagem
+                    });
+
+                    const extra = JSON.parse(retorno.extra);
+
+                    setTimeout(() => {
+                        location.href = extra.url_direcionar;
+                    }, 1000);
+
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: retorno.mensagem
+                    });
+
+                    buttonSubmit.innerHTML = "Login";
+                    buttonSubmit.disabled = false;
+                }
+
+            })
+            .catch(function (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: error
+                });
+
+                buttonSubmit.innerHTML = "Login";
+                buttonSubmit.disabled = false;
+            });
+
+        return false;
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
 
@@ -14,110 +86,44 @@ import axios from 'axios';
             fadeOut('.load-page', 0.5, () => {
                 document.documentElement.classList.add('load');
                 document.body.classList.add('load');
-            })
-            //document.querySelector('.load-page').fade();
+            });
         }, 1000);
 
-        const focusInput = (i) => {
-            i.closest('.wrapper-input').classList.add('focus');
-
-            const blurInput = () => {
-                i.closest('.wrapper-input').classList.remove('focus');
-                i.removeEventListener('blur', blurInput);
-            };
-
-            i.addEventListener('blur', blurInput);
-        };
-
-        /*
-        const inputFocus = document.querySelector('.container-login .wrapper-input .form-control:focus');
-
-        if (inputFocus)
-            focusInput(inputFocus);
-            */
-
-        document.querySelectorAll('.container-login .wrapper-input .form-control').forEach((i) => {
+        Array.prototype.forEach.call(document.querySelectorAll('.form-control'), (i) => {
             i.addEventListener('focus', () => {
                 focusInput(i)
+            });
+        });
+
+        Array.prototype.forEach.call(document.querySelectorAll('.show-password'), (link) => {
+            link.addEventListener('click', () => {
+                const inputTarget = link.parentElement.querySelector('input[type="text"], input[type="password"]');
+
+                if (link.classList.toggle('active'))
+                    inputTarget.setAttribute("type", "text");
+                else
+                    inputTarget.setAttribute("type", "password");
+
+                inputTarget.focus();
             });
         });
 
         $(".form-validate").validate({
             language: "pt-BR",
             highlight: function (element) {
-                element.closest('.form-group').classList.add('has-error');
+                getParent(element, '.form-group').classList.add('has-error');
             },
             unhighlight: function (element) {
-                element.closest('.form-group').classList.remove('has-error');
+                getParent(element, '.form-group').classList.remove('has-error');
             },
             errorElement: 'label',
             errorClass: 'error',
             errorPlacement: function (error, element) {
-                if (element.parents('.form-group').length)
-                    element.parents('.form-group').append(error);
-                else
-                    error.insertAfter(element);
+                getParent(element[0], '.form-group').appendChild(error[0]);
             },
-            submitHandler: function (form) {
-                $(form).find("button").html("Aguarde...").append(
-                    $("<i>").addClass("fas fa-spinner fa-pulse ml-4")
-                ).prop("disabled", true)
-                $('#btnEnviarUsu').prop("disabled", true);
-
-                grecaptcha.execute(RECAPTCHA_SITE_KEY, {
-                    action: 'login_sistema'
-                }).then(function (token) {
-                    document.getElementById('recaptcha-response').value = token;
-                    var dados = $(form).serialize();
-                    fazer_login(form, dados);
-                });
-
-                return false;
-            }
+            submitHandler: fazerLogin
         });
 
     });
-
-    function fazer_login(form, dados) {
-        $.ajax({
-            type: 'POST',
-            url: $(form).prop("action"),
-            data: dados,
-            dataType: 'json',
-        }).done(function (retorno) {
-            const alert = $("#retorno-erro");
-            alert.removeClass("alert-danger alert-success");
-
-            if (retorno.status) {
-                const extra = JSON.parse(retorno.extra);
-                location.href = extra.url_direcionar;
-            } else {
-                var wrapper_desafio = $('#wrapper-desafio');
-                wrapper_desafio.html('');
-
-                if (retorno.extra) {
-                    var extra = JSON.parse(retorno.extra);
-
-                    if (extra.desafio) {
-
-                        wrapper_desafio.append(
-                            '<label for="">Por favor, responda ao desafio abaixo:</label>\n' +
-                            '                    <img src="' + extra.img_desafio + '" alt="" class="img-fluid d-block w-100">\n' +
-                            '                    <span class="d-block my-3 text-center">=</span>\n' +
-                            '                    <input type="number" min="0" max="10" class="form-control" required title="Responda ao desafio" name="resposta_desafio">'
-                        ).removeClass('d-none');
-                    }
-
-                }
-
-                alert.addClass("alert-danger");
-                alert.html(retorno.mensagem);
-                $(form).find("button").html("ENTRAR").prop("disabled", false);
-            }
-
-        }).fail(function () {
-            $(form).find("button").html("ENTRAR").prop("disabled", false);
-        });
-    }
 
 })();
