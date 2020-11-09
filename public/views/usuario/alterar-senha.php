@@ -10,12 +10,14 @@
 ?>
 
 <!-- Breadcrumb-->
+<!--
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
         <a href="<?= URL ?>">Dashboard</a>
     </li>
     <li class="breadcrumb-item active">Alterar Senha</li>
 </ol>
+-->
 
 <div class="animated fadeIn">
 

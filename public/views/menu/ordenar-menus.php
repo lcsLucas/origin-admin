@@ -1,4 +1,5 @@
 <!-- Breadcrumb-->
+<!--
 <ol class="breadcrumb">
 	<li class="breadcrumb-item">
 		<a href="<?= URL ?>">Dashboard</a>
@@ -6,6 +7,7 @@
 	<li class="breadcrumb-item active">Permissões</li>
 	<li class="breadcrumb-item active">Ordenar Menus</li>
 </ol>
+-->
 
 <div class="animated fadeIn <?= empty($this->dados->todos_menus) ? 'h-100' : '' ?>">
 

@@ -4,7 +4,7 @@
 
 	$retorno = null;
 
-	include_once ABSPATH . "app/funcoesGlobais/paginacao.php";
+	include_once ABSPATH . "backend/app/funcoesGlobais/paginacao.php";
 
 	if (!empty($this->dados->retorno))
 		$retorno = $this->dados->retorno;
@@ -24,13 +24,13 @@
 ?>
 
 <!-- Breadcrumb-->
-<ol class="breadcrumb">
+<!--<ol class="breadcrumb">
 	<li class="breadcrumb-item">
 		<a href="<?= URL ?>">Dashboard</a>
 	</li>
 	<li class="breadcrumb-item active">Permissões</li>
 	<li class="breadcrumb-item active">SubMenus</li>
-</ol>
+</ol>-->
 
 <div class="animated fadeIn">
 

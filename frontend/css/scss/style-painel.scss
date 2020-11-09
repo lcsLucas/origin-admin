@@ -2,7 +2,24 @@
 @import "mixins_vars/mixins-variables";
 
 // import coreui
-    @import "~@coreui/coreui/scss/coreui";
+@import "~@coreui/coreui/scss/coreui";
+
+.btn-acao > i {
+    padding: 0 !important;
+}
+
+button[name="btnConfirmar"] {
+    padding: 0.5rem 1rem !important;
+    font-size: 1.09375rem !important;
+}
+
+button[name="btnConfirmar"] i {
+    margin-left: .25rem;
+}
+
+.c-sidebar .c-sidebar-nav-link i {
+    margin-right: .3rem;
+}
 
 //partials do site
 //@import "partials/import-fonts";
